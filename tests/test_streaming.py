@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from router import Casedotdev, AsyncCasedotdev
-from router._streaming import Stream, AsyncStream, ServerSentEvent
+from casedotdev_sdk_py import Casedotdev, AsyncCasedotdev
+from casedotdev_sdk_py._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio
