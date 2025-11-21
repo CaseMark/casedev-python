@@ -1,9 +1,9 @@
-# Casedotdev Python API library
+# Casemark Python API library
 
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/casedotdev-sdk-py.svg?label=pypi%20(stable))](https://pypi.org/project/casedotdev-sdk-py/)
 
-The Casedotdev Python library provides convenient access to the Casedotdev REST API from any Python 3.9+
+The Casemark Python library provides convenient access to the Casemark REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [case.dev](https://case.dev). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.case.dev](https://docs.case.dev). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -29,9 +29,9 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from casedotdev_sdk_py import Casedotdev
+from casedotdev_sdk_py import Casemark
 
-client = Casedotdev(
+client = Casemark(
     api_key=os.environ.get("ROUTER_API_KEY"),  # This is the default and can be omitted
     # defaults to "production".
     environment="environment_1",
@@ -50,14 +50,14 @@ so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncCasedotdev` instead of `Casedotdev` and use `await` with each API call:
+Simply import `AsyncCasemark` instead of `Casemark` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from casedotdev_sdk_py import AsyncCasedotdev
+from casedotdev_sdk_py import AsyncCasemark
 
-client = AsyncCasedotdev(
+client = AsyncCasemark(
     api_key=os.environ.get("ROUTER_API_KEY"),  # This is the default and can be omitted
     # defaults to "production".
     environment="environment_1",
@@ -92,11 +92,11 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 ```python
 import asyncio
 from casedotdev_sdk_py import DefaultAioHttpClient
-from casedotdev_sdk_py import AsyncCasedotdev
+from casedotdev_sdk_py import AsyncCasemark
 
 
 async def main() -> None:
-    async with AsyncCasedotdev(
+    async with AsyncCasemark(
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
@@ -129,9 +129,9 @@ All errors inherit from `casedotdev_sdk_py.APIError`.
 
 ```python
 import casedotdev_sdk_py
-from casedotdev_sdk_py import Casedotdev
+from casedotdev_sdk_py import Casemark
 
-client = Casedotdev()
+client = Casemark()
 
 try:
     client.actions.v1.execute(
@@ -171,10 +171,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from casedotdev_sdk_py import Casedotdev
+from casedotdev_sdk_py import Casemark
 
 # Configure the default for all requests:
-client = Casedotdev(
+client = Casemark(
     # default is 2
     max_retries=0,
 )
@@ -192,16 +192,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from casedotdev_sdk_py import Casedotdev
+from casedotdev_sdk_py import Casemark
 
 # Configure the default for all requests:
-client = Casedotdev(
+client = Casemark(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = Casedotdev(
+client = Casemark(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -222,10 +222,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `CASEDOTDEV_LOG` to `info`.
+You can enable logging by setting the environment variable `CASEMARK_LOG` to `info`.
 
 ```shell
-$ export CASEDOTDEV_LOG=info
+$ export CASEMARK_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -247,9 +247,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from casedotdev_sdk_py import Casedotdev
+from casedotdev_sdk_py import Casemark
 
-client = Casedotdev()
+client = Casemark()
 response = client.actions.v1.with_raw_response.execute(
     id="id",
     body={},
@@ -327,10 +327,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from casedotdev_sdk_py import Casedotdev, DefaultHttpxClient
+from casedotdev_sdk_py import Casemark, DefaultHttpxClient
 
-client = Casedotdev(
-    # Or use the `CASEDOTDEV_BASE_URL` env var
+client = Casemark(
+    # Or use the `CASEMARK_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
@@ -350,9 +350,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from casedotdev_sdk_py import Casedotdev
+from casedotdev_sdk_py import Casemark
 
-with Casedotdev() as client:
+with Casemark() as client:
   # make requests here
   ...
 

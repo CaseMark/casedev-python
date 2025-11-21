@@ -8,7 +8,7 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from casedotdev_sdk_py import Casedotdev, AsyncCasedotdev
+from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,7 +18,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_process(self, client: Casedotdev) -> None:
+    def test_method_create_process(self, client: Casemark) -> None:
         v1 = client.convert.v1.create_process(
             body={},
         )
@@ -26,7 +26,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create_process(self, client: Casedotdev) -> None:
+    def test_raw_response_create_process(self, client: Casemark) -> None:
         response = client.convert.v1.with_raw_response.create_process(
             body={},
         )
@@ -38,7 +38,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create_process(self, client: Casedotdev) -> None:
+    def test_streaming_response_create_process(self, client: Casemark) -> None:
         with client.convert.v1.with_streaming_response.create_process(
             body={},
         ) as response:
@@ -52,7 +52,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_webhook(self, client: Casedotdev) -> None:
+    def test_method_create_webhook(self, client: Casemark) -> None:
         v1 = client.convert.v1.create_webhook(
             body={},
         )
@@ -60,7 +60,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create_webhook(self, client: Casedotdev) -> None:
+    def test_raw_response_create_webhook(self, client: Casemark) -> None:
         response = client.convert.v1.with_raw_response.create_webhook(
             body={},
         )
@@ -72,7 +72,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create_webhook(self, client: Casedotdev) -> None:
+    def test_streaming_response_create_webhook(self, client: Casemark) -> None:
         with client.convert.v1.with_streaming_response.create_webhook(
             body={},
         ) as response:
@@ -86,7 +86,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_download(self, client: Casedotdev) -> None:
+    def test_method_download(self, client: Casemark) -> None:
         v1 = client.convert.v1.download(
             "id",
         )
@@ -94,7 +94,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_download(self, client: Casedotdev) -> None:
+    def test_raw_response_download(self, client: Casemark) -> None:
         response = client.convert.v1.with_raw_response.download(
             "id",
         )
@@ -106,7 +106,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_download(self, client: Casedotdev) -> None:
+    def test_streaming_response_download(self, client: Casemark) -> None:
         with client.convert.v1.with_streaming_response.download(
             "id",
         ) as response:
@@ -120,7 +120,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_download(self, client: Casedotdev) -> None:
+    def test_path_params_download(self, client: Casemark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.convert.v1.with_raw_response.download(
                 "",
@@ -134,7 +134,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_process(self, async_client: AsyncCasedotdev) -> None:
+    async def test_method_create_process(self, async_client: AsyncCasemark) -> None:
         v1 = await async_client.convert.v1.create_process(
             body={},
         )
@@ -142,7 +142,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create_process(self, async_client: AsyncCasedotdev) -> None:
+    async def test_raw_response_create_process(self, async_client: AsyncCasemark) -> None:
         response = await async_client.convert.v1.with_raw_response.create_process(
             body={},
         )
@@ -154,7 +154,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create_process(self, async_client: AsyncCasedotdev) -> None:
+    async def test_streaming_response_create_process(self, async_client: AsyncCasemark) -> None:
         async with async_client.convert.v1.with_streaming_response.create_process(
             body={},
         ) as response:
@@ -168,7 +168,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_webhook(self, async_client: AsyncCasedotdev) -> None:
+    async def test_method_create_webhook(self, async_client: AsyncCasemark) -> None:
         v1 = await async_client.convert.v1.create_webhook(
             body={},
         )
@@ -176,7 +176,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create_webhook(self, async_client: AsyncCasedotdev) -> None:
+    async def test_raw_response_create_webhook(self, async_client: AsyncCasemark) -> None:
         response = await async_client.convert.v1.with_raw_response.create_webhook(
             body={},
         )
@@ -188,7 +188,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create_webhook(self, async_client: AsyncCasedotdev) -> None:
+    async def test_streaming_response_create_webhook(self, async_client: AsyncCasemark) -> None:
         async with async_client.convert.v1.with_streaming_response.create_webhook(
             body={},
         ) as response:
@@ -202,7 +202,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_download(self, async_client: AsyncCasedotdev) -> None:
+    async def test_method_download(self, async_client: AsyncCasemark) -> None:
         v1 = await async_client.convert.v1.download(
             "id",
         )
@@ -210,7 +210,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_download(self, async_client: AsyncCasedotdev) -> None:
+    async def test_raw_response_download(self, async_client: AsyncCasemark) -> None:
         response = await async_client.convert.v1.with_raw_response.download(
             "id",
         )
@@ -222,7 +222,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_download(self, async_client: AsyncCasedotdev) -> None:
+    async def test_streaming_response_download(self, async_client: AsyncCasemark) -> None:
         async with async_client.convert.v1.with_streaming_response.download(
             "id",
         ) as response:
@@ -236,7 +236,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_download(self, async_client: AsyncCasedotdev) -> None:
+    async def test_path_params_download(self, async_client: AsyncCasemark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.convert.v1.with_raw_response.download(
                 "",

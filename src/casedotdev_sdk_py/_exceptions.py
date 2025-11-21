@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class CasedotdevError(Exception):
+class CasemarkError(Exception):
     pass
 
 
-class APIError(CasedotdevError):
+class APIError(CasemarkError):
     message: str
     request: httpx.Request
 
