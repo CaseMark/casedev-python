@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from router._utils import PropertyInfo
-from router._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
-from router._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
+from casedotdev_sdk_py._utils import PropertyInfo
+from casedotdev_sdk_py._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
+from casedotdev_sdk_py._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
 
 
 class BasicModel(BaseModel):
