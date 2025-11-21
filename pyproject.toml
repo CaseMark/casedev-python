@@ -1,11 +1,11 @@
 [project]
 name = "casedotdev-sdk-py"
 version = "0.0.1"
-description = "The official Python library for the casedotdev API"
+description = "The official Python library for the casemark API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Casedotdev", email = "" },
+{ name = "Casemark", email = "" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

@@ -23,7 +23,7 @@ from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import index
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, CasedotdevError
+from ._exceptions import CasemarkError, APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -46,8 +46,8 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "Casedotdev",
-    "AsyncCasedotdev",
+    "Casemark",
+    "AsyncCasemark",
     "Client",
     "AsyncClient",
 ]
@@ -58,7 +58,7 @@ ENVIRONMENTS: Dict[str, str] = {
 }
 
 
-class Casedotdev(SyncAPIClient):
+class Casemark(SyncAPIClient):
     actions: actions.ActionsResource
     billing: billing.BillingResource
     convert: convert.ConvertResource
@@ -70,8 +70,8 @@ class Casedotdev(SyncAPIClient):
     voice: voice.VoiceResource
     webhooks: webhooks.WebhooksResource
     workflows: workflows.WorkflowsResource
-    with_raw_response: CasedotdevWithRawResponse
-    with_streaming_response: CasedotdevWithStreamedResponse
+    with_raw_response: CasemarkWithRawResponse
+    with_streaming_response: CasemarkWithStreamedResponse
 
     # client options
     api_key: str
@@ -102,28 +102,28 @@ class Casedotdev(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous Casedotdev client instance.
+        """Construct a new synchronous Casemark client instance.
 
         This automatically infers the `api_key` argument from the `ROUTER_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
             api_key = os.environ.get("ROUTER_API_KEY")
         if api_key is None:
-            raise CasedotdevError(
+            raise CasemarkError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the ROUTER_API_KEY environment variable"
             )
         self.api_key = api_key
 
         self._environment = environment
 
-        base_url_env = os.environ.get("CASEDOTDEV_BASE_URL")
+        base_url_env = os.environ.get("CASEMARK_BASE_URL")
         if is_given(base_url) and base_url is not None:
             # cast required because mypy doesn't understand the type narrowing
             base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
         elif is_given(environment):
             if base_url_env and base_url is not None:
                 raise ValueError(
-                    "Ambiguous URL; The `CASEDOTDEV_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                    "Ambiguous URL; The `CASEMARK_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
                 )
 
             try:
@@ -162,8 +162,8 @@ class Casedotdev(SyncAPIClient):
         self.voice = voice.VoiceResource(self)
         self.webhooks = webhooks.WebhooksResource(self)
         self.workflows = workflows.WorkflowsResource(self)
-        self.with_raw_response = CasedotdevWithRawResponse(self)
-        self.with_streaming_response = CasedotdevWithStreamedResponse(self)
+        self.with_raw_response = CasemarkWithRawResponse(self)
+        self.with_streaming_response = CasemarkWithStreamedResponse(self)
 
     @property
     @override
@@ -272,7 +272,7 @@ class Casedotdev(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncCasedotdev(AsyncAPIClient):
+class AsyncCasemark(AsyncAPIClient):
     actions: actions.AsyncActionsResource
     billing: billing.AsyncBillingResource
     convert: convert.AsyncConvertResource
@@ -284,8 +284,8 @@ class AsyncCasedotdev(AsyncAPIClient):
     voice: voice.AsyncVoiceResource
     webhooks: webhooks.AsyncWebhooksResource
     workflows: workflows.AsyncWorkflowsResource
-    with_raw_response: AsyncCasedotdevWithRawResponse
-    with_streaming_response: AsyncCasedotdevWithStreamedResponse
+    with_raw_response: AsyncCasemarkWithRawResponse
+    with_streaming_response: AsyncCasemarkWithStreamedResponse
 
     # client options
     api_key: str
@@ -316,28 +316,28 @@ class AsyncCasedotdev(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncCasedotdev client instance.
+        """Construct a new async AsyncCasemark client instance.
 
         This automatically infers the `api_key` argument from the `ROUTER_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
             api_key = os.environ.get("ROUTER_API_KEY")
         if api_key is None:
-            raise CasedotdevError(
+            raise CasemarkError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the ROUTER_API_KEY environment variable"
             )
         self.api_key = api_key
 
         self._environment = environment
 
-        base_url_env = os.environ.get("CASEDOTDEV_BASE_URL")
+        base_url_env = os.environ.get("CASEMARK_BASE_URL")
         if is_given(base_url) and base_url is not None:
             # cast required because mypy doesn't understand the type narrowing
             base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
         elif is_given(environment):
             if base_url_env and base_url is not None:
                 raise ValueError(
-                    "Ambiguous URL; The `CASEDOTDEV_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                    "Ambiguous URL; The `CASEMARK_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
                 )
 
             try:
@@ -376,8 +376,8 @@ class AsyncCasedotdev(AsyncAPIClient):
         self.voice = voice.AsyncVoiceResource(self)
         self.webhooks = webhooks.AsyncWebhooksResource(self)
         self.workflows = workflows.AsyncWorkflowsResource(self)
-        self.with_raw_response = AsyncCasedotdevWithRawResponse(self)
-        self.with_streaming_response = AsyncCasedotdevWithStreamedResponse(self)
+        self.with_raw_response = AsyncCasemarkWithRawResponse(self)
+        self.with_streaming_response = AsyncCasemarkWithStreamedResponse(self)
 
     @property
     @override
@@ -486,8 +486,8 @@ class AsyncCasedotdev(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class CasedotdevWithRawResponse:
-    def __init__(self, client: Casedotdev) -> None:
+class CasemarkWithRawResponse:
+    def __init__(self, client: Casemark) -> None:
         self.actions = actions.ActionsResourceWithRawResponse(client.actions)
         self.billing = billing.BillingResourceWithRawResponse(client.billing)
         self.convert = convert.ConvertResourceWithRawResponse(client.convert)
@@ -501,8 +501,8 @@ class CasedotdevWithRawResponse:
         self.workflows = workflows.WorkflowsResourceWithRawResponse(client.workflows)
 
 
-class AsyncCasedotdevWithRawResponse:
-    def __init__(self, client: AsyncCasedotdev) -> None:
+class AsyncCasemarkWithRawResponse:
+    def __init__(self, client: AsyncCasemark) -> None:
         self.actions = actions.AsyncActionsResourceWithRawResponse(client.actions)
         self.billing = billing.AsyncBillingResourceWithRawResponse(client.billing)
         self.convert = convert.AsyncConvertResourceWithRawResponse(client.convert)
@@ -516,8 +516,8 @@ class AsyncCasedotdevWithRawResponse:
         self.workflows = workflows.AsyncWorkflowsResourceWithRawResponse(client.workflows)
 
 
-class CasedotdevWithStreamedResponse:
-    def __init__(self, client: Casedotdev) -> None:
+class CasemarkWithStreamedResponse:
+    def __init__(self, client: Casemark) -> None:
         self.actions = actions.ActionsResourceWithStreamingResponse(client.actions)
         self.billing = billing.BillingResourceWithStreamingResponse(client.billing)
         self.convert = convert.ConvertResourceWithStreamingResponse(client.convert)
@@ -531,8 +531,8 @@ class CasedotdevWithStreamedResponse:
         self.workflows = workflows.WorkflowsResourceWithStreamingResponse(client.workflows)
 
 
-class AsyncCasedotdevWithStreamedResponse:
-    def __init__(self, client: AsyncCasedotdev) -> None:
+class AsyncCasemarkWithStreamedResponse:
+    def __init__(self, client: AsyncCasemark) -> None:
         self.actions = actions.AsyncActionsResourceWithStreamingResponse(client.actions)
         self.billing = billing.AsyncBillingResourceWithStreamingResponse(client.billing)
         self.convert = convert.AsyncConvertResourceWithStreamingResponse(client.convert)
@@ -546,6 +546,6 @@ class AsyncCasedotdevWithStreamedResponse:
         self.workflows = workflows.AsyncWorkflowsResourceWithStreamingResponse(client.workflows)
 
 
-Client = Casedotdev
+Client = Casemark
 
-AsyncClient = AsyncCasedotdev
+AsyncClient = AsyncCasemark

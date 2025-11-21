@@ -8,7 +8,7 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from casedotdev_sdk_py import Casedotdev, AsyncCasedotdev
+from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,13 +18,13 @@ class TestStreaming:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve_url(self, client: Casedotdev) -> None:
+    def test_method_retrieve_url(self, client: Casemark) -> None:
         streaming = client.voice.streaming.retrieve_url()
         assert_matches_type(object, streaming, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve_url(self, client: Casedotdev) -> None:
+    def test_raw_response_retrieve_url(self, client: Casemark) -> None:
         response = client.voice.streaming.with_raw_response.retrieve_url()
 
         assert response.is_closed is True
@@ -34,7 +34,7 @@ class TestStreaming:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve_url(self, client: Casedotdev) -> None:
+    def test_streaming_response_retrieve_url(self, client: Casemark) -> None:
         with client.voice.streaming.with_streaming_response.retrieve_url() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -52,13 +52,13 @@ class TestAsyncStreaming:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve_url(self, async_client: AsyncCasedotdev) -> None:
+    async def test_method_retrieve_url(self, async_client: AsyncCasemark) -> None:
         streaming = await async_client.voice.streaming.retrieve_url()
         assert_matches_type(object, streaming, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve_url(self, async_client: AsyncCasedotdev) -> None:
+    async def test_raw_response_retrieve_url(self, async_client: AsyncCasemark) -> None:
         response = await async_client.voice.streaming.with_raw_response.retrieve_url()
 
         assert response.is_closed is True
@@ -68,7 +68,7 @@ class TestAsyncStreaming:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve_url(self, async_client: AsyncCasedotdev) -> None:
+    async def test_streaming_response_retrieve_url(self, async_client: AsyncCasemark) -> None:
         async with async_client.voice.streaming.with_streaming_response.retrieve_url() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
