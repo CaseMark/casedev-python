@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class RouterError(Exception):
+class CasedotdevError(Exception):
     pass
 
 
-class APIError(RouterError):
+class APIError(CasedotdevError):
     message: str
     request: httpx.Request
 

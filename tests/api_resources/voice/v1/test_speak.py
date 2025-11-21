@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from router import Router, AsyncRouter
+from router import Casedotdev, AsyncCasedotdev
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: Router) -> None:
+    def test_method_create(self, client: Casedotdev) -> None:
         speak = client.voice.v1.speak.create(
             body={},
         )
@@ -26,7 +26,7 @@ class TestSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: Router) -> None:
+    def test_raw_response_create(self, client: Casedotdev) -> None:
         response = client.voice.v1.speak.with_raw_response.create(
             body={},
         )
@@ -38,7 +38,7 @@ class TestSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: Router) -> None:
+    def test_streaming_response_create(self, client: Casedotdev) -> None:
         with client.voice.v1.speak.with_streaming_response.create(
             body={},
         ) as response:
@@ -52,7 +52,7 @@ class TestSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_stream(self, client: Router) -> None:
+    def test_method_stream(self, client: Casedotdev) -> None:
         speak = client.voice.v1.speak.stream(
             body={},
         )
@@ -60,7 +60,7 @@ class TestSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_stream(self, client: Router) -> None:
+    def test_raw_response_stream(self, client: Casedotdev) -> None:
         response = client.voice.v1.speak.with_raw_response.stream(
             body={},
         )
@@ -72,7 +72,7 @@ class TestSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_stream(self, client: Router) -> None:
+    def test_streaming_response_stream(self, client: Casedotdev) -> None:
         with client.voice.v1.speak.with_streaming_response.stream(
             body={},
         ) as response:
@@ -92,7 +92,7 @@ class TestAsyncSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncRouter) -> None:
+    async def test_method_create(self, async_client: AsyncCasedotdev) -> None:
         speak = await async_client.voice.v1.speak.create(
             body={},
         )
@@ -100,7 +100,7 @@ class TestAsyncSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncRouter) -> None:
+    async def test_raw_response_create(self, async_client: AsyncCasedotdev) -> None:
         response = await async_client.voice.v1.speak.with_raw_response.create(
             body={},
         )
@@ -112,7 +112,7 @@ class TestAsyncSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncRouter) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncCasedotdev) -> None:
         async with async_client.voice.v1.speak.with_streaming_response.create(
             body={},
         ) as response:
@@ -126,7 +126,7 @@ class TestAsyncSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_stream(self, async_client: AsyncRouter) -> None:
+    async def test_method_stream(self, async_client: AsyncCasedotdev) -> None:
         speak = await async_client.voice.v1.speak.stream(
             body={},
         )
@@ -134,7 +134,7 @@ class TestAsyncSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_stream(self, async_client: AsyncRouter) -> None:
+    async def test_raw_response_stream(self, async_client: AsyncCasedotdev) -> None:
         response = await async_client.voice.v1.speak.with_raw_response.stream(
             body={},
         )
@@ -146,7 +146,7 @@ class TestAsyncSpeak:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_stream(self, async_client: AsyncRouter) -> None:
+    async def test_streaming_response_stream(self, async_client: AsyncCasedotdev) -> None:
         async with async_client.voice.v1.speak.with_streaming_response.stream(
             body={},
         ) as response:

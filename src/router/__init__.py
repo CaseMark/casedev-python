@@ -8,14 +8,14 @@ from ._utils import file_from_path
 from ._client import (
     ENVIRONMENTS,
     Client,
-    Router,
     Stream,
     Timeout,
     Transport,
+    Casedotdev,
     AsyncClient,
-    AsyncRouter,
     AsyncStream,
     RequestOptions,
+    AsyncCasedotdev,
 )
 from ._models import BaseModel
 from ._version import __title__, __version__
@@ -23,13 +23,13 @@ from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIR
 from ._constants import DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES, DEFAULT_CONNECTION_LIMITS
 from ._exceptions import (
     APIError,
-    RouterError,
     ConflictError,
     NotFoundError,
     APIStatusError,
     RateLimitError,
     APITimeoutError,
     BadRequestError,
+    CasedotdevError,
     APIConnectionError,
     AuthenticationError,
     InternalServerError,
@@ -52,7 +52,7 @@ __all__ = [
     "not_given",
     "Omit",
     "omit",
-    "RouterError",
+    "CasedotdevError",
     "APIError",
     "APIStatusError",
     "APITimeoutError",
@@ -72,8 +72,8 @@ __all__ = [
     "AsyncClient",
     "Stream",
     "AsyncStream",
-    "Router",
-    "AsyncRouter",
+    "Casedotdev",
+    "AsyncCasedotdev",
     "ENVIRONMENTS",
     "file_from_path",
     "BaseModel",

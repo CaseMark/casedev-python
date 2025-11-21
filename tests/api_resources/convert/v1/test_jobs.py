@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from router import Router, AsyncRouter
+from router import Casedotdev, AsyncCasedotdev
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: Router) -> None:
+    def test_method_retrieve(self, client: Casedotdev) -> None:
         job = client.convert.v1.jobs.retrieve(
             "id",
         )
@@ -26,7 +26,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: Router) -> None:
+    def test_raw_response_retrieve(self, client: Casedotdev) -> None:
         response = client.convert.v1.jobs.with_raw_response.retrieve(
             "id",
         )
@@ -38,7 +38,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: Router) -> None:
+    def test_streaming_response_retrieve(self, client: Casedotdev) -> None:
         with client.convert.v1.jobs.with_streaming_response.retrieve(
             "id",
         ) as response:
@@ -52,7 +52,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: Router) -> None:
+    def test_path_params_retrieve(self, client: Casedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.convert.v1.jobs.with_raw_response.retrieve(
                 "",
@@ -60,7 +60,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_delete(self, client: Router) -> None:
+    def test_method_delete(self, client: Casedotdev) -> None:
         job = client.convert.v1.jobs.delete(
             "id",
         )
@@ -68,7 +68,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_delete(self, client: Router) -> None:
+    def test_raw_response_delete(self, client: Casedotdev) -> None:
         response = client.convert.v1.jobs.with_raw_response.delete(
             "id",
         )
@@ -80,7 +80,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_delete(self, client: Router) -> None:
+    def test_streaming_response_delete(self, client: Casedotdev) -> None:
         with client.convert.v1.jobs.with_streaming_response.delete(
             "id",
         ) as response:
@@ -94,7 +94,7 @@ class TestJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_delete(self, client: Router) -> None:
+    def test_path_params_delete(self, client: Casedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.convert.v1.jobs.with_raw_response.delete(
                 "",
@@ -108,7 +108,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncRouter) -> None:
+    async def test_method_retrieve(self, async_client: AsyncCasedotdev) -> None:
         job = await async_client.convert.v1.jobs.retrieve(
             "id",
         )
@@ -116,7 +116,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncRouter) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncCasedotdev) -> None:
         response = await async_client.convert.v1.jobs.with_raw_response.retrieve(
             "id",
         )
@@ -128,7 +128,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncRouter) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncCasedotdev) -> None:
         async with async_client.convert.v1.jobs.with_streaming_response.retrieve(
             "id",
         ) as response:
@@ -142,7 +142,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncRouter) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncCasedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.convert.v1.jobs.with_raw_response.retrieve(
                 "",
@@ -150,7 +150,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_delete(self, async_client: AsyncRouter) -> None:
+    async def test_method_delete(self, async_client: AsyncCasedotdev) -> None:
         job = await async_client.convert.v1.jobs.delete(
             "id",
         )
@@ -158,7 +158,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncRouter) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncCasedotdev) -> None:
         response = await async_client.convert.v1.jobs.with_raw_response.delete(
             "id",
         )
@@ -170,7 +170,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncRouter) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncCasedotdev) -> None:
         async with async_client.convert.v1.jobs.with_streaming_response.delete(
             "id",
         ) as response:
@@ -184,7 +184,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncRouter) -> None:
+    async def test_path_params_delete(self, async_client: AsyncCasedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.convert.v1.jobs.with_raw_response.delete(
                 "",

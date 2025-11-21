@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from router import Router, AsyncRouter
+from router import Casedotdev, AsyncCasedotdev
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_initialize(self, client: Router) -> None:
+    def test_method_initialize(self, client: Casedotdev) -> None:
         graphrag = client.vault.graphrag.initialize(
             id="id",
             body={},
@@ -27,7 +27,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_initialize(self, client: Router) -> None:
+    def test_raw_response_initialize(self, client: Casedotdev) -> None:
         response = client.vault.graphrag.with_raw_response.initialize(
             id="id",
             body={},
@@ -40,7 +40,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_initialize(self, client: Router) -> None:
+    def test_streaming_response_initialize(self, client: Casedotdev) -> None:
         with client.vault.graphrag.with_streaming_response.initialize(
             id="id",
             body={},
@@ -55,7 +55,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_initialize(self, client: Router) -> None:
+    def test_path_params_initialize(self, client: Casedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.graphrag.with_raw_response.initialize(
                 id="",
@@ -64,7 +64,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve_stats(self, client: Router) -> None:
+    def test_method_retrieve_stats(self, client: Casedotdev) -> None:
         graphrag = client.vault.graphrag.retrieve_stats(
             "id",
         )
@@ -72,7 +72,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve_stats(self, client: Router) -> None:
+    def test_raw_response_retrieve_stats(self, client: Casedotdev) -> None:
         response = client.vault.graphrag.with_raw_response.retrieve_stats(
             "id",
         )
@@ -84,7 +84,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve_stats(self, client: Router) -> None:
+    def test_streaming_response_retrieve_stats(self, client: Casedotdev) -> None:
         with client.vault.graphrag.with_streaming_response.retrieve_stats(
             "id",
         ) as response:
@@ -98,7 +98,7 @@ class TestGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve_stats(self, client: Router) -> None:
+    def test_path_params_retrieve_stats(self, client: Casedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.graphrag.with_raw_response.retrieve_stats(
                 "",
@@ -112,7 +112,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_initialize(self, async_client: AsyncRouter) -> None:
+    async def test_method_initialize(self, async_client: AsyncCasedotdev) -> None:
         graphrag = await async_client.vault.graphrag.initialize(
             id="id",
             body={},
@@ -121,7 +121,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_initialize(self, async_client: AsyncRouter) -> None:
+    async def test_raw_response_initialize(self, async_client: AsyncCasedotdev) -> None:
         response = await async_client.vault.graphrag.with_raw_response.initialize(
             id="id",
             body={},
@@ -134,7 +134,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_initialize(self, async_client: AsyncRouter) -> None:
+    async def test_streaming_response_initialize(self, async_client: AsyncCasedotdev) -> None:
         async with async_client.vault.graphrag.with_streaming_response.initialize(
             id="id",
             body={},
@@ -149,7 +149,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_initialize(self, async_client: AsyncRouter) -> None:
+    async def test_path_params_initialize(self, async_client: AsyncCasedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.graphrag.with_raw_response.initialize(
                 id="",
@@ -158,7 +158,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve_stats(self, async_client: AsyncRouter) -> None:
+    async def test_method_retrieve_stats(self, async_client: AsyncCasedotdev) -> None:
         graphrag = await async_client.vault.graphrag.retrieve_stats(
             "id",
         )
@@ -166,7 +166,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve_stats(self, async_client: AsyncRouter) -> None:
+    async def test_raw_response_retrieve_stats(self, async_client: AsyncCasedotdev) -> None:
         response = await async_client.vault.graphrag.with_raw_response.retrieve_stats(
             "id",
         )
@@ -178,7 +178,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve_stats(self, async_client: AsyncRouter) -> None:
+    async def test_streaming_response_retrieve_stats(self, async_client: AsyncCasedotdev) -> None:
         async with async_client.vault.graphrag.with_streaming_response.retrieve_stats(
             "id",
         ) as response:
@@ -192,7 +192,7 @@ class TestAsyncGraphrag:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve_stats(self, async_client: AsyncRouter) -> None:
+    async def test_path_params_retrieve_stats(self, async_client: AsyncCasedotdev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.graphrag.with_raw_response.retrieve_stats(
                 "",
