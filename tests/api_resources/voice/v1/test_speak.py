@@ -9,8 +9,8 @@ import httpx
 import pytest
 from respx import MockRouter
 
-from casedotdev_sdk_py import Casemark, AsyncCasemark
-from casedotdev_sdk_py._response import (
+from casedev import Casedev, AsyncCasedev
+from casedev._response import (
     BinaryAPIResponse,
     AsyncBinaryAPIResponse,
     StreamedBinaryAPIResponse,
@@ -25,7 +25,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_method_create(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_method_create(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = client.voice.v1.speak.create(
             text="text",
@@ -37,7 +37,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_method_create_with_all_params(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_method_create_with_all_params(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = client.voice.v1.speak.create(
             text="text",
@@ -65,7 +65,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response_create(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_raw_response_create(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         speak = client.voice.v1.speak.with_raw_response.create(
@@ -79,7 +79,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_streaming_response_create(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_streaming_response_create(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.voice.v1.speak.with_streaming_response.create(
             text="text",
@@ -95,7 +95,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_method_stream(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_method_stream(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = client.voice.v1.speak.stream(
             text="text",
@@ -107,7 +107,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_method_stream_with_all_params(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_method_stream_with_all_params(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = client.voice.v1.speak.stream(
             text="text",
@@ -135,7 +135,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response_stream(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_raw_response_stream(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         speak = client.voice.v1.speak.with_raw_response.stream(
@@ -149,7 +149,7 @@ class TestSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_streaming_response_stream(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_streaming_response_stream(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.voice.v1.speak.with_streaming_response.stream(
             text="text",
@@ -171,7 +171,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_method_create(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_method_create(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = await async_client.voice.v1.speak.create(
             text="text",
@@ -183,7 +183,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_method_create_with_all_params(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = await async_client.voice.v1.speak.create(
             text="text",
@@ -211,7 +211,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response_create(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_raw_response_create(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         speak = await async_client.voice.v1.speak.with_raw_response.create(
@@ -225,7 +225,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_streaming_response_create(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.voice.v1.speak.with_streaming_response.create(
             text="text",
@@ -241,7 +241,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_method_stream(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_method_stream(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = await async_client.voice.v1.speak.stream(
             text="text",
@@ -253,7 +253,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_method_stream_with_all_params(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_method_stream_with_all_params(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speak = await async_client.voice.v1.speak.stream(
             text="text",
@@ -281,7 +281,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response_stream(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_raw_response_stream(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         speak = await async_client.voice.v1.speak.with_raw_response.stream(
@@ -295,7 +295,7 @@ class TestAsyncSpeak:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_streaming_response_stream(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_streaming_response_stream(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/voice/v1/speak/stream").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.voice.v1.speak.with_streaming_response.stream(
             text="text",

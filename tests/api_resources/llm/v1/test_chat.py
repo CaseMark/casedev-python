@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedotdev_sdk_py import Casemark, AsyncCasemark
-from casedotdev_sdk_py.types.llm.v1 import ChatCreateCompletionResponse
+from casedev.types.llm.v1 import ChatCreateCompletionResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +19,7 @@ class TestChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_completion(self, client: Casemark) -> None:
+    def test_method_create_completion(self, client: Casedev) -> None:
         chat = client.llm.v1.chat.create_completion(
             messages=[{}],
         )
@@ -27,7 +27,7 @@ class TestChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_completion_with_all_params(self, client: Casemark) -> None:
+    def test_method_create_completion_with_all_params(self, client: Casedev) -> None:
         chat = client.llm.v1.chat.create_completion(
             messages=[
                 {
@@ -47,7 +47,7 @@ class TestChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create_completion(self, client: Casemark) -> None:
+    def test_raw_response_create_completion(self, client: Casedev) -> None:
         response = client.llm.v1.chat.with_raw_response.create_completion(
             messages=[{}],
         )
@@ -59,7 +59,7 @@ class TestChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create_completion(self, client: Casemark) -> None:
+    def test_streaming_response_create_completion(self, client: Casedev) -> None:
         with client.llm.v1.chat.with_streaming_response.create_completion(
             messages=[{}],
         ) as response:
@@ -79,7 +79,7 @@ class TestAsyncChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_completion(self, async_client: AsyncCasemark) -> None:
+    async def test_method_create_completion(self, async_client: AsyncCasedev) -> None:
         chat = await async_client.llm.v1.chat.create_completion(
             messages=[{}],
         )
@@ -87,7 +87,7 @@ class TestAsyncChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_completion_with_all_params(self, async_client: AsyncCasemark) -> None:
+    async def test_method_create_completion_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat = await async_client.llm.v1.chat.create_completion(
             messages=[
                 {
@@ -107,7 +107,7 @@ class TestAsyncChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create_completion(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_create_completion(self, async_client: AsyncCasedev) -> None:
         response = await async_client.llm.v1.chat.with_raw_response.create_completion(
             messages=[{}],
         )
@@ -119,7 +119,7 @@ class TestAsyncChat:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create_completion(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_create_completion(self, async_client: AsyncCasedev) -> None:
         async with async_client.llm.v1.chat.with_streaming_response.create_completion(
             messages=[{}],
         ) as response:

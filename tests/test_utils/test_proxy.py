@@ -2,7 +2,7 @@ import operator
 from typing import Any
 from typing_extensions import override
 
-from casedotdev_sdk_py._utils import LazyProxy
+from casedev._utils import LazyProxy
 
 
 class RecursiveLazyProxy(LazyProxy[Any]):

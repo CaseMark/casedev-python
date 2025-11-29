@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedotdev_sdk_py import Casemark, AsyncCasemark
-from casedotdev_sdk_py.types.voice import TranscriptionRetrieveResponse
+from casedev.types.voice import TranscriptionRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +19,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: Casemark) -> None:
+    def test_method_create(self, client: Casedev) -> None:
         transcription = client.voice.transcription.create(
             audio_url="audio_url",
         )
@@ -27,7 +27,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_with_all_params(self, client: Casemark) -> None:
+    def test_method_create_with_all_params(self, client: Casedev) -> None:
         transcription = client.voice.transcription.create(
             audio_url="audio_url",
             auto_highlights=True,
@@ -42,7 +42,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: Casemark) -> None:
+    def test_raw_response_create(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.create(
             audio_url="audio_url",
         )
@@ -54,7 +54,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: Casemark) -> None:
+    def test_streaming_response_create(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.create(
             audio_url="audio_url",
         ) as response:
@@ -68,7 +68,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: Casemark) -> None:
+    def test_method_retrieve(self, client: Casedev) -> None:
         transcription = client.voice.transcription.retrieve(
             "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
@@ -76,7 +76,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: Casemark) -> None:
+    def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.retrieve(
             "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
@@ -88,7 +88,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: Casemark) -> None:
+    def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.retrieve(
             "5551902f-fc65-4a61-81b2-e002d4e464e5",
         ) as response:
@@ -102,7 +102,7 @@ class TestTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: Casemark) -> None:
+    def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.voice.transcription.with_raw_response.retrieve(
                 "",
@@ -116,7 +116,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncCasemark) -> None:
+    async def test_method_create(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.create(
             audio_url="audio_url",
         )
@@ -124,7 +124,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncCasemark) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.create(
             audio_url="audio_url",
             auto_highlights=True,
@@ -139,7 +139,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.create(
             audio_url="audio_url",
         )
@@ -151,7 +151,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.create(
             audio_url="audio_url",
         ) as response:
@@ -165,7 +165,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.retrieve(
             "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
@@ -173,7 +173,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.retrieve(
             "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
@@ -185,7 +185,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.retrieve(
             "5551902f-fc65-4a61-81b2-e002d4e464e5",
         ) as response:
@@ -199,7 +199,7 @@ class TestAsyncTranscription:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.voice.transcription.with_raw_response.retrieve(
                 "",

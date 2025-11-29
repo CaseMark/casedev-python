@@ -9,8 +9,8 @@ import httpx
 import pytest
 from respx import MockRouter
 
-from casedotdev_sdk_py import Casemark, AsyncCasemark
-from casedotdev_sdk_py._response import (
+from casedev import Casedev, AsyncCasedev
+from casedev._response import (
     BinaryAPIResponse,
     AsyncBinaryAPIResponse,
     StreamedBinaryAPIResponse,
@@ -25,7 +25,7 @@ class TestV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_method_create_document(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_method_create_document(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         v1 = client.format.v1.create_document(
             content="content",
@@ -38,7 +38,7 @@ class TestV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_method_create_document_with_all_params(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_method_create_document_with_all_params(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         v1 = client.format.v1.create_document(
             content="content",
@@ -62,7 +62,7 @@ class TestV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response_create_document(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_raw_response_create_document(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         v1 = client.format.v1.with_raw_response.create_document(
@@ -77,7 +77,7 @@ class TestV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    def test_streaming_response_create_document(self, client: Casemark, respx_mock: MockRouter) -> None:
+    def test_streaming_response_create_document(self, client: Casedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.format.v1.with_streaming_response.create_document(
             content="content",
@@ -100,7 +100,7 @@ class TestAsyncV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_method_create_document(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_method_create_document(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         v1 = await async_client.format.v1.create_document(
             content="content",
@@ -114,7 +114,7 @@ class TestAsyncV1:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_method_create_document_with_all_params(
-        self, async_client: AsyncCasemark, respx_mock: MockRouter
+        self, async_client: AsyncCasedev, respx_mock: MockRouter
     ) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         v1 = await async_client.format.v1.create_document(
@@ -139,7 +139,7 @@ class TestAsyncV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response_create_document(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+    async def test_raw_response_create_document(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         v1 = await async_client.format.v1.with_raw_response.create_document(
@@ -154,9 +154,7 @@ class TestAsyncV1:
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
-    async def test_streaming_response_create_document(
-        self, async_client: AsyncCasemark, respx_mock: MockRouter
-    ) -> None:
+    async def test_streaming_response_create_document(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
         respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.format.v1.with_streaming_response.create_document(
             content="content",
