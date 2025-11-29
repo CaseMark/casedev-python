@@ -136,12 +136,6 @@ Methods:
 - <code title="get /format/v1/templates/{id}">client.format.v1.templates.<a href="./src/casedev/resources/format/v1/templates.py">retrieve</a>(id) -> None</code>
 - <code title="get /format/v1/templates">client.format.v1.templates.<a href="./src/casedev/resources/format/v1/templates.py">list</a>(\*\*<a href="src/casedev/types/format/v1/template_list_params.py">params</a>) -> None</code>
 
-# Index
-
-Methods:
-
-- <code title="get /index">client.index.<a href="./src/casedev/resources/index.py">retrieve</a>() -> None</code>
-
 # Llm
 
 Methods:

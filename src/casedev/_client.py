@@ -21,7 +21,6 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import index
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import CasedevError, APIStatusError
 from ._base_client import (
@@ -64,7 +63,6 @@ class Casedev(SyncAPIClient):
     compute: compute.ComputeResource
     convert: convert.ConvertResource
     format: format.FormatResource
-    index: index.IndexResource
     llm: llm.LlmResource
     ocr: ocr.OcrResource
     search: search.SearchResource
@@ -157,7 +155,6 @@ class Casedev(SyncAPIClient):
         self.compute = compute.ComputeResource(self)
         self.convert = convert.ConvertResource(self)
         self.format = format.FormatResource(self)
-        self.index = index.IndexResource(self)
         self.llm = llm.LlmResource(self)
         self.ocr = ocr.OcrResource(self)
         self.search = search.SearchResource(self)
@@ -280,7 +277,6 @@ class AsyncCasedev(AsyncAPIClient):
     compute: compute.AsyncComputeResource
     convert: convert.AsyncConvertResource
     format: format.AsyncFormatResource
-    index: index.AsyncIndexResource
     llm: llm.AsyncLlmResource
     ocr: ocr.AsyncOcrResource
     search: search.AsyncSearchResource
@@ -373,7 +369,6 @@ class AsyncCasedev(AsyncAPIClient):
         self.compute = compute.AsyncComputeResource(self)
         self.convert = convert.AsyncConvertResource(self)
         self.format = format.AsyncFormatResource(self)
-        self.index = index.AsyncIndexResource(self)
         self.llm = llm.AsyncLlmResource(self)
         self.ocr = ocr.AsyncOcrResource(self)
         self.search = search.AsyncSearchResource(self)
@@ -497,7 +492,6 @@ class CasedevWithRawResponse:
         self.compute = compute.ComputeResourceWithRawResponse(client.compute)
         self.convert = convert.ConvertResourceWithRawResponse(client.convert)
         self.format = format.FormatResourceWithRawResponse(client.format)
-        self.index = index.IndexResourceWithRawResponse(client.index)
         self.llm = llm.LlmResourceWithRawResponse(client.llm)
         self.ocr = ocr.OcrResourceWithRawResponse(client.ocr)
         self.search = search.SearchResourceWithRawResponse(client.search)
@@ -513,7 +507,6 @@ class AsyncCasedevWithRawResponse:
         self.compute = compute.AsyncComputeResourceWithRawResponse(client.compute)
         self.convert = convert.AsyncConvertResourceWithRawResponse(client.convert)
         self.format = format.AsyncFormatResourceWithRawResponse(client.format)
-        self.index = index.AsyncIndexResourceWithRawResponse(client.index)
         self.llm = llm.AsyncLlmResourceWithRawResponse(client.llm)
         self.ocr = ocr.AsyncOcrResourceWithRawResponse(client.ocr)
         self.search = search.AsyncSearchResourceWithRawResponse(client.search)
@@ -529,7 +522,6 @@ class CasedevWithStreamedResponse:
         self.compute = compute.ComputeResourceWithStreamingResponse(client.compute)
         self.convert = convert.ConvertResourceWithStreamingResponse(client.convert)
         self.format = format.FormatResourceWithStreamingResponse(client.format)
-        self.index = index.IndexResourceWithStreamingResponse(client.index)
         self.llm = llm.LlmResourceWithStreamingResponse(client.llm)
         self.ocr = ocr.OcrResourceWithStreamingResponse(client.ocr)
         self.search = search.SearchResourceWithStreamingResponse(client.search)
@@ -545,7 +537,6 @@ class AsyncCasedevWithStreamedResponse:
         self.compute = compute.AsyncComputeResourceWithStreamingResponse(client.compute)
         self.convert = convert.AsyncConvertResourceWithStreamingResponse(client.convert)
         self.format = format.AsyncFormatResourceWithStreamingResponse(client.format)
-        self.index = index.AsyncIndexResourceWithStreamingResponse(client.index)
         self.llm = llm.AsyncLlmResourceWithStreamingResponse(client.llm)
         self.ocr = ocr.AsyncOcrResourceWithStreamingResponse(client.ocr)
         self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
