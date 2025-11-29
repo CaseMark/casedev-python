@@ -16,14 +16,6 @@ from .ocr import (
     OcrResourceWithStreamingResponse,
     AsyncOcrResourceWithStreamingResponse,
 )
-from .index import (
-    IndexResource,
-    AsyncIndexResource,
-    IndexResourceWithRawResponse,
-    AsyncIndexResourceWithRawResponse,
-    IndexResourceWithStreamingResponse,
-    AsyncIndexResourceWithStreamingResponse,
-)
 from .vault import (
     VaultResource,
     AsyncVaultResource,
@@ -122,12 +114,6 @@ __all__ = [
     "AsyncFormatResourceWithRawResponse",
     "FormatResourceWithStreamingResponse",
     "AsyncFormatResourceWithStreamingResponse",
-    "IndexResource",
-    "AsyncIndexResource",
-    "IndexResourceWithRawResponse",
-    "AsyncIndexResourceWithRawResponse",
-    "IndexResourceWithStreamingResponse",
-    "AsyncIndexResourceWithStreamingResponse",
     "LlmResource",
     "AsyncLlmResource",
     "LlmResourceWithRawResponse",
