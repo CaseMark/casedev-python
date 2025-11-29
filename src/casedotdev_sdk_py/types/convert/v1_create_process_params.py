@@ -8,4 +8,8 @@ __all__ = ["V1CreateProcessParams"]
 
 
 class V1CreateProcessParams(TypedDict, total=False):
-    body: Required[object]
+    input_url: Required[str]
+    """HTTPS URL to the FTR file (must be a valid S3 presigned URL)"""
+
+    callback_url: str
+    """Optional webhook URL to receive conversion completion notification"""

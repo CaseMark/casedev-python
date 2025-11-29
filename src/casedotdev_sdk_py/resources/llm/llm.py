@@ -12,7 +12,7 @@ from .v1.v1 import (
     V1ResourceWithStreamingResponse,
     AsyncV1ResourceWithStreamingResponse,
 )
-from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -59,14 +59,27 @@ class LlmResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /llm/config"""
+    ) -> None:
+        """
+        Retrieves the AI Gateway configuration including all available language models
+        and their specifications. This endpoint returns model information compatible
+        with the Vercel AI SDK Gateway format, making it easy to integrate with existing
+        AI applications.
+
+        Use this endpoint to:
+
+        - Discover available language models
+        - Get model specifications and pricing
+        - Configure AI SDK clients
+        - Build model selection interfaces
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/llm/config",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -103,14 +116,27 @@ class AsyncLlmResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /llm/config"""
+    ) -> None:
+        """
+        Retrieves the AI Gateway configuration including all available language models
+        and their specifications. This endpoint returns model information compatible
+        with the Vercel AI SDK Gateway format, making it easy to integrate with existing
+        AI applications.
+
+        Use this endpoint to:
+
+        - Discover available language models
+        - Get model specifications and pricing
+        - Configure AI SDK clients
+        - Build model selection interfaces
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/llm/config",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

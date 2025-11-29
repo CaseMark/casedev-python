@@ -9,6 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedotdev_sdk_py.types.llm.v1 import ChatCreateCompletionResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,33 +21,53 @@ class TestChat:
     @parametrize
     def test_method_create_completion(self, client: Casemark) -> None:
         chat = client.llm.v1.chat.create_completion(
-            body={},
+            messages=[{}],
         )
-        assert_matches_type(object, chat, path=["response"])
+        assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_completion_with_all_params(self, client: Casemark) -> None:
+        chat = client.llm.v1.chat.create_completion(
+            messages=[
+                {
+                    "content": "content",
+                    "role": "system",
+                }
+            ],
+            frequency_penalty=0,
+            max_tokens=1000,
+            model="gpt-4o",
+            presence_penalty=0,
+            stream=False,
+            temperature=0.7,
+            top_p=0,
+        )
+        assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_completion(self, client: Casemark) -> None:
         response = client.llm.v1.chat.with_raw_response.create_completion(
-            body={},
+            messages=[{}],
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         chat = response.parse()
-        assert_matches_type(object, chat, path=["response"])
+        assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_completion(self, client: Casemark) -> None:
         with client.llm.v1.chat.with_streaming_response.create_completion(
-            body={},
+            messages=[{}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             chat = response.parse()
-            assert_matches_type(object, chat, path=["response"])
+            assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -60,32 +81,52 @@ class TestAsyncChat:
     @parametrize
     async def test_method_create_completion(self, async_client: AsyncCasemark) -> None:
         chat = await async_client.llm.v1.chat.create_completion(
-            body={},
+            messages=[{}],
         )
-        assert_matches_type(object, chat, path=["response"])
+        assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_completion_with_all_params(self, async_client: AsyncCasemark) -> None:
+        chat = await async_client.llm.v1.chat.create_completion(
+            messages=[
+                {
+                    "content": "content",
+                    "role": "system",
+                }
+            ],
+            frequency_penalty=0,
+            max_tokens=1000,
+            model="gpt-4o",
+            presence_penalty=0,
+            stream=False,
+            temperature=0.7,
+            top_p=0,
+        )
+        assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_completion(self, async_client: AsyncCasemark) -> None:
         response = await async_client.llm.v1.chat.with_raw_response.create_completion(
-            body={},
+            messages=[{}],
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         chat = await response.parse()
-        assert_matches_type(object, chat, path=["response"])
+        assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_completion(self, async_client: AsyncCasemark) -> None:
         async with async_client.llm.v1.chat.with_streaming_response.create_completion(
-            body={},
+            messages=[{}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             chat = await response.parse()
-            assert_matches_type(object, chat, path=["response"])
+            assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
         assert cast(Any, response.is_closed) is True

@@ -35,7 +35,6 @@ from .resources.vault import vault
 from .resources.voice import voice
 from .resources.format import format
 from .resources.actions import actions
-from .resources.billing import billing
 from .resources.convert import convert
 from .resources.webhooks import webhooks
 from .resources.workflows import workflows
@@ -60,7 +59,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 class Casemark(SyncAPIClient):
     actions: actions.ActionsResource
-    billing: billing.BillingResource
     convert: convert.ConvertResource
     format: format.FormatResource
     index: index.IndexResource
@@ -152,7 +150,6 @@ class Casemark(SyncAPIClient):
         )
 
         self.actions = actions.ActionsResource(self)
-        self.billing = billing.BillingResource(self)
         self.convert = convert.ConvertResource(self)
         self.format = format.FormatResource(self)
         self.index = index.IndexResource(self)
@@ -274,7 +271,6 @@ class Casemark(SyncAPIClient):
 
 class AsyncCasemark(AsyncAPIClient):
     actions: actions.AsyncActionsResource
-    billing: billing.AsyncBillingResource
     convert: convert.AsyncConvertResource
     format: format.AsyncFormatResource
     index: index.AsyncIndexResource
@@ -366,7 +362,6 @@ class AsyncCasemark(AsyncAPIClient):
         )
 
         self.actions = actions.AsyncActionsResource(self)
-        self.billing = billing.AsyncBillingResource(self)
         self.convert = convert.AsyncConvertResource(self)
         self.format = format.AsyncFormatResource(self)
         self.index = index.AsyncIndexResource(self)
@@ -489,7 +484,6 @@ class AsyncCasemark(AsyncAPIClient):
 class CasemarkWithRawResponse:
     def __init__(self, client: Casemark) -> None:
         self.actions = actions.ActionsResourceWithRawResponse(client.actions)
-        self.billing = billing.BillingResourceWithRawResponse(client.billing)
         self.convert = convert.ConvertResourceWithRawResponse(client.convert)
         self.format = format.FormatResourceWithRawResponse(client.format)
         self.index = index.IndexResourceWithRawResponse(client.index)
@@ -504,7 +498,6 @@ class CasemarkWithRawResponse:
 class AsyncCasemarkWithRawResponse:
     def __init__(self, client: AsyncCasemark) -> None:
         self.actions = actions.AsyncActionsResourceWithRawResponse(client.actions)
-        self.billing = billing.AsyncBillingResourceWithRawResponse(client.billing)
         self.convert = convert.AsyncConvertResourceWithRawResponse(client.convert)
         self.format = format.AsyncFormatResourceWithRawResponse(client.format)
         self.index = index.AsyncIndexResourceWithRawResponse(client.index)
@@ -519,7 +512,6 @@ class AsyncCasemarkWithRawResponse:
 class CasemarkWithStreamedResponse:
     def __init__(self, client: Casemark) -> None:
         self.actions = actions.ActionsResourceWithStreamingResponse(client.actions)
-        self.billing = billing.BillingResourceWithStreamingResponse(client.billing)
         self.convert = convert.ConvertResourceWithStreamingResponse(client.convert)
         self.format = format.FormatResourceWithStreamingResponse(client.format)
         self.index = index.IndexResourceWithStreamingResponse(client.index)
@@ -534,7 +526,6 @@ class CasemarkWithStreamedResponse:
 class AsyncCasemarkWithStreamedResponse:
     def __init__(self, client: AsyncCasemark) -> None:
         self.actions = actions.AsyncActionsResourceWithStreamingResponse(client.actions)
-        self.billing = billing.AsyncBillingResourceWithStreamingResponse(client.billing)
         self.convert = convert.AsyncConvertResourceWithStreamingResponse(client.convert)
         self.format = format.AsyncFormatResourceWithStreamingResponse(client.format)
         self.index = index.AsyncIndexResourceWithStreamingResponse(client.index)

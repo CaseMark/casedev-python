@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -14,7 +13,6 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.vault import graphrag_initialize_params
 from ..._base_client import make_request_options
 
 __all__ = ["GraphragResource", "AsyncGraphragResource"]
@@ -44,16 +42,18 @@ class GraphragResource(SyncAPIResource):
         self,
         id: str,
         *,
-        body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        POST /vault/:id/graphrag/init
+        Initialize a GraphRAG workspace for a vault to enable advanced knowledge graph
+        and retrieval-augmented generation capabilities. This creates the necessary
+        infrastructure for semantic document analysis and graph-based querying within
+        the vault.
 
         Args:
           extra_headers: Send extra headers
@@ -66,13 +66,13 @@ class GraphragResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             f"/vault/{id}/graphrag/init",
-            body=maybe_transform(body, graphrag_initialize_params.GraphragInitializeParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def retrieve_stats(
@@ -85,9 +85,12 @@ class GraphragResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        GET /vault/:id/graphrag/stats
+        Retrieve GraphRAG (Graph Retrieval-Augmented Generation) statistics for a
+        specific vault. This includes metrics about the knowledge graph structure,
+        entity relationships, and processing status that enable advanced semantic search
+        and AI-powered document analysis.
 
         Args:
           extra_headers: Send extra headers
@@ -100,12 +103,13 @@ class GraphragResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/graphrag/stats",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -133,16 +137,18 @@ class AsyncGraphragResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        POST /vault/:id/graphrag/init
+        Initialize a GraphRAG workspace for a vault to enable advanced knowledge graph
+        and retrieval-augmented generation capabilities. This creates the necessary
+        infrastructure for semantic document analysis and graph-based querying within
+        the vault.
 
         Args:
           extra_headers: Send extra headers
@@ -155,13 +161,13 @@ class AsyncGraphragResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             f"/vault/{id}/graphrag/init",
-            body=await async_maybe_transform(body, graphrag_initialize_params.GraphragInitializeParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def retrieve_stats(
@@ -174,9 +180,12 @@ class AsyncGraphragResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        GET /vault/:id/graphrag/stats
+        Retrieve GraphRAG (Graph Retrieval-Augmented Generation) statistics for a
+        specific vault. This includes metrics about the knowledge graph structure,
+        entity relationships, and processing status that enable advanced semantic search
+        and AI-powered document analysis.
 
         Args:
           extra_headers: Send extra headers
@@ -189,12 +198,13 @@ class AsyncGraphragResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/graphrag/stats",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

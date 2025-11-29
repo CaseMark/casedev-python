@@ -9,6 +9,12 @@ import pytest
 
 from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedotdev_sdk_py.types import (
+    VaultCreateResponse,
+    VaultSearchResponse,
+    VaultUploadResponse,
+    VaultIngestObjectResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,33 +26,43 @@ class TestVault:
     @parametrize
     def test_method_create(self, client: Casemark) -> None:
         vault = client.vault.create(
-            body={},
+            name="Contract Review Archive",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultCreateResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params(self, client: Casemark) -> None:
+        vault = client.vault.create(
+            name="Contract Review Archive",
+            description="Repository for all client contract reviews and analysis",
+            enable_graph=True,
+        )
+        assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casemark) -> None:
         response = client.vault.with_raw_response.create(
-            body={},
+            name="Contract Review Archive",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casemark) -> None:
         with client.vault.with_streaming_response.create(
-            body={},
+            name="Contract Review Archive",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -54,33 +70,33 @@ class TestVault:
     @parametrize
     def test_method_retrieve(self, client: Casemark) -> None:
         vault = client.vault.retrieve(
-            "id",
+            "vault_abc123",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert vault is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casemark) -> None:
         response = client.vault.with_raw_response.retrieve(
-            "id",
+            "vault_abc123",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert vault is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casemark) -> None:
         with client.vault.with_streaming_response.retrieve(
-            "id",
+            "vault_abc123",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert vault is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -98,9 +114,8 @@ class TestVault:
         vault = client.vault.ingest_object(
             object_id="objectId",
             id="id",
-            body={},
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultIngestObjectResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -108,13 +123,12 @@ class TestVault:
         response = client.vault.with_raw_response.ingest_object(
             object_id="objectId",
             id="id",
-            body={},
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultIngestObjectResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -122,13 +136,12 @@ class TestVault:
         with client.vault.with_streaming_response.ingest_object(
             object_id="objectId",
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultIngestObjectResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -139,14 +152,12 @@ class TestVault:
             client.vault.with_raw_response.ingest_object(
                 object_id="objectId",
                 id="",
-                body={},
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             client.vault.with_raw_response.ingest_object(
                 object_id="",
                 id="id",
-                body={},
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -154,35 +165,47 @@ class TestVault:
     def test_method_search(self, client: Casemark) -> None:
         vault = client.vault.search(
             id="id",
-            body={},
+            query="query",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultSearchResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_search_with_all_params(self, client: Casemark) -> None:
+        vault = client.vault.search(
+            id="id",
+            query="query",
+            filters={"foo": "bar"},
+            method="vector",
+            top_k=1,
+        )
+        assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_search(self, client: Casemark) -> None:
         response = client.vault.with_raw_response.search(
             id="id",
-            body={},
+            query="query",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_search(self, client: Casemark) -> None:
         with client.vault.with_streaming_response.search(
             id="id",
-            body={},
+            query="query",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -192,7 +215,7 @@ class TestVault:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.with_raw_response.search(
                 id="",
-                body={},
+                query="query",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -200,35 +223,51 @@ class TestVault:
     def test_method_upload(self, client: Casemark) -> None:
         vault = client.vault.upload(
             id="id",
-            body={},
+            content_type="contentType",
+            filename="filename",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_upload_with_all_params(self, client: Casemark) -> None:
+        vault = client.vault.upload(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            auto_index=True,
+            metadata={},
+            size_bytes=0,
+        )
+        assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_upload(self, client: Casemark) -> None:
         response = client.vault.with_raw_response.upload(
             id="id",
-            body={},
+            content_type="contentType",
+            filename="filename",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_upload(self, client: Casemark) -> None:
         with client.vault.with_streaming_response.upload(
             id="id",
-            body={},
+            content_type="contentType",
+            filename="filename",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -238,7 +277,8 @@ class TestVault:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.with_raw_response.upload(
                 id="",
-                body={},
+                content_type="contentType",
+                filename="filename",
             )
 
 
@@ -251,33 +291,43 @@ class TestAsyncVault:
     @parametrize
     async def test_method_create(self, async_client: AsyncCasemark) -> None:
         vault = await async_client.vault.create(
-            body={},
+            name="Contract Review Archive",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultCreateResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncCasemark) -> None:
+        vault = await async_client.vault.create(
+            name="Contract Review Archive",
+            description="Repository for all client contract reviews and analysis",
+            enable_graph=True,
+        )
+        assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasemark) -> None:
         response = await async_client.vault.with_raw_response.create(
-            body={},
+            name="Contract Review Archive",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = await response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasemark) -> None:
         async with async_client.vault.with_streaming_response.create(
-            body={},
+            name="Contract Review Archive",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = await response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -285,33 +335,33 @@ class TestAsyncVault:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasemark) -> None:
         vault = await async_client.vault.retrieve(
-            "id",
+            "vault_abc123",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert vault is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasemark) -> None:
         response = await async_client.vault.with_raw_response.retrieve(
-            "id",
+            "vault_abc123",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = await response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert vault is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasemark) -> None:
         async with async_client.vault.with_streaming_response.retrieve(
-            "id",
+            "vault_abc123",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = await response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert vault is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -329,9 +379,8 @@ class TestAsyncVault:
         vault = await async_client.vault.ingest_object(
             object_id="objectId",
             id="id",
-            body={},
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultIngestObjectResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -339,13 +388,12 @@ class TestAsyncVault:
         response = await async_client.vault.with_raw_response.ingest_object(
             object_id="objectId",
             id="id",
-            body={},
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = await response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultIngestObjectResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -353,13 +401,12 @@ class TestAsyncVault:
         async with async_client.vault.with_streaming_response.ingest_object(
             object_id="objectId",
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = await response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultIngestObjectResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -370,14 +417,12 @@ class TestAsyncVault:
             await async_client.vault.with_raw_response.ingest_object(
                 object_id="objectId",
                 id="",
-                body={},
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             await async_client.vault.with_raw_response.ingest_object(
                 object_id="",
                 id="id",
-                body={},
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -385,35 +430,47 @@ class TestAsyncVault:
     async def test_method_search(self, async_client: AsyncCasemark) -> None:
         vault = await async_client.vault.search(
             id="id",
-            body={},
+            query="query",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultSearchResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_search_with_all_params(self, async_client: AsyncCasemark) -> None:
+        vault = await async_client.vault.search(
+            id="id",
+            query="query",
+            filters={"foo": "bar"},
+            method="vector",
+            top_k=1,
+        )
+        assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncCasemark) -> None:
         response = await async_client.vault.with_raw_response.search(
             id="id",
-            body={},
+            query="query",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = await response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncCasemark) -> None:
         async with async_client.vault.with_streaming_response.search(
             id="id",
-            body={},
+            query="query",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = await response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -423,7 +480,7 @@ class TestAsyncVault:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.with_raw_response.search(
                 id="",
-                body={},
+                query="query",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -431,35 +488,51 @@ class TestAsyncVault:
     async def test_method_upload(self, async_client: AsyncCasemark) -> None:
         vault = await async_client.vault.upload(
             id="id",
-            body={},
+            content_type="contentType",
+            filename="filename",
         )
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_upload_with_all_params(self, async_client: AsyncCasemark) -> None:
+        vault = await async_client.vault.upload(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            auto_index=True,
+            metadata={},
+            size_bytes=0,
+        )
+        assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncCasemark) -> None:
         response = await async_client.vault.with_raw_response.upload(
             id="id",
-            body={},
+            content_type="contentType",
+            filename="filename",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = await response.parse()
-        assert_matches_type(object, vault, path=["response"])
+        assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncCasemark) -> None:
         async with async_client.vault.with_streaming_response.upload(
             id="id",
-            body={},
+            content_type="contentType",
+            filename="filename",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = await response.parse()
-            assert_matches_type(object, vault, path=["response"])
+            assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -469,5 +542,6 @@ class TestAsyncVault:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.with_raw_response.upload(
                 id="",
-                body={},
+                content_type="contentType",
+                filename="filename",
             )

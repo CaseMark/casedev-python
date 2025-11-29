@@ -8,4 +8,11 @@ __all__ = ["V1SearchParams"]
 
 
 class V1SearchParams(TypedDict, total=False):
-    body: Required[object]
+    query: Required[str]
+    """Search query to find relevant workflows"""
+
+    category: str
+    """Optional category filter to narrow results"""
+
+    limit: int
+    """Maximum number of results to return (default: 10, max: 50)"""

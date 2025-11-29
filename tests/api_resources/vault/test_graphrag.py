@@ -7,7 +7,6 @@ from typing import Any, cast
 
 import pytest
 
-from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -20,36 +19,33 @@ class TestGraphrag:
     @parametrize
     def test_method_initialize(self, client: Casemark) -> None:
         graphrag = client.vault.graphrag.initialize(
-            id="id",
-            body={},
+            "id",
         )
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_initialize(self, client: Casemark) -> None:
         response = client.vault.graphrag.with_raw_response.initialize(
-            id="id",
-            body={},
+            "id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = response.parse()
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_initialize(self, client: Casemark) -> None:
         with client.vault.graphrag.with_streaming_response.initialize(
-            id="id",
-            body={},
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = response.parse()
-            assert_matches_type(object, graphrag, path=["response"])
+            assert graphrag is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -58,8 +54,7 @@ class TestGraphrag:
     def test_path_params_initialize(self, client: Casemark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.graphrag.with_raw_response.initialize(
-                id="",
-                body={},
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -68,7 +63,7 @@ class TestGraphrag:
         graphrag = client.vault.graphrag.retrieve_stats(
             "id",
         )
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -80,7 +75,7 @@ class TestGraphrag:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = response.parse()
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -92,7 +87,7 @@ class TestGraphrag:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = response.parse()
-            assert_matches_type(object, graphrag, path=["response"])
+            assert graphrag is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -114,36 +109,33 @@ class TestAsyncGraphrag:
     @parametrize
     async def test_method_initialize(self, async_client: AsyncCasemark) -> None:
         graphrag = await async_client.vault.graphrag.initialize(
-            id="id",
-            body={},
+            "id",
         )
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_initialize(self, async_client: AsyncCasemark) -> None:
         response = await async_client.vault.graphrag.with_raw_response.initialize(
-            id="id",
-            body={},
+            "id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = await response.parse()
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_initialize(self, async_client: AsyncCasemark) -> None:
         async with async_client.vault.graphrag.with_streaming_response.initialize(
-            id="id",
-            body={},
+            "id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = await response.parse()
-            assert_matches_type(object, graphrag, path=["response"])
+            assert graphrag is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -152,8 +144,7 @@ class TestAsyncGraphrag:
     async def test_path_params_initialize(self, async_client: AsyncCasemark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.graphrag.with_raw_response.initialize(
-                id="",
-                body={},
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -162,7 +153,7 @@ class TestAsyncGraphrag:
         graphrag = await async_client.vault.graphrag.retrieve_stats(
             "id",
         )
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -174,7 +165,7 @@ class TestAsyncGraphrag:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = await response.parse()
-        assert_matches_type(object, graphrag, path=["response"])
+        assert graphrag is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -186,7 +177,7 @@ class TestAsyncGraphrag:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = await response.parse()
-            assert_matches_type(object, graphrag, path=["response"])
+            assert graphrag is None
 
         assert cast(Any, response.is_closed) is True
 

@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+from typing import Dict
+from typing_extensions import Literal
+
 import httpx
 
-from ...types import vault_create_params, vault_search_params, vault_upload_params, vault_ingest_object_params
+from ...types import vault_create_params, vault_search_params, vault_upload_params
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -13,7 +16,7 @@ from .objects import (
     ObjectsResourceWithStreamingResponse,
     AsyncObjectsResourceWithStreamingResponse,
 )
-from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from .graphrag import (
     GraphragResource,
@@ -32,6 +35,10 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.vault_create_response import VaultCreateResponse
+from ...types.vault_search_response import VaultSearchResponse
+from ...types.vault_upload_response import VaultUploadResponse
+from ...types.vault_ingest_object_response import VaultIngestObjectResponse
 
 __all__ = ["VaultResource", "AsyncVaultResource"]
 
@@ -67,18 +74,29 @@ class VaultResource(SyncAPIResource):
     def create(
         self,
         *,
-        body: object,
+        name: str,
+        description: str | Omit = omit,
+        enable_graph: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultCreateResponse:
         """
-        POST /vault
+        Creates a new secure vault with dedicated S3 storage and vector search
+        capabilities. Each vault provides isolated document storage with semantic
+        search, OCR processing, and optional knowledge graph features for legal document
+        analysis and discovery.
 
         Args:
+          name: Display name for the vault
+
+          description: Optional description of the vault's purpose
+
+          enable_graph: Enable knowledge graph for entity relationship mapping
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -89,11 +107,18 @@ class VaultResource(SyncAPIResource):
         """
         return self._post(
             "/vault",
-            body=maybe_transform(body, vault_create_params.VaultCreateParams),
+            body=maybe_transform(
+                {
+                    "name": name,
+                    "description": description,
+                    "enable_graph": enable_graph,
+                },
+                vault_create_params.VaultCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultCreateResponse,
         )
 
     def retrieve(
@@ -106,9 +131,11 @@ class VaultResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        GET /vault/:id
+        Retrieve detailed information about a specific vault, including storage
+        configuration, chunking strategy, and usage statistics. Returns vault metadata,
+        bucket information, and vector storage details.
 
         Args:
           extra_headers: Send extra headers
@@ -121,12 +148,13 @@ class VaultResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def ingest_object(
@@ -134,16 +162,18 @@ class VaultResource(SyncAPIResource):
         object_id: str,
         *,
         id: str,
-        body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultIngestObjectResponse:
         """
-        POST /vault/:id/ingest/:objectId
+        Triggers OCR ingestion workflow for a vault object to extract text, generate
+        chunks, and create embeddings. Processing happens asynchronously with GraphRAG
+        support if enabled on the vault. Returns immediately with workflow tracking
+        information.
 
         Args:
           extra_headers: Send extra headers
@@ -160,29 +190,43 @@ class VaultResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return self._post(
             f"/vault/{id}/ingest/{object_id}",
-            body=maybe_transform(body, vault_ingest_object_params.VaultIngestObjectParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultIngestObjectResponse,
         )
 
     def search(
         self,
         id: str,
         *,
-        body: object,
+        query: str,
+        filters: Dict[str, object] | Omit = omit,
+        method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"] | Omit = omit,
+        top_k: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultSearchResponse:
         """
-        POST /vault/:id/search
+        Search across vault documents using multiple methods including hybrid vector +
+        graph search, GraphRAG global search, entity-based search, and fast similarity
+        search. Returns relevant documents and contextual answers based on the search
+        method.
 
         Args:
+          query: Search query or question to find relevant documents
+
+          filters: Additional filters to apply to search results
+
+          method: Search method: 'global' for comprehensive questions, 'entity' for specific
+              entities, 'fast' for quick similarity search, 'hybrid' for combined approach
+
+          top_k: Maximum number of results to return
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -195,29 +239,54 @@ class VaultResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/vault/{id}/search",
-            body=maybe_transform(body, vault_search_params.VaultSearchParams),
+            body=maybe_transform(
+                {
+                    "query": query,
+                    "filters": filters,
+                    "method": method,
+                    "top_k": top_k,
+                },
+                vault_search_params.VaultSearchParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultSearchResponse,
         )
 
     def upload(
         self,
         id: str,
         *,
-        body: object,
+        content_type: str,
+        filename: str,
+        auto_index: bool | Omit = omit,
+        metadata: object | Omit = omit,
+        size_bytes: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultUploadResponse:
         """
-        POST /vault/:id/upload
+        Generate a presigned URL for uploading files directly to a vault's S3 storage.
+        This endpoint creates a temporary upload URL that allows secure file uploads
+        without exposing credentials. Files can be automatically indexed for semantic
+        search or stored for manual processing.
 
         Args:
+          content_type: MIME type of the file (e.g., application/pdf, image/jpeg)
+
+          filename: Name of the file to upload
+
+          auto_index: Whether to automatically process and index the file for search
+
+          metadata: Additional metadata to associate with the file
+
+          size_bytes: Estimated file size in bytes for cost calculation
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -230,11 +299,20 @@ class VaultResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/vault/{id}/upload",
-            body=maybe_transform(body, vault_upload_params.VaultUploadParams),
+            body=maybe_transform(
+                {
+                    "content_type": content_type,
+                    "filename": filename,
+                    "auto_index": auto_index,
+                    "metadata": metadata,
+                    "size_bytes": size_bytes,
+                },
+                vault_upload_params.VaultUploadParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultUploadResponse,
         )
 
 
@@ -269,18 +347,29 @@ class AsyncVaultResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        body: object,
+        name: str,
+        description: str | Omit = omit,
+        enable_graph: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultCreateResponse:
         """
-        POST /vault
+        Creates a new secure vault with dedicated S3 storage and vector search
+        capabilities. Each vault provides isolated document storage with semantic
+        search, OCR processing, and optional knowledge graph features for legal document
+        analysis and discovery.
 
         Args:
+          name: Display name for the vault
+
+          description: Optional description of the vault's purpose
+
+          enable_graph: Enable knowledge graph for entity relationship mapping
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -291,11 +380,18 @@ class AsyncVaultResource(AsyncAPIResource):
         """
         return await self._post(
             "/vault",
-            body=await async_maybe_transform(body, vault_create_params.VaultCreateParams),
+            body=await async_maybe_transform(
+                {
+                    "name": name,
+                    "description": description,
+                    "enable_graph": enable_graph,
+                },
+                vault_create_params.VaultCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultCreateResponse,
         )
 
     async def retrieve(
@@ -308,9 +404,11 @@ class AsyncVaultResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        GET /vault/:id
+        Retrieve detailed information about a specific vault, including storage
+        configuration, chunking strategy, and usage statistics. Returns vault metadata,
+        bucket information, and vector storage details.
 
         Args:
           extra_headers: Send extra headers
@@ -323,12 +421,13 @@ class AsyncVaultResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def ingest_object(
@@ -336,16 +435,18 @@ class AsyncVaultResource(AsyncAPIResource):
         object_id: str,
         *,
         id: str,
-        body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultIngestObjectResponse:
         """
-        POST /vault/:id/ingest/:objectId
+        Triggers OCR ingestion workflow for a vault object to extract text, generate
+        chunks, and create embeddings. Processing happens asynchronously with GraphRAG
+        support if enabled on the vault. Returns immediately with workflow tracking
+        information.
 
         Args:
           extra_headers: Send extra headers
@@ -362,29 +463,43 @@ class AsyncVaultResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return await self._post(
             f"/vault/{id}/ingest/{object_id}",
-            body=await async_maybe_transform(body, vault_ingest_object_params.VaultIngestObjectParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultIngestObjectResponse,
         )
 
     async def search(
         self,
         id: str,
         *,
-        body: object,
+        query: str,
+        filters: Dict[str, object] | Omit = omit,
+        method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"] | Omit = omit,
+        top_k: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultSearchResponse:
         """
-        POST /vault/:id/search
+        Search across vault documents using multiple methods including hybrid vector +
+        graph search, GraphRAG global search, entity-based search, and fast similarity
+        search. Returns relevant documents and contextual answers based on the search
+        method.
 
         Args:
+          query: Search query or question to find relevant documents
+
+          filters: Additional filters to apply to search results
+
+          method: Search method: 'global' for comprehensive questions, 'entity' for specific
+              entities, 'fast' for quick similarity search, 'hybrid' for combined approach
+
+          top_k: Maximum number of results to return
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -397,29 +512,54 @@ class AsyncVaultResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/vault/{id}/search",
-            body=await async_maybe_transform(body, vault_search_params.VaultSearchParams),
+            body=await async_maybe_transform(
+                {
+                    "query": query,
+                    "filters": filters,
+                    "method": method,
+                    "top_k": top_k,
+                },
+                vault_search_params.VaultSearchParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultSearchResponse,
         )
 
     async def upload(
         self,
         id: str,
         *,
-        body: object,
+        content_type: str,
+        filename: str,
+        auto_index: bool | Omit = omit,
+        metadata: object | Omit = omit,
+        size_bytes: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> VaultUploadResponse:
         """
-        POST /vault/:id/upload
+        Generate a presigned URL for uploading files directly to a vault's S3 storage.
+        This endpoint creates a temporary upload URL that allows secure file uploads
+        without exposing credentials. Files can be automatically indexed for semantic
+        search or stored for manual processing.
 
         Args:
+          content_type: MIME type of the file (e.g., application/pdf, image/jpeg)
+
+          filename: Name of the file to upload
+
+          auto_index: Whether to automatically process and index the file for search
+
+          metadata: Additional metadata to associate with the file
+
+          size_bytes: Estimated file size in bytes for cost calculation
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -432,11 +572,20 @@ class AsyncVaultResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/vault/{id}/upload",
-            body=await async_maybe_transform(body, vault_upload_params.VaultUploadParams),
+            body=await async_maybe_transform(
+                {
+                    "content_type": content_type,
+                    "filename": filename,
+                    "auto_index": auto_index,
+                    "metadata": metadata,
+                    "size_bytes": size_bytes,
+                },
+                vault_upload_params.VaultUploadParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=VaultUploadResponse,
         )
 
 

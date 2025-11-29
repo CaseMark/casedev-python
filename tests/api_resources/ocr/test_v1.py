@@ -9,6 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedotdev_sdk_py.types.ocr import V1ProcessResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,7 +23,7 @@ class TestV1:
         v1 = client.ocr.v1.retrieve(
             "id",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -34,7 +35,7 @@ class TestV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -46,7 +47,7 @@ class TestV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert v1 is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -62,36 +63,36 @@ class TestV1:
     @parametrize
     def test_method_download(self, client: Casemark) -> None:
         v1 = client.ocr.v1.download(
-            type="type",
+            type="text",
             id="id",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_download(self, client: Casemark) -> None:
         response = client.ocr.v1.with_raw_response.download(
-            type="type",
+            type="text",
             id="id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_download(self, client: Casemark) -> None:
         with client.ocr.v1.with_streaming_response.download(
-            type="type",
+            type="text",
             id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert v1 is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -100,47 +101,60 @@ class TestV1:
     def test_path_params_download(self, client: Casemark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.ocr.v1.with_raw_response.download(
-                type="type",
+                type="text",
                 id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `type` but received ''"):
-            client.ocr.v1.with_raw_response.download(
-                type="",
-                id="id",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_process(self, client: Casemark) -> None:
         v1 = client.ocr.v1.process(
-            body={},
+            document_url="https://example.com/contract.pdf",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert_matches_type(V1ProcessResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_process_with_all_params(self, client: Casemark) -> None:
+        v1 = client.ocr.v1.process(
+            document_url="https://example.com/contract.pdf",
+            callback_url="https://your-app.com/webhooks/ocr-complete",
+            document_id="contract-2024-001",
+            engine="doctr",
+            features={
+                "forms": False,
+                "layout": True,
+                "tables": True,
+                "text": True,
+            },
+            result_bucket="my-ocr-results",
+            result_prefix="ocr/2024/",
+        )
+        assert_matches_type(V1ProcessResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_process(self, client: Casemark) -> None:
         response = client.ocr.v1.with_raw_response.process(
-            body={},
+            document_url="https://example.com/contract.pdf",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert_matches_type(V1ProcessResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_process(self, client: Casemark) -> None:
         with client.ocr.v1.with_streaming_response.process(
-            body={},
+            document_url="https://example.com/contract.pdf",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert_matches_type(V1ProcessResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -156,7 +170,7 @@ class TestAsyncV1:
         v1 = await async_client.ocr.v1.retrieve(
             "id",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -168,7 +182,7 @@ class TestAsyncV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -180,7 +194,7 @@ class TestAsyncV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert v1 is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -196,36 +210,36 @@ class TestAsyncV1:
     @parametrize
     async def test_method_download(self, async_client: AsyncCasemark) -> None:
         v1 = await async_client.ocr.v1.download(
-            type="type",
+            type="text",
             id="id",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_download(self, async_client: AsyncCasemark) -> None:
         response = await async_client.ocr.v1.with_raw_response.download(
-            type="type",
+            type="text",
             id="id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_download(self, async_client: AsyncCasemark) -> None:
         async with async_client.ocr.v1.with_streaming_response.download(
-            type="type",
+            type="text",
             id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert v1 is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -234,46 +248,59 @@ class TestAsyncV1:
     async def test_path_params_download(self, async_client: AsyncCasemark) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.ocr.v1.with_raw_response.download(
-                type="type",
+                type="text",
                 id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `type` but received ''"):
-            await async_client.ocr.v1.with_raw_response.download(
-                type="",
-                id="id",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_process(self, async_client: AsyncCasemark) -> None:
         v1 = await async_client.ocr.v1.process(
-            body={},
+            document_url="https://example.com/contract.pdf",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert_matches_type(V1ProcessResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_process_with_all_params(self, async_client: AsyncCasemark) -> None:
+        v1 = await async_client.ocr.v1.process(
+            document_url="https://example.com/contract.pdf",
+            callback_url="https://your-app.com/webhooks/ocr-complete",
+            document_id="contract-2024-001",
+            engine="doctr",
+            features={
+                "forms": False,
+                "layout": True,
+                "tables": True,
+                "text": True,
+            },
+            result_bucket="my-ocr-results",
+            result_prefix="ocr/2024/",
+        )
+        assert_matches_type(V1ProcessResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_process(self, async_client: AsyncCasemark) -> None:
         response = await async_client.ocr.v1.with_raw_response.process(
-            body={},
+            document_url="https://example.com/contract.pdf",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert_matches_type(V1ProcessResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_process(self, async_client: AsyncCasemark) -> None:
         async with async_client.ocr.v1.with_streaming_response.process(
-            body={},
+            document_url="https://example.com/contract.pdf",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert_matches_type(V1ProcessResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True

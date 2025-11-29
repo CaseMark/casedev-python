@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
 from .jobs import (
@@ -12,18 +14,28 @@ from .jobs import (
     JobsResourceWithStreamingResponse,
     AsyncJobsResourceWithStreamingResponse,
 )
-from ...._types import Body, Query, Headers, NotGiven, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
 from ....types.convert import v1_create_process_params, v1_create_webhook_params
+from ....types.convert.v1_create_process_response import V1CreateProcessResponse
+from ....types.convert.v1_create_webhook_response import V1CreateWebhookResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -55,18 +67,29 @@ class V1Resource(SyncAPIResource):
     def create_process(
         self,
         *,
-        body: object,
+        input_url: str,
+        callback_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> V1CreateProcessResponse:
         """
-        POST /convert/v1/process
+        Submit an FTR (ForensicTech Recording) file for conversion to M4A audio format.
+        This endpoint is commonly used to convert court recording files into standard
+        audio formats for transcription or playback. The conversion is processed
+        asynchronously - you'll receive a job ID to track the conversion status.
+
+        **Supported Input**: FTR files via S3 presigned URLs **Output Format**: M4A
+        audio **Processing**: Asynchronous with webhook callbacks
 
         Args:
+          input_url: HTTPS URL to the FTR file (must be a valid S3 presigned URL)
+
+          callback_url: Optional webhook URL to receive conversion completion notification
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -77,28 +100,48 @@ class V1Resource(SyncAPIResource):
         """
         return self._post(
             "/convert/v1/process",
-            body=maybe_transform(body, v1_create_process_params.V1CreateProcessParams),
+            body=maybe_transform(
+                {
+                    "input_url": input_url,
+                    "callback_url": callback_url,
+                },
+                v1_create_process_params.V1CreateProcessParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1CreateProcessResponse,
         )
 
     def create_webhook(
         self,
         *,
-        body: object,
+        job_id: str,
+        status: Literal["completed", "failed"],
+        error: str | Omit = omit,
+        result: v1_create_webhook_params.Result | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> V1CreateWebhookResponse:
         """
-        POST /convert/v1/webhook
+        Internal webhook endpoint that receives completion notifications from the Modal
+        FTR converter service. This endpoint handles status updates for file conversion
+        jobs, including success and failure notifications. Requires valid Bearer token
+        authentication.
 
         Args:
+          job_id: Unique identifier for the conversion job
+
+          status: Status of the conversion job
+
+          error: Error message for failed jobs
+
+          result: Result data for completed jobs
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -109,11 +152,19 @@ class V1Resource(SyncAPIResource):
         """
         return self._post(
             "/convert/v1/webhook",
-            body=maybe_transform(body, v1_create_webhook_params.V1CreateWebhookParams),
+            body=maybe_transform(
+                {
+                    "job_id": job_id,
+                    "status": status,
+                    "error": error,
+                    "result": result,
+                },
+                v1_create_webhook_params.V1CreateWebhookParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1CreateWebhookResponse,
         )
 
     def download(
@@ -126,9 +177,12 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /convert/v1/download/{id}
+    ) -> BinaryAPIResponse:
+        """Download the converted M4A audio file from a completed FTR conversion job.
+
+        The
+        file is streamed directly to the client with appropriate headers for audio
+        playback or download.
 
         Args:
           extra_headers: Send extra headers
@@ -141,12 +195,13 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "audio/mp4", **(extra_headers or {})}
         return self._get(
             f"/convert/v1/download/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=BinaryAPIResponse,
         )
 
 
@@ -177,18 +232,29 @@ class AsyncV1Resource(AsyncAPIResource):
     async def create_process(
         self,
         *,
-        body: object,
+        input_url: str,
+        callback_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> V1CreateProcessResponse:
         """
-        POST /convert/v1/process
+        Submit an FTR (ForensicTech Recording) file for conversion to M4A audio format.
+        This endpoint is commonly used to convert court recording files into standard
+        audio formats for transcription or playback. The conversion is processed
+        asynchronously - you'll receive a job ID to track the conversion status.
+
+        **Supported Input**: FTR files via S3 presigned URLs **Output Format**: M4A
+        audio **Processing**: Asynchronous with webhook callbacks
 
         Args:
+          input_url: HTTPS URL to the FTR file (must be a valid S3 presigned URL)
+
+          callback_url: Optional webhook URL to receive conversion completion notification
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -199,28 +265,48 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         return await self._post(
             "/convert/v1/process",
-            body=await async_maybe_transform(body, v1_create_process_params.V1CreateProcessParams),
+            body=await async_maybe_transform(
+                {
+                    "input_url": input_url,
+                    "callback_url": callback_url,
+                },
+                v1_create_process_params.V1CreateProcessParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1CreateProcessResponse,
         )
 
     async def create_webhook(
         self,
         *,
-        body: object,
+        job_id: str,
+        status: Literal["completed", "failed"],
+        error: str | Omit = omit,
+        result: v1_create_webhook_params.Result | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> V1CreateWebhookResponse:
         """
-        POST /convert/v1/webhook
+        Internal webhook endpoint that receives completion notifications from the Modal
+        FTR converter service. This endpoint handles status updates for file conversion
+        jobs, including success and failure notifications. Requires valid Bearer token
+        authentication.
 
         Args:
+          job_id: Unique identifier for the conversion job
+
+          status: Status of the conversion job
+
+          error: Error message for failed jobs
+
+          result: Result data for completed jobs
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -231,11 +317,19 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         return await self._post(
             "/convert/v1/webhook",
-            body=await async_maybe_transform(body, v1_create_webhook_params.V1CreateWebhookParams),
+            body=await async_maybe_transform(
+                {
+                    "job_id": job_id,
+                    "status": status,
+                    "error": error,
+                    "result": result,
+                },
+                v1_create_webhook_params.V1CreateWebhookParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1CreateWebhookResponse,
         )
 
     async def download(
@@ -248,9 +342,12 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /convert/v1/download/{id}
+    ) -> AsyncBinaryAPIResponse:
+        """Download the converted M4A audio file from a completed FTR conversion job.
+
+        The
+        file is streamed directly to the client with appropriate headers for audio
+        playback or download.
 
         Args:
           extra_headers: Send extra headers
@@ -263,12 +360,13 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "audio/mp4", **(extra_headers or {})}
         return await self._get(
             f"/convert/v1/download/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=AsyncBinaryAPIResponse,
         )
 
 
@@ -282,8 +380,9 @@ class V1ResourceWithRawResponse:
         self.create_webhook = to_raw_response_wrapper(
             v1.create_webhook,
         )
-        self.download = to_raw_response_wrapper(
+        self.download = to_custom_raw_response_wrapper(
             v1.download,
+            BinaryAPIResponse,
         )
 
     @cached_property
@@ -301,8 +400,9 @@ class AsyncV1ResourceWithRawResponse:
         self.create_webhook = async_to_raw_response_wrapper(
             v1.create_webhook,
         )
-        self.download = async_to_raw_response_wrapper(
+        self.download = async_to_custom_raw_response_wrapper(
             v1.download,
+            AsyncBinaryAPIResponse,
         )
 
     @cached_property
@@ -320,8 +420,9 @@ class V1ResourceWithStreamingResponse:
         self.create_webhook = to_streamed_response_wrapper(
             v1.create_webhook,
         )
-        self.download = to_streamed_response_wrapper(
+        self.download = to_custom_streamed_response_wrapper(
             v1.download,
+            StreamedBinaryAPIResponse,
         )
 
     @cached_property
@@ -339,8 +440,9 @@ class AsyncV1ResourceWithStreamingResponse:
         self.create_webhook = async_to_streamed_response_wrapper(
             v1.create_webhook,
         )
-        self.download = async_to_streamed_response_wrapper(
+        self.download = async_to_custom_streamed_response_wrapper(
             v1.download,
+            AsyncStreamedBinaryAPIResponse,
         )
 
     @cached_property
