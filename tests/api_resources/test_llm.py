@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedev import Casedev, AsyncCasedev
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -17,14 +17,14 @@ class TestLlm:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve_config(self, client: Casemark) -> None:
-        llm = client.llm.retrieve_config()
+    def test_method_get_config(self, client: Casedev) -> None:
+        llm = client.llm.get_config()
         assert llm is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve_config(self, client: Casemark) -> None:
-        response = client.llm.with_raw_response.retrieve_config()
+    def test_raw_response_get_config(self, client: Casedev) -> None:
+        response = client.llm.with_raw_response.get_config()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -33,8 +33,8 @@ class TestLlm:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve_config(self, client: Casemark) -> None:
-        with client.llm.with_streaming_response.retrieve_config() as response:
+    def test_streaming_response_get_config(self, client: Casedev) -> None:
+        with client.llm.with_streaming_response.get_config() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -51,14 +51,14 @@ class TestAsyncLlm:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve_config(self, async_client: AsyncCasemark) -> None:
-        llm = await async_client.llm.retrieve_config()
+    async def test_method_get_config(self, async_client: AsyncCasedev) -> None:
+        llm = await async_client.llm.get_config()
         assert llm is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve_config(self, async_client: AsyncCasemark) -> None:
-        response = await async_client.llm.with_raw_response.retrieve_config()
+    async def test_raw_response_get_config(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.llm.with_raw_response.get_config()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -67,8 +67,8 @@ class TestAsyncLlm:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve_config(self, async_client: AsyncCasemark) -> None:
-        async with async_client.llm.with_streaming_response.retrieve_config() as response:
+    async def test_streaming_response_get_config(self, async_client: AsyncCasedev) -> None:
+        async with async_client.llm.with_streaming_response.get_config() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 

@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from casedotdev_sdk_py._types import FileTypes
-from casedotdev_sdk_py._utils import extract_files
+from casedev._types import FileTypes
+from casedev._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

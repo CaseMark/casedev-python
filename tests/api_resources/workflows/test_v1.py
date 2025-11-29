@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
+from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedotdev_sdk_py import Casemark, AsyncCasemark
-from casedotdev_sdk_py.types.workflows import V1ExecuteResponse
+from casedev.types.workflows import V1ExecuteResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +19,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: Casemark) -> None:
+    def test_method_retrieve(self, client: Casedev) -> None:
         v1 = client.workflows.v1.retrieve(
             "id",
         )
@@ -27,7 +27,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: Casemark) -> None:
+    def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.workflows.v1.with_raw_response.retrieve(
             "id",
         )
@@ -39,7 +39,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: Casemark) -> None:
+    def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.workflows.v1.with_streaming_response.retrieve(
             "id",
         ) as response:
@@ -53,7 +53,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: Casemark) -> None:
+    def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.workflows.v1.with_raw_response.retrieve(
                 "",
@@ -61,13 +61,13 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: Casemark) -> None:
+    def test_method_list(self, client: Casedev) -> None:
         v1 = client.workflows.v1.list()
         assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: Casemark) -> None:
+    def test_method_list_with_all_params(self, client: Casedev) -> None:
         v1 = client.workflows.v1.list(
             category="category",
             limit=1,
@@ -80,7 +80,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: Casemark) -> None:
+    def test_raw_response_list(self, client: Casedev) -> None:
         response = client.workflows.v1.with_raw_response.list()
 
         assert response.is_closed is True
@@ -90,7 +90,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: Casemark) -> None:
+    def test_streaming_response_list(self, client: Casedev) -> None:
         with client.workflows.v1.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -102,7 +102,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_execute(self, client: Casemark) -> None:
+    def test_method_execute(self, client: Casedev) -> None:
         v1 = client.workflows.v1.execute(
             id="id",
             input={},
@@ -111,7 +111,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_execute_with_all_params(self, client: Casemark) -> None:
+    def test_method_execute_with_all_params(self, client: Casedev) -> None:
         v1 = client.workflows.v1.execute(
             id="id",
             input={},
@@ -124,7 +124,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_execute(self, client: Casemark) -> None:
+    def test_raw_response_execute(self, client: Casedev) -> None:
         response = client.workflows.v1.with_raw_response.execute(
             id="id",
             input={},
@@ -137,7 +137,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_execute(self, client: Casemark) -> None:
+    def test_streaming_response_execute(self, client: Casedev) -> None:
         with client.workflows.v1.with_streaming_response.execute(
             id="id",
             input={},
@@ -152,7 +152,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_execute(self, client: Casemark) -> None:
+    def test_path_params_execute(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.workflows.v1.with_raw_response.execute(
                 id="",
@@ -161,16 +161,16 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_execution_retrieve(self, client: Casemark) -> None:
-        v1 = client.workflows.v1.execution_retrieve(
+    def test_method_retrieve_execution(self, client: Casedev) -> None:
+        v1 = client.workflows.v1.retrieve_execution(
             "exec_abc123def456",
         )
         assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_execution_retrieve(self, client: Casemark) -> None:
-        response = client.workflows.v1.with_raw_response.execution_retrieve(
+    def test_raw_response_retrieve_execution(self, client: Casedev) -> None:
+        response = client.workflows.v1.with_raw_response.retrieve_execution(
             "exec_abc123def456",
         )
 
@@ -181,8 +181,8 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_execution_retrieve(self, client: Casemark) -> None:
-        with client.workflows.v1.with_streaming_response.execution_retrieve(
+    def test_streaming_response_retrieve_execution(self, client: Casedev) -> None:
+        with client.workflows.v1.with_streaming_response.retrieve_execution(
             "exec_abc123def456",
         ) as response:
             assert not response.is_closed
@@ -195,15 +195,15 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_execution_retrieve(self, client: Casemark) -> None:
+    def test_path_params_retrieve_execution(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.workflows.v1.with_raw_response.execution_retrieve(
+            client.workflows.v1.with_raw_response.retrieve_execution(
                 "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_search(self, client: Casemark) -> None:
+    def test_method_search(self, client: Casedev) -> None:
         v1 = client.workflows.v1.search(
             query="query",
         )
@@ -211,7 +211,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_search_with_all_params(self, client: Casemark) -> None:
+    def test_method_search_with_all_params(self, client: Casedev) -> None:
         v1 = client.workflows.v1.search(
             query="query",
             category="category",
@@ -221,7 +221,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_search(self, client: Casemark) -> None:
+    def test_raw_response_search(self, client: Casedev) -> None:
         response = client.workflows.v1.with_raw_response.search(
             query="query",
         )
@@ -233,7 +233,7 @@ class TestV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_search(self, client: Casemark) -> None:
+    def test_streaming_response_search(self, client: Casedev) -> None:
         with client.workflows.v1.with_streaming_response.search(
             query="query",
         ) as response:
@@ -253,7 +253,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.retrieve(
             "id",
         )
@@ -261,7 +261,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.workflows.v1.with_raw_response.retrieve(
             "id",
         )
@@ -273,7 +273,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.workflows.v1.with_streaming_response.retrieve(
             "id",
         ) as response:
@@ -287,7 +287,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.workflows.v1.with_raw_response.retrieve(
                 "",
@@ -295,13 +295,13 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncCasemark) -> None:
+    async def test_method_list(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.list()
         assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncCasemark) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.list(
             category="category",
             limit=1,
@@ -314,7 +314,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.workflows.v1.with_raw_response.list()
 
         assert response.is_closed is True
@@ -324,7 +324,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.workflows.v1.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -336,7 +336,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_execute(self, async_client: AsyncCasemark) -> None:
+    async def test_method_execute(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.execute(
             id="id",
             input={},
@@ -345,7 +345,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_execute_with_all_params(self, async_client: AsyncCasemark) -> None:
+    async def test_method_execute_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.execute(
             id="id",
             input={},
@@ -358,7 +358,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_execute(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_execute(self, async_client: AsyncCasedev) -> None:
         response = await async_client.workflows.v1.with_raw_response.execute(
             id="id",
             input={},
@@ -371,7 +371,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_execute(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_execute(self, async_client: AsyncCasedev) -> None:
         async with async_client.workflows.v1.with_streaming_response.execute(
             id="id",
             input={},
@@ -386,7 +386,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_execute(self, async_client: AsyncCasemark) -> None:
+    async def test_path_params_execute(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.workflows.v1.with_raw_response.execute(
                 id="",
@@ -395,16 +395,16 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_execution_retrieve(self, async_client: AsyncCasemark) -> None:
-        v1 = await async_client.workflows.v1.execution_retrieve(
+    async def test_method_retrieve_execution(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.workflows.v1.retrieve_execution(
             "exec_abc123def456",
         )
         assert v1 is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_execution_retrieve(self, async_client: AsyncCasemark) -> None:
-        response = await async_client.workflows.v1.with_raw_response.execution_retrieve(
+    async def test_raw_response_retrieve_execution(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.workflows.v1.with_raw_response.retrieve_execution(
             "exec_abc123def456",
         )
 
@@ -415,8 +415,8 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_execution_retrieve(self, async_client: AsyncCasemark) -> None:
-        async with async_client.workflows.v1.with_streaming_response.execution_retrieve(
+    async def test_streaming_response_retrieve_execution(self, async_client: AsyncCasedev) -> None:
+        async with async_client.workflows.v1.with_streaming_response.retrieve_execution(
             "exec_abc123def456",
         ) as response:
             assert not response.is_closed
@@ -429,15 +429,15 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_execution_retrieve(self, async_client: AsyncCasemark) -> None:
+    async def test_path_params_retrieve_execution(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.workflows.v1.with_raw_response.execution_retrieve(
+            await async_client.workflows.v1.with_raw_response.retrieve_execution(
                 "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_search(self, async_client: AsyncCasemark) -> None:
+    async def test_method_search(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.search(
             query="query",
         )
@@ -445,7 +445,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_search_with_all_params(self, async_client: AsyncCasemark) -> None:
+    async def test_method_search_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.search(
             query="query",
             category="category",
@@ -455,7 +455,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_search(self, async_client: AsyncCasemark) -> None:
+    async def test_raw_response_search(self, async_client: AsyncCasedev) -> None:
         response = await async_client.workflows.v1.with_raw_response.search(
             query="query",
         )
@@ -467,7 +467,7 @@ class TestAsyncV1:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_search(self, async_client: AsyncCasemark) -> None:
+    async def test_streaming_response_search(self, async_client: AsyncCasedev) -> None:
         async with async_client.workflows.v1.with_streaming_response.search(
             query="query",
         ) as response:

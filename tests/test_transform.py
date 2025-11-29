@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from casedotdev_sdk_py._types import Base64FileInput, omit, not_given
-from casedotdev_sdk_py._utils import (
+from casedev._types import Base64FileInput, omit, not_given
+from casedev._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from casedotdev_sdk_py._compat import PYDANTIC_V1
-from casedotdev_sdk_py._models import BaseModel
+from casedev._compat import PYDANTIC_V1
+from casedev._models import BaseModel
 
 _T = TypeVar("_T")
 

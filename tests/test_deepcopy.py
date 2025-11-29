@@ -1,4 +1,4 @@
-from casedotdev_sdk_py._utils import deepcopy_minimal
+from casedev._utils import deepcopy_minimal
 
 
 def assert_different_identities(obj1: object, obj2: object) -> None:
