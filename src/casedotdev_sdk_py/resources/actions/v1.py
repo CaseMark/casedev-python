@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing import Dict, Union
+
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -16,6 +18,8 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.actions import v1_create_params, v1_execute_params
+from ...types.actions.v1_create_response import V1CreateResponse
+from ...types.actions.v1_execute_response import V1ExecuteResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -43,18 +47,32 @@ class V1Resource(SyncAPIResource):
     def create(
         self,
         *,
-        body: object,
+        definition: Union[str, object],
+        name: str,
+        description: str | Omit = omit,
+        webhook_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /actions/v1
+    ) -> V1CreateResponse:
+        """Create a new action definition for multi-step workflow automation.
+
+        Actions can
+        be defined using YAML or JSON format and support complex workflows including
+        document processing, data extraction, and analysis pipelines.
 
         Args:
+          definition: Action definition in YAML string, JSON string, or JSON object format
+
+          name: Unique name for the action
+
+          description: Optional description of the action's purpose
+
+          webhook_id: Optional webhook endpoint ID for action completion notifications
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -65,11 +83,19 @@ class V1Resource(SyncAPIResource):
         """
         return self._post(
             "/actions/v1",
-            body=maybe_transform(body, v1_create_params.V1CreateParams),
+            body=maybe_transform(
+                {
+                    "definition": definition,
+                    "name": name,
+                    "description": description,
+                    "webhook_id": webhook_id,
+                },
+                v1_create_params.V1CreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1CreateResponse,
         )
 
     def retrieve(
@@ -82,9 +108,12 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /actions/v1/{id}
+    ) -> None:
+        """Retrieve a specific action definition by ID.
+
+        Actions are reusable workflow
+        components that can perform tasks like document analysis, data extraction, or
+        API integrations. Only actions belonging to your organization can be accessed.
 
         Args:
           extra_headers: Send extra headers
@@ -97,12 +126,13 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/actions/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def list(
@@ -114,14 +144,20 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /actions/v1"""
+    ) -> None:
+        """Retrieve all action definitions for your organization.
+
+        Actions are reusable
+        automation components that can perform tasks like document processing, data
+        extraction, and workflow execution.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/actions/v1",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def delete(
@@ -134,9 +170,12 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        DELETE /actions/v1/{id}
+    ) -> None:
+        """Permanently deletes an action definition from your organization.
+
+        This will
+        remove all workflow steps and configurations associated with the action.
+        **Warning:** This operation cannot be undone.
 
         Args:
           extra_headers: Send extra headers
@@ -149,30 +188,39 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/actions/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def execute(
         self,
         id: str,
         *,
-        body: object,
+        input: Dict[str, object],
+        webhook_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /actions/v1/{id}/execute
+    ) -> V1ExecuteResponse:
+        """Execute a multi-step action workflow with the provided input data.
+
+        Actions can
+        run synchronously (returning results immediately) or asynchronously (with
+        webhook notifications when complete).
 
         Args:
+          input: Input data for the action execution
+
+          webhook_id: Optional webhook endpoint ID to override the action's default webhook
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -185,11 +233,17 @@ class V1Resource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/actions/v1/{id}/execute",
-            body=maybe_transform(body, v1_execute_params.V1ExecuteParams),
+            body=maybe_transform(
+                {
+                    "input": input,
+                    "webhook_id": webhook_id,
+                },
+                v1_execute_params.V1ExecuteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1ExecuteResponse,
         )
 
     def retrieve_execution(
@@ -202,9 +256,12 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /actions/v1/executions/{id}
+    ) -> None:
+        """Retrieve the status and results of a specific action execution.
+
+        Returns
+        execution details including current status, results, error messages, and
+        execution metadata.
 
         Args:
           extra_headers: Send extra headers
@@ -217,12 +274,13 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/actions/v1/executions/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -249,18 +307,32 @@ class AsyncV1Resource(AsyncAPIResource):
     async def create(
         self,
         *,
-        body: object,
+        definition: Union[str, object],
+        name: str,
+        description: str | Omit = omit,
+        webhook_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /actions/v1
+    ) -> V1CreateResponse:
+        """Create a new action definition for multi-step workflow automation.
+
+        Actions can
+        be defined using YAML or JSON format and support complex workflows including
+        document processing, data extraction, and analysis pipelines.
 
         Args:
+          definition: Action definition in YAML string, JSON string, or JSON object format
+
+          name: Unique name for the action
+
+          description: Optional description of the action's purpose
+
+          webhook_id: Optional webhook endpoint ID for action completion notifications
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -271,11 +343,19 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         return await self._post(
             "/actions/v1",
-            body=await async_maybe_transform(body, v1_create_params.V1CreateParams),
+            body=await async_maybe_transform(
+                {
+                    "definition": definition,
+                    "name": name,
+                    "description": description,
+                    "webhook_id": webhook_id,
+                },
+                v1_create_params.V1CreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1CreateResponse,
         )
 
     async def retrieve(
@@ -288,9 +368,12 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /actions/v1/{id}
+    ) -> None:
+        """Retrieve a specific action definition by ID.
+
+        Actions are reusable workflow
+        components that can perform tasks like document analysis, data extraction, or
+        API integrations. Only actions belonging to your organization can be accessed.
 
         Args:
           extra_headers: Send extra headers
@@ -303,12 +386,13 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/actions/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def list(
@@ -320,14 +404,20 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /actions/v1"""
+    ) -> None:
+        """Retrieve all action definitions for your organization.
+
+        Actions are reusable
+        automation components that can perform tasks like document processing, data
+        extraction, and workflow execution.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/actions/v1",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def delete(
@@ -340,9 +430,12 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        DELETE /actions/v1/{id}
+    ) -> None:
+        """Permanently deletes an action definition from your organization.
+
+        This will
+        remove all workflow steps and configurations associated with the action.
+        **Warning:** This operation cannot be undone.
 
         Args:
           extra_headers: Send extra headers
@@ -355,30 +448,39 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/actions/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def execute(
         self,
         id: str,
         *,
-        body: object,
+        input: Dict[str, object],
+        webhook_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /actions/v1/{id}/execute
+    ) -> V1ExecuteResponse:
+        """Execute a multi-step action workflow with the provided input data.
+
+        Actions can
+        run synchronously (returning results immediately) or asynchronously (with
+        webhook notifications when complete).
 
         Args:
+          input: Input data for the action execution
+
+          webhook_id: Optional webhook endpoint ID to override the action's default webhook
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -391,11 +493,17 @@ class AsyncV1Resource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/actions/v1/{id}/execute",
-            body=await async_maybe_transform(body, v1_execute_params.V1ExecuteParams),
+            body=await async_maybe_transform(
+                {
+                    "input": input,
+                    "webhook_id": webhook_id,
+                },
+                v1_execute_params.V1ExecuteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1ExecuteResponse,
         )
 
     async def retrieve_execution(
@@ -408,9 +516,12 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /actions/v1/executions/{id}
+    ) -> None:
+        """Retrieve the status and results of a specific action execution.
+
+        Returns
+        execution details including current status, results, error messages, and
+        execution metadata.
 
         Args:
           extra_headers: Send extra headers
@@ -423,12 +534,13 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/actions/v1/executions/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

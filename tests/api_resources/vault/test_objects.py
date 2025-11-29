@@ -9,6 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedotdev_sdk_py.types.vault import ObjectCreatePresignedURLResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +24,7 @@ class TestObjects:
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -36,7 +37,7 @@ class TestObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -49,7 +50,7 @@ class TestObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -74,7 +75,7 @@ class TestObjects:
         object_ = client.vault.objects.list(
             "id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -86,7 +87,7 @@ class TestObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -98,7 +99,7 @@ class TestObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -116,9 +117,20 @@ class TestObjects:
         object_ = client.vault.objects.create_presigned_url(
             object_id="objectId",
             id="id",
-            body={},
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_presigned_url_with_all_params(self, client: Casemark) -> None:
+        object_ = client.vault.objects.create_presigned_url(
+            object_id="objectId",
+            id="id",
+            content_type="contentType",
+            expires_in=60,
+            operation="GET",
+        )
+        assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -126,13 +138,12 @@ class TestObjects:
         response = client.vault.objects.with_raw_response.create_presigned_url(
             object_id="objectId",
             id="id",
-            body={},
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -140,13 +151,12 @@ class TestObjects:
         with client.vault.objects.with_streaming_response.create_presigned_url(
             object_id="objectId",
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -157,14 +167,12 @@ class TestObjects:
             client.vault.objects.with_raw_response.create_presigned_url(
                 object_id="objectId",
                 id="",
-                body={},
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             client.vault.objects.with_raw_response.create_presigned_url(
                 object_id="",
                 id="id",
-                body={},
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -174,7 +182,7 @@ class TestObjects:
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -187,7 +195,7 @@ class TestObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -200,7 +208,7 @@ class TestObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -226,7 +234,7 @@ class TestObjects:
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -239,7 +247,7 @@ class TestObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -252,7 +260,7 @@ class TestObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -284,7 +292,7 @@ class TestAsyncObjects:
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -297,7 +305,7 @@ class TestAsyncObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = await response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -310,7 +318,7 @@ class TestAsyncObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = await response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -335,7 +343,7 @@ class TestAsyncObjects:
         object_ = await async_client.vault.objects.list(
             "id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -347,7 +355,7 @@ class TestAsyncObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = await response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -359,7 +367,7 @@ class TestAsyncObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = await response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -377,9 +385,20 @@ class TestAsyncObjects:
         object_ = await async_client.vault.objects.create_presigned_url(
             object_id="objectId",
             id="id",
-            body={},
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_presigned_url_with_all_params(self, async_client: AsyncCasemark) -> None:
+        object_ = await async_client.vault.objects.create_presigned_url(
+            object_id="objectId",
+            id="id",
+            content_type="contentType",
+            expires_in=60,
+            operation="GET",
+        )
+        assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -387,13 +406,12 @@ class TestAsyncObjects:
         response = await async_client.vault.objects.with_raw_response.create_presigned_url(
             object_id="objectId",
             id="id",
-            body={},
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = await response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -401,13 +419,12 @@ class TestAsyncObjects:
         async with async_client.vault.objects.with_streaming_response.create_presigned_url(
             object_id="objectId",
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = await response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -418,14 +435,12 @@ class TestAsyncObjects:
             await async_client.vault.objects.with_raw_response.create_presigned_url(
                 object_id="objectId",
                 id="",
-                body={},
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             await async_client.vault.objects.with_raw_response.create_presigned_url(
                 object_id="",
                 id="id",
-                body={},
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -435,7 +450,7 @@ class TestAsyncObjects:
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -448,7 +463,7 @@ class TestAsyncObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = await response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -461,7 +476,7 @@ class TestAsyncObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = await response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -487,7 +502,7 @@ class TestAsyncObjects:
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -500,7 +515,7 @@ class TestAsyncObjects:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = await response.parse()
-        assert_matches_type(object, object_, path=["response"])
+        assert object_ is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -513,7 +528,7 @@ class TestAsyncObjects:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = await response.parse()
-            assert_matches_type(object, object_, path=["response"])
+            assert object_ is None
 
         assert cast(Any, response.is_closed) is True
 

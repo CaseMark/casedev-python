@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -15,7 +15,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.workflows import v1_search_params, v1_execute_params
+from ...types.workflows import v1_list_params, v1_search_params, v1_execute_params
+from ...types.workflows.v1_execute_response import V1ExecuteResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -50,9 +51,11 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /workflows/v1/{id}
+    ) -> None:
+        """Retrieve metadata for a published workflow by ID.
+
+        Returns workflow configuration
+        including input/output schemas, but excludes the prompt template for security.
 
         Args:
           extra_headers: Send extra headers
@@ -65,49 +68,111 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/workflows/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def list(
         self,
         *,
+        category: str | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        published: bool | Omit = omit,
+        sub_category: str | Omit = omit,
+        type: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /workflows/v1"""
+    ) -> None:
+        """
+        Retrieve a paginated list of available workflows with optional filtering by
+        category, subcategory, type, and publication status. Workflows are pre-built
+        document processing pipelines optimized for legal use cases.
+
+        Args:
+          category: Filter workflows by category (e.g., 'legal', 'compliance', 'contract')
+
+          limit: Maximum number of workflows to return
+
+          offset: Number of workflows to skip for pagination
+
+          published: Include only published workflows
+
+          sub_category: Filter workflows by subcategory (e.g., 'due-diligence', 'litigation', 'mergers')
+
+          type: Filter workflows by type (e.g., 'document-review', 'contract-analysis',
+              'compliance-check')
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/workflows/v1",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "category": category,
+                        "limit": limit,
+                        "offset": offset,
+                        "published": published,
+                        "sub_category": sub_category,
+                        "type": type,
+                    },
+                    v1_list_params.V1ListParams,
+                ),
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def execute(
         self,
         id: str,
         *,
-        body: object,
+        input: object,
+        options: v1_execute_params.Options | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /workflows/v1/{id}/execute
+    ) -> V1ExecuteResponse:
+        """Execute a pre-built workflow with custom input data.
+
+        Workflows automate common
+        legal document processing tasks like contract analysis, due diligence reviews,
+        and document classification.
+
+        **Available Workflows:**
+
+        - Contract analysis and risk assessment
+        - Document classification and tagging
+        - Legal research and case summarization
+        - Due diligence document review
+        - Compliance checking and reporting
 
         Args:
+          input: Input data for the workflow (structure varies by workflow type)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -120,11 +185,17 @@ class V1Resource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/workflows/v1/{id}/execute",
-            body=maybe_transform(body, v1_execute_params.V1ExecuteParams),
+            body=maybe_transform(
+                {
+                    "input": input,
+                    "options": options,
+                },
+                v1_execute_params.V1ExecuteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1ExecuteResponse,
         )
 
     def execution_retrieve(
@@ -137,9 +208,12 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /workflows/v1/executions/{id}
+    ) -> None:
+        """Retrieves the status and details of a workflow execution.
+
+        This endpoint is
+        designed for future asynchronous execution support and currently returns a 501
+        Not Implemented status since all executions are synchronous.
 
         Args:
           extra_headers: Send extra headers
@@ -152,29 +226,39 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/workflows/v1/executions/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def search(
         self,
         *,
-        body: object,
+        query: str,
+        category: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        POST /workflows/v1/search
+        Perform semantic search across available workflows to find the most relevant
+        pre-built document processing pipelines for your legal use case.
 
         Args:
+          query: Search query to find relevant workflows
+
+          category: Optional category filter to narrow results
+
+          limit: Maximum number of results to return (default: 10, max: 50)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -183,13 +267,21 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/workflows/v1/search",
-            body=maybe_transform(body, v1_search_params.V1SearchParams),
+            body=maybe_transform(
+                {
+                    "query": query,
+                    "category": category,
+                    "limit": limit,
+                },
+                v1_search_params.V1SearchParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -223,9 +315,11 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /workflows/v1/{id}
+    ) -> None:
+        """Retrieve metadata for a published workflow by ID.
+
+        Returns workflow configuration
+        including input/output schemas, but excludes the prompt template for security.
 
         Args:
           extra_headers: Send extra headers
@@ -238,49 +332,111 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/workflows/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def list(
         self,
         *,
+        category: str | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        published: bool | Omit = omit,
+        sub_category: str | Omit = omit,
+        type: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /workflows/v1"""
+    ) -> None:
+        """
+        Retrieve a paginated list of available workflows with optional filtering by
+        category, subcategory, type, and publication status. Workflows are pre-built
+        document processing pipelines optimized for legal use cases.
+
+        Args:
+          category: Filter workflows by category (e.g., 'legal', 'compliance', 'contract')
+
+          limit: Maximum number of workflows to return
+
+          offset: Number of workflows to skip for pagination
+
+          published: Include only published workflows
+
+          sub_category: Filter workflows by subcategory (e.g., 'due-diligence', 'litigation', 'mergers')
+
+          type: Filter workflows by type (e.g., 'document-review', 'contract-analysis',
+              'compliance-check')
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/workflows/v1",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "category": category,
+                        "limit": limit,
+                        "offset": offset,
+                        "published": published,
+                        "sub_category": sub_category,
+                        "type": type,
+                    },
+                    v1_list_params.V1ListParams,
+                ),
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def execute(
         self,
         id: str,
         *,
-        body: object,
+        input: object,
+        options: v1_execute_params.Options | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /workflows/v1/{id}/execute
+    ) -> V1ExecuteResponse:
+        """Execute a pre-built workflow with custom input data.
+
+        Workflows automate common
+        legal document processing tasks like contract analysis, due diligence reviews,
+        and document classification.
+
+        **Available Workflows:**
+
+        - Contract analysis and risk assessment
+        - Document classification and tagging
+        - Legal research and case summarization
+        - Due diligence document review
+        - Compliance checking and reporting
 
         Args:
+          input: Input data for the workflow (structure varies by workflow type)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -293,11 +449,17 @@ class AsyncV1Resource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/workflows/v1/{id}/execute",
-            body=await async_maybe_transform(body, v1_execute_params.V1ExecuteParams),
+            body=await async_maybe_transform(
+                {
+                    "input": input,
+                    "options": options,
+                },
+                v1_execute_params.V1ExecuteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=V1ExecuteResponse,
         )
 
     async def execution_retrieve(
@@ -310,9 +472,12 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /workflows/v1/executions/{id}
+    ) -> None:
+        """Retrieves the status and details of a workflow execution.
+
+        This endpoint is
+        designed for future asynchronous execution support and currently returns a 501
+        Not Implemented status since all executions are synchronous.
 
         Args:
           extra_headers: Send extra headers
@@ -325,29 +490,39 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/workflows/v1/executions/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def search(
         self,
         *,
-        body: object,
+        query: str,
+        category: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
-        POST /workflows/v1/search
+        Perform semantic search across available workflows to find the most relevant
+        pre-built document processing pipelines for your legal use case.
 
         Args:
+          query: Search query to find relevant workflows
+
+          category: Optional category filter to narrow results
+
+          limit: Maximum number of results to return (default: 10, max: 50)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -356,13 +531,21 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/workflows/v1/search",
-            body=await async_maybe_transform(body, v1_search_params.V1SearchParams),
+            body=await async_maybe_transform(
+                {
+                    "query": query,
+                    "category": category,
+                    "limit": limit,
+                },
+                v1_search_params.V1SearchParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

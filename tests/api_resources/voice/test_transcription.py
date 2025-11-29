@@ -9,6 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedotdev_sdk_py.types.voice import TranscriptionRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,33 +21,48 @@ class TestTranscription:
     @parametrize
     def test_method_create(self, client: Casemark) -> None:
         transcription = client.voice.transcription.create(
-            body={},
+            audio_url="audio_url",
         )
-        assert_matches_type(object, transcription, path=["response"])
+        assert transcription is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params(self, client: Casemark) -> None:
+        transcription = client.voice.transcription.create(
+            audio_url="audio_url",
+            auto_highlights=True,
+            content_safety_labels=True,
+            format_text=True,
+            language_code="language_code",
+            language_detection=True,
+            punctuate=True,
+            speaker_labels=True,
+        )
+        assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casemark) -> None:
         response = client.voice.transcription.with_raw_response.create(
-            body={},
+            audio_url="audio_url",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transcription = response.parse()
-        assert_matches_type(object, transcription, path=["response"])
+        assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casemark) -> None:
         with client.voice.transcription.with_streaming_response.create(
-            body={},
+            audio_url="audio_url",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transcription = response.parse()
-            assert_matches_type(object, transcription, path=["response"])
+            assert transcription is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -54,33 +70,33 @@ class TestTranscription:
     @parametrize
     def test_method_retrieve(self, client: Casemark) -> None:
         transcription = client.voice.transcription.retrieve(
-            "id",
+            "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
-        assert_matches_type(object, transcription, path=["response"])
+        assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casemark) -> None:
         response = client.voice.transcription.with_raw_response.retrieve(
-            "id",
+            "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transcription = response.parse()
-        assert_matches_type(object, transcription, path=["response"])
+        assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casemark) -> None:
         with client.voice.transcription.with_streaming_response.retrieve(
-            "id",
+            "5551902f-fc65-4a61-81b2-e002d4e464e5",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transcription = response.parse()
-            assert_matches_type(object, transcription, path=["response"])
+            assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -102,33 +118,48 @@ class TestAsyncTranscription:
     @parametrize
     async def test_method_create(self, async_client: AsyncCasemark) -> None:
         transcription = await async_client.voice.transcription.create(
-            body={},
+            audio_url="audio_url",
         )
-        assert_matches_type(object, transcription, path=["response"])
+        assert transcription is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncCasemark) -> None:
+        transcription = await async_client.voice.transcription.create(
+            audio_url="audio_url",
+            auto_highlights=True,
+            content_safety_labels=True,
+            format_text=True,
+            language_code="language_code",
+            language_detection=True,
+            punctuate=True,
+            speaker_labels=True,
+        )
+        assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasemark) -> None:
         response = await async_client.voice.transcription.with_raw_response.create(
-            body={},
+            audio_url="audio_url",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transcription = await response.parse()
-        assert_matches_type(object, transcription, path=["response"])
+        assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasemark) -> None:
         async with async_client.voice.transcription.with_streaming_response.create(
-            body={},
+            audio_url="audio_url",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transcription = await response.parse()
-            assert_matches_type(object, transcription, path=["response"])
+            assert transcription is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -136,33 +167,33 @@ class TestAsyncTranscription:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasemark) -> None:
         transcription = await async_client.voice.transcription.retrieve(
-            "id",
+            "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
-        assert_matches_type(object, transcription, path=["response"])
+        assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasemark) -> None:
         response = await async_client.voice.transcription.with_raw_response.retrieve(
-            "id",
+            "5551902f-fc65-4a61-81b2-e002d4e464e5",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transcription = await response.parse()
-        assert_matches_type(object, transcription, path=["response"])
+        assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasemark) -> None:
         async with async_client.voice.transcription.with_streaming_response.retrieve(
-            "id",
+            "5551902f-fc65-4a61-81b2-e002d4e464e5",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transcription = await response.parse()
-            assert_matches_type(object, transcription, path=["response"])
+            assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

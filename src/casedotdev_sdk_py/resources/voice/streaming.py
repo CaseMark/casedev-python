@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -47,14 +47,27 @@ class StreamingResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /voice/streaming/url"""
+    ) -> None:
+        """
+        Returns the WebSocket URL and connection details for real-time audio
+        transcription. The returned URL can be used to establish a WebSocket connection
+        for streaming audio data and receiving transcribed text in real-time.
+
+        **Audio Requirements:**
+
+        - Sample Rate: 16kHz
+        - Encoding: PCM 16-bit little-endian
+        - Channels: Mono (1 channel)
+
+        **Pricing:** $0.30 per minute ($18.00 per hour)
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/voice/streaming/url",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -87,14 +100,27 @@ class AsyncStreamingResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /voice/streaming/url"""
+    ) -> None:
+        """
+        Returns the WebSocket URL and connection details for real-time audio
+        transcription. The returned URL can be used to establish a WebSocket connection
+        for streaming audio data and receiving transcribed text in real-time.
+
+        **Audio Requirements:**
+
+        - Sample Rate: 16kHz
+        - Encoding: PCM 16-bit little-endian
+        - Channels: Mono (1 channel)
+
+        **Pricing:** $0.30 per minute ($18.00 per hour)
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/voice/streaming/url",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

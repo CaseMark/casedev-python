@@ -5,4 +5,7 @@ from __future__ import annotations
 from .vault_create_params import VaultCreateParams as VaultCreateParams
 from .vault_search_params import VaultSearchParams as VaultSearchParams
 from .vault_upload_params import VaultUploadParams as VaultUploadParams
-from .vault_ingest_object_params import VaultIngestObjectParams as VaultIngestObjectParams
+from .vault_create_response import VaultCreateResponse as VaultCreateResponse
+from .vault_search_response import VaultSearchResponse as VaultSearchResponse
+from .vault_upload_response import VaultUploadResponse as VaultUploadResponse
+from .vault_ingest_object_response import VaultIngestObjectResponse as VaultIngestObjectResponse

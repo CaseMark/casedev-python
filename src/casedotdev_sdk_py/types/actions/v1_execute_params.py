@@ -2,10 +2,15 @@
 
 from __future__ import annotations
 
+from typing import Dict
 from typing_extensions import Required, TypedDict
 
 __all__ = ["V1ExecuteParams"]
 
 
 class V1ExecuteParams(TypedDict, total=False):
-    body: Required[object]
+    input: Required[Dict[str, object]]
+    """Input data for the action execution"""
+
+    webhook_id: str
+    """Optional webhook endpoint ID to override the action's default webhook"""

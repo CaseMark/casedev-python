@@ -749,7 +749,7 @@ class TestCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.actions.v1.with_streaming_response.execute(id="id", body={}).__enter__()
+            client.actions.v1.with_streaming_response.execute(id="id", input={"foo": "bar"}).__enter__()
 
         assert _get_open_connections(client) == 0
 
@@ -759,7 +759,7 @@ class TestCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.actions.v1.with_streaming_response.execute(id="id", body={}).__enter__()
+            client.actions.v1.with_streaming_response.execute(id="id", input={"foo": "bar"}).__enter__()
         assert _get_open_connections(client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -788,7 +788,7 @@ class TestCasemark:
 
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=retry_handler)
 
-        response = client.actions.v1.with_raw_response.execute(id="id", body={})
+        response = client.actions.v1.with_raw_response.execute(id="id", input={"foo": "bar"})
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -813,7 +813,7 @@ class TestCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=retry_handler)
 
         response = client.actions.v1.with_raw_response.execute(
-            id="id", body={}, extra_headers={"x-stainless-retry-count": Omit()}
+            id="id", input={"foo": "bar"}, extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -838,7 +838,7 @@ class TestCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=retry_handler)
 
         response = client.actions.v1.with_raw_response.execute(
-            id="id", body={}, extra_headers={"x-stainless-retry-count": "42"}
+            id="id", input={"foo": "bar"}, extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1599,7 +1599,7 @@ class TestAsyncCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.actions.v1.with_streaming_response.execute(id="id", body={}).__aenter__()
+            await async_client.actions.v1.with_streaming_response.execute(id="id", input={"foo": "bar"}).__aenter__()
 
         assert _get_open_connections(async_client) == 0
 
@@ -1611,7 +1611,7 @@ class TestAsyncCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.actions.v1.with_streaming_response.execute(id="id", body={}).__aenter__()
+            await async_client.actions.v1.with_streaming_response.execute(id="id", input={"foo": "bar"}).__aenter__()
         assert _get_open_connections(async_client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1640,7 +1640,7 @@ class TestAsyncCasemark:
 
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=retry_handler)
 
-        response = await client.actions.v1.with_raw_response.execute(id="id", body={})
+        response = await client.actions.v1.with_raw_response.execute(id="id", input={"foo": "bar"})
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1665,7 +1665,7 @@ class TestAsyncCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=retry_handler)
 
         response = await client.actions.v1.with_raw_response.execute(
-            id="id", body={}, extra_headers={"x-stainless-retry-count": Omit()}
+            id="id", input={"foo": "bar"}, extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1690,7 +1690,7 @@ class TestAsyncCasemark:
         respx_mock.post("/actions/v1/id/execute").mock(side_effect=retry_handler)
 
         response = await client.actions.v1.with_raw_response.execute(
-            id="id", body={}, extra_headers={"x-stainless-retry-count": "42"}
+            id="id", input={"foo": "bar"}, extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

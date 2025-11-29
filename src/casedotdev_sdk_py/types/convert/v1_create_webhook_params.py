@@ -2,10 +2,31 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
-__all__ = ["V1CreateWebhookParams"]
+__all__ = ["V1CreateWebhookParams", "Result"]
 
 
 class V1CreateWebhookParams(TypedDict, total=False):
-    body: Required[object]
+    job_id: Required[str]
+    """Unique identifier for the conversion job"""
+
+    status: Required[Literal["completed", "failed"]]
+    """Status of the conversion job"""
+
+    error: str
+    """Error message for failed jobs"""
+
+    result: Result
+    """Result data for completed jobs"""
+
+
+class Result(TypedDict, total=False):
+    duration_seconds: float
+    """Processing duration in seconds"""
+
+    file_size_bytes: int
+    """Size of processed file in bytes"""
+
+    stored_filename: str
+    """Filename where converted file is stored"""

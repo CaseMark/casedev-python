@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from typing import Union
+from typing_extensions import Literal
+
 import httpx
 
 from .chat import (
@@ -12,7 +15,7 @@ from .chat import (
     ChatResourceWithStreamingResponse,
     AsyncChatResourceWithStreamingResponse,
 )
-from ...._types import Body, Query, Headers, NotGiven, not_given
+from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -55,18 +58,35 @@ class V1Resource(SyncAPIResource):
     def create_embedding(
         self,
         *,
-        body: object,
+        input: Union[str, SequenceNotStr[str]],
+        model: str,
+        dimensions: int | Omit = omit,
+        encoding_format: Literal["float", "base64"] | Omit = omit,
+        user: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /llm/v1/embeddings
+    ) -> None:
+        """Create vector embeddings from text using OpenAI-compatible models.
+
+        Perfect for
+        semantic search, document similarity, and building RAG systems for legal
+        documents.
 
         Args:
+          input: Text or array of texts to create embeddings for
+
+          model: Embedding model to use (e.g., text-embedding-ada-002, text-embedding-3-small)
+
+          dimensions: Number of dimensions for the embeddings (model-specific)
+
+          encoding_format: Format for returned embeddings
+
+          user: Unique identifier for the end-user
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -75,13 +95,23 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/llm/v1/embeddings",
-            body=maybe_transform(body, v1_create_embedding_params.V1CreateEmbeddingParams),
+            body=maybe_transform(
+                {
+                    "input": input,
+                    "model": model,
+                    "dimensions": dimensions,
+                    "encoding_format": encoding_format,
+                    "user": user,
+                },
+                v1_create_embedding_params.V1CreateEmbeddingParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def list_models(
@@ -93,14 +123,22 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /llm/v1/models"""
+    ) -> None:
+        """
+        Retrieve a list of all available language models from 40+ providers including
+        OpenAI, Anthropic, Google, and Case.dev's specialized legal models. Returns
+        OpenAI-compatible model metadata with pricing information.
+
+        This endpoint is compatible with OpenAI's models API format, making it easy to
+        integrate with existing applications.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/llm/v1/models",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -131,18 +169,35 @@ class AsyncV1Resource(AsyncAPIResource):
     async def create_embedding(
         self,
         *,
-        body: object,
+        input: Union[str, SequenceNotStr[str]],
+        model: str,
+        dimensions: int | Omit = omit,
+        encoding_format: Literal["float", "base64"] | Omit = omit,
+        user: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /llm/v1/embeddings
+    ) -> None:
+        """Create vector embeddings from text using OpenAI-compatible models.
+
+        Perfect for
+        semantic search, document similarity, and building RAG systems for legal
+        documents.
 
         Args:
+          input: Text or array of texts to create embeddings for
+
+          model: Embedding model to use (e.g., text-embedding-ada-002, text-embedding-3-small)
+
+          dimensions: Number of dimensions for the embeddings (model-specific)
+
+          encoding_format: Format for returned embeddings
+
+          user: Unique identifier for the end-user
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -151,13 +206,23 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/llm/v1/embeddings",
-            body=await async_maybe_transform(body, v1_create_embedding_params.V1CreateEmbeddingParams),
+            body=await async_maybe_transform(
+                {
+                    "input": input,
+                    "model": model,
+                    "dimensions": dimensions,
+                    "encoding_format": encoding_format,
+                    "user": user,
+                },
+                v1_create_embedding_params.V1CreateEmbeddingParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def list_models(
@@ -169,14 +234,22 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """GET /llm/v1/models"""
+    ) -> None:
+        """
+        Retrieve a list of all available language models from 40+ providers including
+        OpenAI, Anthropic, Google, and Case.dev's specialized legal models. Returns
+        OpenAI-compatible model metadata with pricing information.
+
+        This endpoint is compatible with OpenAI's models API format, making it easy to
+        integrate with existing applications.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/llm/v1/models",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

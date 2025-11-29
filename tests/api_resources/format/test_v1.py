@@ -5,10 +5,17 @@ from __future__ import annotations
 import os
 from typing import Any, cast
 
+import httpx
 import pytest
+from respx import MockRouter
 
-from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
+from casedotdev_sdk_py._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -16,39 +23,74 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_document(self, client: Casemark) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_create_document(self, client: Casemark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         v1 = client.format.v1.create_document(
-            body={},
+            content="content",
+            output_format="pdf",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert v1.is_closed
+        assert v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, BinaryAPIResponse)
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create_document(self, client: Casemark) -> None:
-        response = client.format.v1.with_raw_response.create_document(
-            body={},
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_create_document_with_all_params(self, client: Casemark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        v1 = client.format.v1.create_document(
+            content="content",
+            output_format="pdf",
+            input_format="md",
+            options={
+                "components": [
+                    {
+                        "content": "content",
+                        "styles": {},
+                        "template_id": "templateId",
+                        "variables": {},
+                    }
+                ]
+            },
+        )
+        assert v1.is_closed
+        assert v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_raw_response_create_document(self, client: Casemark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        v1 = client.format.v1.with_raw_response.create_document(
+            content="content",
+            output_format="pdf",
         )
 
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        v1 = response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert v1.is_closed is True
+        assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert v1.json() == {"foo": "bar"}
+        assert isinstance(v1, BinaryAPIResponse)
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create_document(self, client: Casemark) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_streaming_response_create_document(self, client: Casemark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.format.v1.with_streaming_response.create_document(
-            body={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            content="content",
+            output_format="pdf",
+        ) as v1:
+            assert not v1.is_closed
+            assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            v1 = response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert v1.json() == {"foo": "bar"}
+            assert cast(Any, v1.is_closed) is True
+            assert isinstance(v1, StreamedBinaryAPIResponse)
 
-        assert cast(Any, response.is_closed) is True
+        assert cast(Any, v1.is_closed) is True
 
 
 class TestAsyncV1:
@@ -56,36 +98,75 @@ class TestAsyncV1:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_document(self, async_client: AsyncCasemark) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_create_document(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         v1 = await async_client.format.v1.create_document(
-            body={},
+            content="content",
+            output_format="pdf",
         )
-        assert_matches_type(object, v1, path=["response"])
+        assert v1.is_closed
+        assert await v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, AsyncBinaryAPIResponse)
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create_document(self, async_client: AsyncCasemark) -> None:
-        response = await async_client.format.v1.with_raw_response.create_document(
-            body={},
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_create_document_with_all_params(
+        self, async_client: AsyncCasemark, respx_mock: MockRouter
+    ) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        v1 = await async_client.format.v1.create_document(
+            content="content",
+            output_format="pdf",
+            input_format="md",
+            options={
+                "components": [
+                    {
+                        "content": "content",
+                        "styles": {},
+                        "template_id": "templateId",
+                        "variables": {},
+                    }
+                ]
+            },
+        )
+        assert v1.is_closed
+        assert await v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_raw_response_create_document(self, async_client: AsyncCasemark, respx_mock: MockRouter) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        v1 = await async_client.format.v1.with_raw_response.create_document(
+            content="content",
+            output_format="pdf",
         )
 
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        v1 = await response.parse()
-        assert_matches_type(object, v1, path=["response"])
+        assert v1.is_closed is True
+        assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert await v1.json() == {"foo": "bar"}
+        assert isinstance(v1, AsyncBinaryAPIResponse)
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create_document(self, async_client: AsyncCasemark) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_streaming_response_create_document(
+        self, async_client: AsyncCasemark, respx_mock: MockRouter
+    ) -> None:
+        respx_mock.post("/format/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.format.v1.with_streaming_response.create_document(
-            body={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            content="content",
+            output_format="pdf",
+        ) as v1:
+            assert not v1.is_closed
+            assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            v1 = await response.parse()
-            assert_matches_type(object, v1, path=["response"])
+            assert await v1.json() == {"foo": "bar"}
+            assert cast(Any, v1.is_closed) is True
+            assert isinstance(v1, AsyncStreamedBinaryAPIResponse)
 
-        assert cast(Any, response.is_closed) is True
+        assert cast(Any, v1.is_closed) is True

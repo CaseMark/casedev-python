@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
-from ...._types import Body, Query, Headers, NotGiven, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from .templates import (
     TemplatesResource,
@@ -17,10 +19,14 @@ from .templates import (
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+    to_custom_raw_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
 from ....types.format import v1_create_document_params
@@ -55,18 +61,29 @@ class V1Resource(SyncAPIResource):
     def create_document(
         self,
         *,
-        body: object,
+        content: str,
+        output_format: Literal["pdf", "docx", "html_preview"],
+        input_format: Literal["md", "json", "text"] | Omit = omit,
+        options: v1_create_document_params.Options | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> BinaryAPIResponse:
         """
-        POST /format/v1/document
+        Convert Markdown, JSON, or text content to professionally formatted PDF, DOCX,
+        or HTML documents. Supports template components with variable interpolation for
+        creating consistent legal documents like contracts, briefs, and reports.
 
         Args:
+          content: The source content to format
+
+          output_format: Desired output format
+
+          input_format: Format of the input content
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -75,13 +92,22 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "application/pdf", **(extra_headers or {})}
         return self._post(
             "/format/v1/document",
-            body=maybe_transform(body, v1_create_document_params.V1CreateDocumentParams),
+            body=maybe_transform(
+                {
+                    "content": content,
+                    "output_format": output_format,
+                    "input_format": input_format,
+                    "options": options,
+                },
+                v1_create_document_params.V1CreateDocumentParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=BinaryAPIResponse,
         )
 
 
@@ -112,18 +138,29 @@ class AsyncV1Resource(AsyncAPIResource):
     async def create_document(
         self,
         *,
-        body: object,
+        content: str,
+        output_format: Literal["pdf", "docx", "html_preview"],
+        input_format: Literal["md", "json", "text"] | Omit = omit,
+        options: v1_create_document_params.Options | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> AsyncBinaryAPIResponse:
         """
-        POST /format/v1/document
+        Convert Markdown, JSON, or text content to professionally formatted PDF, DOCX,
+        or HTML documents. Supports template components with variable interpolation for
+        creating consistent legal documents like contracts, briefs, and reports.
 
         Args:
+          content: The source content to format
+
+          output_format: Desired output format
+
+          input_format: Format of the input content
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -132,13 +169,22 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "application/pdf", **(extra_headers or {})}
         return await self._post(
             "/format/v1/document",
-            body=await async_maybe_transform(body, v1_create_document_params.V1CreateDocumentParams),
+            body=await async_maybe_transform(
+                {
+                    "content": content,
+                    "output_format": output_format,
+                    "input_format": input_format,
+                    "options": options,
+                },
+                v1_create_document_params.V1CreateDocumentParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=AsyncBinaryAPIResponse,
         )
 
 
@@ -146,8 +192,9 @@ class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
-        self.create_document = to_raw_response_wrapper(
+        self.create_document = to_custom_raw_response_wrapper(
             v1.create_document,
+            BinaryAPIResponse,
         )
 
     @cached_property
@@ -159,8 +206,9 @@ class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
-        self.create_document = async_to_raw_response_wrapper(
+        self.create_document = async_to_custom_raw_response_wrapper(
             v1.create_document,
+            AsyncBinaryAPIResponse,
         )
 
     @cached_property
@@ -172,8 +220,9 @@ class V1ResourceWithStreamingResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
-        self.create_document = to_streamed_response_wrapper(
+        self.create_document = to_custom_streamed_response_wrapper(
             v1.create_document,
+            StreamedBinaryAPIResponse,
         )
 
     @cached_property
@@ -185,8 +234,9 @@ class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
-        self.create_document = async_to_streamed_response_wrapper(
+        self.create_document = async_to_custom_streamed_response_wrapper(
             v1.create_document,
+            AsyncStreamedBinaryAPIResponse,
         )
 
     @cached_property

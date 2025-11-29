@@ -7,7 +7,6 @@ from typing import Any, cast
 
 import pytest
 
-from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -22,7 +21,7 @@ class TestJobs:
         job = client.convert.v1.jobs.retrieve(
             "id",
         )
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -34,7 +33,7 @@ class TestJobs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = response.parse()
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -46,7 +45,7 @@ class TestJobs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = response.parse()
-            assert_matches_type(object, job, path=["response"])
+            assert job is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -64,7 +63,7 @@ class TestJobs:
         job = client.convert.v1.jobs.delete(
             "id",
         )
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -76,7 +75,7 @@ class TestJobs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = response.parse()
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -88,7 +87,7 @@ class TestJobs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = response.parse()
-            assert_matches_type(object, job, path=["response"])
+            assert job is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -112,7 +111,7 @@ class TestAsyncJobs:
         job = await async_client.convert.v1.jobs.retrieve(
             "id",
         )
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -124,7 +123,7 @@ class TestAsyncJobs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = await response.parse()
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -136,7 +135,7 @@ class TestAsyncJobs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = await response.parse()
-            assert_matches_type(object, job, path=["response"])
+            assert job is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -154,7 +153,7 @@ class TestAsyncJobs:
         job = await async_client.convert.v1.jobs.delete(
             "id",
         )
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -166,7 +165,7 @@ class TestAsyncJobs:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         job = await response.parse()
-        assert_matches_type(object, job, path=["response"])
+        assert job is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -178,7 +177,7 @@ class TestAsyncJobs:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             job = await response.parse()
-            assert_matches_type(object, job, path=["response"])
+            assert job is None
 
         assert cast(Any, response.is_closed) is True
 

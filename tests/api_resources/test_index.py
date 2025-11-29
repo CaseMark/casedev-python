@@ -7,7 +7,6 @@ from typing import Any, cast
 
 import pytest
 
-from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -20,7 +19,7 @@ class TestIndex:
     @parametrize
     def test_method_retrieve(self, client: Casemark) -> None:
         index = client.index.retrieve()
-        assert_matches_type(object, index, path=["response"])
+        assert index is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -30,7 +29,7 @@ class TestIndex:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         index = response.parse()
-        assert_matches_type(object, index, path=["response"])
+        assert index is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -40,7 +39,7 @@ class TestIndex:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             index = response.parse()
-            assert_matches_type(object, index, path=["response"])
+            assert index is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -54,7 +53,7 @@ class TestAsyncIndex:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasemark) -> None:
         index = await async_client.index.retrieve()
-        assert_matches_type(object, index, path=["response"])
+        assert index is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -64,7 +63,7 @@ class TestAsyncIndex:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         index = await response.parse()
-        assert_matches_type(object, index, path=["response"])
+        assert index is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -74,6 +73,6 @@ class TestAsyncIndex:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             index = await response.parse()
-            assert_matches_type(object, index, path=["response"])
+            assert index is None
 
         assert cast(Any, response.is_closed) is True

@@ -7,7 +7,6 @@ from typing import Any, cast
 
 import pytest
 
-from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -20,7 +19,7 @@ class TestStreaming:
     @parametrize
     def test_method_retrieve_url(self, client: Casemark) -> None:
         streaming = client.voice.streaming.retrieve_url()
-        assert_matches_type(object, streaming, path=["response"])
+        assert streaming is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -30,7 +29,7 @@ class TestStreaming:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         streaming = response.parse()
-        assert_matches_type(object, streaming, path=["response"])
+        assert streaming is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -40,7 +39,7 @@ class TestStreaming:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             streaming = response.parse()
-            assert_matches_type(object, streaming, path=["response"])
+            assert streaming is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -54,7 +53,7 @@ class TestAsyncStreaming:
     @parametrize
     async def test_method_retrieve_url(self, async_client: AsyncCasemark) -> None:
         streaming = await async_client.voice.streaming.retrieve_url()
-        assert_matches_type(object, streaming, path=["response"])
+        assert streaming is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -64,7 +63,7 @@ class TestAsyncStreaming:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         streaming = await response.parse()
-        assert_matches_type(object, streaming, path=["response"])
+        assert streaming is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -74,6 +73,6 @@ class TestAsyncStreaming:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             streaming = await response.parse()
-            assert_matches_type(object, streaming, path=["response"])
+            assert streaming is None
 
         assert cast(Any, response.is_closed) is True

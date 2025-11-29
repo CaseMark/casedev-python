@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -16,6 +16,7 @@ from ..._response import (
 )
 from ...types.voice import transcription_create_params
 from ..._base_client import make_request_options
+from ...types.voice.transcription_retrieve_response import TranscriptionRetrieveResponse
 
 __all__ = ["TranscriptionResource", "AsyncTranscriptionResource"]
 
@@ -43,18 +44,46 @@ class TranscriptionResource(SyncAPIResource):
     def create(
         self,
         *,
-        body: object,
+        audio_url: str,
+        auto_highlights: bool | Omit = omit,
+        content_safety_labels: bool | Omit = omit,
+        format_text: bool | Omit = omit,
+        language_code: str | Omit = omit,
+        language_detection: bool | Omit = omit,
+        punctuate: bool | Omit = omit,
+        speaker_labels: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /voice/transcription
+    ) -> None:
+        """Creates an asynchronous transcription job for audio files.
+
+        Supports various
+        audio formats and advanced features like speaker identification, content
+        moderation, and automatic highlights. Returns a job ID for checking
+        transcription status and retrieving results.
 
         Args:
+          audio_url: URL of the audio file to transcribe
+
+          auto_highlights: Automatically extract key phrases and topics
+
+          content_safety_labels: Enable content moderation and safety labeling
+
+          format_text: Format text with proper capitalization
+
+          language_code: Language code (e.g., 'en_us', 'es', 'fr'). If not specified, language will be
+              auto-detected
+
+          language_detection: Enable automatic language detection
+
+          punctuate: Add punctuation to the transcript
+
+          speaker_labels: Enable speaker identification and labeling
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -63,13 +92,26 @@ class TranscriptionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/voice/transcription",
-            body=maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
+            body=maybe_transform(
+                {
+                    "audio_url": audio_url,
+                    "auto_highlights": auto_highlights,
+                    "content_safety_labels": content_safety_labels,
+                    "format_text": format_text,
+                    "language_code": language_code,
+                    "language_detection": language_detection,
+                    "punctuate": punctuate,
+                    "speaker_labels": speaker_labels,
+                },
+                transcription_create_params.TranscriptionCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def retrieve(
@@ -82,9 +124,11 @@ class TranscriptionResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /voice/transcription/:id
+    ) -> TranscriptionRetrieveResponse:
+        """Retrieve the status and result of an audio transcription job.
+
+        Returns the
+        transcription text when complete, or status information for pending jobs.
 
         Args:
           extra_headers: Send extra headers
@@ -102,7 +146,7 @@ class TranscriptionResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=TranscriptionRetrieveResponse,
         )
 
 
@@ -129,18 +173,46 @@ class AsyncTranscriptionResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        body: object,
+        audio_url: str,
+        auto_highlights: bool | Omit = omit,
+        content_safety_labels: bool | Omit = omit,
+        format_text: bool | Omit = omit,
+        language_code: str | Omit = omit,
+        language_detection: bool | Omit = omit,
+        punctuate: bool | Omit = omit,
+        speaker_labels: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        POST /voice/transcription
+    ) -> None:
+        """Creates an asynchronous transcription job for audio files.
+
+        Supports various
+        audio formats and advanced features like speaker identification, content
+        moderation, and automatic highlights. Returns a job ID for checking
+        transcription status and retrieving results.
 
         Args:
+          audio_url: URL of the audio file to transcribe
+
+          auto_highlights: Automatically extract key phrases and topics
+
+          content_safety_labels: Enable content moderation and safety labeling
+
+          format_text: Format text with proper capitalization
+
+          language_code: Language code (e.g., 'en_us', 'es', 'fr'). If not specified, language will be
+              auto-detected
+
+          language_detection: Enable automatic language detection
+
+          punctuate: Add punctuation to the transcript
+
+          speaker_labels: Enable speaker identification and labeling
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -149,13 +221,26 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/voice/transcription",
-            body=await async_maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
+            body=await async_maybe_transform(
+                {
+                    "audio_url": audio_url,
+                    "auto_highlights": auto_highlights,
+                    "content_safety_labels": content_safety_labels,
+                    "format_text": format_text,
+                    "language_code": language_code,
+                    "language_detection": language_detection,
+                    "punctuate": punctuate,
+                    "speaker_labels": speaker_labels,
+                },
+                transcription_create_params.TranscriptionCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def retrieve(
@@ -168,9 +253,11 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /voice/transcription/:id
+    ) -> TranscriptionRetrieveResponse:
+        """Retrieve the status and result of an audio transcription job.
+
+        Returns the
+        transcription text when complete, or status information for pending jobs.
 
         Args:
           extra_headers: Send extra headers
@@ -188,7 +275,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=TranscriptionRetrieveResponse,
         )
 
 

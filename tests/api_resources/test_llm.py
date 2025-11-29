@@ -7,7 +7,6 @@ from typing import Any, cast
 
 import pytest
 
-from tests.utils import assert_matches_type
 from casedotdev_sdk_py import Casemark, AsyncCasemark
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -20,7 +19,7 @@ class TestLlm:
     @parametrize
     def test_method_retrieve_config(self, client: Casemark) -> None:
         llm = client.llm.retrieve_config()
-        assert_matches_type(object, llm, path=["response"])
+        assert llm is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -30,7 +29,7 @@ class TestLlm:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         llm = response.parse()
-        assert_matches_type(object, llm, path=["response"])
+        assert llm is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -40,7 +39,7 @@ class TestLlm:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             llm = response.parse()
-            assert_matches_type(object, llm, path=["response"])
+            assert llm is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -54,7 +53,7 @@ class TestAsyncLlm:
     @parametrize
     async def test_method_retrieve_config(self, async_client: AsyncCasemark) -> None:
         llm = await async_client.llm.retrieve_config()
-        assert_matches_type(object, llm, path=["response"])
+        assert llm is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -64,7 +63,7 @@ class TestAsyncLlm:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         llm = await response.parse()
-        assert_matches_type(object, llm, path=["response"])
+        assert llm is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -74,6 +73,6 @@ class TestAsyncLlm:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             llm = await response.parse()
-            assert_matches_type(object, llm, path=["response"])
+            assert llm is None
 
         assert cast(Any, response.is_closed) is True

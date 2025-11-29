@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ...._types import Body, Query, Headers, NotGiven, not_given
+from ...._types import Body, Query, Headers, NoneType, NotGiven, not_given
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -48,9 +48,12 @@ class JobsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /convert/v1/jobs/{id}
+    ) -> None:
+        """Retrieve the status of a file conversion job.
+
+        Returns detailed information about
+        the conversion progress, completion status, and any errors that occurred during
+        processing.
 
         Args:
           extra_headers: Send extra headers
@@ -63,12 +66,13 @@ class JobsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/convert/v1/jobs/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def delete(
@@ -81,9 +85,11 @@ class JobsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        DELETE /convert/v1/jobs/{id}
+    ) -> None:
+        """Delete a converted file from Modal storage by its job ID.
+
+        This permanently
+        removes the file and its associated metadata from the system.
 
         Args:
           extra_headers: Send extra headers
@@ -96,12 +102,13 @@ class JobsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/convert/v1/jobs/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 
@@ -135,9 +142,12 @@ class AsyncJobsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        GET /convert/v1/jobs/{id}
+    ) -> None:
+        """Retrieve the status of a file conversion job.
+
+        Returns detailed information about
+        the conversion progress, completion status, and any errors that occurred during
+        processing.
 
         Args:
           extra_headers: Send extra headers
@@ -150,12 +160,13 @@ class AsyncJobsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/convert/v1/jobs/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def delete(
@@ -168,9 +179,11 @@ class AsyncJobsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
-        """
-        DELETE /convert/v1/jobs/{id}
+    ) -> None:
+        """Delete a converted file from Modal storage by its job ID.
+
+        This permanently
+        removes the file and its associated metadata from the system.
 
         Args:
           extra_headers: Send extra headers
@@ -183,12 +196,13 @@ class AsyncJobsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/convert/v1/jobs/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
 

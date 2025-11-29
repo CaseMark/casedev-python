@@ -39,8 +39,9 @@ client = Casemark(
 
 response = client.actions.v1.execute(
     id="id",
-    body={},
+    input={"foo": "bar"},
 )
+print(response.execution_id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -67,8 +68,9 @@ client = AsyncCasemark(
 async def main() -> None:
     response = await client.actions.v1.execute(
         id="id",
-        body={},
+        input={"foo": "bar"},
     )
+    print(response.execution_id)
 
 
 asyncio.run(main())
@@ -102,8 +104,9 @@ async def main() -> None:
     ) as client:
         response = await client.actions.v1.execute(
             id="id",
-            body={},
+            input={"foo": "bar"},
         )
+        print(response.execution_id)
 
 
 asyncio.run(main())
@@ -117,6 +120,23 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 - Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
+
+```python
+from casedotdev_sdk_py import Casemark
+
+client = Casemark()
+
+response = client.convert.v1.create_webhook(
+    job_id="job_id",
+    status="completed",
+    result={},
+)
+print(response.result)
+```
 
 ## Handling errors
 
@@ -136,7 +156,7 @@ client = Casemark()
 try:
     client.actions.v1.execute(
         id="id",
-        body={},
+        input={"foo": "bar"},
     )
 except casedotdev_sdk_py.APIConnectionError as e:
     print("The server could not be reached")
@@ -182,7 +202,7 @@ client = Casemark(
 # Or, configure per-request:
 client.with_options(max_retries=5).actions.v1.execute(
     id="id",
-    body={},
+    input={"foo": "bar"},
 )
 ```
 
@@ -208,7 +228,7 @@ client = Casemark(
 # Override per-request:
 client.with_options(timeout=5.0).actions.v1.execute(
     id="id",
-    body={},
+    input={"foo": "bar"},
 )
 ```
 
@@ -252,12 +272,14 @@ from casedotdev_sdk_py import Casemark
 client = Casemark()
 response = client.actions.v1.with_raw_response.execute(
     id="id",
-    body={},
+    input={
+        "foo": "bar"
+    },
 )
 print(response.headers.get('X-My-Header'))
 
 v1 = response.parse()  # get the object that `actions.v1.execute()` would have returned
-print(v1)
+print(v1.execution_id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/stainless-sdks/router-python/tree/main/src/casedotdev_sdk_py/_response.py) object.
@@ -273,7 +295,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 ```python
 with client.actions.v1.with_streaming_response.execute(
     id="id",
-    body={},
+    input={"foo": "bar"},
 ) as response:
     print(response.headers.get("X-My-Header"))
 
