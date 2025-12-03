@@ -2,21 +2,11 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, TypedDict
+from typing_extensions import TypedDict
 
-__all__ = ["V1ExecuteParams", "Options"]
+__all__ = ["V1ExecuteParams"]
 
 
 class V1ExecuteParams(TypedDict, total=False):
-    input: Required[object]
-    """Input data for the workflow (structure varies by workflow type)"""
-
-    options: Options
-
-
-class Options(TypedDict, total=False):
-    format: Literal["json", "text"]
-    """Output format preference"""
-
-    model: str
-    """LLM model to use for processing"""
+    body: object
+    """Input data to pass to the workflow trigger"""

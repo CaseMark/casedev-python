@@ -209,6 +209,7 @@ Types:
 ```python
 from casedev.types import (
     VaultCreateResponse,
+    VaultListResponse,
     VaultIngestResponse,
     VaultSearchResponse,
     VaultUploadResponse,
@@ -219,6 +220,7 @@ Methods:
 
 - <code title="post /vault">client.vault.<a href="./src/casedev/resources/vault/vault.py">create</a>(\*\*<a href="src/casedev/types/vault_create_params.py">params</a>) -> <a href="./src/casedev/types/vault_create_response.py">VaultCreateResponse</a></code>
 - <code title="get /vault/{id}">client.vault.<a href="./src/casedev/resources/vault/vault.py">retrieve</a>(id) -> None</code>
+- <code title="get /vault">client.vault.<a href="./src/casedev/resources/vault/vault.py">list</a>() -> <a href="./src/casedev/types/vault_list_response.py">VaultListResponse</a></code>
 - <code title="post /vault/{id}/ingest/{objectId}">client.vault.<a href="./src/casedev/resources/vault/vault.py">ingest</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault_ingest_response.py">VaultIngestResponse</a></code>
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/casedev/resources/vault/vault.py">search</a>(id, \*\*<a href="src/casedev/types/vault_search_params.py">params</a>) -> <a href="./src/casedev/types/vault_search_response.py">VaultSearchResponse</a></code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/casedev/resources/vault/vault.py">upload</a>(id, \*\*<a href="src/casedev/types/vault_upload_params.py">params</a>) -> <a href="./src/casedev/types/vault_upload_response.py">VaultUploadResponse</a></code>
@@ -297,6 +299,24 @@ Methods:
 - <code title="get /webhooks/v1">client.webhooks.v1.<a href="./src/casedev/resources/webhooks/v1.py">list</a>() -> None</code>
 - <code title="delete /webhooks/v1/{id}">client.webhooks.v1.<a href="./src/casedev/resources/webhooks/v1.py">delete</a>(id) -> None</code>
 
+# Templates
+
+## V1
+
+Types:
+
+```python
+from casedev.types.templates import V1ExecuteResponse
+```
+
+Methods:
+
+- <code title="get /templates/v1/{id}">client.templates.v1.<a href="./src/casedev/resources/templates/v1.py">retrieve</a>(id) -> None</code>
+- <code title="get /templates/v1">client.templates.v1.<a href="./src/casedev/resources/templates/v1.py">list</a>(\*\*<a href="src/casedev/types/templates/v1_list_params.py">params</a>) -> None</code>
+- <code title="post /templates/v1/{id}/execute">client.templates.v1.<a href="./src/casedev/resources/templates/v1.py">execute</a>(id, \*\*<a href="src/casedev/types/templates/v1_execute_params.py">params</a>) -> <a href="./src/casedev/types/templates/v1_execute_response.py">V1ExecuteResponse</a></code>
+- <code title="get /templates/v1/executions/{id}">client.templates.v1.<a href="./src/casedev/resources/templates/v1.py">retrieve_execution</a>(id) -> None</code>
+- <code title="post /templates/v1/search">client.templates.v1.<a href="./src/casedev/resources/templates/v1.py">search</a>(\*\*<a href="src/casedev/types/templates/v1_search_params.py">params</a>) -> None</code>
+
 # Workflows
 
 ## V1
@@ -304,12 +324,29 @@ Methods:
 Types:
 
 ```python
-from casedev.types.workflows import V1ExecuteResponse
+from casedev.types.workflows import (
+    V1CreateResponse,
+    V1RetrieveResponse,
+    V1UpdateResponse,
+    V1ListResponse,
+    V1DeleteResponse,
+    V1DeployResponse,
+    V1ExecuteResponse,
+    V1ListExecutionsResponse,
+    V1RetrieveExecutionResponse,
+    V1UndeployResponse,
+)
 ```
 
 Methods:
 
-- <code title="get /workflows/v1/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">retrieve</a>(id) -> None</code>
-- <code title="get /workflows/v1">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">list</a>(\*\*<a href="src/casedev/types/workflows/v1_list_params.py">params</a>) -> None</code>
+- <code title="post /workflows/v1">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">create</a>(\*\*<a href="src/casedev/types/workflows/v1_create_params.py">params</a>) -> <a href="./src/casedev/types/workflows/v1_create_response.py">V1CreateResponse</a></code>
+- <code title="get /workflows/v1/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">retrieve</a>(id) -> <a href="./src/casedev/types/workflows/v1_retrieve_response.py">V1RetrieveResponse</a></code>
+- <code title="patch /workflows/v1/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">update</a>(id, \*\*<a href="src/casedev/types/workflows/v1_update_params.py">params</a>) -> <a href="./src/casedev/types/workflows/v1_update_response.py">V1UpdateResponse</a></code>
+- <code title="get /workflows/v1">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">list</a>(\*\*<a href="src/casedev/types/workflows/v1_list_params.py">params</a>) -> <a href="./src/casedev/types/workflows/v1_list_response.py">V1ListResponse</a></code>
+- <code title="delete /workflows/v1/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">delete</a>(id) -> <a href="./src/casedev/types/workflows/v1_delete_response.py">V1DeleteResponse</a></code>
+- <code title="post /workflows/v1/{id}/deploy">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">deploy</a>(id) -> <a href="./src/casedev/types/workflows/v1_deploy_response.py">V1DeployResponse</a></code>
 - <code title="post /workflows/v1/{id}/execute">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">execute</a>(id, \*\*<a href="src/casedev/types/workflows/v1_execute_params.py">params</a>) -> <a href="./src/casedev/types/workflows/v1_execute_response.py">V1ExecuteResponse</a></code>
-- <code title="get /workflows/v1/executions/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">retrieve_execution</a>(id) -> None</code>
+- <code title="get /workflows/v1/{id}/executions">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">list_executions</a>(id, \*\*<a href="src/casedev/types/workflows/v1_list_executions_params.py">params</a>) -> <a href="./src/casedev/types/workflows/v1_list_executions_response.py">V1ListExecutionsResponse</a></code>
+- <code title="get /workflows/v1/executions/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">retrieve_execution</a>(id) -> <a href="./src/casedev/types/workflows/v1_retrieve_execution_response.py">V1RetrieveExecutionResponse</a></code>
+- <code title="delete /workflows/v1/{id}/deploy">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">undeploy</a>(id) -> <a href="./src/casedev/types/workflows/v1_undeploy_response.py">V1UndeployResponse</a></code>

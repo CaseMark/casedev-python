@@ -3,29 +3,20 @@
 from typing import Optional
 from typing_extensions import Literal
 
+from pydantic import Field as FieldInfo
+
 from ..._models import BaseModel
 
-__all__ = ["V1ExecuteResponse", "Usage"]
-
-
-class Usage(BaseModel):
-    completion_tokens: Optional[int] = None
-
-    cost: Optional[float] = None
-    """Total cost in USD"""
-
-    prompt_tokens: Optional[int] = None
-
-    total_tokens: Optional[int] = None
+__all__ = ["V1ExecuteResponse"]
 
 
 class V1ExecuteResponse(BaseModel):
-    result: Optional[object] = None
-    """Workflow output (structure varies by workflow type)"""
+    duration: Optional[int] = None
+
+    error: Optional[str] = None
+
+    execution_id: Optional[str] = FieldInfo(alias="executionId", default=None)
+
+    outputs: Optional[object] = None
 
     status: Optional[Literal["completed", "failed"]] = None
-
-    usage: Optional[Usage] = None
-
-    workflow_name: Optional[str] = None
-    """Name of the executed workflow"""
