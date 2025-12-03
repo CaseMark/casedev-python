@@ -15,7 +15,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.workflows import v1_list_params, v1_search_params, v1_execute_params
+from ...types.workflows import v1_list_params, v1_execute_params
 from ...types.workflows.v1_execute_response import V1ExecuteResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
@@ -229,55 +229,6 @@ class V1Resource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/workflows/v1/executions/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    def search(
-        self,
-        *,
-        query: str,
-        category: str | Omit = omit,
-        limit: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Perform semantic search across available workflows to find the most relevant
-        pre-built document processing pipelines for your legal use case.
-
-        Args:
-          query: Search query to find relevant workflows
-
-          category: Optional category filter to narrow results
-
-          limit: Maximum number of results to return (default: 10, max: 50)
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._post(
-            "/workflows/v1/search",
-            body=maybe_transform(
-                {
-                    "query": query,
-                    "category": category,
-                    "limit": limit,
-                },
-                v1_search_params.V1SearchParams,
-            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -499,55 +450,6 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def search(
-        self,
-        *,
-        query: str,
-        category: str | Omit = omit,
-        limit: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Perform semantic search across available workflows to find the most relevant
-        pre-built document processing pipelines for your legal use case.
-
-        Args:
-          query: Search query to find relevant workflows
-
-          category: Optional category filter to narrow results
-
-          limit: Maximum number of results to return (default: 10, max: 50)
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._post(
-            "/workflows/v1/search",
-            body=await async_maybe_transform(
-                {
-                    "query": query,
-                    "category": category,
-                    "limit": limit,
-                },
-                v1_search_params.V1SearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
 
 class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
@@ -564,9 +466,6 @@ class V1ResourceWithRawResponse:
         )
         self.retrieve_execution = to_raw_response_wrapper(
             v1.retrieve_execution,
-        )
-        self.search = to_raw_response_wrapper(
-            v1.search,
         )
 
 
@@ -586,9 +485,6 @@ class AsyncV1ResourceWithRawResponse:
         self.retrieve_execution = async_to_raw_response_wrapper(
             v1.retrieve_execution,
         )
-        self.search = async_to_raw_response_wrapper(
-            v1.search,
-        )
 
 
 class V1ResourceWithStreamingResponse:
@@ -607,9 +503,6 @@ class V1ResourceWithStreamingResponse:
         self.retrieve_execution = to_streamed_response_wrapper(
             v1.retrieve_execution,
         )
-        self.search = to_streamed_response_wrapper(
-            v1.search,
-        )
 
 
 class AsyncV1ResourceWithStreamingResponse:
@@ -627,7 +520,4 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.retrieve_execution = async_to_streamed_response_wrapper(
             v1.retrieve_execution,
-        )
-        self.search = async_to_streamed_response_wrapper(
-            v1.search,
         )
