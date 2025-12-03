@@ -313,4 +313,3 @@ Methods:
 - <code title="get /workflows/v1">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">list</a>(\*\*<a href="src/casedev/types/workflows/v1_list_params.py">params</a>) -> None</code>
 - <code title="post /workflows/v1/{id}/execute">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">execute</a>(id, \*\*<a href="src/casedev/types/workflows/v1_execute_params.py">params</a>) -> <a href="./src/casedev/types/workflows/v1_execute_response.py">V1ExecuteResponse</a></code>
 - <code title="get /workflows/v1/executions/{id}">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">retrieve_execution</a>(id) -> None</code>
-- <code title="post /workflows/v1/search">client.workflows.v1.<a href="./src/casedev/resources/workflows/v1.py">search</a>(\*\*<a href="src/casedev/types/workflows/v1_search_params.py">params</a>) -> None</code>

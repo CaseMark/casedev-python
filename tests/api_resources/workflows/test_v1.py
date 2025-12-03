@@ -201,50 +201,6 @@ class TestV1:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_search(self, client: Casedev) -> None:
-        v1 = client.workflows.v1.search(
-            query="query",
-        )
-        assert v1 is None
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_search_with_all_params(self, client: Casedev) -> None:
-        v1 = client.workflows.v1.search(
-            query="query",
-            category="category",
-            limit=1,
-        )
-        assert v1 is None
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_search(self, client: Casedev) -> None:
-        response = client.workflows.v1.with_raw_response.search(
-            query="query",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        v1 = response.parse()
-        assert v1 is None
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_search(self, client: Casedev) -> None:
-        with client.workflows.v1.with_streaming_response.search(
-            query="query",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            v1 = response.parse()
-            assert v1 is None
-
-        assert cast(Any, response.is_closed) is True
-
 
 class TestAsyncV1:
     parametrize = pytest.mark.parametrize(
@@ -434,47 +390,3 @@ class TestAsyncV1:
             await async_client.workflows.v1.with_raw_response.retrieve_execution(
                 "",
             )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_search(self, async_client: AsyncCasedev) -> None:
-        v1 = await async_client.workflows.v1.search(
-            query="query",
-        )
-        assert v1 is None
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_search_with_all_params(self, async_client: AsyncCasedev) -> None:
-        v1 = await async_client.workflows.v1.search(
-            query="query",
-            category="category",
-            limit=1,
-        )
-        assert v1 is None
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_search(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.workflows.v1.with_raw_response.search(
-            query="query",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        v1 = await response.parse()
-        assert v1 is None
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_search(self, async_client: AsyncCasedev) -> None:
-        async with async_client.workflows.v1.with_streaming_response.search(
-            query="query",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            v1 = await response.parse()
-            assert v1 is None
-
-        assert cast(Any, response.is_closed) is True
