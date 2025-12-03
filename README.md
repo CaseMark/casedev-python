@@ -100,6 +100,7 @@ pip install 'casedev[aiohttp] @ git+ssh://git@github.com/stainless-sdks/router-p
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from casedev import DefaultAioHttpClient
 from casedev import AsyncCasedev
@@ -107,7 +108,7 @@ from casedev import AsyncCasedev
 
 async def main() -> None:
     async with AsyncCasedev(
-        api_key="My API Key",
+        api_key=os.environ.get("CASEDEV_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.llm.v1.chat.create_completion(
