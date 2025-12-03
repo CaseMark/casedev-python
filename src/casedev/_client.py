@@ -38,6 +38,7 @@ from .resources.actions import actions
 from .resources.compute import compute
 from .resources.convert import convert
 from .resources.webhooks import webhooks
+from .resources.templates import templates
 from .resources.workflows import workflows
 
 __all__ = [
@@ -69,6 +70,7 @@ class Casedev(SyncAPIClient):
     vault: vault.VaultResource
     voice: voice.VoiceResource
     webhooks: webhooks.WebhooksResource
+    templates: templates.TemplatesResource
     workflows: workflows.WorkflowsResource
     with_raw_response: CasedevWithRawResponse
     with_streaming_response: CasedevWithStreamedResponse
@@ -161,6 +163,7 @@ class Casedev(SyncAPIClient):
         self.vault = vault.VaultResource(self)
         self.voice = voice.VoiceResource(self)
         self.webhooks = webhooks.WebhooksResource(self)
+        self.templates = templates.TemplatesResource(self)
         self.workflows = workflows.WorkflowsResource(self)
         self.with_raw_response = CasedevWithRawResponse(self)
         self.with_streaming_response = CasedevWithStreamedResponse(self)
@@ -283,6 +286,7 @@ class AsyncCasedev(AsyncAPIClient):
     vault: vault.AsyncVaultResource
     voice: voice.AsyncVoiceResource
     webhooks: webhooks.AsyncWebhooksResource
+    templates: templates.AsyncTemplatesResource
     workflows: workflows.AsyncWorkflowsResource
     with_raw_response: AsyncCasedevWithRawResponse
     with_streaming_response: AsyncCasedevWithStreamedResponse
@@ -375,6 +379,7 @@ class AsyncCasedev(AsyncAPIClient):
         self.vault = vault.AsyncVaultResource(self)
         self.voice = voice.AsyncVoiceResource(self)
         self.webhooks = webhooks.AsyncWebhooksResource(self)
+        self.templates = templates.AsyncTemplatesResource(self)
         self.workflows = workflows.AsyncWorkflowsResource(self)
         self.with_raw_response = AsyncCasedevWithRawResponse(self)
         self.with_streaming_response = AsyncCasedevWithStreamedResponse(self)
@@ -498,6 +503,7 @@ class CasedevWithRawResponse:
         self.vault = vault.VaultResourceWithRawResponse(client.vault)
         self.voice = voice.VoiceResourceWithRawResponse(client.voice)
         self.webhooks = webhooks.WebhooksResourceWithRawResponse(client.webhooks)
+        self.templates = templates.TemplatesResourceWithRawResponse(client.templates)
         self.workflows = workflows.WorkflowsResourceWithRawResponse(client.workflows)
 
 
@@ -513,6 +519,7 @@ class AsyncCasedevWithRawResponse:
         self.vault = vault.AsyncVaultResourceWithRawResponse(client.vault)
         self.voice = voice.AsyncVoiceResourceWithRawResponse(client.voice)
         self.webhooks = webhooks.AsyncWebhooksResourceWithRawResponse(client.webhooks)
+        self.templates = templates.AsyncTemplatesResourceWithRawResponse(client.templates)
         self.workflows = workflows.AsyncWorkflowsResourceWithRawResponse(client.workflows)
 
 
@@ -528,6 +535,7 @@ class CasedevWithStreamedResponse:
         self.vault = vault.VaultResourceWithStreamingResponse(client.vault)
         self.voice = voice.VoiceResourceWithStreamingResponse(client.voice)
         self.webhooks = webhooks.WebhooksResourceWithStreamingResponse(client.webhooks)
+        self.templates = templates.TemplatesResourceWithStreamingResponse(client.templates)
         self.workflows = workflows.WorkflowsResourceWithStreamingResponse(client.workflows)
 
 
@@ -543,6 +551,7 @@ class AsyncCasedevWithStreamedResponse:
         self.vault = vault.AsyncVaultResourceWithStreamingResponse(client.vault)
         self.voice = voice.AsyncVoiceResourceWithStreamingResponse(client.voice)
         self.webhooks = webhooks.AsyncWebhooksResourceWithStreamingResponse(client.webhooks)
+        self.templates = templates.AsyncTemplatesResourceWithStreamingResponse(client.templates)
         self.workflows = workflows.AsyncWorkflowsResourceWithStreamingResponse(client.workflows)
 
 

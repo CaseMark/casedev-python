@@ -35,6 +35,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.vault_list_response import VaultListResponse
 from ...types.vault_create_response import VaultCreateResponse
 from ...types.vault_ingest_response import VaultIngestResponse
 from ...types.vault_search_response import VaultSearchResponse
@@ -155,6 +156,29 @@ class VaultResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultListResponse:
+        """List all vaults for the authenticated organization.
+
+        Returns vault metadata
+        including storage configuration and usage statistics.
+        """
+        return self._get(
+            "/vault",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultListResponse,
         )
 
     def ingest(
@@ -430,6 +454,29 @@ class AsyncVaultResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultListResponse:
+        """List all vaults for the authenticated organization.
+
+        Returns vault metadata
+        including storage configuration and usage statistics.
+        """
+        return await self._get(
+            "/vault",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultListResponse,
+        )
+
     async def ingest(
         self,
         object_id: str,
@@ -599,6 +646,9 @@ class VaultResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             vault.retrieve,
         )
+        self.list = to_raw_response_wrapper(
+            vault.list,
+        )
         self.ingest = to_raw_response_wrapper(
             vault.ingest,
         )
@@ -627,6 +677,9 @@ class AsyncVaultResourceWithRawResponse:
         )
         self.retrieve = async_to_raw_response_wrapper(
             vault.retrieve,
+        )
+        self.list = async_to_raw_response_wrapper(
+            vault.list,
         )
         self.ingest = async_to_raw_response_wrapper(
             vault.ingest,
@@ -657,6 +710,9 @@ class VaultResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             vault.retrieve,
         )
+        self.list = to_streamed_response_wrapper(
+            vault.list,
+        )
         self.ingest = to_streamed_response_wrapper(
             vault.ingest,
         )
@@ -685,6 +741,9 @@ class AsyncVaultResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             vault.retrieve,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            vault.list,
         )
         self.ingest = async_to_streamed_response_wrapper(
             vault.ingest,

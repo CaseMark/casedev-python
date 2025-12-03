@@ -80,6 +80,14 @@ from .webhooks import (
     WebhooksResourceWithStreamingResponse,
     AsyncWebhooksResourceWithStreamingResponse,
 )
+from .templates import (
+    TemplatesResource,
+    AsyncTemplatesResource,
+    TemplatesResourceWithRawResponse,
+    AsyncTemplatesResourceWithRawResponse,
+    TemplatesResourceWithStreamingResponse,
+    AsyncTemplatesResourceWithStreamingResponse,
+)
 from .workflows import (
     WorkflowsResource,
     AsyncWorkflowsResource,
@@ -150,6 +158,12 @@ __all__ = [
     "AsyncWebhooksResourceWithRawResponse",
     "WebhooksResourceWithStreamingResponse",
     "AsyncWebhooksResourceWithStreamingResponse",
+    "TemplatesResource",
+    "AsyncTemplatesResource",
+    "TemplatesResourceWithRawResponse",
+    "AsyncTemplatesResourceWithRawResponse",
+    "TemplatesResourceWithStreamingResponse",
+    "AsyncTemplatesResourceWithStreamingResponse",
     "WorkflowsResource",
     "AsyncWorkflowsResource",
     "WorkflowsResourceWithRawResponse",
