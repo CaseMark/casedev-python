@@ -25,7 +25,7 @@ class GraphragResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/router-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/CaseMark/casedev-python#accessing-raw-response-data-eg-headers
         """
         return GraphragResourceWithRawResponse(self)
 
@@ -34,7 +34,7 @@ class GraphragResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/router-python#with_streaming_response
+        For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
         return GraphragResourceWithStreamingResponse(self)
 
@@ -120,7 +120,7 @@ class AsyncGraphragResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/router-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/CaseMark/casedev-python#accessing-raw-response-data-eg-headers
         """
         return AsyncGraphragResourceWithRawResponse(self)
 
@@ -129,7 +129,7 @@ class AsyncGraphragResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/router-python#with_streaming_response
+        For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
         return AsyncGraphragResourceWithStreamingResponse(self)
 
