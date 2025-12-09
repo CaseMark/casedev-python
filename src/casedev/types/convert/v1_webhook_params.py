@@ -22,6 +22,8 @@ class V1WebhookParams(TypedDict, total=False):
 
 
 class Result(TypedDict, total=False):
+    """Result data for completed jobs"""
+
     duration_seconds: float
     """Processing duration in seconds"""
 

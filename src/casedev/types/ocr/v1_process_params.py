@@ -31,6 +31,8 @@ class V1ProcessParams(TypedDict, total=False):
 
 
 class Features(TypedDict, total=False):
+    """OCR features to extract"""
+
     forms: bool
     """Detect form fields"""
 
