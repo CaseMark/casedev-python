@@ -46,6 +46,8 @@ class SpeakCreateParams(TypedDict, total=False):
 
 
 class VoiceSettings(TypedDict, total=False):
+    """Voice customization settings"""
+
     similarity_boost: float
     """Similarity boost (0-1)"""
 
