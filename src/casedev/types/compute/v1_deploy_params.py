@@ -44,6 +44,8 @@ class V1DeployParams(TypedDict, total=False):
 
 
 class Config(TypedDict, total=False):
+    """Runtime and resource configuration"""
+
     add_python: Annotated[str, PropertyInfo(alias="addPython")]
     """Add Python to image (e.g., '3.12', for image runtime)"""
 
