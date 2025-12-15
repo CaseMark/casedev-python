@@ -280,7 +280,6 @@ Methods:
 Methods:
 
 - <code title="post /voice/v1/speak">client.voice.v1.speak.<a href="./src/casedev/resources/voice/v1/speak.py">create</a>(\*\*<a href="src/casedev/types/voice/v1/speak_create_params.py">params</a>) -> BinaryAPIResponse</code>
-- <code title="post /voice/v1/speak/stream">client.voice.v1.speak.<a href="./src/casedev/resources/voice/v1/speak.py">stream</a>(\*\*<a href="src/casedev/types/voice/v1/speak_stream_params.py">params</a>) -> BinaryAPIResponse</code>
 
 # Webhooks
 
