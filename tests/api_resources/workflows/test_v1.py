@@ -310,7 +310,11 @@ class TestV1:
     def test_method_execute_with_all_params(self, client: Casedev) -> None:
         v1 = client.workflows.v1.execute(
             id="id",
-            body={},
+            callback_headers={},
+            callback_url="callbackUrl",
+            input={},
+            api_timeout="timeout",
+            wait=True,
         )
         assert_matches_type(V1ExecuteResponse, v1, path=["response"])
 
@@ -772,7 +776,11 @@ class TestAsyncV1:
     async def test_method_execute_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.workflows.v1.execute(
             id="id",
-            body={},
+            callback_headers={},
+            callback_url="callbackUrl",
+            input={},
+            api_timeout="timeout",
+            wait=True,
         )
         assert_matches_type(V1ExecuteResponse, v1, path=["response"])
 

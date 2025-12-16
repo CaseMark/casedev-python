@@ -1,22 +1,3 @@
-# Actions
-
-## V1
-
-Types:
-
-```python
-from casedev.types.actions import V1CreateResponse, V1ExecuteResponse
-```
-
-Methods:
-
-- <code title="post /actions/v1">client.actions.v1.<a href="./src/casedev/resources/actions/v1.py">create</a>(\*\*<a href="src/casedev/types/actions/v1_create_params.py">params</a>) -> <a href="./src/casedev/types/actions/v1_create_response.py">V1CreateResponse</a></code>
-- <code title="get /actions/v1/{id}">client.actions.v1.<a href="./src/casedev/resources/actions/v1.py">retrieve</a>(id) -> None</code>
-- <code title="get /actions/v1">client.actions.v1.<a href="./src/casedev/resources/actions/v1.py">list</a>() -> None</code>
-- <code title="delete /actions/v1/{id}">client.actions.v1.<a href="./src/casedev/resources/actions/v1.py">delete</a>(id) -> None</code>
-- <code title="post /actions/v1/{id}/execute">client.actions.v1.<a href="./src/casedev/resources/actions/v1.py">execute</a>(id, \*\*<a href="src/casedev/types/actions/v1_execute_params.py">params</a>) -> <a href="./src/casedev/types/actions/v1_execute_response.py">V1ExecuteResponse</a></code>
-- <code title="get /actions/v1/executions/{id}">client.actions.v1.<a href="./src/casedev/resources/actions/v1.py">retrieve_execution</a>(id) -> None</code>
-
 # Compute
 
 ## V1
@@ -41,32 +22,6 @@ Methods:
 - <code title="get /compute/v1/environments">client.compute.v1.environments.<a href="./src/casedev/resources/compute/v1/environments.py">list</a>() -> None</code>
 - <code title="delete /compute/v1/environments/{name}">client.compute.v1.environments.<a href="./src/casedev/resources/compute/v1/environments.py">delete</a>(name) -> <a href="./src/casedev/types/compute/v1/environment_delete_response.py">EnvironmentDeleteResponse</a></code>
 - <code title="post /compute/v1/environments/{name}/default">client.compute.v1.environments.<a href="./src/casedev/resources/compute/v1/environments.py">set_default</a>(name) -> None</code>
-
-### Functions
-
-Methods:
-
-- <code title="get /compute/v1/functions">client.compute.v1.functions.<a href="./src/casedev/resources/compute/v1/functions.py">list</a>(\*\*<a href="src/casedev/types/compute/v1/function_list_params.py">params</a>) -> None</code>
-- <code title="get /compute/v1/functions/{id}/logs">client.compute.v1.functions.<a href="./src/casedev/resources/compute/v1/functions.py">get_logs</a>(id, \*\*<a href="src/casedev/types/compute/v1/function_get_logs_params.py">params</a>) -> None</code>
-
-### Invoke
-
-Types:
-
-```python
-from casedev.types.compute.v1 import InvokeRunResponse
-```
-
-Methods:
-
-- <code title="post /compute/v1/invoke/{functionId}">client.compute.v1.invoke.<a href="./src/casedev/resources/compute/v1/invoke.py">run</a>(function_id, \*\*<a href="src/casedev/types/compute/v1/invoke_run_params.py">params</a>) -> <a href="./src/casedev/types/compute/v1/invoke_run_response.py">InvokeRunResponse</a></code>
-
-### Runs
-
-Methods:
-
-- <code title="get /compute/v1/runs/{id}">client.compute.v1.runs.<a href="./src/casedev/resources/compute/v1/runs.py">retrieve</a>(id) -> None</code>
-- <code title="get /compute/v1/runs">client.compute.v1.runs.<a href="./src/casedev/resources/compute/v1/runs.py">list</a>(\*\*<a href="src/casedev/types/compute/v1/run_list_params.py">params</a>) -> None</code>
 
 ### Secrets
 
@@ -273,23 +228,6 @@ Methods:
 Methods:
 
 - <code title="post /voice/v1/speak">client.voice.v1.speak.<a href="./src/casedev/resources/voice/v1/speak.py">create</a>(\*\*<a href="src/casedev/types/voice/v1/speak_create_params.py">params</a>) -> BinaryAPIResponse</code>
-
-# Webhooks
-
-## V1
-
-Types:
-
-```python
-from casedev.types.webhooks import V1CreateResponse
-```
-
-Methods:
-
-- <code title="post /webhooks/v1">client.webhooks.v1.<a href="./src/casedev/resources/webhooks/v1.py">create</a>(\*\*<a href="src/casedev/types/webhooks/v1_create_params.py">params</a>) -> <a href="./src/casedev/types/webhooks/v1_create_response.py">V1CreateResponse</a></code>
-- <code title="get /webhooks/v1/{id}">client.webhooks.v1.<a href="./src/casedev/resources/webhooks/v1.py">retrieve</a>(id) -> None</code>
-- <code title="get /webhooks/v1">client.webhooks.v1.<a href="./src/casedev/resources/webhooks/v1.py">list</a>() -> None</code>
-- <code title="delete /webhooks/v1/{id}">client.webhooks.v1.<a href="./src/casedev/resources/webhooks/v1.py">delete</a>(id) -> None</code>
 
 # Templates
 

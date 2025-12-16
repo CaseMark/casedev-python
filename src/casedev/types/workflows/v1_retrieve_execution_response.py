@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
@@ -18,6 +18,8 @@ class V1RetrieveExecutionResponse(BaseModel):
 
     error: Optional[str] = None
 
+    execution_arn: Optional[str] = FieldInfo(alias="executionArn", default=None)
+
     input: Optional[object] = None
 
     output: Optional[object] = None
@@ -25,6 +27,8 @@ class V1RetrieveExecutionResponse(BaseModel):
     started_at: Optional[str] = FieldInfo(alias="startedAt", default=None)
 
     status: Optional[str] = None
+
+    steps: Optional[List[object]] = None
 
     trigger_type: Optional[str] = FieldInfo(alias="triggerType", default=None)
 

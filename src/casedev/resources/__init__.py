@@ -48,14 +48,6 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
-from .actions import (
-    ActionsResource,
-    AsyncActionsResource,
-    ActionsResourceWithRawResponse,
-    AsyncActionsResourceWithRawResponse,
-    ActionsResourceWithStreamingResponse,
-    AsyncActionsResourceWithStreamingResponse,
-)
 from .compute import (
     ComputeResource,
     AsyncComputeResource,
@@ -71,14 +63,6 @@ from .convert import (
     AsyncConvertResourceWithRawResponse,
     ConvertResourceWithStreamingResponse,
     AsyncConvertResourceWithStreamingResponse,
-)
-from .webhooks import (
-    WebhooksResource,
-    AsyncWebhooksResource,
-    WebhooksResourceWithRawResponse,
-    AsyncWebhooksResourceWithRawResponse,
-    WebhooksResourceWithStreamingResponse,
-    AsyncWebhooksResourceWithStreamingResponse,
 )
 from .templates import (
     TemplatesResource,
@@ -98,12 +82,6 @@ from .workflows import (
 )
 
 __all__ = [
-    "ActionsResource",
-    "AsyncActionsResource",
-    "ActionsResourceWithRawResponse",
-    "AsyncActionsResourceWithRawResponse",
-    "ActionsResourceWithStreamingResponse",
-    "AsyncActionsResourceWithStreamingResponse",
     "ComputeResource",
     "AsyncComputeResource",
     "ComputeResourceWithRawResponse",
@@ -152,12 +130,6 @@ __all__ = [
     "AsyncVoiceResourceWithRawResponse",
     "VoiceResourceWithStreamingResponse",
     "AsyncVoiceResourceWithStreamingResponse",
-    "WebhooksResource",
-    "AsyncWebhooksResource",
-    "WebhooksResourceWithRawResponse",
-    "AsyncWebhooksResourceWithRawResponse",
-    "WebhooksResourceWithStreamingResponse",
-    "AsyncWebhooksResourceWithStreamingResponse",
     "TemplatesResource",
     "AsyncTemplatesResource",
     "TemplatesResourceWithRawResponse",

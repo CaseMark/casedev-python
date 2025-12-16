@@ -299,7 +299,7 @@ class V1Resource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1DeployResponse:
-        """Deploy a workflow to Modal compute.
+        """Deploy a workflow to AWS Step Functions.
 
         Returns a webhook URL and secret for
         triggering the workflow.
@@ -327,7 +327,11 @@ class V1Resource(SyncAPIResource):
         self,
         id: str,
         *,
-        body: object | Omit = omit,
+        callback_headers: object | Omit = omit,
+        callback_url: str | Omit = omit,
+        input: object | Omit = omit,
+        api_timeout: str | Omit = omit,
+        wait: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -335,13 +339,26 @@ class V1Resource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1ExecuteResponse:
-        """Execute a workflow for testing.
+        """Execute a deployed workflow.
 
-        This runs the workflow synchronously without
-        deployment.
+        Supports three modes:
+
+        - **Fire-and-forget** (default): Returns immediately with executionId. Poll
+          /executions/{id} for status.
+        - **Callback**: Returns immediately, POSTs result to callbackUrl when workflow
+          completes.
+        - **Sync wait**: Blocks until workflow completes (max 5 minutes).
 
         Args:
-          body: Input data to pass to the workflow trigger
+          callback_headers: Headers to include in callback request (e.g., Authorization)
+
+          callback_url: URL to POST results when workflow completes (enables callback mode)
+
+          input: Input data to pass to the workflow
+
+          api_timeout: Timeout for sync wait mode (e.g., '30s', '2m'). Max 5m. Default: 30s
+
+          wait: Wait for completion (default: false, max 5 min)
 
           extra_headers: Send extra headers
 
@@ -355,7 +372,16 @@ class V1Resource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             f"/workflows/v1/{id}/execute",
-            body=maybe_transform(body, v1_execute_params.V1ExecuteParams),
+            body=maybe_transform(
+                {
+                    "callback_headers": callback_headers,
+                    "callback_url": callback_url,
+                    "input": input,
+                    "api_timeout": api_timeout,
+                    "wait": wait,
+                },
+                v1_execute_params.V1ExecuteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -419,7 +445,8 @@ class V1Resource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1RetrieveExecutionResponse:
         """
-        Get detailed information about a workflow execution.
+        Get detailed information about a workflow execution, including live Step
+        Functions status.
 
         Args:
           extra_headers: Send extra headers
@@ -452,7 +479,7 @@ class V1Resource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1UndeployResponse:
         """
-        Stop a deployed workflow and release its webhook URL.
+        Stop a deployed workflow and delete its Step Functions state machine.
 
         Args:
           extra_headers: Send extra headers
@@ -734,7 +761,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1DeployResponse:
-        """Deploy a workflow to Modal compute.
+        """Deploy a workflow to AWS Step Functions.
 
         Returns a webhook URL and secret for
         triggering the workflow.
@@ -762,7 +789,11 @@ class AsyncV1Resource(AsyncAPIResource):
         self,
         id: str,
         *,
-        body: object | Omit = omit,
+        callback_headers: object | Omit = omit,
+        callback_url: str | Omit = omit,
+        input: object | Omit = omit,
+        api_timeout: str | Omit = omit,
+        wait: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -770,13 +801,26 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1ExecuteResponse:
-        """Execute a workflow for testing.
+        """Execute a deployed workflow.
 
-        This runs the workflow synchronously without
-        deployment.
+        Supports three modes:
+
+        - **Fire-and-forget** (default): Returns immediately with executionId. Poll
+          /executions/{id} for status.
+        - **Callback**: Returns immediately, POSTs result to callbackUrl when workflow
+          completes.
+        - **Sync wait**: Blocks until workflow completes (max 5 minutes).
 
         Args:
-          body: Input data to pass to the workflow trigger
+          callback_headers: Headers to include in callback request (e.g., Authorization)
+
+          callback_url: URL to POST results when workflow completes (enables callback mode)
+
+          input: Input data to pass to the workflow
+
+          api_timeout: Timeout for sync wait mode (e.g., '30s', '2m'). Max 5m. Default: 30s
+
+          wait: Wait for completion (default: false, max 5 min)
 
           extra_headers: Send extra headers
 
@@ -790,7 +834,16 @@ class AsyncV1Resource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             f"/workflows/v1/{id}/execute",
-            body=await async_maybe_transform(body, v1_execute_params.V1ExecuteParams),
+            body=await async_maybe_transform(
+                {
+                    "callback_headers": callback_headers,
+                    "callback_url": callback_url,
+                    "input": input,
+                    "api_timeout": api_timeout,
+                    "wait": wait,
+                },
+                v1_execute_params.V1ExecuteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -854,7 +907,8 @@ class AsyncV1Resource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1RetrieveExecutionResponse:
         """
-        Get detailed information about a workflow execution.
+        Get detailed information about a workflow execution, including live Step
+        Functions status.
 
         Args:
           extra_headers: Send extra headers
@@ -887,7 +941,7 @@ class AsyncV1Resource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1UndeployResponse:
         """
-        Stop a deployed workflow and release its webhook URL.
+        Stop a deployed workflow and delete its Step Functions state machine.
 
         Args:
           extra_headers: Send extra headers

@@ -204,7 +204,7 @@ class TestVault:
         vault = client.vault.search(
             id="id",
             query="query",
-            filters={"foo": "bar"},
+            filters={"object_id": "string"},
             method="vector",
             top_k=1,
         )
@@ -497,7 +497,7 @@ class TestAsyncVault:
         vault = await async_client.vault.search(
             id="id",
             query="query",
-            filters={"foo": "bar"},
+            filters={"object_id": "string"},
             method="vector",
             top_k=1,
         )
