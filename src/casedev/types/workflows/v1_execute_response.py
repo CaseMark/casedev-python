@@ -13,10 +13,12 @@ __all__ = ["V1ExecuteResponse"]
 class V1ExecuteResponse(BaseModel):
     duration: Optional[int] = None
 
-    error: Optional[str] = None
+    execution_arn: Optional[str] = FieldInfo(alias="executionArn", default=None)
 
     execution_id: Optional[str] = FieldInfo(alias="executionId", default=None)
 
-    outputs: Optional[object] = None
+    mode: Optional[Literal["fire-and-forget", "callback", "sync"]] = None
 
-    status: Optional[Literal["completed", "failed"]] = None
+    output: Optional[object] = None
+
+    status: Optional[Literal["running", "completed", "failed"]] = None

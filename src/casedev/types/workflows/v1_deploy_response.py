@@ -12,6 +12,8 @@ __all__ = ["V1DeployResponse"]
 class V1DeployResponse(BaseModel):
     message: Optional[str] = None
 
+    state_machine_arn: Optional[str] = FieldInfo(alias="stateMachineArn", default=None)
+
     success: Optional[bool] = None
 
     webhook_secret: Optional[str] = FieldInfo(alias="webhookSecret", default=None)

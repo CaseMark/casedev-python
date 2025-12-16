@@ -4,22 +4,6 @@ from __future__ import annotations
 
 import httpx
 
-from .runs import (
-    RunsResource,
-    AsyncRunsResource,
-    RunsResourceWithRawResponse,
-    AsyncRunsResourceWithRawResponse,
-    RunsResourceWithStreamingResponse,
-    AsyncRunsResourceWithStreamingResponse,
-)
-from .invoke import (
-    InvokeResource,
-    AsyncInvokeResource,
-    InvokeResourceWithRawResponse,
-    AsyncInvokeResourceWithRawResponse,
-    InvokeResourceWithStreamingResponse,
-    AsyncInvokeResourceWithStreamingResponse,
-)
 from .secrets import (
     SecretsResource,
     AsyncSecretsResource,
@@ -30,14 +14,6 @@ from .secrets import (
 )
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
-from .functions import (
-    FunctionsResource,
-    AsyncFunctionsResource,
-    FunctionsResourceWithRawResponse,
-    AsyncFunctionsResourceWithRawResponse,
-    FunctionsResourceWithStreamingResponse,
-    AsyncFunctionsResourceWithStreamingResponse,
-)
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -64,18 +40,6 @@ class V1Resource(SyncAPIResource):
     @cached_property
     def environments(self) -> EnvironmentsResource:
         return EnvironmentsResource(self._client)
-
-    @cached_property
-    def functions(self) -> FunctionsResource:
-        return FunctionsResource(self._client)
-
-    @cached_property
-    def invoke(self) -> InvokeResource:
-        return InvokeResource(self._client)
-
-    @cached_property
-    def runs(self) -> RunsResource:
-        return RunsResource(self._client)
 
     @cached_property
     def secrets(self) -> SecretsResource:
@@ -110,11 +74,11 @@ class V1Resource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Returns current pricing for GPU and CPU compute resources.
+        """Returns current pricing for GPU instances.
 
-        This public endpoint
-        provides detailed pricing information for all available compute types, including
-        GPU instances and CPU cores, with billing model details.
+        Prices are fetched in real-time and
+        include a 20% platform fee. For detailed instance types and availability, use
+        GET /compute/v1/instance-types.
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
@@ -181,18 +145,6 @@ class AsyncV1Resource(AsyncAPIResource):
         return AsyncEnvironmentsResource(self._client)
 
     @cached_property
-    def functions(self) -> AsyncFunctionsResource:
-        return AsyncFunctionsResource(self._client)
-
-    @cached_property
-    def invoke(self) -> AsyncInvokeResource:
-        return AsyncInvokeResource(self._client)
-
-    @cached_property
-    def runs(self) -> AsyncRunsResource:
-        return AsyncRunsResource(self._client)
-
-    @cached_property
     def secrets(self) -> AsyncSecretsResource:
         return AsyncSecretsResource(self._client)
 
@@ -225,11 +177,11 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Returns current pricing for GPU and CPU compute resources.
+        """Returns current pricing for GPU instances.
 
-        This public endpoint
-        provides detailed pricing information for all available compute types, including
-        GPU instances and CPU cores, with billing model details.
+        Prices are fetched in real-time and
+        include a 20% platform fee. For detailed instance types and availability, use
+        GET /compute/v1/instance-types.
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
@@ -306,18 +258,6 @@ class V1ResourceWithRawResponse:
         return EnvironmentsResourceWithRawResponse(self._v1.environments)
 
     @cached_property
-    def functions(self) -> FunctionsResourceWithRawResponse:
-        return FunctionsResourceWithRawResponse(self._v1.functions)
-
-    @cached_property
-    def invoke(self) -> InvokeResourceWithRawResponse:
-        return InvokeResourceWithRawResponse(self._v1.invoke)
-
-    @cached_property
-    def runs(self) -> RunsResourceWithRawResponse:
-        return RunsResourceWithRawResponse(self._v1.runs)
-
-    @cached_property
     def secrets(self) -> SecretsResourceWithRawResponse:
         return SecretsResourceWithRawResponse(self._v1.secrets)
 
@@ -336,18 +276,6 @@ class AsyncV1ResourceWithRawResponse:
     @cached_property
     def environments(self) -> AsyncEnvironmentsResourceWithRawResponse:
         return AsyncEnvironmentsResourceWithRawResponse(self._v1.environments)
-
-    @cached_property
-    def functions(self) -> AsyncFunctionsResourceWithRawResponse:
-        return AsyncFunctionsResourceWithRawResponse(self._v1.functions)
-
-    @cached_property
-    def invoke(self) -> AsyncInvokeResourceWithRawResponse:
-        return AsyncInvokeResourceWithRawResponse(self._v1.invoke)
-
-    @cached_property
-    def runs(self) -> AsyncRunsResourceWithRawResponse:
-        return AsyncRunsResourceWithRawResponse(self._v1.runs)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithRawResponse:
@@ -370,18 +298,6 @@ class V1ResourceWithStreamingResponse:
         return EnvironmentsResourceWithStreamingResponse(self._v1.environments)
 
     @cached_property
-    def functions(self) -> FunctionsResourceWithStreamingResponse:
-        return FunctionsResourceWithStreamingResponse(self._v1.functions)
-
-    @cached_property
-    def invoke(self) -> InvokeResourceWithStreamingResponse:
-        return InvokeResourceWithStreamingResponse(self._v1.invoke)
-
-    @cached_property
-    def runs(self) -> RunsResourceWithStreamingResponse:
-        return RunsResourceWithStreamingResponse(self._v1.runs)
-
-    @cached_property
     def secrets(self) -> SecretsResourceWithStreamingResponse:
         return SecretsResourceWithStreamingResponse(self._v1.secrets)
 
@@ -400,18 +316,6 @@ class AsyncV1ResourceWithStreamingResponse:
     @cached_property
     def environments(self) -> AsyncEnvironmentsResourceWithStreamingResponse:
         return AsyncEnvironmentsResourceWithStreamingResponse(self._v1.environments)
-
-    @cached_property
-    def functions(self) -> AsyncFunctionsResourceWithStreamingResponse:
-        return AsyncFunctionsResourceWithStreamingResponse(self._v1.functions)
-
-    @cached_property
-    def invoke(self) -> AsyncInvokeResourceWithStreamingResponse:
-        return AsyncInvokeResourceWithStreamingResponse(self._v1.invoke)
-
-    @cached_property
-    def runs(self) -> AsyncRunsResourceWithStreamingResponse:
-        return AsyncRunsResourceWithStreamingResponse(self._v1.runs)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithStreamingResponse:
