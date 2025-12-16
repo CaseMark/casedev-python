@@ -140,12 +140,12 @@ from casedev import Casedev
 
 client = Casedev()
 
-response = client.compute.v1.deploy(
-    entrypoint_name="entrypointName",
-    type="task",
-    config={},
+response = client.convert.v1.webhook(
+    job_id="job_id",
+    status="completed",
+    result={},
 )
-print(response.config)
+print(response.result)
 ```
 
 ## Handling errors

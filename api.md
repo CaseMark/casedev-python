@@ -21,15 +21,8 @@ Methods:
 
 ## V1
 
-Types:
-
-```python
-from casedev.types.compute import V1DeployResponse
-```
-
 Methods:
 
-- <code title="post /compute/v1/deploy">client.compute.v1.<a href="./src/casedev/resources/compute/v1/v1.py">deploy</a>(\*\*<a href="src/casedev/types/compute/v1_deploy_params.py">params</a>) -> <a href="./src/casedev/types/compute/v1_deploy_response.py">V1DeployResponse</a></code>
 - <code title="get /compute/v1/pricing">client.compute.v1.<a href="./src/casedev/resources/compute/v1/v1.py">get_pricing</a>() -> None</code>
 - <code title="get /compute/v1/usage">client.compute.v1.<a href="./src/casedev/resources/compute/v1/v1.py">get_usage</a>(\*\*<a href="src/casedev/types/compute/v1_get_usage_params.py">params</a>) -> None</code>
 
