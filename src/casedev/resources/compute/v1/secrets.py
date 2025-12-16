@@ -164,12 +164,11 @@ class SecretsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete an entire secret group or a specific key within a secret group.
-        Automatically syncs the deletion to Modal compute infrastructure. When deleting
-        a specific key, the remaining secrets in the group are re-synced. When deleting
-        the entire group, all secrets and the group itself are removed from both the
-        database and Modal.
+        """Delete an entire secret group or a specific key within a secret group.
+
+        When
+        deleting a specific key, the remaining secrets in the group are preserved. When
+        deleting the entire group, all secrets and the group itself are removed.
 
         Args:
           env: Environment name. If not provided, uses the default environment
@@ -265,8 +264,8 @@ class SecretsResource(SyncAPIResource):
         """Set or update secrets in a compute secret group.
 
         Secrets are encrypted with
-        AES-256-GCM and synced to compute infrastructure in real-time. Use this to
-        manage environment variables and API keys for your compute workloads.
+        AES-256-GCM. Use this to manage environment variables and API keys for your
+        compute workloads.
 
         Args:
           secrets: Key-value pairs of secrets to set
@@ -435,12 +434,11 @@ class AsyncSecretsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete an entire secret group or a specific key within a secret group.
-        Automatically syncs the deletion to Modal compute infrastructure. When deleting
-        a specific key, the remaining secrets in the group are re-synced. When deleting
-        the entire group, all secrets and the group itself are removed from both the
-        database and Modal.
+        """Delete an entire secret group or a specific key within a secret group.
+
+        When
+        deleting a specific key, the remaining secrets in the group are preserved. When
+        deleting the entire group, all secrets and the group itself are removed.
 
         Args:
           env: Environment name. If not provided, uses the default environment
@@ -536,8 +534,8 @@ class AsyncSecretsResource(AsyncAPIResource):
         """Set or update secrets in a compute secret group.
 
         Secrets are encrypted with
-        AES-256-GCM and synced to compute infrastructure in real-time. Use this to
-        manage environment variables and API keys for your compute workloads.
+        AES-256-GCM. Use this to manage environment variables and API keys for your
+        compute workloads.
 
         Args:
           secrets: Key-value pairs of secrets to set

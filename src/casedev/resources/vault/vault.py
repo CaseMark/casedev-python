@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Dict
 from typing_extensions import Literal
 
 import httpx
@@ -88,8 +87,8 @@ class VaultResource(SyncAPIResource):
         """
         Creates a new secure vault with dedicated S3 storage and vector search
         capabilities. Each vault provides isolated document storage with semantic
-        search, OCR processing, and optional knowledge graph features for legal document
-        analysis and discovery.
+        search, OCR processing, and optional GraphRAG knowledge graph features for legal
+        document analysis and discovery.
 
         Args:
           name: Display name for the vault
@@ -171,7 +170,7 @@ class VaultResource(SyncAPIResource):
         """List all vaults for the authenticated organization.
 
         Returns vault metadata
-        including storage configuration and usage statistics.
+        including name, description, storage configuration, and usage statistics.
         """
         return self._get(
             "/vault",
@@ -225,7 +224,7 @@ class VaultResource(SyncAPIResource):
         id: str,
         *,
         query: str,
-        filters: Dict[str, object] | Omit = omit,
+        filters: vault_search_params.Filters | Omit = omit,
         method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"] | Omit = omit,
         top_k: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -244,7 +243,7 @@ class VaultResource(SyncAPIResource):
         Args:
           query: Search query or question to find relevant documents
 
-          filters: Additional filters to apply to search results
+          filters: Filters to narrow search results to specific documents
 
           method: Search method: 'global' for comprehensive questions, 'entity' for specific
               entities, 'fast' for quick similarity search, 'hybrid' for combined approach
@@ -384,8 +383,8 @@ class AsyncVaultResource(AsyncAPIResource):
         """
         Creates a new secure vault with dedicated S3 storage and vector search
         capabilities. Each vault provides isolated document storage with semantic
-        search, OCR processing, and optional knowledge graph features for legal document
-        analysis and discovery.
+        search, OCR processing, and optional GraphRAG knowledge graph features for legal
+        document analysis and discovery.
 
         Args:
           name: Display name for the vault
@@ -467,7 +466,7 @@ class AsyncVaultResource(AsyncAPIResource):
         """List all vaults for the authenticated organization.
 
         Returns vault metadata
-        including storage configuration and usage statistics.
+        including name, description, storage configuration, and usage statistics.
         """
         return await self._get(
             "/vault",
@@ -521,7 +520,7 @@ class AsyncVaultResource(AsyncAPIResource):
         id: str,
         *,
         query: str,
-        filters: Dict[str, object] | Omit = omit,
+        filters: vault_search_params.Filters | Omit = omit,
         method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"] | Omit = omit,
         top_k: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -540,7 +539,7 @@ class AsyncVaultResource(AsyncAPIResource):
         Args:
           query: Search query or question to find relevant documents
 
-          filters: Additional filters to apply to search results
+          filters: Filters to narrow search results to specific documents
 
           method: Search method: 'global' for comprehensive questions, 'entity' for specific
               entities, 'fast' for quick similarity search, 'hybrid' for combined approach

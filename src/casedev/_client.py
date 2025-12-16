@@ -34,10 +34,8 @@ from .resources.vault import vault
 from .resources.voice import voice
 from .resources.format import format
 from .resources.search import search
-from .resources.actions import actions
 from .resources.compute import compute
 from .resources.convert import convert
-from .resources.webhooks import webhooks
 from .resources.templates import templates
 from .resources.workflows import workflows
 
@@ -60,7 +58,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class Casedev(SyncAPIClient):
-    actions: actions.ActionsResource
     compute: compute.ComputeResource
     convert: convert.ConvertResource
     format: format.FormatResource
@@ -69,7 +66,6 @@ class Casedev(SyncAPIClient):
     search: search.SearchResource
     vault: vault.VaultResource
     voice: voice.VoiceResource
-    webhooks: webhooks.WebhooksResource
     templates: templates.TemplatesResource
     workflows: workflows.WorkflowsResource
     with_raw_response: CasedevWithRawResponse
@@ -153,7 +149,6 @@ class Casedev(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.actions = actions.ActionsResource(self)
         self.compute = compute.ComputeResource(self)
         self.convert = convert.ConvertResource(self)
         self.format = format.FormatResource(self)
@@ -162,7 +157,6 @@ class Casedev(SyncAPIClient):
         self.search = search.SearchResource(self)
         self.vault = vault.VaultResource(self)
         self.voice = voice.VoiceResource(self)
-        self.webhooks = webhooks.WebhooksResource(self)
         self.templates = templates.TemplatesResource(self)
         self.workflows = workflows.WorkflowsResource(self)
         self.with_raw_response = CasedevWithRawResponse(self)
@@ -276,7 +270,6 @@ class Casedev(SyncAPIClient):
 
 
 class AsyncCasedev(AsyncAPIClient):
-    actions: actions.AsyncActionsResource
     compute: compute.AsyncComputeResource
     convert: convert.AsyncConvertResource
     format: format.AsyncFormatResource
@@ -285,7 +278,6 @@ class AsyncCasedev(AsyncAPIClient):
     search: search.AsyncSearchResource
     vault: vault.AsyncVaultResource
     voice: voice.AsyncVoiceResource
-    webhooks: webhooks.AsyncWebhooksResource
     templates: templates.AsyncTemplatesResource
     workflows: workflows.AsyncWorkflowsResource
     with_raw_response: AsyncCasedevWithRawResponse
@@ -369,7 +361,6 @@ class AsyncCasedev(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.actions = actions.AsyncActionsResource(self)
         self.compute = compute.AsyncComputeResource(self)
         self.convert = convert.AsyncConvertResource(self)
         self.format = format.AsyncFormatResource(self)
@@ -378,7 +369,6 @@ class AsyncCasedev(AsyncAPIClient):
         self.search = search.AsyncSearchResource(self)
         self.vault = vault.AsyncVaultResource(self)
         self.voice = voice.AsyncVoiceResource(self)
-        self.webhooks = webhooks.AsyncWebhooksResource(self)
         self.templates = templates.AsyncTemplatesResource(self)
         self.workflows = workflows.AsyncWorkflowsResource(self)
         self.with_raw_response = AsyncCasedevWithRawResponse(self)
@@ -493,7 +483,6 @@ class AsyncCasedev(AsyncAPIClient):
 
 class CasedevWithRawResponse:
     def __init__(self, client: Casedev) -> None:
-        self.actions = actions.ActionsResourceWithRawResponse(client.actions)
         self.compute = compute.ComputeResourceWithRawResponse(client.compute)
         self.convert = convert.ConvertResourceWithRawResponse(client.convert)
         self.format = format.FormatResourceWithRawResponse(client.format)
@@ -502,14 +491,12 @@ class CasedevWithRawResponse:
         self.search = search.SearchResourceWithRawResponse(client.search)
         self.vault = vault.VaultResourceWithRawResponse(client.vault)
         self.voice = voice.VoiceResourceWithRawResponse(client.voice)
-        self.webhooks = webhooks.WebhooksResourceWithRawResponse(client.webhooks)
         self.templates = templates.TemplatesResourceWithRawResponse(client.templates)
         self.workflows = workflows.WorkflowsResourceWithRawResponse(client.workflows)
 
 
 class AsyncCasedevWithRawResponse:
     def __init__(self, client: AsyncCasedev) -> None:
-        self.actions = actions.AsyncActionsResourceWithRawResponse(client.actions)
         self.compute = compute.AsyncComputeResourceWithRawResponse(client.compute)
         self.convert = convert.AsyncConvertResourceWithRawResponse(client.convert)
         self.format = format.AsyncFormatResourceWithRawResponse(client.format)
@@ -518,14 +505,12 @@ class AsyncCasedevWithRawResponse:
         self.search = search.AsyncSearchResourceWithRawResponse(client.search)
         self.vault = vault.AsyncVaultResourceWithRawResponse(client.vault)
         self.voice = voice.AsyncVoiceResourceWithRawResponse(client.voice)
-        self.webhooks = webhooks.AsyncWebhooksResourceWithRawResponse(client.webhooks)
         self.templates = templates.AsyncTemplatesResourceWithRawResponse(client.templates)
         self.workflows = workflows.AsyncWorkflowsResourceWithRawResponse(client.workflows)
 
 
 class CasedevWithStreamedResponse:
     def __init__(self, client: Casedev) -> None:
-        self.actions = actions.ActionsResourceWithStreamingResponse(client.actions)
         self.compute = compute.ComputeResourceWithStreamingResponse(client.compute)
         self.convert = convert.ConvertResourceWithStreamingResponse(client.convert)
         self.format = format.FormatResourceWithStreamingResponse(client.format)
@@ -534,14 +519,12 @@ class CasedevWithStreamedResponse:
         self.search = search.SearchResourceWithStreamingResponse(client.search)
         self.vault = vault.VaultResourceWithStreamingResponse(client.vault)
         self.voice = voice.VoiceResourceWithStreamingResponse(client.voice)
-        self.webhooks = webhooks.WebhooksResourceWithStreamingResponse(client.webhooks)
         self.templates = templates.TemplatesResourceWithStreamingResponse(client.templates)
         self.workflows = workflows.WorkflowsResourceWithStreamingResponse(client.workflows)
 
 
 class AsyncCasedevWithStreamedResponse:
     def __init__(self, client: AsyncCasedev) -> None:
-        self.actions = actions.AsyncActionsResourceWithStreamingResponse(client.actions)
         self.compute = compute.AsyncComputeResourceWithStreamingResponse(client.compute)
         self.convert = convert.AsyncConvertResourceWithStreamingResponse(client.convert)
         self.format = format.AsyncFormatResourceWithStreamingResponse(client.format)
@@ -550,7 +533,6 @@ class AsyncCasedevWithStreamedResponse:
         self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
         self.vault = vault.AsyncVaultResourceWithStreamingResponse(client.vault)
         self.voice = voice.AsyncVoiceResourceWithStreamingResponse(client.voice)
-        self.webhooks = webhooks.AsyncWebhooksResourceWithStreamingResponse(client.webhooks)
         self.templates = templates.AsyncTemplatesResourceWithStreamingResponse(client.templates)
         self.workflows = workflows.AsyncWorkflowsResourceWithStreamingResponse(client.workflows)
 
