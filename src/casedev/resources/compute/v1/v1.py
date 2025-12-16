@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal
-
 import httpx
 
 from .runs import (
@@ -57,8 +55,7 @@ from .environments import (
     AsyncEnvironmentsResourceWithStreamingResponse,
 )
 from ...._base_client import make_request_options
-from ....types.compute import v1_deploy_params, v1_get_usage_params
-from ....types.compute.v1_deploy_response import V1DeployResponse
+from ....types.compute import v1_get_usage_params
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -102,81 +99,6 @@ class V1Resource(SyncAPIResource):
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
         return V1ResourceWithStreamingResponse(self)
-
-    def deploy(
-        self,
-        *,
-        entrypoint_name: str,
-        type: Literal["task", "service"],
-        code: str | Omit = omit,
-        config: v1_deploy_params.Config | Omit = omit,
-        dockerfile: str | Omit = omit,
-        entrypoint_file: str | Omit = omit,
-        environment: str | Omit = omit,
-        image: str | Omit = omit,
-        runtime: Literal["python", "dockerfile", "image"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> V1DeployResponse:
-        """
-        Deploy code to Case.dev's serverless compute infrastructure powered by Modal.
-        Supports Python, Dockerfile, and container image runtimes with GPU acceleration
-        for AI/ML workloads. Code is deployed as tasks (batch jobs) or services (web
-        endpoints) with automatic scaling.
-
-        Args:
-          entrypoint_name: Function/app name (used for domain: hello → hello.org.case.systems)
-
-          type: Deployment type: task for batch jobs, service for web endpoints
-
-          code: Python code (required for python runtime)
-
-          config: Runtime and resource configuration
-
-          dockerfile: Dockerfile content (required for dockerfile runtime)
-
-          entrypoint_file: Python entrypoint file name
-
-          environment: Environment name (uses default if not specified)
-
-          image: Container image name (required for image runtime, e.g.,
-              'nvidia/cuda:12.8.1-devel-ubuntu22.04')
-
-          runtime: Runtime environment
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/compute/v1/deploy",
-            body=maybe_transform(
-                {
-                    "entrypoint_name": entrypoint_name,
-                    "type": type,
-                    "code": code,
-                    "config": config,
-                    "dockerfile": dockerfile,
-                    "entrypoint_file": entrypoint_file,
-                    "environment": environment,
-                    "image": image,
-                    "runtime": runtime,
-                },
-                v1_deploy_params.V1DeployParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=V1DeployResponse,
-        )
 
     def get_pricing(
         self,
@@ -293,81 +215,6 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         return AsyncV1ResourceWithStreamingResponse(self)
 
-    async def deploy(
-        self,
-        *,
-        entrypoint_name: str,
-        type: Literal["task", "service"],
-        code: str | Omit = omit,
-        config: v1_deploy_params.Config | Omit = omit,
-        dockerfile: str | Omit = omit,
-        entrypoint_file: str | Omit = omit,
-        environment: str | Omit = omit,
-        image: str | Omit = omit,
-        runtime: Literal["python", "dockerfile", "image"] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> V1DeployResponse:
-        """
-        Deploy code to Case.dev's serverless compute infrastructure powered by Modal.
-        Supports Python, Dockerfile, and container image runtimes with GPU acceleration
-        for AI/ML workloads. Code is deployed as tasks (batch jobs) or services (web
-        endpoints) with automatic scaling.
-
-        Args:
-          entrypoint_name: Function/app name (used for domain: hello → hello.org.case.systems)
-
-          type: Deployment type: task for batch jobs, service for web endpoints
-
-          code: Python code (required for python runtime)
-
-          config: Runtime and resource configuration
-
-          dockerfile: Dockerfile content (required for dockerfile runtime)
-
-          entrypoint_file: Python entrypoint file name
-
-          environment: Environment name (uses default if not specified)
-
-          image: Container image name (required for image runtime, e.g.,
-              'nvidia/cuda:12.8.1-devel-ubuntu22.04')
-
-          runtime: Runtime environment
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/compute/v1/deploy",
-            body=await async_maybe_transform(
-                {
-                    "entrypoint_name": entrypoint_name,
-                    "type": type,
-                    "code": code,
-                    "config": config,
-                    "dockerfile": dockerfile,
-                    "entrypoint_file": entrypoint_file,
-                    "environment": environment,
-                    "image": image,
-                    "runtime": runtime,
-                },
-                v1_deploy_params.V1DeployParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=V1DeployResponse,
-        )
-
     async def get_pricing(
         self,
         *,
@@ -447,9 +294,6 @@ class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
-        self.deploy = to_raw_response_wrapper(
-            v1.deploy,
-        )
         self.get_pricing = to_raw_response_wrapper(
             v1.get_pricing,
         )
@@ -482,9 +326,6 @@ class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
-        self.deploy = async_to_raw_response_wrapper(
-            v1.deploy,
-        )
         self.get_pricing = async_to_raw_response_wrapper(
             v1.get_pricing,
         )
@@ -517,9 +358,6 @@ class V1ResourceWithStreamingResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
-        self.deploy = to_streamed_response_wrapper(
-            v1.deploy,
-        )
         self.get_pricing = to_streamed_response_wrapper(
             v1.get_pricing,
         )
@@ -552,9 +390,6 @@ class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
-        self.deploy = async_to_streamed_response_wrapper(
-            v1.deploy,
-        )
         self.get_pricing = async_to_streamed_response_wrapper(
             v1.get_pricing,
         )
