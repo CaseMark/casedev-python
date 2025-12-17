@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -20,6 +20,7 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import CasedevError, APIStatusError
@@ -28,16 +29,19 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.llm import llm
-from .resources.ocr import ocr
-from .resources.vault import vault
-from .resources.voice import voice
-from .resources.format import format
-from .resources.search import search
-from .resources.compute import compute
-from .resources.convert import convert
-from .resources.templates import templates
-from .resources.workflows import workflows
+
+if TYPE_CHECKING:
+    from .resources import llm, ocr, vault, voice, format, search, compute, convert, templates, workflows
+    from .resources.llm.llm import LlmResource, AsyncLlmResource
+    from .resources.ocr.ocr import OcrResource, AsyncOcrResource
+    from .resources.vault.vault import VaultResource, AsyncVaultResource
+    from .resources.voice.voice import VoiceResource, AsyncVoiceResource
+    from .resources.format.format import FormatResource, AsyncFormatResource
+    from .resources.search.search import SearchResource, AsyncSearchResource
+    from .resources.compute.compute import ComputeResource, AsyncComputeResource
+    from .resources.convert.convert import ConvertResource, AsyncConvertResource
+    from .resources.templates.templates import TemplatesResource, AsyncTemplatesResource
+    from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -58,19 +62,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class Casedev(SyncAPIClient):
-    compute: compute.ComputeResource
-    convert: convert.ConvertResource
-    format: format.FormatResource
-    llm: llm.LlmResource
-    ocr: ocr.OcrResource
-    search: search.SearchResource
-    vault: vault.VaultResource
-    voice: voice.VoiceResource
-    templates: templates.TemplatesResource
-    workflows: workflows.WorkflowsResource
-    with_raw_response: CasedevWithRawResponse
-    with_streaming_response: CasedevWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -149,18 +140,73 @@ class Casedev(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.compute = compute.ComputeResource(self)
-        self.convert = convert.ConvertResource(self)
-        self.format = format.FormatResource(self)
-        self.llm = llm.LlmResource(self)
-        self.ocr = ocr.OcrResource(self)
-        self.search = search.SearchResource(self)
-        self.vault = vault.VaultResource(self)
-        self.voice = voice.VoiceResource(self)
-        self.templates = templates.TemplatesResource(self)
-        self.workflows = workflows.WorkflowsResource(self)
-        self.with_raw_response = CasedevWithRawResponse(self)
-        self.with_streaming_response = CasedevWithStreamedResponse(self)
+    @cached_property
+    def compute(self) -> ComputeResource:
+        from .resources.compute import ComputeResource
+
+        return ComputeResource(self)
+
+    @cached_property
+    def convert(self) -> ConvertResource:
+        from .resources.convert import ConvertResource
+
+        return ConvertResource(self)
+
+    @cached_property
+    def format(self) -> FormatResource:
+        from .resources.format import FormatResource
+
+        return FormatResource(self)
+
+    @cached_property
+    def llm(self) -> LlmResource:
+        from .resources.llm import LlmResource
+
+        return LlmResource(self)
+
+    @cached_property
+    def ocr(self) -> OcrResource:
+        from .resources.ocr import OcrResource
+
+        return OcrResource(self)
+
+    @cached_property
+    def search(self) -> SearchResource:
+        from .resources.search import SearchResource
+
+        return SearchResource(self)
+
+    @cached_property
+    def vault(self) -> VaultResource:
+        from .resources.vault import VaultResource
+
+        return VaultResource(self)
+
+    @cached_property
+    def voice(self) -> VoiceResource:
+        from .resources.voice import VoiceResource
+
+        return VoiceResource(self)
+
+    @cached_property
+    def templates(self) -> TemplatesResource:
+        from .resources.templates import TemplatesResource
+
+        return TemplatesResource(self)
+
+    @cached_property
+    def workflows(self) -> WorkflowsResource:
+        from .resources.workflows import WorkflowsResource
+
+        return WorkflowsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> CasedevWithRawResponse:
+        return CasedevWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> CasedevWithStreamedResponse:
+        return CasedevWithStreamedResponse(self)
 
     @property
     @override
@@ -270,19 +316,6 @@ class Casedev(SyncAPIClient):
 
 
 class AsyncCasedev(AsyncAPIClient):
-    compute: compute.AsyncComputeResource
-    convert: convert.AsyncConvertResource
-    format: format.AsyncFormatResource
-    llm: llm.AsyncLlmResource
-    ocr: ocr.AsyncOcrResource
-    search: search.AsyncSearchResource
-    vault: vault.AsyncVaultResource
-    voice: voice.AsyncVoiceResource
-    templates: templates.AsyncTemplatesResource
-    workflows: workflows.AsyncWorkflowsResource
-    with_raw_response: AsyncCasedevWithRawResponse
-    with_streaming_response: AsyncCasedevWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -361,18 +394,73 @@ class AsyncCasedev(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.compute = compute.AsyncComputeResource(self)
-        self.convert = convert.AsyncConvertResource(self)
-        self.format = format.AsyncFormatResource(self)
-        self.llm = llm.AsyncLlmResource(self)
-        self.ocr = ocr.AsyncOcrResource(self)
-        self.search = search.AsyncSearchResource(self)
-        self.vault = vault.AsyncVaultResource(self)
-        self.voice = voice.AsyncVoiceResource(self)
-        self.templates = templates.AsyncTemplatesResource(self)
-        self.workflows = workflows.AsyncWorkflowsResource(self)
-        self.with_raw_response = AsyncCasedevWithRawResponse(self)
-        self.with_streaming_response = AsyncCasedevWithStreamedResponse(self)
+    @cached_property
+    def compute(self) -> AsyncComputeResource:
+        from .resources.compute import AsyncComputeResource
+
+        return AsyncComputeResource(self)
+
+    @cached_property
+    def convert(self) -> AsyncConvertResource:
+        from .resources.convert import AsyncConvertResource
+
+        return AsyncConvertResource(self)
+
+    @cached_property
+    def format(self) -> AsyncFormatResource:
+        from .resources.format import AsyncFormatResource
+
+        return AsyncFormatResource(self)
+
+    @cached_property
+    def llm(self) -> AsyncLlmResource:
+        from .resources.llm import AsyncLlmResource
+
+        return AsyncLlmResource(self)
+
+    @cached_property
+    def ocr(self) -> AsyncOcrResource:
+        from .resources.ocr import AsyncOcrResource
+
+        return AsyncOcrResource(self)
+
+    @cached_property
+    def search(self) -> AsyncSearchResource:
+        from .resources.search import AsyncSearchResource
+
+        return AsyncSearchResource(self)
+
+    @cached_property
+    def vault(self) -> AsyncVaultResource:
+        from .resources.vault import AsyncVaultResource
+
+        return AsyncVaultResource(self)
+
+    @cached_property
+    def voice(self) -> AsyncVoiceResource:
+        from .resources.voice import AsyncVoiceResource
+
+        return AsyncVoiceResource(self)
+
+    @cached_property
+    def templates(self) -> AsyncTemplatesResource:
+        from .resources.templates import AsyncTemplatesResource
+
+        return AsyncTemplatesResource(self)
+
+    @cached_property
+    def workflows(self) -> AsyncWorkflowsResource:
+        from .resources.workflows import AsyncWorkflowsResource
+
+        return AsyncWorkflowsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncCasedevWithRawResponse:
+        return AsyncCasedevWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncCasedevWithStreamedResponse:
+        return AsyncCasedevWithStreamedResponse(self)
 
     @property
     @override
@@ -482,59 +570,271 @@ class AsyncCasedev(AsyncAPIClient):
 
 
 class CasedevWithRawResponse:
+    _client: Casedev
+
     def __init__(self, client: Casedev) -> None:
-        self.compute = compute.ComputeResourceWithRawResponse(client.compute)
-        self.convert = convert.ConvertResourceWithRawResponse(client.convert)
-        self.format = format.FormatResourceWithRawResponse(client.format)
-        self.llm = llm.LlmResourceWithRawResponse(client.llm)
-        self.ocr = ocr.OcrResourceWithRawResponse(client.ocr)
-        self.search = search.SearchResourceWithRawResponse(client.search)
-        self.vault = vault.VaultResourceWithRawResponse(client.vault)
-        self.voice = voice.VoiceResourceWithRawResponse(client.voice)
-        self.templates = templates.TemplatesResourceWithRawResponse(client.templates)
-        self.workflows = workflows.WorkflowsResourceWithRawResponse(client.workflows)
+        self._client = client
+
+    @cached_property
+    def compute(self) -> compute.ComputeResourceWithRawResponse:
+        from .resources.compute import ComputeResourceWithRawResponse
+
+        return ComputeResourceWithRawResponse(self._client.compute)
+
+    @cached_property
+    def convert(self) -> convert.ConvertResourceWithRawResponse:
+        from .resources.convert import ConvertResourceWithRawResponse
+
+        return ConvertResourceWithRawResponse(self._client.convert)
+
+    @cached_property
+    def format(self) -> format.FormatResourceWithRawResponse:
+        from .resources.format import FormatResourceWithRawResponse
+
+        return FormatResourceWithRawResponse(self._client.format)
+
+    @cached_property
+    def llm(self) -> llm.LlmResourceWithRawResponse:
+        from .resources.llm import LlmResourceWithRawResponse
+
+        return LlmResourceWithRawResponse(self._client.llm)
+
+    @cached_property
+    def ocr(self) -> ocr.OcrResourceWithRawResponse:
+        from .resources.ocr import OcrResourceWithRawResponse
+
+        return OcrResourceWithRawResponse(self._client.ocr)
+
+    @cached_property
+    def search(self) -> search.SearchResourceWithRawResponse:
+        from .resources.search import SearchResourceWithRawResponse
+
+        return SearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def vault(self) -> vault.VaultResourceWithRawResponse:
+        from .resources.vault import VaultResourceWithRawResponse
+
+        return VaultResourceWithRawResponse(self._client.vault)
+
+    @cached_property
+    def voice(self) -> voice.VoiceResourceWithRawResponse:
+        from .resources.voice import VoiceResourceWithRawResponse
+
+        return VoiceResourceWithRawResponse(self._client.voice)
+
+    @cached_property
+    def templates(self) -> templates.TemplatesResourceWithRawResponse:
+        from .resources.templates import TemplatesResourceWithRawResponse
+
+        return TemplatesResourceWithRawResponse(self._client.templates)
+
+    @cached_property
+    def workflows(self) -> workflows.WorkflowsResourceWithRawResponse:
+        from .resources.workflows import WorkflowsResourceWithRawResponse
+
+        return WorkflowsResourceWithRawResponse(self._client.workflows)
 
 
 class AsyncCasedevWithRawResponse:
+    _client: AsyncCasedev
+
     def __init__(self, client: AsyncCasedev) -> None:
-        self.compute = compute.AsyncComputeResourceWithRawResponse(client.compute)
-        self.convert = convert.AsyncConvertResourceWithRawResponse(client.convert)
-        self.format = format.AsyncFormatResourceWithRawResponse(client.format)
-        self.llm = llm.AsyncLlmResourceWithRawResponse(client.llm)
-        self.ocr = ocr.AsyncOcrResourceWithRawResponse(client.ocr)
-        self.search = search.AsyncSearchResourceWithRawResponse(client.search)
-        self.vault = vault.AsyncVaultResourceWithRawResponse(client.vault)
-        self.voice = voice.AsyncVoiceResourceWithRawResponse(client.voice)
-        self.templates = templates.AsyncTemplatesResourceWithRawResponse(client.templates)
-        self.workflows = workflows.AsyncWorkflowsResourceWithRawResponse(client.workflows)
+        self._client = client
+
+    @cached_property
+    def compute(self) -> compute.AsyncComputeResourceWithRawResponse:
+        from .resources.compute import AsyncComputeResourceWithRawResponse
+
+        return AsyncComputeResourceWithRawResponse(self._client.compute)
+
+    @cached_property
+    def convert(self) -> convert.AsyncConvertResourceWithRawResponse:
+        from .resources.convert import AsyncConvertResourceWithRawResponse
+
+        return AsyncConvertResourceWithRawResponse(self._client.convert)
+
+    @cached_property
+    def format(self) -> format.AsyncFormatResourceWithRawResponse:
+        from .resources.format import AsyncFormatResourceWithRawResponse
+
+        return AsyncFormatResourceWithRawResponse(self._client.format)
+
+    @cached_property
+    def llm(self) -> llm.AsyncLlmResourceWithRawResponse:
+        from .resources.llm import AsyncLlmResourceWithRawResponse
+
+        return AsyncLlmResourceWithRawResponse(self._client.llm)
+
+    @cached_property
+    def ocr(self) -> ocr.AsyncOcrResourceWithRawResponse:
+        from .resources.ocr import AsyncOcrResourceWithRawResponse
+
+        return AsyncOcrResourceWithRawResponse(self._client.ocr)
+
+    @cached_property
+    def search(self) -> search.AsyncSearchResourceWithRawResponse:
+        from .resources.search import AsyncSearchResourceWithRawResponse
+
+        return AsyncSearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def vault(self) -> vault.AsyncVaultResourceWithRawResponse:
+        from .resources.vault import AsyncVaultResourceWithRawResponse
+
+        return AsyncVaultResourceWithRawResponse(self._client.vault)
+
+    @cached_property
+    def voice(self) -> voice.AsyncVoiceResourceWithRawResponse:
+        from .resources.voice import AsyncVoiceResourceWithRawResponse
+
+        return AsyncVoiceResourceWithRawResponse(self._client.voice)
+
+    @cached_property
+    def templates(self) -> templates.AsyncTemplatesResourceWithRawResponse:
+        from .resources.templates import AsyncTemplatesResourceWithRawResponse
+
+        return AsyncTemplatesResourceWithRawResponse(self._client.templates)
+
+    @cached_property
+    def workflows(self) -> workflows.AsyncWorkflowsResourceWithRawResponse:
+        from .resources.workflows import AsyncWorkflowsResourceWithRawResponse
+
+        return AsyncWorkflowsResourceWithRawResponse(self._client.workflows)
 
 
 class CasedevWithStreamedResponse:
+    _client: Casedev
+
     def __init__(self, client: Casedev) -> None:
-        self.compute = compute.ComputeResourceWithStreamingResponse(client.compute)
-        self.convert = convert.ConvertResourceWithStreamingResponse(client.convert)
-        self.format = format.FormatResourceWithStreamingResponse(client.format)
-        self.llm = llm.LlmResourceWithStreamingResponse(client.llm)
-        self.ocr = ocr.OcrResourceWithStreamingResponse(client.ocr)
-        self.search = search.SearchResourceWithStreamingResponse(client.search)
-        self.vault = vault.VaultResourceWithStreamingResponse(client.vault)
-        self.voice = voice.VoiceResourceWithStreamingResponse(client.voice)
-        self.templates = templates.TemplatesResourceWithStreamingResponse(client.templates)
-        self.workflows = workflows.WorkflowsResourceWithStreamingResponse(client.workflows)
+        self._client = client
+
+    @cached_property
+    def compute(self) -> compute.ComputeResourceWithStreamingResponse:
+        from .resources.compute import ComputeResourceWithStreamingResponse
+
+        return ComputeResourceWithStreamingResponse(self._client.compute)
+
+    @cached_property
+    def convert(self) -> convert.ConvertResourceWithStreamingResponse:
+        from .resources.convert import ConvertResourceWithStreamingResponse
+
+        return ConvertResourceWithStreamingResponse(self._client.convert)
+
+    @cached_property
+    def format(self) -> format.FormatResourceWithStreamingResponse:
+        from .resources.format import FormatResourceWithStreamingResponse
+
+        return FormatResourceWithStreamingResponse(self._client.format)
+
+    @cached_property
+    def llm(self) -> llm.LlmResourceWithStreamingResponse:
+        from .resources.llm import LlmResourceWithStreamingResponse
+
+        return LlmResourceWithStreamingResponse(self._client.llm)
+
+    @cached_property
+    def ocr(self) -> ocr.OcrResourceWithStreamingResponse:
+        from .resources.ocr import OcrResourceWithStreamingResponse
+
+        return OcrResourceWithStreamingResponse(self._client.ocr)
+
+    @cached_property
+    def search(self) -> search.SearchResourceWithStreamingResponse:
+        from .resources.search import SearchResourceWithStreamingResponse
+
+        return SearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def vault(self) -> vault.VaultResourceWithStreamingResponse:
+        from .resources.vault import VaultResourceWithStreamingResponse
+
+        return VaultResourceWithStreamingResponse(self._client.vault)
+
+    @cached_property
+    def voice(self) -> voice.VoiceResourceWithStreamingResponse:
+        from .resources.voice import VoiceResourceWithStreamingResponse
+
+        return VoiceResourceWithStreamingResponse(self._client.voice)
+
+    @cached_property
+    def templates(self) -> templates.TemplatesResourceWithStreamingResponse:
+        from .resources.templates import TemplatesResourceWithStreamingResponse
+
+        return TemplatesResourceWithStreamingResponse(self._client.templates)
+
+    @cached_property
+    def workflows(self) -> workflows.WorkflowsResourceWithStreamingResponse:
+        from .resources.workflows import WorkflowsResourceWithStreamingResponse
+
+        return WorkflowsResourceWithStreamingResponse(self._client.workflows)
 
 
 class AsyncCasedevWithStreamedResponse:
+    _client: AsyncCasedev
+
     def __init__(self, client: AsyncCasedev) -> None:
-        self.compute = compute.AsyncComputeResourceWithStreamingResponse(client.compute)
-        self.convert = convert.AsyncConvertResourceWithStreamingResponse(client.convert)
-        self.format = format.AsyncFormatResourceWithStreamingResponse(client.format)
-        self.llm = llm.AsyncLlmResourceWithStreamingResponse(client.llm)
-        self.ocr = ocr.AsyncOcrResourceWithStreamingResponse(client.ocr)
-        self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
-        self.vault = vault.AsyncVaultResourceWithStreamingResponse(client.vault)
-        self.voice = voice.AsyncVoiceResourceWithStreamingResponse(client.voice)
-        self.templates = templates.AsyncTemplatesResourceWithStreamingResponse(client.templates)
-        self.workflows = workflows.AsyncWorkflowsResourceWithStreamingResponse(client.workflows)
+        self._client = client
+
+    @cached_property
+    def compute(self) -> compute.AsyncComputeResourceWithStreamingResponse:
+        from .resources.compute import AsyncComputeResourceWithStreamingResponse
+
+        return AsyncComputeResourceWithStreamingResponse(self._client.compute)
+
+    @cached_property
+    def convert(self) -> convert.AsyncConvertResourceWithStreamingResponse:
+        from .resources.convert import AsyncConvertResourceWithStreamingResponse
+
+        return AsyncConvertResourceWithStreamingResponse(self._client.convert)
+
+    @cached_property
+    def format(self) -> format.AsyncFormatResourceWithStreamingResponse:
+        from .resources.format import AsyncFormatResourceWithStreamingResponse
+
+        return AsyncFormatResourceWithStreamingResponse(self._client.format)
+
+    @cached_property
+    def llm(self) -> llm.AsyncLlmResourceWithStreamingResponse:
+        from .resources.llm import AsyncLlmResourceWithStreamingResponse
+
+        return AsyncLlmResourceWithStreamingResponse(self._client.llm)
+
+    @cached_property
+    def ocr(self) -> ocr.AsyncOcrResourceWithStreamingResponse:
+        from .resources.ocr import AsyncOcrResourceWithStreamingResponse
+
+        return AsyncOcrResourceWithStreamingResponse(self._client.ocr)
+
+    @cached_property
+    def search(self) -> search.AsyncSearchResourceWithStreamingResponse:
+        from .resources.search import AsyncSearchResourceWithStreamingResponse
+
+        return AsyncSearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def vault(self) -> vault.AsyncVaultResourceWithStreamingResponse:
+        from .resources.vault import AsyncVaultResourceWithStreamingResponse
+
+        return AsyncVaultResourceWithStreamingResponse(self._client.vault)
+
+    @cached_property
+    def voice(self) -> voice.AsyncVoiceResourceWithStreamingResponse:
+        from .resources.voice import AsyncVoiceResourceWithStreamingResponse
+
+        return AsyncVoiceResourceWithStreamingResponse(self._client.voice)
+
+    @cached_property
+    def templates(self) -> templates.AsyncTemplatesResourceWithStreamingResponse:
+        from .resources.templates import AsyncTemplatesResourceWithStreamingResponse
+
+        return AsyncTemplatesResourceWithStreamingResponse(self._client.templates)
+
+    @cached_property
+    def workflows(self) -> workflows.AsyncWorkflowsResourceWithStreamingResponse:
+        from .resources.workflows import AsyncWorkflowsResourceWithStreamingResponse
+
+        return AsyncWorkflowsResourceWithStreamingResponse(self._client.workflows)
 
 
 Client = Casedev
