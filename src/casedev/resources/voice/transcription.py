@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing_extensions import Literal
+
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -44,14 +46,20 @@ class TranscriptionResource(SyncAPIResource):
     def create(
         self,
         *,
-        audio_url: str,
+        audio_url: str | Omit = omit,
         auto_highlights: bool | Omit = omit,
+        boost_param: Literal["low", "default", "high"] | Omit = omit,
         content_safety_labels: bool | Omit = omit,
+        format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
         language_code: str | Omit = omit,
         language_detection: bool | Omit = omit,
+        object_id: str | Omit = omit,
         punctuate: bool | Omit = omit,
         speaker_labels: bool | Omit = omit,
+        speakers_expected: int | Omit = omit,
+        vault_id: str | Omit = omit,
+        word_boost: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -61,17 +69,25 @@ class TranscriptionResource(SyncAPIResource):
     ) -> None:
         """Creates an asynchronous transcription job for audio files.
 
-        Supports various
-        audio formats and advanced features like speaker identification, content
-        moderation, and automatic highlights. Returns a job ID for checking
-        transcription status and retrieving results.
+        Supports two modes:
+
+        **Vault-based (recommended)**: Pass `vault_id` and `object_id` to transcribe
+        audio from your vault. The transcript will automatically be saved back to the
+        vault when complete.
+
+        **Direct URL (legacy)**: Pass `audio_url` for direct transcription without
+        automatic storage.
 
         Args:
-          audio_url: URL of the audio file to transcribe
+          audio_url: URL of the audio file to transcribe (legacy mode, no auto-storage)
 
           auto_highlights: Automatically extract key phrases and topics
 
+          boost_param: How much to boost custom vocabulary
+
           content_safety_labels: Enable content moderation and safety labeling
+
+          format: Output format for the transcript when using vault mode
 
           format_text: Format text with proper capitalization
 
@@ -80,9 +96,17 @@ class TranscriptionResource(SyncAPIResource):
 
           language_detection: Enable automatic language detection
 
+          object_id: Object ID of the audio file in the vault (use with vault_id)
+
           punctuate: Add punctuation to the transcript
 
           speaker_labels: Enable speaker identification and labeling
+
+          speakers_expected: Expected number of speakers (improves accuracy when known)
+
+          vault_id: Vault ID containing the audio file (use with object_id)
+
+          word_boost: Custom vocabulary words to boost (e.g., legal terms)
 
           extra_headers: Send extra headers
 
@@ -99,12 +123,18 @@ class TranscriptionResource(SyncAPIResource):
                 {
                     "audio_url": audio_url,
                     "auto_highlights": auto_highlights,
+                    "boost_param": boost_param,
                     "content_safety_labels": content_safety_labels,
+                    "format": format,
                     "format_text": format_text,
                     "language_code": language_code,
                     "language_detection": language_detection,
+                    "object_id": object_id,
                     "punctuate": punctuate,
                     "speaker_labels": speaker_labels,
+                    "speakers_expected": speakers_expected,
+                    "vault_id": vault_id,
+                    "word_boost": word_boost,
                 },
                 transcription_create_params.TranscriptionCreateParams,
             ),
@@ -127,8 +157,9 @@ class TranscriptionResource(SyncAPIResource):
     ) -> TranscriptionRetrieveResponse:
         """Retrieve the status and result of an audio transcription job.
 
-        Returns the
-        transcription text when complete, or status information for pending jobs.
+        For vault-based
+        jobs, returns status and result_object_id when complete. For legacy direct URL
+        jobs, returns the full transcription data.
 
         Args:
           extra_headers: Send extra headers
@@ -173,14 +204,20 @@ class AsyncTranscriptionResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        audio_url: str,
+        audio_url: str | Omit = omit,
         auto_highlights: bool | Omit = omit,
+        boost_param: Literal["low", "default", "high"] | Omit = omit,
         content_safety_labels: bool | Omit = omit,
+        format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
         language_code: str | Omit = omit,
         language_detection: bool | Omit = omit,
+        object_id: str | Omit = omit,
         punctuate: bool | Omit = omit,
         speaker_labels: bool | Omit = omit,
+        speakers_expected: int | Omit = omit,
+        vault_id: str | Omit = omit,
+        word_boost: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -190,17 +227,25 @@ class AsyncTranscriptionResource(AsyncAPIResource):
     ) -> None:
         """Creates an asynchronous transcription job for audio files.
 
-        Supports various
-        audio formats and advanced features like speaker identification, content
-        moderation, and automatic highlights. Returns a job ID for checking
-        transcription status and retrieving results.
+        Supports two modes:
+
+        **Vault-based (recommended)**: Pass `vault_id` and `object_id` to transcribe
+        audio from your vault. The transcript will automatically be saved back to the
+        vault when complete.
+
+        **Direct URL (legacy)**: Pass `audio_url` for direct transcription without
+        automatic storage.
 
         Args:
-          audio_url: URL of the audio file to transcribe
+          audio_url: URL of the audio file to transcribe (legacy mode, no auto-storage)
 
           auto_highlights: Automatically extract key phrases and topics
 
+          boost_param: How much to boost custom vocabulary
+
           content_safety_labels: Enable content moderation and safety labeling
+
+          format: Output format for the transcript when using vault mode
 
           format_text: Format text with proper capitalization
 
@@ -209,9 +254,17 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           language_detection: Enable automatic language detection
 
+          object_id: Object ID of the audio file in the vault (use with vault_id)
+
           punctuate: Add punctuation to the transcript
 
           speaker_labels: Enable speaker identification and labeling
+
+          speakers_expected: Expected number of speakers (improves accuracy when known)
+
+          vault_id: Vault ID containing the audio file (use with object_id)
+
+          word_boost: Custom vocabulary words to boost (e.g., legal terms)
 
           extra_headers: Send extra headers
 
@@ -228,12 +281,18 @@ class AsyncTranscriptionResource(AsyncAPIResource):
                 {
                     "audio_url": audio_url,
                     "auto_highlights": auto_highlights,
+                    "boost_param": boost_param,
                     "content_safety_labels": content_safety_labels,
+                    "format": format,
                     "format_text": format_text,
                     "language_code": language_code,
                     "language_detection": language_detection,
+                    "object_id": object_id,
                     "punctuate": punctuate,
                     "speaker_labels": speaker_labels,
+                    "speakers_expected": speakers_expected,
+                    "vault_id": vault_id,
+                    "word_boost": word_boost,
                 },
                 transcription_create_params.TranscriptionCreateParams,
             ),
@@ -256,8 +315,9 @@ class AsyncTranscriptionResource(AsyncAPIResource):
     ) -> TranscriptionRetrieveResponse:
         """Retrieve the status and result of an audio transcription job.
 
-        Returns the
-        transcription text when complete, or status information for pending jobs.
+        For vault-based
+        jobs, returns status and result_object_id when complete. For legacy direct URL
+        jobs, returns the full transcription data.
 
         Args:
           extra_headers: Send extra headers
