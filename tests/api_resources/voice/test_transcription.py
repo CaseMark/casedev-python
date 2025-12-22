@@ -20,9 +20,7 @@ class TestTranscription:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
-        transcription = client.voice.transcription.create(
-            audio_url="audio_url",
-        )
+        transcription = client.voice.transcription.create()
         assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -31,21 +29,25 @@ class TestTranscription:
         transcription = client.voice.transcription.create(
             audio_url="audio_url",
             auto_highlights=True,
+            boost_param="low",
             content_safety_labels=True,
+            format="json",
             format_text=True,
             language_code="language_code",
             language_detection=True,
+            object_id="object_id",
             punctuate=True,
             speaker_labels=True,
+            speakers_expected=0,
+            vault_id="vault_id",
+            word_boost=["string"],
         )
         assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
-        response = client.voice.transcription.with_raw_response.create(
-            audio_url="audio_url",
-        )
+        response = client.voice.transcription.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -55,9 +57,7 @@ class TestTranscription:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
-        with client.voice.transcription.with_streaming_response.create(
-            audio_url="audio_url",
-        ) as response:
+        with client.voice.transcription.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -70,7 +70,7 @@ class TestTranscription:
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         transcription = client.voice.transcription.retrieve(
-            "5551902f-fc65-4a61-81b2-e002d4e464e5",
+            "tr_abc123def456",
         )
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
@@ -78,7 +78,7 @@ class TestTranscription:
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.retrieve(
-            "5551902f-fc65-4a61-81b2-e002d4e464e5",
+            "tr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -90,7 +90,7 @@ class TestTranscription:
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.retrieve(
-            "5551902f-fc65-4a61-81b2-e002d4e464e5",
+            "tr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -117,9 +117,7 @@ class TestAsyncTranscription:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
-        transcription = await async_client.voice.transcription.create(
-            audio_url="audio_url",
-        )
+        transcription = await async_client.voice.transcription.create()
         assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -128,21 +126,25 @@ class TestAsyncTranscription:
         transcription = await async_client.voice.transcription.create(
             audio_url="audio_url",
             auto_highlights=True,
+            boost_param="low",
             content_safety_labels=True,
+            format="json",
             format_text=True,
             language_code="language_code",
             language_detection=True,
+            object_id="object_id",
             punctuate=True,
             speaker_labels=True,
+            speakers_expected=0,
+            vault_id="vault_id",
+            word_boost=["string"],
         )
         assert transcription is None
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.voice.transcription.with_raw_response.create(
-            audio_url="audio_url",
-        )
+        response = await async_client.voice.transcription.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -152,9 +154,7 @@ class TestAsyncTranscription:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
-        async with async_client.voice.transcription.with_streaming_response.create(
-            audio_url="audio_url",
-        ) as response:
+        async with async_client.voice.transcription.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -167,7 +167,7 @@ class TestAsyncTranscription:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.retrieve(
-            "5551902f-fc65-4a61-81b2-e002d4e464e5",
+            "tr_abc123def456",
         )
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
@@ -175,7 +175,7 @@ class TestAsyncTranscription:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.retrieve(
-            "5551902f-fc65-4a61-81b2-e002d4e464e5",
+            "tr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -187,7 +187,7 @@ class TestAsyncTranscription:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.retrieve(
-            "5551902f-fc65-4a61-81b2-e002d4e464e5",
+            "tr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

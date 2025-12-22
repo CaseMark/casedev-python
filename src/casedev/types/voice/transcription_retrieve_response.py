@@ -5,37 +5,39 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["TranscriptionRetrieveResponse", "Word"]
-
-
-class Word(BaseModel):
-    confidence: Optional[float] = None
-
-    end: Optional[float] = None
-
-    start: Optional[float] = None
-
-    text: Optional[str] = None
+__all__ = ["TranscriptionRetrieveResponse"]
 
 
 class TranscriptionRetrieveResponse(BaseModel):
     id: str
     """Unique transcription job ID"""
 
-    status: Literal["queued", "processing", "completed", "error"]
+    status: Literal["queued", "processing", "completed", "failed"]
     """Current status of the transcription job"""
 
     audio_duration: Optional[float] = None
     """Duration of the audio file in seconds"""
 
     confidence: Optional[float] = None
-    """Overall confidence score for the transcription"""
+    """Overall confidence score (0-100)"""
 
     error: Optional[str] = None
-    """Error message (only present when status is error)"""
+    """Error message (only present when status is failed)"""
+
+    result_object_id: Optional[str] = None
+    """Result transcript object ID (vault-based jobs, when completed)"""
+
+    source_object_id: Optional[str] = None
+    """Source audio object ID (vault-based jobs only)"""
 
     text: Optional[str] = None
-    """Full transcription text (only present when status is completed)"""
+    """Full transcription text (legacy direct URL jobs only)"""
 
-    words: Optional[List[Word]] = None
-    """Word-level timestamps and confidence scores"""
+    vault_id: Optional[str] = None
+    """Vault ID (vault-based jobs only)"""
+
+    word_count: Optional[int] = None
+    """Number of words in the transcript"""
+
+    words: Optional[List[object]] = None
+    """Word-level timestamps (legacy direct URL jobs only)"""
