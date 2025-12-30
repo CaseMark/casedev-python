@@ -22,5 +22,12 @@ class VaultUploadParams(TypedDict, total=False):
     metadata: object
     """Additional metadata to associate with the file"""
 
+    relative_path: str
+    """Optional folder path for hierarchy preservation.
+
+    Allows integrations to maintain source folder structure from systems like
+    NetDocs, Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
+    """
+
     size_bytes: Annotated[float, PropertyInfo(alias="sizeBytes")]
     """Estimated file size in bytes for cost calculation"""
