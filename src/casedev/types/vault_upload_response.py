@@ -32,6 +32,9 @@ class VaultUploadResponse(BaseModel):
     object_id: Optional[str] = FieldInfo(alias="objectId", default=None)
     """Unique identifier for the uploaded object"""
 
+    relative_path: Optional[str] = None
+    """Folder path for hierarchy if provided"""
+
     s3_key: Optional[str] = FieldInfo(alias="s3Key", default=None)
     """S3 object key for the file"""
 
