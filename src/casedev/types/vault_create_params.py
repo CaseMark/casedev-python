@@ -18,3 +18,9 @@ class VaultCreateParams(TypedDict, total=False):
 
     enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
     """Enable knowledge graph for entity relationship mapping"""
+
+    metadata: object
+    """
+    Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
+    compliance tracking)
+    """
