@@ -38,6 +38,10 @@ class TestVault:
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
             enable_graph=True,
+            metadata={
+                "containsPHI": True,
+                "hipaaCompliant": True,
+            },
         )
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
@@ -332,6 +336,10 @@ class TestAsyncVault:
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
             enable_graph=True,
+            metadata={
+                "containsPHI": True,
+                "hipaaCompliant": True,
+            },
         )
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
