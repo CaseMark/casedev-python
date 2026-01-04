@@ -285,7 +285,7 @@ class VaultResource(SyncAPIResource):
         filename: str,
         auto_index: bool | Omit = omit,
         metadata: object | Omit = omit,
-        relative_path: str | Omit = omit,
+        path: str | Omit = omit,
         size_bytes: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -309,7 +309,7 @@ class VaultResource(SyncAPIResource):
 
           metadata: Additional metadata to associate with the file
 
-          relative_path: Optional folder path for hierarchy preservation. Allows integrations to maintain
+          path: Optional folder path for hierarchy preservation. Allows integrations to maintain
               source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
               '/Discovery/Depositions/2024'
 
@@ -333,7 +333,7 @@ class VaultResource(SyncAPIResource):
                     "filename": filename,
                     "auto_index": auto_index,
                     "metadata": metadata,
-                    "relative_path": relative_path,
+                    "path": path,
                     "size_bytes": size_bytes,
                 },
                 vault_upload_params.VaultUploadParams,
@@ -587,7 +587,7 @@ class AsyncVaultResource(AsyncAPIResource):
         filename: str,
         auto_index: bool | Omit = omit,
         metadata: object | Omit = omit,
-        relative_path: str | Omit = omit,
+        path: str | Omit = omit,
         size_bytes: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -611,7 +611,7 @@ class AsyncVaultResource(AsyncAPIResource):
 
           metadata: Additional metadata to associate with the file
 
-          relative_path: Optional folder path for hierarchy preservation. Allows integrations to maintain
+          path: Optional folder path for hierarchy preservation. Allows integrations to maintain
               source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
               '/Discovery/Depositions/2024'
 
@@ -635,7 +635,7 @@ class AsyncVaultResource(AsyncAPIResource):
                     "filename": filename,
                     "auto_index": auto_index,
                     "metadata": metadata,
-                    "relative_path": relative_path,
+                    "path": path,
                     "size_bytes": size_bytes,
                 },
                 vault_upload_params.VaultUploadParams,

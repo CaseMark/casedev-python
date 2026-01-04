@@ -22,7 +22,7 @@ class VaultUploadParams(TypedDict, total=False):
     metadata: object
     """Additional metadata to associate with the file"""
 
-    relative_path: str
+    path: str
     """Optional folder path for hierarchy preservation.
 
     Allows integrations to maintain source folder structure from systems like
