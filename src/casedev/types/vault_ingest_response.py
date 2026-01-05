@@ -11,7 +11,10 @@ __all__ = ["VaultIngestResponse"]
 
 class VaultIngestResponse(BaseModel):
     enable_graph_rag: bool = FieldInfo(alias="enableGraphRAG")
-    """Whether GraphRAG is enabled for this vault"""
+    """
+    Always false - GraphRAG must be triggered separately via POST
+    /vault/:id/graphrag/:objectId
+    """
 
     message: str
     """Human-readable status message"""
