@@ -77,6 +77,7 @@ class VaultResource(SyncAPIResource):
         name: str,
         description: str | Omit = omit,
         enable_graph: bool | Omit = omit,
+        enable_indexing: bool | Omit = omit,
         metadata: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -96,7 +97,11 @@ class VaultResource(SyncAPIResource):
 
           description: Optional description of the vault's purpose
 
-          enable_graph: Enable knowledge graph for entity relationship mapping
+          enable_graph: Enable knowledge graph for entity relationship mapping. Only applies when
+              enableIndexing is true.
+
+          enable_indexing: Enable vector indexing and search capabilities. Set to false for storage-only
+              vaults.
 
           metadata: Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
               compliance tracking)
@@ -116,6 +121,7 @@ class VaultResource(SyncAPIResource):
                     "name": name,
                     "description": description,
                     "enable_graph": enable_graph,
+                    "enable_indexing": enable_indexing,
                     "metadata": metadata,
                 },
                 vault_create_params.VaultCreateParams,
@@ -384,6 +390,7 @@ class AsyncVaultResource(AsyncAPIResource):
         name: str,
         description: str | Omit = omit,
         enable_graph: bool | Omit = omit,
+        enable_indexing: bool | Omit = omit,
         metadata: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -403,7 +410,11 @@ class AsyncVaultResource(AsyncAPIResource):
 
           description: Optional description of the vault's purpose
 
-          enable_graph: Enable knowledge graph for entity relationship mapping
+          enable_graph: Enable knowledge graph for entity relationship mapping. Only applies when
+              enableIndexing is true.
+
+          enable_indexing: Enable vector indexing and search capabilities. Set to false for storage-only
+              vaults.
 
           metadata: Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
               compliance tracking)
@@ -423,6 +434,7 @@ class AsyncVaultResource(AsyncAPIResource):
                     "name": name,
                     "description": description,
                     "enable_graph": enable_graph,
+                    "enable_indexing": enable_indexing,
                     "metadata": metadata,
                 },
                 vault_create_params.VaultCreateParams,
