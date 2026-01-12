@@ -1,5 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -22,8 +23,14 @@ class VaultIngestResponse(BaseModel):
     object_id: str = FieldInfo(alias="objectId")
     """ID of the vault object being processed"""
 
-    status: Literal["processing"]
-    """Current ingestion status"""
+    status: Literal["processing", "stored"]
+    """Current ingestion status.
 
-    workflow_id: str = FieldInfo(alias="workflowId")
-    """Workflow run ID for tracking progress"""
+    'stored' for file types without text extraction (no chunks/vectors created).
+    """
+
+    workflow_id: Optional[str] = FieldInfo(alias="workflowId", default=None)
+    """Workflow run ID for tracking progress.
+
+    Null for file types that skip processing.
+    """
