@@ -56,30 +56,6 @@ from .compute import (
     ComputeResourceWithStreamingResponse,
     AsyncComputeResourceWithStreamingResponse,
 )
-from .convert import (
-    ConvertResource,
-    AsyncConvertResource,
-    ConvertResourceWithRawResponse,
-    AsyncConvertResourceWithRawResponse,
-    ConvertResourceWithStreamingResponse,
-    AsyncConvertResourceWithStreamingResponse,
-)
-from .templates import (
-    TemplatesResource,
-    AsyncTemplatesResource,
-    TemplatesResourceWithRawResponse,
-    AsyncTemplatesResourceWithRawResponse,
-    TemplatesResourceWithStreamingResponse,
-    AsyncTemplatesResourceWithStreamingResponse,
-)
-from .workflows import (
-    WorkflowsResource,
-    AsyncWorkflowsResource,
-    WorkflowsResourceWithRawResponse,
-    AsyncWorkflowsResourceWithRawResponse,
-    WorkflowsResourceWithStreamingResponse,
-    AsyncWorkflowsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "ComputeResource",
@@ -88,12 +64,6 @@ __all__ = [
     "AsyncComputeResourceWithRawResponse",
     "ComputeResourceWithStreamingResponse",
     "AsyncComputeResourceWithStreamingResponse",
-    "ConvertResource",
-    "AsyncConvertResource",
-    "ConvertResourceWithRawResponse",
-    "AsyncConvertResourceWithRawResponse",
-    "ConvertResourceWithStreamingResponse",
-    "AsyncConvertResourceWithStreamingResponse",
     "FormatResource",
     "AsyncFormatResource",
     "FormatResourceWithRawResponse",
@@ -130,16 +100,4 @@ __all__ = [
     "AsyncVoiceResourceWithRawResponse",
     "VoiceResourceWithStreamingResponse",
     "AsyncVoiceResourceWithStreamingResponse",
-    "TemplatesResource",
-    "AsyncTemplatesResource",
-    "TemplatesResourceWithRawResponse",
-    "AsyncTemplatesResourceWithRawResponse",
-    "TemplatesResourceWithStreamingResponse",
-    "AsyncTemplatesResourceWithStreamingResponse",
-    "WorkflowsResource",
-    "AsyncWorkflowsResource",
-    "WorkflowsResourceWithRawResponse",
-    "AsyncWorkflowsResourceWithRawResponse",
-    "WorkflowsResourceWithStreamingResponse",
-    "AsyncWorkflowsResourceWithStreamingResponse",
 ]

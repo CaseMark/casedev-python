@@ -140,12 +140,12 @@ from casedev import Casedev
 
 client = Casedev()
 
-response = client.convert.v1.webhook(
-    job_id="job_id",
-    status="completed",
-    result={},
+response = client.format.v1.create_document(
+    content="content",
+    output_format="pdf",
+    options={},
 )
-print(response.result)
+print(response.options)
 ```
 
 ## Handling errors
