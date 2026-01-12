@@ -31,7 +31,7 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import llm, ocr, vault, voice, format, search, compute, convert, templates, workflows
+    from .resources import llm, ocr, vault, voice, format, search, compute
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
     from .resources.vault.vault import VaultResource, AsyncVaultResource
@@ -39,9 +39,6 @@ if TYPE_CHECKING:
     from .resources.format.format import FormatResource, AsyncFormatResource
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
-    from .resources.convert.convert import ConvertResource, AsyncConvertResource
-    from .resources.templates.templates import TemplatesResource, AsyncTemplatesResource
-    from .resources.workflows.workflows import WorkflowsResource, AsyncWorkflowsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -147,12 +144,6 @@ class Casedev(SyncAPIClient):
         return ComputeResource(self)
 
     @cached_property
-    def convert(self) -> ConvertResource:
-        from .resources.convert import ConvertResource
-
-        return ConvertResource(self)
-
-    @cached_property
     def format(self) -> FormatResource:
         from .resources.format import FormatResource
 
@@ -187,18 +178,6 @@ class Casedev(SyncAPIClient):
         from .resources.voice import VoiceResource
 
         return VoiceResource(self)
-
-    @cached_property
-    def templates(self) -> TemplatesResource:
-        from .resources.templates import TemplatesResource
-
-        return TemplatesResource(self)
-
-    @cached_property
-    def workflows(self) -> WorkflowsResource:
-        from .resources.workflows import WorkflowsResource
-
-        return WorkflowsResource(self)
 
     @cached_property
     def with_raw_response(self) -> CasedevWithRawResponse:
@@ -401,12 +380,6 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncComputeResource(self)
 
     @cached_property
-    def convert(self) -> AsyncConvertResource:
-        from .resources.convert import AsyncConvertResource
-
-        return AsyncConvertResource(self)
-
-    @cached_property
     def format(self) -> AsyncFormatResource:
         from .resources.format import AsyncFormatResource
 
@@ -441,18 +414,6 @@ class AsyncCasedev(AsyncAPIClient):
         from .resources.voice import AsyncVoiceResource
 
         return AsyncVoiceResource(self)
-
-    @cached_property
-    def templates(self) -> AsyncTemplatesResource:
-        from .resources.templates import AsyncTemplatesResource
-
-        return AsyncTemplatesResource(self)
-
-    @cached_property
-    def workflows(self) -> AsyncWorkflowsResource:
-        from .resources.workflows import AsyncWorkflowsResource
-
-        return AsyncWorkflowsResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncCasedevWithRawResponse:
@@ -582,12 +543,6 @@ class CasedevWithRawResponse:
         return ComputeResourceWithRawResponse(self._client.compute)
 
     @cached_property
-    def convert(self) -> convert.ConvertResourceWithRawResponse:
-        from .resources.convert import ConvertResourceWithRawResponse
-
-        return ConvertResourceWithRawResponse(self._client.convert)
-
-    @cached_property
     def format(self) -> format.FormatResourceWithRawResponse:
         from .resources.format import FormatResourceWithRawResponse
 
@@ -623,18 +578,6 @@ class CasedevWithRawResponse:
 
         return VoiceResourceWithRawResponse(self._client.voice)
 
-    @cached_property
-    def templates(self) -> templates.TemplatesResourceWithRawResponse:
-        from .resources.templates import TemplatesResourceWithRawResponse
-
-        return TemplatesResourceWithRawResponse(self._client.templates)
-
-    @cached_property
-    def workflows(self) -> workflows.WorkflowsResourceWithRawResponse:
-        from .resources.workflows import WorkflowsResourceWithRawResponse
-
-        return WorkflowsResourceWithRawResponse(self._client.workflows)
-
 
 class AsyncCasedevWithRawResponse:
     _client: AsyncCasedev
@@ -647,12 +590,6 @@ class AsyncCasedevWithRawResponse:
         from .resources.compute import AsyncComputeResourceWithRawResponse
 
         return AsyncComputeResourceWithRawResponse(self._client.compute)
-
-    @cached_property
-    def convert(self) -> convert.AsyncConvertResourceWithRawResponse:
-        from .resources.convert import AsyncConvertResourceWithRawResponse
-
-        return AsyncConvertResourceWithRawResponse(self._client.convert)
 
     @cached_property
     def format(self) -> format.AsyncFormatResourceWithRawResponse:
@@ -690,18 +627,6 @@ class AsyncCasedevWithRawResponse:
 
         return AsyncVoiceResourceWithRawResponse(self._client.voice)
 
-    @cached_property
-    def templates(self) -> templates.AsyncTemplatesResourceWithRawResponse:
-        from .resources.templates import AsyncTemplatesResourceWithRawResponse
-
-        return AsyncTemplatesResourceWithRawResponse(self._client.templates)
-
-    @cached_property
-    def workflows(self) -> workflows.AsyncWorkflowsResourceWithRawResponse:
-        from .resources.workflows import AsyncWorkflowsResourceWithRawResponse
-
-        return AsyncWorkflowsResourceWithRawResponse(self._client.workflows)
-
 
 class CasedevWithStreamedResponse:
     _client: Casedev
@@ -714,12 +639,6 @@ class CasedevWithStreamedResponse:
         from .resources.compute import ComputeResourceWithStreamingResponse
 
         return ComputeResourceWithStreamingResponse(self._client.compute)
-
-    @cached_property
-    def convert(self) -> convert.ConvertResourceWithStreamingResponse:
-        from .resources.convert import ConvertResourceWithStreamingResponse
-
-        return ConvertResourceWithStreamingResponse(self._client.convert)
 
     @cached_property
     def format(self) -> format.FormatResourceWithStreamingResponse:
@@ -757,18 +676,6 @@ class CasedevWithStreamedResponse:
 
         return VoiceResourceWithStreamingResponse(self._client.voice)
 
-    @cached_property
-    def templates(self) -> templates.TemplatesResourceWithStreamingResponse:
-        from .resources.templates import TemplatesResourceWithStreamingResponse
-
-        return TemplatesResourceWithStreamingResponse(self._client.templates)
-
-    @cached_property
-    def workflows(self) -> workflows.WorkflowsResourceWithStreamingResponse:
-        from .resources.workflows import WorkflowsResourceWithStreamingResponse
-
-        return WorkflowsResourceWithStreamingResponse(self._client.workflows)
-
 
 class AsyncCasedevWithStreamedResponse:
     _client: AsyncCasedev
@@ -781,12 +688,6 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.compute import AsyncComputeResourceWithStreamingResponse
 
         return AsyncComputeResourceWithStreamingResponse(self._client.compute)
-
-    @cached_property
-    def convert(self) -> convert.AsyncConvertResourceWithStreamingResponse:
-        from .resources.convert import AsyncConvertResourceWithStreamingResponse
-
-        return AsyncConvertResourceWithStreamingResponse(self._client.convert)
 
     @cached_property
     def format(self) -> format.AsyncFormatResourceWithStreamingResponse:
@@ -823,18 +724,6 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.voice import AsyncVoiceResourceWithStreamingResponse
 
         return AsyncVoiceResourceWithStreamingResponse(self._client.voice)
-
-    @cached_property
-    def templates(self) -> templates.AsyncTemplatesResourceWithStreamingResponse:
-        from .resources.templates import AsyncTemplatesResourceWithStreamingResponse
-
-        return AsyncTemplatesResourceWithStreamingResponse(self._client.templates)
-
-    @cached_property
-    def workflows(self) -> workflows.AsyncWorkflowsResourceWithStreamingResponse:
-        from .resources.workflows import AsyncWorkflowsResourceWithStreamingResponse
-
-        return AsyncWorkflowsResourceWithStreamingResponse(self._client.workflows)
 
 
 Client = Casedev

@@ -20,14 +20,11 @@ class VaultCreateResponse(BaseModel):
     description: Optional[str] = None
     """Vault description"""
 
-    enable_indexing: Optional[bool] = FieldInfo(alias="enableIndexing", default=None)
-    """Whether vector indexing is enabled for this vault"""
-
     files_bucket: Optional[str] = FieldInfo(alias="filesBucket", default=None)
     """S3 bucket name for document storage"""
 
     index_name: Optional[str] = FieldInfo(alias="indexName", default=None)
-    """Vector search index name. Null for storage-only vaults."""
+    """Vector search index name"""
 
     name: Optional[str] = None
     """Vault display name"""
@@ -36,4 +33,4 @@ class VaultCreateResponse(BaseModel):
     """AWS region for storage"""
 
     vector_bucket: Optional[str] = FieldInfo(alias="vectorBucket", default=None)
-    """S3 bucket name for vector embeddings. Null for storage-only vaults."""
+    """S3 bucket name for vector embeddings"""
