@@ -38,6 +38,7 @@ class TestVault:
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
             enable_graph=True,
+            enable_indexing=True,
             metadata={
                 "containsPHI": True,
                 "hipaaCompliant": True,
@@ -336,6 +337,7 @@ class TestAsyncVault:
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
             enable_graph=True,
+            enable_indexing=True,
             metadata={
                 "containsPHI": True,
                 "hipaaCompliant": True,
