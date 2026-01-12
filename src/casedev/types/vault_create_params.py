@@ -17,7 +17,16 @@ class VaultCreateParams(TypedDict, total=False):
     """Optional description of the vault's purpose"""
 
     enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
-    """Enable knowledge graph for entity relationship mapping"""
+    """Enable knowledge graph for entity relationship mapping.
+
+    Only applies when enableIndexing is true.
+    """
+
+    enable_indexing: Annotated[bool, PropertyInfo(alias="enableIndexing")]
+    """Enable vector indexing and search capabilities.
+
+    Set to false for storage-only vaults.
+    """
 
     metadata: object
     """
