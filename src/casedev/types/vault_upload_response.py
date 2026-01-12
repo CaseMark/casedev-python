@@ -21,9 +21,6 @@ class VaultUploadResponse(BaseModel):
     auto_index: Optional[bool] = None
     """Whether the file will be automatically indexed"""
 
-    enable_indexing: Optional[bool] = FieldInfo(alias="enableIndexing", default=None)
-    """Whether the vault supports indexing. False for storage-only vaults."""
-
     expires_in: Optional[float] = FieldInfo(alias="expiresIn", default=None)
     """URL expiration time in seconds"""
 
