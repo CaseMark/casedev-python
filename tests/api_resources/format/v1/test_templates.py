@@ -9,7 +9,11 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.format.v1 import TemplateCreateResponse
+from casedev.types.format.v1 import (
+    TemplateListResponse,
+    TemplateCreateResponse,
+    TemplateRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -77,7 +81,7 @@ class TestTemplates:
         template = client.format.v1.templates.retrieve(
             "id",
         )
-        assert template is None
+        assert_matches_type(TemplateRetrieveResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -89,7 +93,7 @@ class TestTemplates:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         template = response.parse()
-        assert template is None
+        assert_matches_type(TemplateRetrieveResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -101,7 +105,7 @@ class TestTemplates:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             template = response.parse()
-            assert template is None
+            assert_matches_type(TemplateRetrieveResponse, template, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -117,7 +121,7 @@ class TestTemplates:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         template = client.format.v1.templates.list()
-        assert template is None
+        assert_matches_type(TemplateListResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -125,7 +129,7 @@ class TestTemplates:
         template = client.format.v1.templates.list(
             type="type",
         )
-        assert template is None
+        assert_matches_type(TemplateListResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -135,7 +139,7 @@ class TestTemplates:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         template = response.parse()
-        assert template is None
+        assert_matches_type(TemplateListResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -145,7 +149,7 @@ class TestTemplates:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             template = response.parse()
-            assert template is None
+            assert_matches_type(TemplateListResponse, template, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -215,7 +219,7 @@ class TestAsyncTemplates:
         template = await async_client.format.v1.templates.retrieve(
             "id",
         )
-        assert template is None
+        assert_matches_type(TemplateRetrieveResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -227,7 +231,7 @@ class TestAsyncTemplates:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         template = await response.parse()
-        assert template is None
+        assert_matches_type(TemplateRetrieveResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -239,7 +243,7 @@ class TestAsyncTemplates:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             template = await response.parse()
-            assert template is None
+            assert_matches_type(TemplateRetrieveResponse, template, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -255,7 +259,7 @@ class TestAsyncTemplates:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         template = await async_client.format.v1.templates.list()
-        assert template is None
+        assert_matches_type(TemplateListResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -263,7 +267,7 @@ class TestAsyncTemplates:
         template = await async_client.format.v1.templates.list(
             type="type",
         )
-        assert template is None
+        assert_matches_type(TemplateListResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -273,7 +277,7 @@ class TestAsyncTemplates:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         template = await response.parse()
-        assert template is None
+        assert_matches_type(TemplateListResponse, template, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -283,6 +287,6 @@ class TestAsyncTemplates:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             template = await response.parse()
-            assert template is None
+            assert_matches_type(TemplateListResponse, template, path=["response"])
 
         assert cast(Any, response.is_closed) is True

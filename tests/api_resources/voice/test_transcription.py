@@ -9,7 +9,7 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.voice import TranscriptionRetrieveResponse
+from casedev.types.voice import TranscriptionCreateResponse, TranscriptionRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,7 +21,7 @@ class TestTranscription:
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         transcription = client.voice.transcription.create()
-        assert transcription is None
+        assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -42,7 +42,7 @@ class TestTranscription:
             vault_id="vault_id",
             word_boost=["string"],
         )
-        assert transcription is None
+        assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -52,7 +52,7 @@ class TestTranscription:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transcription = response.parse()
-        assert transcription is None
+        assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -62,7 +62,7 @@ class TestTranscription:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transcription = response.parse()
-            assert transcription is None
+            assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -118,7 +118,7 @@ class TestAsyncTranscription:
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.create()
-        assert transcription is None
+        assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -139,7 +139,7 @@ class TestAsyncTranscription:
             vault_id="vault_id",
             word_boost=["string"],
         )
-        assert transcription is None
+        assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -149,7 +149,7 @@ class TestAsyncTranscription:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         transcription = await response.parse()
-        assert transcription is None
+        assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -159,7 +159,7 @@ class TestAsyncTranscription:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             transcription = await response.parse()
-            assert transcription is None
+            assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

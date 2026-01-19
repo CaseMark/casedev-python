@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -18,7 +18,9 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.format.v1 import template_list_params, template_create_params
+from ....types.format.v1.template_list_response import TemplateListResponse
 from ....types.format.v1.template_create_response import TemplateCreateResponse
+from ....types.format.v1.template_retrieve_response import TemplateRetrieveResponse
 
 __all__ = ["TemplatesResource", "AsyncTemplatesResource"]
 
@@ -119,7 +121,7 @@ class TemplatesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> TemplateRetrieveResponse:
         """Retrieve a specific document format template by ID.
 
         Format templates define how
@@ -137,13 +139,12 @@ class TemplatesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/format/v1/templates/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=TemplateRetrieveResponse,
         )
 
     def list(
@@ -156,7 +157,7 @@ class TemplatesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> TemplateListResponse:
         """Retrieve all format templates for the organization.
 
         Templates define reusable
@@ -177,7 +178,6 @@ class TemplatesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/format/v1/templates",
             options=make_request_options(
@@ -187,7 +187,7 @@ class TemplatesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"type": type}, template_list_params.TemplateListParams),
             ),
-            cast_to=NoneType,
+            cast_to=TemplateListResponse,
         )
 
 
@@ -287,7 +287,7 @@ class AsyncTemplatesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> TemplateRetrieveResponse:
         """Retrieve a specific document format template by ID.
 
         Format templates define how
@@ -305,13 +305,12 @@ class AsyncTemplatesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/format/v1/templates/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=TemplateRetrieveResponse,
         )
 
     async def list(
@@ -324,7 +323,7 @@ class AsyncTemplatesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> TemplateListResponse:
         """Retrieve all format templates for the organization.
 
         Templates define reusable
@@ -345,7 +344,6 @@ class AsyncTemplatesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/format/v1/templates",
             options=make_request_options(
@@ -355,7 +353,7 @@ class AsyncTemplatesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"type": type}, template_list_params.TemplateListParams),
             ),
-            cast_to=NoneType,
+            cast_to=TemplateListResponse,
         )
 
 

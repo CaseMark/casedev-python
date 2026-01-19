@@ -6,7 +6,7 @@ from typing import Dict
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -24,7 +24,11 @@ from ....types.compute.v1 import (
     secret_update_group_params,
     secret_retrieve_group_params,
 )
+from ....types.compute.v1.secret_list_response import SecretListResponse
 from ....types.compute.v1.secret_create_response import SecretCreateResponse
+from ....types.compute.v1.secret_delete_group_response import SecretDeleteGroupResponse
+from ....types.compute.v1.secret_update_group_response import SecretUpdateGroupResponse
+from ....types.compute.v1.secret_retrieve_group_response import SecretRetrieveGroupResponse
 
 __all__ = ["SecretsResource", "AsyncSecretsResource"]
 
@@ -119,7 +123,7 @@ class SecretsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretListResponse:
         """Retrieve all secret groups for a compute environment.
 
         Secret groups organize
@@ -138,7 +142,6 @@ class SecretsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/compute/v1/secrets",
             options=make_request_options(
@@ -148,7 +151,7 @@ class SecretsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"env": env}, secret_list_params.SecretListParams),
             ),
-            cast_to=NoneType,
+            cast_to=SecretListResponse,
         )
 
     def delete_group(
@@ -163,7 +166,7 @@ class SecretsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretDeleteGroupResponse:
         """Delete an entire secret group or a specific key within a secret group.
 
         When
@@ -186,7 +189,6 @@ class SecretsResource(SyncAPIResource):
         """
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
             f"/compute/v1/secrets/{group}",
             options=make_request_options(
@@ -202,7 +204,7 @@ class SecretsResource(SyncAPIResource):
                     secret_delete_group_params.SecretDeleteGroupParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=SecretDeleteGroupResponse,
         )
 
     def retrieve_group(
@@ -216,7 +218,7 @@ class SecretsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretRetrieveGroupResponse:
         """
         Retrieve the keys (names) of secrets in a specified group within a compute
         environment. For security reasons, actual secret values are not returned - only
@@ -235,7 +237,6 @@ class SecretsResource(SyncAPIResource):
         """
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/compute/v1/secrets/{group}",
             options=make_request_options(
@@ -245,7 +246,7 @@ class SecretsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"env": env}, secret_retrieve_group_params.SecretRetrieveGroupParams),
             ),
-            cast_to=NoneType,
+            cast_to=SecretRetrieveGroupResponse,
         )
 
     def update_group(
@@ -260,7 +261,7 @@ class SecretsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretUpdateGroupResponse:
         """Set or update secrets in a compute secret group.
 
         Secrets are encrypted with
@@ -282,7 +283,6 @@ class SecretsResource(SyncAPIResource):
         """
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
             f"/compute/v1/secrets/{group}",
             body=maybe_transform(
@@ -295,7 +295,7 @@ class SecretsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=SecretUpdateGroupResponse,
         )
 
 
@@ -389,7 +389,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretListResponse:
         """Retrieve all secret groups for a compute environment.
 
         Secret groups organize
@@ -408,7 +408,6 @@ class AsyncSecretsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/compute/v1/secrets",
             options=make_request_options(
@@ -418,7 +417,7 @@ class AsyncSecretsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"env": env}, secret_list_params.SecretListParams),
             ),
-            cast_to=NoneType,
+            cast_to=SecretListResponse,
         )
 
     async def delete_group(
@@ -433,7 +432,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretDeleteGroupResponse:
         """Delete an entire secret group or a specific key within a secret group.
 
         When
@@ -456,7 +455,6 @@ class AsyncSecretsResource(AsyncAPIResource):
         """
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
             f"/compute/v1/secrets/{group}",
             options=make_request_options(
@@ -472,7 +470,7 @@ class AsyncSecretsResource(AsyncAPIResource):
                     secret_delete_group_params.SecretDeleteGroupParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=SecretDeleteGroupResponse,
         )
 
     async def retrieve_group(
@@ -486,7 +484,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretRetrieveGroupResponse:
         """
         Retrieve the keys (names) of secrets in a specified group within a compute
         environment. For security reasons, actual secret values are not returned - only
@@ -505,7 +503,6 @@ class AsyncSecretsResource(AsyncAPIResource):
         """
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/compute/v1/secrets/{group}",
             options=make_request_options(
@@ -515,7 +512,7 @@ class AsyncSecretsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"env": env}, secret_retrieve_group_params.SecretRetrieveGroupParams),
             ),
-            cast_to=NoneType,
+            cast_to=SecretRetrieveGroupResponse,
         )
 
     async def update_group(
@@ -530,7 +527,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> SecretUpdateGroupResponse:
         """Set or update secrets in a compute secret group.
 
         Secrets are encrypted with
@@ -552,7 +549,6 @@ class AsyncSecretsResource(AsyncAPIResource):
         """
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
             f"/compute/v1/secrets/{group}",
             body=await async_maybe_transform(
@@ -565,7 +561,7 @@ class AsyncSecretsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=SecretUpdateGroupResponse,
         )
 
 

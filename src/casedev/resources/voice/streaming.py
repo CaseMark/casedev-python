@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
+from ..._types import Body, Query, Headers, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -14,6 +14,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.voice.streaming_get_url_response import StreamingGetURLResponse
 
 __all__ = ["StreamingResource", "AsyncStreamingResource"]
 
@@ -47,7 +48,7 @@ class StreamingResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> StreamingGetURLResponse:
         """
         Returns the WebSocket URL and connection details for real-time audio
         transcription. The returned URL can be used to establish a WebSocket connection
@@ -61,13 +62,12 @@ class StreamingResource(SyncAPIResource):
 
         **Pricing:** $0.30 per minute ($18.00 per hour)
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/voice/streaming/url",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=StreamingGetURLResponse,
         )
 
 
@@ -100,7 +100,7 @@ class AsyncStreamingResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> StreamingGetURLResponse:
         """
         Returns the WebSocket URL and connection details for real-time audio
         transcription. The returned URL can be used to establish a WebSocket connection
@@ -114,13 +114,12 @@ class AsyncStreamingResource(AsyncAPIResource):
 
         **Pricing:** $0.30 per minute ($18.00 per hour)
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/voice/streaming/url",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=StreamingGetURLResponse,
         )
 
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ...._types import Body, Query, Headers, NoneType, NotGiven, not_given
+from ...._types import Body, Query, Headers, NotGiven, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -16,8 +16,11 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.compute.v1 import environment_create_params
+from ....types.compute.v1.environment_list_response import EnvironmentListResponse
 from ....types.compute.v1.environment_create_response import EnvironmentCreateResponse
 from ....types.compute.v1.environment_delete_response import EnvironmentDeleteResponse
+from ....types.compute.v1.environment_retrieve_response import EnvironmentRetrieveResponse
+from ....types.compute.v1.environment_set_default_response import EnvironmentSetDefaultResponse
 
 __all__ = ["EnvironmentsResource", "AsyncEnvironmentsResource"]
 
@@ -90,7 +93,7 @@ class EnvironmentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EnvironmentRetrieveResponse:
         """Retrieve a specific compute environment by name.
 
         Returns environment
@@ -108,13 +111,12 @@ class EnvironmentsResource(SyncAPIResource):
         """
         if not name:
             raise ValueError(f"Expected a non-empty value for `name` but received {name!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/compute/v1/environments/{name}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EnvironmentRetrieveResponse,
         )
 
     def list(
@@ -126,19 +128,18 @@ class EnvironmentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EnvironmentListResponse:
         """Retrieve all compute environments for your organization.
 
         Environments provide
         isolated execution contexts for running code and workflows.
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/compute/v1/environments",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EnvironmentListResponse,
         )
 
     def delete(
@@ -187,7 +188,7 @@ class EnvironmentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EnvironmentSetDefaultResponse:
         """Sets a compute environment as the default for the organization.
 
         Only one
@@ -205,13 +206,12 @@ class EnvironmentsResource(SyncAPIResource):
         """
         if not name:
             raise ValueError(f"Expected a non-empty value for `name` but received {name!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             f"/compute/v1/environments/{name}/default",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EnvironmentSetDefaultResponse,
         )
 
 
@@ -283,7 +283,7 @@ class AsyncEnvironmentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EnvironmentRetrieveResponse:
         """Retrieve a specific compute environment by name.
 
         Returns environment
@@ -301,13 +301,12 @@ class AsyncEnvironmentsResource(AsyncAPIResource):
         """
         if not name:
             raise ValueError(f"Expected a non-empty value for `name` but received {name!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/compute/v1/environments/{name}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EnvironmentRetrieveResponse,
         )
 
     async def list(
@@ -319,19 +318,18 @@ class AsyncEnvironmentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EnvironmentListResponse:
         """Retrieve all compute environments for your organization.
 
         Environments provide
         isolated execution contexts for running code and workflows.
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/compute/v1/environments",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EnvironmentListResponse,
         )
 
     async def delete(
@@ -380,7 +378,7 @@ class AsyncEnvironmentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EnvironmentSetDefaultResponse:
         """Sets a compute environment as the default for the organization.
 
         Only one
@@ -398,13 +396,12 @@ class AsyncEnvironmentsResource(AsyncAPIResource):
         """
         if not name:
             raise ValueError(f"Expected a non-empty value for `name` but received {name!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             f"/compute/v1/environments/{name}/default",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EnvironmentSetDefaultResponse,
         )
 
 
