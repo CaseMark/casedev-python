@@ -15,7 +15,7 @@ from .objects import (
     ObjectsResourceWithStreamingResponse,
     AsyncObjectsResourceWithStreamingResponse,
 )
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from .graphrag import (
     GraphragResource,
@@ -39,6 +39,7 @@ from ...types.vault_create_response import VaultCreateResponse
 from ...types.vault_ingest_response import VaultIngestResponse
 from ...types.vault_search_response import VaultSearchResponse
 from ...types.vault_upload_response import VaultUploadResponse
+from ...types.vault_retrieve_response import VaultRetrieveResponse
 
 __all__ = ["VaultResource", "AsyncVaultResource"]
 
@@ -142,7 +143,7 @@ class VaultResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> VaultRetrieveResponse:
         """
         Retrieve detailed information about a specific vault, including storage
         configuration, chunking strategy, and usage statistics. Returns vault metadata,
@@ -159,13 +160,12 @@ class VaultResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=VaultRetrieveResponse,
         )
 
     def list(
@@ -457,7 +457,7 @@ class AsyncVaultResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> VaultRetrieveResponse:
         """
         Retrieve detailed information about a specific vault, including storage
         configuration, chunking strategy, and usage statistics. Returns vault metadata,
@@ -474,13 +474,12 @@ class AsyncVaultResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=VaultRetrieveResponse,
         )
 
     async def list(

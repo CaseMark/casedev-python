@@ -4,3 +4,5 @@ from __future__ import annotations
 
 from .v1_process_params import V1ProcessParams as V1ProcessParams
 from .v1_process_response import V1ProcessResponse as V1ProcessResponse
+from .v1_download_response import V1DownloadResponse as V1DownloadResponse
+from .v1_retrieve_response import V1RetrieveResponse as V1RetrieveResponse

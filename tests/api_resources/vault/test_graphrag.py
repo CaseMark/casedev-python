@@ -8,6 +8,8 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev.types.vault import GraphragInitResponse, GraphragGetStatsResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,7 +23,7 @@ class TestGraphrag:
         graphrag = client.vault.graphrag.get_stats(
             "id",
         )
-        assert graphrag is None
+        assert_matches_type(GraphragGetStatsResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -33,7 +35,7 @@ class TestGraphrag:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = response.parse()
-        assert graphrag is None
+        assert_matches_type(GraphragGetStatsResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -45,7 +47,7 @@ class TestGraphrag:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = response.parse()
-            assert graphrag is None
+            assert_matches_type(GraphragGetStatsResponse, graphrag, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -63,7 +65,7 @@ class TestGraphrag:
         graphrag = client.vault.graphrag.init(
             "id",
         )
-        assert graphrag is None
+        assert_matches_type(GraphragInitResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -75,7 +77,7 @@ class TestGraphrag:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = response.parse()
-        assert graphrag is None
+        assert_matches_type(GraphragInitResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -87,7 +89,7 @@ class TestGraphrag:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = response.parse()
-            assert graphrag is None
+            assert_matches_type(GraphragInitResponse, graphrag, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -111,7 +113,7 @@ class TestAsyncGraphrag:
         graphrag = await async_client.vault.graphrag.get_stats(
             "id",
         )
-        assert graphrag is None
+        assert_matches_type(GraphragGetStatsResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -123,7 +125,7 @@ class TestAsyncGraphrag:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = await response.parse()
-        assert graphrag is None
+        assert_matches_type(GraphragGetStatsResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -135,7 +137,7 @@ class TestAsyncGraphrag:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = await response.parse()
-            assert graphrag is None
+            assert_matches_type(GraphragGetStatsResponse, graphrag, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -153,7 +155,7 @@ class TestAsyncGraphrag:
         graphrag = await async_client.vault.graphrag.init(
             "id",
         )
-        assert graphrag is None
+        assert_matches_type(GraphragInitResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -165,7 +167,7 @@ class TestAsyncGraphrag:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         graphrag = await response.parse()
-        assert graphrag is None
+        assert_matches_type(GraphragInitResponse, graphrag, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -177,7 +179,7 @@ class TestAsyncGraphrag:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             graphrag = await response.parse()
-            assert graphrag is None
+            assert_matches_type(GraphragInitResponse, graphrag, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

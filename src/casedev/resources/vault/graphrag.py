@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
+from ..._types import Body, Query, Headers, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -14,6 +14,8 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.vault.graphrag_init_response import GraphragInitResponse
+from ...types.vault.graphrag_get_stats_response import GraphragGetStatsResponse
 
 __all__ = ["GraphragResource", "AsyncGraphragResource"]
 
@@ -48,7 +50,7 @@ class GraphragResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> GraphragGetStatsResponse:
         """
         Retrieve GraphRAG (Graph Retrieval-Augmented Generation) statistics for a
         specific vault. This includes metrics about the knowledge graph structure,
@@ -66,13 +68,12 @@ class GraphragResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/graphrag/stats",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=GraphragGetStatsResponse,
         )
 
     def init(
@@ -85,7 +86,7 @@ class GraphragResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> GraphragInitResponse:
         """
         Initialize a GraphRAG workspace for a vault to enable advanced knowledge graph
         and retrieval-augmented generation capabilities. This creates the necessary
@@ -103,13 +104,12 @@ class GraphragResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             f"/vault/{id}/graphrag/init",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=GraphragInitResponse,
         )
 
 
@@ -143,7 +143,7 @@ class AsyncGraphragResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> GraphragGetStatsResponse:
         """
         Retrieve GraphRAG (Graph Retrieval-Augmented Generation) statistics for a
         specific vault. This includes metrics about the knowledge graph structure,
@@ -161,13 +161,12 @@ class AsyncGraphragResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/graphrag/stats",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=GraphragGetStatsResponse,
         )
 
     async def init(
@@ -180,7 +179,7 @@ class AsyncGraphragResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> GraphragInitResponse:
         """
         Initialize a GraphRAG workspace for a vault to enable advanced knowledge graph
         and retrieval-augmented generation capabilities. This creates the necessary
@@ -198,13 +197,12 @@ class AsyncGraphragResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             f"/vault/{id}/graphrag/init",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=GraphragInitResponse,
         )
 
 

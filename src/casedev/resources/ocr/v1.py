@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -19,6 +19,7 @@ from ..._response import (
 from ...types.ocr import v1_process_params
 from ..._base_client import make_request_options
 from ...types.ocr.v1_process_response import V1ProcessResponse
+from ...types.ocr.v1_retrieve_response import V1RetrieveResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -53,7 +54,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1RetrieveResponse:
         """Retrieve the status and results of an OCR job.
 
         Returns job progress, extracted
@@ -70,13 +71,12 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/ocr/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1RetrieveResponse,
         )
 
     def download(
@@ -90,7 +90,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> str:
         """Download OCR processing results in various formats.
 
         Returns the processed
@@ -110,13 +110,12 @@ class V1Resource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not type:
             raise ValueError(f"Expected a non-empty value for `type` but received {type!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/ocr/v1/{id}/download/{type}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=str,
         )
 
     def process(
@@ -215,7 +214,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1RetrieveResponse:
         """Retrieve the status and results of an OCR job.
 
         Returns job progress, extracted
@@ -232,13 +231,12 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/ocr/v1/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1RetrieveResponse,
         )
 
     async def download(
@@ -252,7 +250,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> str:
         """Download OCR processing results in various formats.
 
         Returns the processed
@@ -272,13 +270,12 @@ class AsyncV1Resource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not type:
             raise ValueError(f"Expected a non-empty value for `type` but received {type!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/ocr/v1/{id}/download/{type}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=str,
         )
 
     async def process(

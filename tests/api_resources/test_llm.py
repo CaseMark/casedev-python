@@ -8,6 +8,8 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev.types import LlmGetConfigResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +21,7 @@ class TestLlm:
     @parametrize
     def test_method_get_config(self, client: Casedev) -> None:
         llm = client.llm.get_config()
-        assert llm is None
+        assert_matches_type(LlmGetConfigResponse, llm, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -29,7 +31,7 @@ class TestLlm:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         llm = response.parse()
-        assert llm is None
+        assert_matches_type(LlmGetConfigResponse, llm, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -39,7 +41,7 @@ class TestLlm:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             llm = response.parse()
-            assert llm is None
+            assert_matches_type(LlmGetConfigResponse, llm, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -53,7 +55,7 @@ class TestAsyncLlm:
     @parametrize
     async def test_method_get_config(self, async_client: AsyncCasedev) -> None:
         llm = await async_client.llm.get_config()
-        assert llm is None
+        assert_matches_type(LlmGetConfigResponse, llm, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -63,7 +65,7 @@ class TestAsyncLlm:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         llm = await response.parse()
-        assert llm is None
+        assert_matches_type(LlmGetConfigResponse, llm, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -73,6 +75,6 @@ class TestAsyncLlm:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             llm = await response.parse()
-            assert llm is None
+            assert_matches_type(LlmGetConfigResponse, llm, path=["response"])
 
         assert cast(Any, response.is_closed) is True

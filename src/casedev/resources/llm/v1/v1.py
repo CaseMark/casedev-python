@@ -15,7 +15,7 @@ from .chat import (
     ChatResourceWithStreamingResponse,
     AsyncChatResourceWithStreamingResponse,
 )
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -27,6 +27,8 @@ from ...._response import (
 )
 from ....types.llm import v1_create_embedding_params
 from ...._base_client import make_request_options
+from ....types.llm.v1_list_models_response import V1ListModelsResponse
+from ....types.llm.v1_create_embedding_response import V1CreateEmbeddingResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -69,7 +71,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1CreateEmbeddingResponse:
         """Create vector embeddings from text using OpenAI-compatible models.
 
         Perfect for
@@ -95,7 +97,6 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/llm/v1/embeddings",
             body=maybe_transform(
@@ -111,7 +112,7 @@ class V1Resource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1CreateEmbeddingResponse,
         )
 
     def list_models(
@@ -123,7 +124,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1ListModelsResponse:
         """
         Retrieve a list of all available language models from 40+ providers including
         OpenAI, Anthropic, Google, and Case.dev's specialized legal models. Returns
@@ -132,13 +133,12 @@ class V1Resource(SyncAPIResource):
         This endpoint is compatible with OpenAI's models API format, making it easy to
         integrate with existing applications.
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/llm/v1/models",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1ListModelsResponse,
         )
 
 
@@ -180,7 +180,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1CreateEmbeddingResponse:
         """Create vector embeddings from text using OpenAI-compatible models.
 
         Perfect for
@@ -206,7 +206,6 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/llm/v1/embeddings",
             body=await async_maybe_transform(
@@ -222,7 +221,7 @@ class AsyncV1Resource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1CreateEmbeddingResponse,
         )
 
     async def list_models(
@@ -234,7 +233,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1ListModelsResponse:
         """
         Retrieve a list of all available language models from 40+ providers including
         OpenAI, Anthropic, Google, and Case.dev's specialized legal models. Returns
@@ -243,13 +242,12 @@ class AsyncV1Resource(AsyncAPIResource):
         This endpoint is compatible with OpenAI's models API format, making it easy to
         integrate with existing applications.
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/llm/v1/models",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1ListModelsResponse,
         )
 
 
