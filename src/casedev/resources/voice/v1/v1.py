@@ -14,7 +14,7 @@ from .speak import (
     SpeakResourceWithStreamingResponse,
     AsyncSpeakResourceWithStreamingResponse,
 )
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -26,6 +26,7 @@ from ...._response import (
 )
 from ....types.voice import v1_list_voices_params
 from ...._base_client import make_request_options
+from ....types.voice.v1_list_voices_response import V1ListVoicesResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -72,7 +73,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1ListVoicesResponse:
         """Retrieve a list of available voices for text-to-speech synthesis.
 
         This endpoint
@@ -107,7 +108,6 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/voice/v1/voices",
             options=make_request_options(
@@ -130,7 +130,7 @@ class V1Resource(SyncAPIResource):
                     v1_list_voices_params.V1ListVoicesParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=V1ListVoicesResponse,
         )
 
 
@@ -176,7 +176,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1ListVoicesResponse:
         """Retrieve a list of available voices for text-to-speech synthesis.
 
         This endpoint
@@ -211,7 +211,6 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/voice/v1/voices",
             options=make_request_options(
@@ -234,7 +233,7 @@ class AsyncV1Resource(AsyncAPIResource):
                     v1_list_voices_params.V1ListVoicesParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=V1ListVoicesResponse,
         )
 
 

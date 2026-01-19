@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -18,6 +18,7 @@ from ..._response import (
 )
 from ...types.voice import transcription_create_params
 from ..._base_client import make_request_options
+from ...types.voice.transcription_create_response import TranscriptionCreateResponse
 from ...types.voice.transcription_retrieve_response import TranscriptionRetrieveResponse
 
 __all__ = ["TranscriptionResource", "AsyncTranscriptionResource"]
@@ -66,7 +67,7 @@ class TranscriptionResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> TranscriptionCreateResponse:
         """Creates an asynchronous transcription job for audio files.
 
         Supports two modes:
@@ -116,7 +117,6 @@ class TranscriptionResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/voice/transcription",
             body=maybe_transform(
@@ -141,7 +141,7 @@ class TranscriptionResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=TranscriptionCreateResponse,
         )
 
     def retrieve(
@@ -224,7 +224,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> TranscriptionCreateResponse:
         """Creates an asynchronous transcription job for audio files.
 
         Supports two modes:
@@ -274,7 +274,6 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/voice/transcription",
             body=await async_maybe_transform(
@@ -299,7 +298,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=TranscriptionCreateResponse,
         )
 
     async def retrieve(

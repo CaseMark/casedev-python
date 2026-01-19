@@ -12,7 +12,7 @@ from .v1.v1 import (
     V1ResourceWithStreamingResponse,
     AsyncV1ResourceWithStreamingResponse,
 )
-from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
+from ..._types import Body, Query, Headers, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -22,6 +22,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.llm_get_config_response import LlmGetConfigResponse
 
 __all__ = ["LlmResource", "AsyncLlmResource"]
 
@@ -59,7 +60,7 @@ class LlmResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> LlmGetConfigResponse:
         """
         Retrieves the AI Gateway configuration including all available language models
         and their specifications. This endpoint returns model information compatible
@@ -73,13 +74,12 @@ class LlmResource(SyncAPIResource):
         - Configure AI SDK clients
         - Build model selection interfaces
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/llm/config",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=LlmGetConfigResponse,
         )
 
 
@@ -116,7 +116,7 @@ class AsyncLlmResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> LlmGetConfigResponse:
         """
         Retrieves the AI Gateway configuration including all available language models
         and their specifications. This endpoint returns model information compatible
@@ -130,13 +130,12 @@ class AsyncLlmResource(AsyncAPIResource):
         - Configure AI SDK clients
         - Build model selection interfaces
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/llm/config",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=LlmGetConfigResponse,
         )
 
 

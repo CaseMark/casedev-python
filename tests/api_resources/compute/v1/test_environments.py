@@ -9,7 +9,13 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.compute.v1 import EnvironmentCreateResponse, EnvironmentDeleteResponse
+from casedev.types.compute.v1 import (
+    EnvironmentListResponse,
+    EnvironmentCreateResponse,
+    EnvironmentDeleteResponse,
+    EnvironmentRetrieveResponse,
+    EnvironmentSetDefaultResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -57,7 +63,7 @@ class TestEnvironments:
         environment = client.compute.v1.environments.retrieve(
             "name",
         )
-        assert environment is None
+        assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -69,7 +75,7 @@ class TestEnvironments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         environment = response.parse()
-        assert environment is None
+        assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -81,7 +87,7 @@ class TestEnvironments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             environment = response.parse()
-            assert environment is None
+            assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -97,7 +103,7 @@ class TestEnvironments:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         environment = client.compute.v1.environments.list()
-        assert environment is None
+        assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -107,7 +113,7 @@ class TestEnvironments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         environment = response.parse()
-        assert environment is None
+        assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -117,7 +123,7 @@ class TestEnvironments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             environment = response.parse()
-            assert environment is None
+            assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -169,7 +175,7 @@ class TestEnvironments:
         environment = client.compute.v1.environments.set_default(
             "prod-legal-docs",
         )
-        assert environment is None
+        assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -181,7 +187,7 @@ class TestEnvironments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         environment = response.parse()
-        assert environment is None
+        assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -193,7 +199,7 @@ class TestEnvironments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             environment = response.parse()
-            assert environment is None
+            assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -251,7 +257,7 @@ class TestAsyncEnvironments:
         environment = await async_client.compute.v1.environments.retrieve(
             "name",
         )
-        assert environment is None
+        assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -263,7 +269,7 @@ class TestAsyncEnvironments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         environment = await response.parse()
-        assert environment is None
+        assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -275,7 +281,7 @@ class TestAsyncEnvironments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             environment = await response.parse()
-            assert environment is None
+            assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -291,7 +297,7 @@ class TestAsyncEnvironments:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         environment = await async_client.compute.v1.environments.list()
-        assert environment is None
+        assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -301,7 +307,7 @@ class TestAsyncEnvironments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         environment = await response.parse()
-        assert environment is None
+        assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -311,7 +317,7 @@ class TestAsyncEnvironments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             environment = await response.parse()
-            assert environment is None
+            assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -363,7 +369,7 @@ class TestAsyncEnvironments:
         environment = await async_client.compute.v1.environments.set_default(
             "prod-legal-docs",
         )
-        assert environment is None
+        assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -375,7 +381,7 @@ class TestAsyncEnvironments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         environment = await response.parse()
-        assert environment is None
+        assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -387,7 +393,7 @@ class TestAsyncEnvironments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             environment = await response.parse()
-            assert environment is None
+            assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

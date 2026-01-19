@@ -32,6 +32,7 @@ from .environments import (
 )
 from ...._base_client import make_request_options
 from ....types.compute import v1_get_usage_params
+from ....types.compute.v1_get_usage_response import V1GetUsageResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -100,7 +101,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1GetUsageResponse:
         """
         Returns detailed compute usage statistics and billing information for your
         organization. Includes GPU and CPU hours, total runs, costs, and breakdowns by
@@ -119,7 +120,6 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/compute/v1/usage",
             options=make_request_options(
@@ -135,7 +135,7 @@ class V1Resource(SyncAPIResource):
                     v1_get_usage_params.V1GetUsageParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=V1GetUsageResponse,
         )
 
 
@@ -203,7 +203,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1GetUsageResponse:
         """
         Returns detailed compute usage statistics and billing information for your
         organization. Includes GPU and CPU hours, total runs, costs, and breakdowns by
@@ -222,7 +222,6 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/compute/v1/usage",
             options=make_request_options(
@@ -238,7 +237,7 @@ class AsyncV1Resource(AsyncAPIResource):
                     v1_get_usage_params.V1GetUsageParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=V1GetUsageResponse,
         )
 
 

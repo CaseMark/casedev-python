@@ -13,3 +13,4 @@ from .v1_similar_response import V1SimilarResponse as V1SimilarResponse
 from .v1_contents_response import V1ContentsResponse as V1ContentsResponse
 from .v1_research_response import V1ResearchResponse as V1ResearchResponse
 from .v1_retrieve_research_params import V1RetrieveResearchParams as V1RetrieveResearchParams
+from .v1_retrieve_research_response import V1RetrieveResearchResponse as V1RetrieveResearchResponse

@@ -8,6 +8,8 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev.types.llm import V1ListModelsResponse, V1CreateEmbeddingResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,7 +24,7 @@ class TestV1:
             input="string",
             model="model",
         )
-        assert v1 is None
+        assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -34,7 +36,7 @@ class TestV1:
             encoding_format="float",
             user="user",
         )
-        assert v1 is None
+        assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -47,7 +49,7 @@ class TestV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert v1 is None
+        assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -60,7 +62,7 @@ class TestV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert v1 is None
+            assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -68,7 +70,7 @@ class TestV1:
     @parametrize
     def test_method_list_models(self, client: Casedev) -> None:
         v1 = client.llm.v1.list_models()
-        assert v1 is None
+        assert_matches_type(V1ListModelsResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -78,7 +80,7 @@ class TestV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert v1 is None
+        assert_matches_type(V1ListModelsResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -88,7 +90,7 @@ class TestV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert v1 is None
+            assert_matches_type(V1ListModelsResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -105,7 +107,7 @@ class TestAsyncV1:
             input="string",
             model="model",
         )
-        assert v1 is None
+        assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -117,7 +119,7 @@ class TestAsyncV1:
             encoding_format="float",
             user="user",
         )
-        assert v1 is None
+        assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -130,7 +132,7 @@ class TestAsyncV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert v1 is None
+        assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -143,7 +145,7 @@ class TestAsyncV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert v1 is None
+            assert_matches_type(V1CreateEmbeddingResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -151,7 +153,7 @@ class TestAsyncV1:
     @parametrize
     async def test_method_list_models(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.llm.v1.list_models()
-        assert v1 is None
+        assert_matches_type(V1ListModelsResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -161,7 +163,7 @@ class TestAsyncV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert v1 is None
+        assert_matches_type(V1ListModelsResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -171,6 +173,6 @@ class TestAsyncV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert v1 is None
+            assert_matches_type(V1ListModelsResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True

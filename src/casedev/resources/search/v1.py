@@ -8,7 +8,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -32,6 +32,7 @@ from ...types.search.v1_search_response import V1SearchResponse
 from ...types.search.v1_similar_response import V1SimilarResponse
 from ...types.search.v1_contents_response import V1ContentsResponse
 from ...types.search.v1_research_response import V1ResearchResponse
+from ...types.search.v1_retrieve_research_response import V1RetrieveResearchResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -282,7 +283,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1RetrieveResearchResponse:
         """Retrieve the status and results of a deep research task by ID.
 
         Supports both
@@ -305,7 +306,6 @@ class V1Resource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/search/v1/research/{id}",
             options=make_request_options(
@@ -321,7 +321,7 @@ class V1Resource(SyncAPIResource):
                     v1_retrieve_research_params.V1RetrieveResearchParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=V1RetrieveResearchResponse,
         )
 
     def search(
@@ -742,7 +742,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1RetrieveResearchResponse:
         """Retrieve the status and results of a deep research task by ID.
 
         Supports both
@@ -765,7 +765,6 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/search/v1/research/{id}",
             options=make_request_options(
@@ -781,7 +780,7 @@ class AsyncV1Resource(AsyncAPIResource):
                     v1_retrieve_research_params.V1RetrieveResearchParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=V1RetrieveResearchResponse,
         )
 
     async def search(

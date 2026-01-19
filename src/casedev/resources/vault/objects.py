@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -18,6 +18,9 @@ from ..._response import (
 )
 from ...types.vault import object_create_presigned_url_params
 from ..._base_client import make_request_options
+from ...types.vault.object_list_response import ObjectListResponse
+from ...types.vault.object_get_text_response import ObjectGetTextResponse
+from ...types.vault.object_retrieve_response import ObjectRetrieveResponse
 from ...types.vault.object_create_presigned_url_response import ObjectCreatePresignedURLResponse
 
 __all__ = ["ObjectsResource", "AsyncObjectsResource"]
@@ -54,7 +57,7 @@ class ObjectsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ObjectRetrieveResponse:
         """
         Retrieves metadata for a specific document in a vault and generates a temporary
         download URL. The download URL expires after 1 hour for security. This endpoint
@@ -73,13 +76,12 @@ class ObjectsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/objects/{object_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ObjectRetrieveResponse,
         )
 
     def list(
@@ -92,7 +94,7 @@ class ObjectsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ObjectListResponse:
         """
         Retrieve all objects stored in a specific vault, including document metadata,
         ingestion status, and processing statistics.
@@ -108,13 +110,12 @@ class ObjectsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/objects",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ObjectListResponse,
         )
 
     def create_presigned_url(
@@ -184,7 +185,7 @@ class ObjectsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> str:
         """Downloads a file from a vault.
 
         Returns the actual file content as a binary
@@ -205,13 +206,12 @@ class ObjectsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/objects/{object_id}/download",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=str,
         )
 
     def get_text(
@@ -225,7 +225,7 @@ class ObjectsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ObjectGetTextResponse:
         """Retrieves the full extracted text content from a processed vault object.
 
         Returns
@@ -245,13 +245,12 @@ class ObjectsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/objects/{object_id}/text",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ObjectGetTextResponse,
         )
 
 
@@ -286,7 +285,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ObjectRetrieveResponse:
         """
         Retrieves metadata for a specific document in a vault and generates a temporary
         download URL. The download URL expires after 1 hour for security. This endpoint
@@ -305,13 +304,12 @@ class AsyncObjectsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/objects/{object_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ObjectRetrieveResponse,
         )
 
     async def list(
@@ -324,7 +322,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ObjectListResponse:
         """
         Retrieve all objects stored in a specific vault, including document metadata,
         ingestion status, and processing statistics.
@@ -340,13 +338,12 @@ class AsyncObjectsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/objects",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ObjectListResponse,
         )
 
     async def create_presigned_url(
@@ -416,7 +413,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> str:
         """Downloads a file from a vault.
 
         Returns the actual file content as a binary
@@ -437,13 +434,12 @@ class AsyncObjectsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/objects/{object_id}/download",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=str,
         )
 
     async def get_text(
@@ -457,7 +453,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ObjectGetTextResponse:
         """Retrieves the full extracted text content from a processed vault object.
 
         Returns
@@ -477,13 +473,12 @@ class AsyncObjectsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/objects/{object_id}/text",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ObjectGetTextResponse,
         )
 
 

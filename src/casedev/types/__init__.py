@@ -10,3 +10,5 @@ from .vault_create_response import VaultCreateResponse as VaultCreateResponse
 from .vault_ingest_response import VaultIngestResponse as VaultIngestResponse
 from .vault_search_response import VaultSearchResponse as VaultSearchResponse
 from .vault_upload_response import VaultUploadResponse as VaultUploadResponse
+from .llm_get_config_response import LlmGetConfigResponse as LlmGetConfigResponse
+from .vault_retrieve_response import VaultRetrieveResponse as VaultRetrieveResponse

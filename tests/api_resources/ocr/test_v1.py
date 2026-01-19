@@ -9,7 +9,7 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.ocr import V1ProcessResponse
+from casedev.types.ocr import V1ProcessResponse, V1RetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestV1:
         v1 = client.ocr.v1.retrieve(
             "id",
         )
-        assert v1 is None
+        assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -35,7 +35,7 @@ class TestV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert v1 is None
+        assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -47,7 +47,7 @@ class TestV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert v1 is None
+            assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -66,7 +66,7 @@ class TestV1:
             type="text",
             id="id",
         )
-        assert v1 is None
+        assert_matches_type(str, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -79,7 +79,7 @@ class TestV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert v1 is None
+        assert_matches_type(str, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -92,7 +92,7 @@ class TestV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert v1 is None
+            assert_matches_type(str, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -170,7 +170,7 @@ class TestAsyncV1:
         v1 = await async_client.ocr.v1.retrieve(
             "id",
         )
-        assert v1 is None
+        assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -182,7 +182,7 @@ class TestAsyncV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert v1 is None
+        assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -194,7 +194,7 @@ class TestAsyncV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert v1 is None
+            assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -213,7 +213,7 @@ class TestAsyncV1:
             type="text",
             id="id",
         )
-        assert v1 is None
+        assert_matches_type(str, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -226,7 +226,7 @@ class TestAsyncV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert v1 is None
+        assert_matches_type(str, v1, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -239,7 +239,7 @@ class TestAsyncV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert v1 is None
+            assert_matches_type(str, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

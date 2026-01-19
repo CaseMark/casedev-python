@@ -15,6 +15,7 @@ from casedev.types import (
     VaultIngestResponse,
     VaultSearchResponse,
     VaultUploadResponse,
+    VaultRetrieveResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -78,7 +79,7 @@ class TestVault:
         vault = client.vault.retrieve(
             "vault_abc123",
         )
-        assert vault is None
+        assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -90,7 +91,7 @@ class TestVault:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = response.parse()
-        assert vault is None
+        assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -102,7 +103,7 @@ class TestVault:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = response.parse()
-            assert vault is None
+            assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -377,7 +378,7 @@ class TestAsyncVault:
         vault = await async_client.vault.retrieve(
             "vault_abc123",
         )
-        assert vault is None
+        assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -389,7 +390,7 @@ class TestAsyncVault:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         vault = await response.parse()
-        assert vault is None
+        assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -401,7 +402,7 @@ class TestAsyncVault:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             vault = await response.parse()
-            assert vault is None
+            assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
