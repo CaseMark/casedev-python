@@ -11,11 +11,35 @@ __all__ = ["VaultSearchResponse", "Chunk", "Source"]
 
 
 class Chunk(BaseModel):
+    chunk_index: Optional[int] = None
+    """Index of the chunk within the document (0-based)"""
+
+    distance: Optional[float] = None
+    """Vector similarity distance (lower is more similar)"""
+
+    object_id: Optional[str] = None
+    """ID of the source document"""
+
+    page_end: Optional[int] = None
+    """PDF page number where the chunk ends (1-indexed).
+
+    Null for non-PDF documents or documents ingested before page tracking was added.
+    """
+
+    page_start: Optional[int] = None
+    """PDF page number where the chunk begins (1-indexed).
+
+    Null for non-PDF documents or documents ingested before page tracking was added.
+    """
+
     score: Optional[float] = None
+    """Relevance score (deprecated, use distance or hybridScore)"""
 
     source: Optional[str] = None
+    """Source identifier (deprecated, use object_id)"""
 
     text: Optional[str] = None
+    """Preview of the chunk text (up to 500 characters)"""
 
 
 class Source(BaseModel):
@@ -36,7 +60,7 @@ class Source(BaseModel):
 
 class VaultSearchResponse(BaseModel):
     chunks: Optional[List[Chunk]] = None
-    """Relevant text chunks with similarity scores"""
+    """Relevant text chunks with similarity scores and page locations"""
 
     method: Optional[str] = None
     """Search method used"""
