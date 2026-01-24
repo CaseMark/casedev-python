@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.2.0 (2026-01-24)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/CaseMark/casedev-python/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** api update ([cb57987](https://github.com/CaseMark/casedev-python/commit/cb57987717857d312dd3a6c733eb3d64b40d874a))
+* **api:** api update ([6f7ac9f](https://github.com/CaseMark/casedev-python/commit/6f7ac9f96595e35b20e6b7f33af36532a163a9a8))
+* **api:** api update ([fea56de](https://github.com/CaseMark/casedev-python/commit/fea56ded1aaf613e112aca7b6a2d6ec0fe2275f3))
+* **api:** api update ([237a3cc](https://github.com/CaseMark/casedev-python/commit/237a3cc7fe524e9becf35efb45edbd4e4676db1e))
+* **api:** api update ([b56886e](https://github.com/CaseMark/casedev-python/commit/b56886ec5a36b297b6421e9bfa58589471efc0f3))
+* **api:** api update ([266e6e0](https://github.com/CaseMark/casedev-python/commit/266e6e03886b8a962e1d233cefb1a4e799689077))
+* **api:** api update ([b4fd0e1](https://github.com/CaseMark/casedev-python/commit/b4fd0e192591735cd313c2f8a2ebd4bb585f9a22))
+* **api:** api update ([eff5344](https://github.com/CaseMark/casedev-python/commit/eff53445012586d2e33b0617108d15671a6557de))
+* **api:** api update ([c39c859](https://github.com/CaseMark/casedev-python/commit/c39c859876d97500712f1dd6f071cf440b61077b))
+* **api:** api update ([072926b](https://github.com/CaseMark/casedev-python/commit/072926ba2fc867216cd8a87dad7f4cb5ace4d851))
+* **api:** api update ([4477cc4](https://github.com/CaseMark/casedev-python/commit/4477cc432fd5f46f4a4e9776b915bfa9e458fab4))
+* **api:** api update ([06a0f2a](https://github.com/CaseMark/casedev-python/commit/06a0f2a30aecf7913bf0b34367348c83c6483d72))
+* **api:** api update ([f662b55](https://github.com/CaseMark/casedev-python/commit/f662b5554f1df2769e0909083fa8f56ad47f113b))
+* **api:** api update ([8ac179e](https://github.com/CaseMark/casedev-python/commit/8ac179eda3b6e3e94439777d9528e2fd32e4d84b))
+* **api:** api update ([8289fd5](https://github.com/CaseMark/casedev-python/commit/8289fd58159c05d5a565de08f3dd08814df0890b))
+* **client:** add support for binary request streaming ([7e76b57](https://github.com/CaseMark/casedev-python/commit/7e76b572106469ad4f4b910e0b45cce5ee68fcae))
+
+
+### Bug Fixes
+
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([1176765](https://github.com/CaseMark/casedev-python/commit/117676502d91fa5f20073851bf074f508ade4e40))
+* use async_to_httpx_files in patch method ([77d15e3](https://github.com/CaseMark/casedev-python/commit/77d15e35c394f535ecbe98d2f5b7c2cd4f151489))
+
+
+### Chores
+
+* add missing docstrings ([ed8538a](https://github.com/CaseMark/casedev-python/commit/ed8538a2830c45222529a3571053a5b3cbca184c))
+* **ci:** upgrade `actions/github-script` ([8057dc0](https://github.com/CaseMark/casedev-python/commit/8057dc0a5ef3a91441aac335711c2934323aa87c))
+* **internal:** add `--fix` argument to lint script ([d402a1a](https://github.com/CaseMark/casedev-python/commit/d402a1a46693b9c721b7e573ee1ec54584afca37))
+* **internal:** add missing files argument to base client ([e45cbc5](https://github.com/CaseMark/casedev-python/commit/e45cbc54372e2d93a6b6ec58e8e546ed6bfad117))
+* **internal:** update `actions/checkout` version ([483fb99](https://github.com/CaseMark/casedev-python/commit/483fb99d0c65ce7eba40870dddfa84c7fb86966d))
+* speedup initial import ([8185ce9](https://github.com/CaseMark/casedev-python/commit/8185ce9973ce7076ae88aa2dcb7868450f9ea1b5))
+* update SDK settings ([498643c](https://github.com/CaseMark/casedev-python/commit/498643c394fa4d9473e76475f025e3a9ab2562d8))
+
+
+### Refactors
+
+* **internal:** switch from rye to uv ([910f118](https://github.com/CaseMark/casedev-python/commit/910f11868c852a8d33422301ec80036081dcaf5d))
+
 ## 0.1.0 (2025-12-08)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/CaseMark/casedev-python/compare/v0.0.1...v0.1.0)
