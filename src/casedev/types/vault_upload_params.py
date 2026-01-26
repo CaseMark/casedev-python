@@ -16,6 +16,12 @@ class VaultUploadParams(TypedDict, total=False):
     filename: Required[str]
     """Name of the file to upload"""
 
+    size_bytes: Required[Annotated[int, PropertyInfo(alias="sizeBytes")]]
+    """File size in bytes (required, max 500MB).
+
+    Used to enforce upload limits at S3 level.
+    """
+
     auto_index: bool
     """Whether to automatically process and index the file for search"""
 
@@ -28,6 +34,3 @@ class VaultUploadParams(TypedDict, total=False):
     Allows integrations to maintain source folder structure from systems like
     NetDocs, Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
     """
-
-    size_bytes: Annotated[float, PropertyInfo(alias="sizeBytes")]
-    """Estimated file size in bytes for cost calculation"""
