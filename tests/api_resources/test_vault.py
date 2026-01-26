@@ -260,6 +260,7 @@ class TestVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
@@ -270,10 +271,10 @@ class TestVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
             auto_index=True,
             metadata={},
             path="path",
-            size_bytes=0,
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
@@ -284,6 +285,7 @@ class TestVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
         )
 
         assert response.is_closed is True
@@ -298,6 +300,7 @@ class TestVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -315,6 +318,7 @@ class TestVault:
                 id="",
                 content_type="contentType",
                 filename="filename",
+                size_bytes=1,
             )
 
 
@@ -559,6 +563,7 @@ class TestAsyncVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
@@ -569,10 +574,10 @@ class TestAsyncVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
             auto_index=True,
             metadata={},
             path="path",
-            size_bytes=0,
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
@@ -583,6 +588,7 @@ class TestAsyncVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
         )
 
         assert response.is_closed is True
@@ -597,6 +603,7 @@ class TestAsyncVault:
             id="id",
             content_type="contentType",
             filename="filename",
+            size_bytes=1,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -614,4 +621,5 @@ class TestAsyncVault:
                 id="",
                 content_type="contentType",
                 filename="filename",
+                size_bytes=1,
             )
