@@ -296,10 +296,10 @@ class VaultResource(SyncAPIResource):
         *,
         content_type: str,
         filename: str,
-        size_bytes: int,
         auto_index: bool | Omit = omit,
         metadata: object | Omit = omit,
         path: str | Omit = omit,
+        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -318,9 +318,6 @@ class VaultResource(SyncAPIResource):
 
           filename: Name of the file to upload
 
-          size_bytes: File size in bytes (required, max 500MB). Used to enforce upload limits at S3
-              level.
-
           auto_index: Whether to automatically process and index the file for search
 
           metadata: Additional metadata to associate with the file
@@ -328,6 +325,9 @@ class VaultResource(SyncAPIResource):
           path: Optional folder path for hierarchy preservation. Allows integrations to maintain
               source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
               '/Discovery/Depositions/2024'
+
+          size_bytes: File size in bytes (optional, max 500MB). When provided, enforces exact file
+              size at S3 level.
 
           extra_headers: Send extra headers
 
@@ -345,10 +345,10 @@ class VaultResource(SyncAPIResource):
                 {
                     "content_type": content_type,
                     "filename": filename,
-                    "size_bytes": size_bytes,
                     "auto_index": auto_index,
                     "metadata": metadata,
                     "path": path,
+                    "size_bytes": size_bytes,
                 },
                 vault_upload_params.VaultUploadParams,
             ),
@@ -611,10 +611,10 @@ class AsyncVaultResource(AsyncAPIResource):
         *,
         content_type: str,
         filename: str,
-        size_bytes: int,
         auto_index: bool | Omit = omit,
         metadata: object | Omit = omit,
         path: str | Omit = omit,
+        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -633,9 +633,6 @@ class AsyncVaultResource(AsyncAPIResource):
 
           filename: Name of the file to upload
 
-          size_bytes: File size in bytes (required, max 500MB). Used to enforce upload limits at S3
-              level.
-
           auto_index: Whether to automatically process and index the file for search
 
           metadata: Additional metadata to associate with the file
@@ -643,6 +640,9 @@ class AsyncVaultResource(AsyncAPIResource):
           path: Optional folder path for hierarchy preservation. Allows integrations to maintain
               source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
               '/Discovery/Depositions/2024'
+
+          size_bytes: File size in bytes (optional, max 500MB). When provided, enforces exact file
+              size at S3 level.
 
           extra_headers: Send extra headers
 
@@ -660,10 +660,10 @@ class AsyncVaultResource(AsyncAPIResource):
                 {
                     "content_type": content_type,
                     "filename": filename,
-                    "size_bytes": size_bytes,
                     "auto_index": auto_index,
                     "metadata": metadata,
                     "path": path,
+                    "size_bytes": size_bytes,
                 },
                 vault_upload_params.VaultUploadParams,
             ),
