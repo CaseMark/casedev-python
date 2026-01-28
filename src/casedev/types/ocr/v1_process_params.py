@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, TypedDict
+from typing import Dict, Union
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-__all__ = ["V1ProcessParams", "Features"]
+__all__ = ["V1ProcessParams", "Features", "FeaturesTables"]
 
 
 class V1ProcessParams(TypedDict, total=False):
@@ -21,7 +22,7 @@ class V1ProcessParams(TypedDict, total=False):
     """OCR engine to use"""
 
     features: Features
-    """OCR features to extract"""
+    """Additional processing options"""
 
     result_bucket: str
     """S3 bucket to store results"""
@@ -30,17 +31,24 @@ class V1ProcessParams(TypedDict, total=False):
     """S3 key prefix for results"""
 
 
+class FeaturesTablesTyped(TypedDict, total=False):
+    """Extract tables as structured data"""
+
+    format: Literal["csv", "json"]
+    """Output format for extracted tables"""
+
+
+FeaturesTables: TypeAlias = Union[FeaturesTablesTyped, Dict[str, object]]
+
+
 class Features(TypedDict, total=False):
-    """OCR features to extract"""
+    """Additional processing options"""
 
-    forms: bool
-    """Detect form fields"""
+    embed: Dict[str, object]
+    """Generate searchable PDF with text layer"""
 
-    layout: bool
-    """Preserve document layout"""
+    forms: Dict[str, object]
+    """Detect and extract form fields"""
 
-    tables: bool
-    """Detect and extract tables"""
-
-    text: bool
-    """Extract text content"""
+    tables: FeaturesTables
+    """Extract tables as structured data"""
