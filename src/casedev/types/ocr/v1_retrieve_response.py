@@ -10,23 +10,23 @@ __all__ = ["V1RetrieveResponse"]
 
 
 class V1RetrieveResponse(BaseModel):
-    id: Optional[str] = None
+    id: str
     """OCR job ID"""
+
+    created_at: datetime
+    """Job creation timestamp"""
+
+    status: Literal["pending", "processing", "completed", "failed"]
+    """Current job status"""
 
     completed_at: Optional[datetime] = None
     """Job completion timestamp"""
-
-    created_at: Optional[datetime] = None
-    """Job creation timestamp"""
 
     metadata: Optional[object] = None
     """Additional processing metadata"""
 
     page_count: Optional[int] = None
     """Number of pages processed"""
-
-    status: Optional[Literal["pending", "processing", "completed", "failed"]] = None
-    """Current job status"""
 
     text: Optional[str] = None
     """Extracted text content (when completed)"""

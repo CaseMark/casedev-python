@@ -11,29 +11,32 @@ __all__ = ["ObjectRetrieveResponse"]
 
 
 class ObjectRetrieveResponse(BaseModel):
-    id: Optional[str] = None
+    id: str
     """Object ID"""
+
+    content_type: str = FieldInfo(alias="contentType")
+    """MIME type"""
+
+    created_at: datetime = FieldInfo(alias="createdAt")
+    """Upload timestamp"""
+
+    download_url: str = FieldInfo(alias="downloadUrl")
+    """Presigned S3 download URL"""
+
+    expires_in: int = FieldInfo(alias="expiresIn")
+    """URL expiration time in seconds"""
+
+    filename: str
+    """Original filename"""
+
+    ingestion_status: str = FieldInfo(alias="ingestionStatus")
+    """Processing status (pending, processing, completed, failed)"""
+
+    vault_id: str = FieldInfo(alias="vaultId")
+    """Vault ID"""
 
     chunk_count: Optional[int] = FieldInfo(alias="chunkCount", default=None)
     """Number of text chunks created"""
-
-    content_type: Optional[str] = FieldInfo(alias="contentType", default=None)
-    """MIME type"""
-
-    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
-    """Upload timestamp"""
-
-    download_url: Optional[str] = FieldInfo(alias="downloadUrl", default=None)
-    """Presigned S3 download URL"""
-
-    expires_in: Optional[int] = FieldInfo(alias="expiresIn", default=None)
-    """URL expiration time in seconds"""
-
-    filename: Optional[str] = None
-    """Original filename"""
-
-    ingestion_status: Optional[str] = FieldInfo(alias="ingestionStatus", default=None)
-    """Processing status (pending, processing, completed, failed)"""
 
     metadata: Optional[object] = None
     """Additional metadata"""
@@ -49,9 +52,6 @@ class ObjectRetrieveResponse(BaseModel):
 
     text_length: Optional[int] = FieldInfo(alias="textLength", default=None)
     """Length of extracted text"""
-
-    vault_id: Optional[str] = FieldInfo(alias="vaultId", default=None)
-    """Vault ID"""
 
     vector_count: Optional[int] = FieldInfo(alias="vectorCount", default=None)
     """Number of embedding vectors generated"""
