@@ -11,26 +11,26 @@ __all__ = ["ObjectListResponse", "Object"]
 
 
 class Object(BaseModel):
-    id: Optional[str] = None
+    id: str
     """Unique object identifier"""
+
+    content_type: str = FieldInfo(alias="contentType")
+    """MIME type of the document"""
+
+    created_at: datetime = FieldInfo(alias="createdAt")
+    """Document upload timestamp"""
+
+    filename: str
+    """Original filename of the uploaded document"""
+
+    ingestion_status: str = FieldInfo(alias="ingestionStatus")
+    """Processing status of the document"""
 
     chunk_count: Optional[float] = FieldInfo(alias="chunkCount", default=None)
     """Number of text chunks created for vectorization"""
 
-    content_type: Optional[str] = FieldInfo(alias="contentType", default=None)
-    """MIME type of the document"""
-
-    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
-    """Document upload timestamp"""
-
-    filename: Optional[str] = None
-    """Original filename of the uploaded document"""
-
     ingestion_completed_at: Optional[datetime] = FieldInfo(alias="ingestionCompletedAt", default=None)
     """Processing completion timestamp"""
-
-    ingestion_status: Optional[str] = FieldInfo(alias="ingestionStatus", default=None)
-    """Processing status of the document"""
 
     metadata: Optional[object] = None
     """Custom metadata associated with the document"""
@@ -55,10 +55,10 @@ class Object(BaseModel):
 
 
 class ObjectListResponse(BaseModel):
-    count: Optional[float] = None
+    count: float
     """Total number of objects in the vault"""
 
-    objects: Optional[List[Object]] = None
+    objects: List[Object]
 
-    vault_id: Optional[str] = FieldInfo(alias="vaultId", default=None)
+    vault_id: str = FieldInfo(alias="vaultId")
     """The ID of the vault"""
