@@ -22,7 +22,7 @@ class ObjectCreatePresignedURLParams(TypedDict, total=False):
     """The S3 operation to generate URL for"""
 
     size_bytes: Annotated[int, PropertyInfo(alias="sizeBytes")]
-    """File size in bytes (required for PUT operations, max 500MB).
+    """File size in bytes (optional, max 500MB).
 
-    Used to enforce upload limits at S3 level.
+    When provided for PUT operations, enforces exact file size at S3 level.
     """

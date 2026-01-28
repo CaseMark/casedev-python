@@ -147,8 +147,8 @@ class ObjectsResource(SyncAPIResource):
 
           operation: The S3 operation to generate URL for
 
-          size_bytes: File size in bytes (required for PUT operations, max 500MB). Used to enforce
-              upload limits at S3 level.
+          size_bytes: File size in bytes (optional, max 500MB). When provided for PUT operations,
+              enforces exact file size at S3 level.
 
           extra_headers: Send extra headers
 
@@ -380,8 +380,8 @@ class AsyncObjectsResource(AsyncAPIResource):
 
           operation: The S3 operation to generate URL for
 
-          size_bytes: File size in bytes (required for PUT operations, max 500MB). Used to enforce
-              upload limits at S3 level.
+          size_bytes: File size in bytes (optional, max 500MB). When provided for PUT operations,
+              enforces exact file size at S3 level.
 
           extra_headers: Send extra headers
 
