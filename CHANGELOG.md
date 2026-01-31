@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 (2026-01-31)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/CaseMark/casedev-python/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([9552466](https://github.com/CaseMark/casedev-python/commit/95524660fc8d6bc6b4afbd3e881bf15e7378cfe0))
+* **api:** api update ([e3f5b6b](https://github.com/CaseMark/casedev-python/commit/e3f5b6bcc11924a87716cbb6e99d39e0c0603f74))
+* **api:** api update ([ab9ad93](https://github.com/CaseMark/casedev-python/commit/ab9ad9365e44ec36f5ba3cb5c47436bcdcba095e))
+* **api:** api update ([92d6d3e](https://github.com/CaseMark/casedev-python/commit/92d6d3e780ef1f21b3d5fb1839be1bb1973bdec9))
+* **api:** api update ([c1ae1f0](https://github.com/CaseMark/casedev-python/commit/c1ae1f0f67d01c6131cea0a3cdfdd7b62430e57a))
+* **client:** add custom JSON encoder for extended type support ([34a252e](https://github.com/CaseMark/casedev-python/commit/34a252ea9464e00bd27f8b12fcb027e283c095bd))
+
 ## 0.2.0 (2026-01-24)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/CaseMark/casedev-python/compare/v0.1.0...v0.2.0)
