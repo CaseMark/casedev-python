@@ -149,7 +149,7 @@ class V1Resource(SyncAPIResource):
 
           engine: OCR engine to use
 
-          features: OCR features to extract
+          features: Additional processing options
 
           result_bucket: S3 bucket to store results
 
@@ -309,7 +309,7 @@ class AsyncV1Resource(AsyncAPIResource):
 
           engine: OCR engine to use
 
-          features: OCR features to extract
+          features: Additional processing options
 
           result_bucket: S3 bucket to store results
 

@@ -41,6 +41,20 @@ class Chunk(BaseModel):
     text: Optional[str] = None
     """Preview of the chunk text (up to 500 characters)"""
 
+    word_end_index: Optional[int] = None
+    """Ending word index (0-based) in the OCR word list.
+
+    Use with GET /vault/:id/objects/:objectId/ocr-words to retrieve bounding boxes
+    for highlighting.
+    """
+
+    word_start_index: Optional[int] = None
+    """Starting word index (0-based) in the OCR word list.
+
+    Use with GET /vault/:id/objects/:objectId/ocr-words to retrieve bounding boxes
+    for highlighting.
+    """
+
 
 class Source(BaseModel):
     id: Optional[str] = None

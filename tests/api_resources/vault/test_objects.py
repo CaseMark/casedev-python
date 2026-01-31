@@ -134,6 +134,7 @@ class TestObjects:
             content_type="contentType",
             expires_in=60,
             operation="GET",
+            size_bytes=1,
         )
         assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
@@ -402,6 +403,7 @@ class TestAsyncObjects:
             content_type="contentType",
             expires_in=60,
             operation="GET",
+            size_bytes=1,
         )
         assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 

@@ -126,6 +126,7 @@ class ObjectsResource(SyncAPIResource):
         content_type: str | Omit = omit,
         expires_in: int | Omit = omit,
         operation: Literal["GET", "PUT", "DELETE", "HEAD"] | Omit = omit,
+        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -146,6 +147,9 @@ class ObjectsResource(SyncAPIResource):
 
           operation: The S3 operation to generate URL for
 
+          size_bytes: File size in bytes (optional, max 500MB). When provided for PUT operations,
+              enforces exact file size at S3 level.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -165,6 +169,7 @@ class ObjectsResource(SyncAPIResource):
                     "content_type": content_type,
                     "expires_in": expires_in,
                     "operation": operation,
+                    "size_bytes": size_bytes,
                 },
                 object_create_presigned_url_params.ObjectCreatePresignedURLParams,
             ),
@@ -354,6 +359,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         content_type: str | Omit = omit,
         expires_in: int | Omit = omit,
         operation: Literal["GET", "PUT", "DELETE", "HEAD"] | Omit = omit,
+        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -374,6 +380,9 @@ class AsyncObjectsResource(AsyncAPIResource):
 
           operation: The S3 operation to generate URL for
 
+          size_bytes: File size in bytes (optional, max 500MB). When provided for PUT operations,
+              enforces exact file size at S3 level.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -393,6 +402,7 @@ class AsyncObjectsResource(AsyncAPIResource):
                     "content_type": content_type,
                     "expires_in": expires_in,
                     "operation": operation,
+                    "size_bytes": size_bytes,
                 },
                 object_create_presigned_url_params.ObjectCreatePresignedURLParams,
             ),

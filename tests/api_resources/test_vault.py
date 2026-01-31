@@ -273,7 +273,7 @@ class TestVault:
             auto_index=True,
             metadata={},
             path="path",
-            size_bytes=0,
+            size_bytes=1,
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
@@ -572,7 +572,7 @@ class TestAsyncVault:
             auto_index=True,
             metadata={},
             path="path",
-            size_bytes=0,
+            size_bytes=1,
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 

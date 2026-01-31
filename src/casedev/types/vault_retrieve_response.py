@@ -27,23 +27,29 @@ class ChunkStrategy(BaseModel):
 
 
 class VaultRetrieveResponse(BaseModel):
-    id: Optional[str] = None
+    id: str
     """Vault identifier"""
+
+    created_at: datetime = FieldInfo(alias="createdAt")
+    """Vault creation timestamp"""
+
+    files_bucket: str = FieldInfo(alias="filesBucket")
+    """S3 bucket for document storage"""
+
+    name: str
+    """Vault name"""
+
+    region: str
+    """AWS region"""
 
     chunk_strategy: Optional[ChunkStrategy] = FieldInfo(alias="chunkStrategy", default=None)
     """Document chunking strategy configuration"""
-
-    created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
-    """Vault creation timestamp"""
 
     description: Optional[str] = None
     """Vault description"""
 
     enable_graph: Optional[bool] = FieldInfo(alias="enableGraph", default=None)
     """Whether GraphRAG is enabled"""
-
-    files_bucket: Optional[str] = FieldInfo(alias="filesBucket", default=None)
-    """S3 bucket for document storage"""
 
     index_name: Optional[str] = FieldInfo(alias="indexName", default=None)
     """Search index name"""
@@ -53,12 +59,6 @@ class VaultRetrieveResponse(BaseModel):
 
     metadata: Optional[object] = None
     """Additional vault metadata"""
-
-    name: Optional[str] = None
-    """Vault name"""
-
-    region: Optional[str] = None
-    """AWS region"""
 
     total_bytes: Optional[int] = FieldInfo(alias="totalBytes", default=None)
     """Total storage size in bytes"""

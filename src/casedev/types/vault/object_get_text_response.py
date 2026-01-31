@@ -9,27 +9,27 @@ __all__ = ["ObjectGetTextResponse", "Metadata"]
 
 
 class Metadata(BaseModel):
-    chunk_count: Optional[int] = None
+    chunk_count: int
     """Number of text chunks the document was split into"""
 
-    filename: Optional[str] = None
+    filename: str
     """Original filename of the document"""
+
+    length: int
+    """Total character count of the extracted text"""
+
+    object_id: str
+    """The object ID"""
+
+    vault_id: str
+    """The vault ID"""
 
     ingestion_completed_at: Optional[datetime] = None
     """When the document processing completed"""
 
-    length: Optional[int] = None
-    """Total character count of the extracted text"""
-
-    object_id: Optional[str] = None
-    """The object ID"""
-
-    vault_id: Optional[str] = None
-    """The vault ID"""
-
 
 class ObjectGetTextResponse(BaseModel):
-    metadata: Optional[Metadata] = None
+    metadata: Metadata
 
-    text: Optional[str] = None
+    text: str
     """Full concatenated text content from all chunks"""

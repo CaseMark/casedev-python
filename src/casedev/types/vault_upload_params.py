@@ -29,5 +29,8 @@ class VaultUploadParams(TypedDict, total=False):
     NetDocs, Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
     """
 
-    size_bytes: Annotated[float, PropertyInfo(alias="sizeBytes")]
-    """Estimated file size in bytes for cost calculation"""
+    size_bytes: Annotated[int, PropertyInfo(alias="sizeBytes")]
+    """File size in bytes (optional, max 500MB).
+
+    When provided, enforces exact file size at S3 level.
+    """
