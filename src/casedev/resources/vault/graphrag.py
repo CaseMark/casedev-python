@@ -16,6 +16,7 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.vault.graphrag_init_response import GraphragInitResponse
 from ...types.vault.graphrag_get_stats_response import GraphragGetStatsResponse
+from ...types.vault.graphrag_process_object_response import GraphragProcessObjectResponse
 
 __all__ = ["GraphragResource", "AsyncGraphragResource"]
 
@@ -112,6 +113,45 @@ class GraphragResource(SyncAPIResource):
             cast_to=GraphragInitResponse,
         )
 
+    def process_object(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> GraphragProcessObjectResponse:
+        """Manually trigger GraphRAG indexing for a vault object.
+
+        The object must already
+        be ingested (completed status). This extracts entities, relationships, and
+        communities from the document for advanced knowledge graph queries.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return self._post(
+            f"/vault/{id}/graphrag/{object_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=GraphragProcessObjectResponse,
+        )
+
 
 class AsyncGraphragResource(AsyncAPIResource):
     @cached_property
@@ -205,6 +245,45 @@ class AsyncGraphragResource(AsyncAPIResource):
             cast_to=GraphragInitResponse,
         )
 
+    async def process_object(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> GraphragProcessObjectResponse:
+        """Manually trigger GraphRAG indexing for a vault object.
+
+        The object must already
+        be ingested (completed status). This extracts entities, relationships, and
+        communities from the document for advanced knowledge graph queries.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return await self._post(
+            f"/vault/{id}/graphrag/{object_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=GraphragProcessObjectResponse,
+        )
+
 
 class GraphragResourceWithRawResponse:
     def __init__(self, graphrag: GraphragResource) -> None:
@@ -215,6 +294,9 @@ class GraphragResourceWithRawResponse:
         )
         self.init = to_raw_response_wrapper(
             graphrag.init,
+        )
+        self.process_object = to_raw_response_wrapper(
+            graphrag.process_object,
         )
 
 
@@ -228,6 +310,9 @@ class AsyncGraphragResourceWithRawResponse:
         self.init = async_to_raw_response_wrapper(
             graphrag.init,
         )
+        self.process_object = async_to_raw_response_wrapper(
+            graphrag.process_object,
+        )
 
 
 class GraphragResourceWithStreamingResponse:
@@ -240,6 +325,9 @@ class GraphragResourceWithStreamingResponse:
         self.init = to_streamed_response_wrapper(
             graphrag.init,
         )
+        self.process_object = to_streamed_response_wrapper(
+            graphrag.process_object,
+        )
 
 
 class AsyncGraphragResourceWithStreamingResponse:
@@ -251,4 +339,7 @@ class AsyncGraphragResourceWithStreamingResponse:
         )
         self.init = async_to_streamed_response_wrapper(
             graphrag.init,
+        )
+        self.process_object = async_to_streamed_response_wrapper(
+            graphrag.process_object,
         )
