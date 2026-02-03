@@ -48,13 +48,13 @@ class CitationSpan(BaseModel):
 
 class Citation(BaseModel):
     candidates: Optional[List[CitationCandidate]] = None
-    """Multiple candidates (when ambiguous)"""
+    """Multiple candidates (when multiple_matches or heuristic verification)"""
 
     case: Optional[CitationCase] = None
     """Case metadata (when verified)"""
 
     confidence: Optional[float] = None
-    """Heuristic confidence score when using fallback verification."""
+    """Confidence score (1.0 for CourtListener, heuristic score for fallback)."""
 
     normalized: Optional[str] = None
     """Normalized citation string"""
@@ -64,7 +64,7 @@ class Citation(BaseModel):
 
     span: Optional[CitationSpan] = None
 
-    status: Optional[Literal["verified", "not_found", "ambiguous"]] = None
+    status: Optional[Literal["verified", "not_found", "multiple_matches"]] = None
 
     verification_source: Optional[Literal["courtlistener", "heuristic"]] = FieldInfo(
         alias="verificationSource", default=None
@@ -73,7 +73,7 @@ class Citation(BaseModel):
 
 
 class Summary(BaseModel):
-    ambiguous: Optional[int] = None
+    multiple_matches: Optional[int] = FieldInfo(alias="multipleMatches", default=None)
     """Citations with multiple possible matches"""
 
     not_found: Optional[int] = FieldInfo(alias="notFound", default=None)
