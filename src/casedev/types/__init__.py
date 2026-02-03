@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 from .vault_create_params import VaultCreateParams as VaultCreateParams
+from .vault_delete_params import VaultDeleteParams as VaultDeleteParams
 from .vault_list_response import VaultListResponse as VaultListResponse
 from .vault_search_params import VaultSearchParams as VaultSearchParams
+from .vault_update_params import VaultUpdateParams as VaultUpdateParams
 from .vault_upload_params import VaultUploadParams as VaultUploadParams
 from .vault_create_response import VaultCreateResponse as VaultCreateResponse
+from .vault_delete_response import VaultDeleteResponse as VaultDeleteResponse
 from .vault_ingest_response import VaultIngestResponse as VaultIngestResponse
 from .vault_search_response import VaultSearchResponse as VaultSearchResponse
+from .vault_update_response import VaultUpdateResponse as VaultUpdateResponse
 from .vault_upload_response import VaultUploadResponse as VaultUploadResponse
 from .llm_get_config_response import LlmGetConfigResponse as LlmGetConfigResponse
 from .vault_retrieve_response import VaultRetrieveResponse as VaultRetrieveResponse

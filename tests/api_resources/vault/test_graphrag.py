@@ -9,7 +9,7 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.vault import GraphragInitResponse, GraphragGetStatsResponse
+from casedev.types.vault import GraphragInitResponse, GraphragGetStatsResponse, GraphragProcessObjectResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -101,6 +101,58 @@ class TestGraphrag:
                 "",
             )
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_process_object(self, client: Casedev) -> None:
+        graphrag = client.vault.graphrag.process_object(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(GraphragProcessObjectResponse, graphrag, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_process_object(self, client: Casedev) -> None:
+        response = client.vault.graphrag.with_raw_response.process_object(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        graphrag = response.parse()
+        assert_matches_type(GraphragProcessObjectResponse, graphrag, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_process_object(self, client: Casedev) -> None:
+        with client.vault.graphrag.with_streaming_response.process_object(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            graphrag = response.parse()
+            assert_matches_type(GraphragProcessObjectResponse, graphrag, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_process_object(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.graphrag.with_raw_response.process_object(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.graphrag.with_raw_response.process_object(
+                object_id="",
+                id="id",
+            )
+
 
 class TestAsyncGraphrag:
     parametrize = pytest.mark.parametrize(
@@ -189,4 +241,56 @@ class TestAsyncGraphrag:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.graphrag.with_raw_response.init(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_process_object(self, async_client: AsyncCasedev) -> None:
+        graphrag = await async_client.vault.graphrag.process_object(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(GraphragProcessObjectResponse, graphrag, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_process_object(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.graphrag.with_raw_response.process_object(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        graphrag = await response.parse()
+        assert_matches_type(GraphragProcessObjectResponse, graphrag, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_process_object(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.graphrag.with_streaming_response.process_object(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            graphrag = await response.parse()
+            assert_matches_type(GraphragProcessObjectResponse, graphrag, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_process_object(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.graphrag.with_raw_response.process_object(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.graphrag.with_raw_response.process_object(
+                object_id="",
+                id="id",
             )

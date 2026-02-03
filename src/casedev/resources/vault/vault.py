@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ...types import vault_create_params, vault_search_params, vault_upload_params
+from ...types import (
+    vault_create_params,
+    vault_delete_params,
+    vault_search_params,
+    vault_update_params,
+    vault_upload_params,
+)
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -36,8 +43,10 @@ from ..._response import (
 from ..._base_client import make_request_options
 from ...types.vault_list_response import VaultListResponse
 from ...types.vault_create_response import VaultCreateResponse
+from ...types.vault_delete_response import VaultDeleteResponse
 from ...types.vault_ingest_response import VaultIngestResponse
 from ...types.vault_search_response import VaultSearchResponse
+from ...types.vault_update_response import VaultUpdateResponse
 from ...types.vault_upload_response import VaultUploadResponse
 from ...types.vault_retrieve_response import VaultRetrieveResponse
 
@@ -168,6 +177,59 @@ class VaultResource(SyncAPIResource):
             cast_to=VaultRetrieveResponse,
         )
 
+    def update(
+        self,
+        id: str,
+        *,
+        description: Optional[str] | Omit = omit,
+        enable_graph: bool | Omit = omit,
+        name: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultUpdateResponse:
+        """Update vault settings including name, description, and enableGraph.
+
+        Changing
+        enableGraph only affects future document uploads - existing documents retain
+        their current graph/non-graph state.
+
+        Args:
+          description: New description for the vault. Set to null to remove.
+
+          enable_graph: Whether to enable GraphRAG for future document uploads
+
+          name: New name for the vault
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._patch(
+            f"/vault/{id}",
+            body=maybe_transform(
+                {
+                    "description": description,
+                    "enable_graph": enable_graph,
+                    "name": name,
+                },
+                vault_update_params.VaultUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultUpdateResponse,
+        )
+
     def list(
         self,
         *,
@@ -189,6 +251,49 @@ class VaultResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=VaultListResponse,
+        )
+
+    def delete(
+        self,
+        id: str,
+        *,
+        async_: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultDeleteResponse:
+        """
+        Permanently deletes a vault and all its contents including documents, vectors,
+        graph data, and S3 buckets. This operation cannot be undone. For large vaults,
+        use the async=true query parameter to queue deletion in the background.
+
+        Args:
+          async_: If true and vault has many objects, queue deletion in background and return
+              immediately
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._delete(
+            f"/vault/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"async_": async_}, vault_delete_params.VaultDeleteParams),
+            ),
+            cast_to=VaultDeleteResponse,
         )
 
     def ingest(
@@ -483,6 +588,59 @@ class AsyncVaultResource(AsyncAPIResource):
             cast_to=VaultRetrieveResponse,
         )
 
+    async def update(
+        self,
+        id: str,
+        *,
+        description: Optional[str] | Omit = omit,
+        enable_graph: bool | Omit = omit,
+        name: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultUpdateResponse:
+        """Update vault settings including name, description, and enableGraph.
+
+        Changing
+        enableGraph only affects future document uploads - existing documents retain
+        their current graph/non-graph state.
+
+        Args:
+          description: New description for the vault. Set to null to remove.
+
+          enable_graph: Whether to enable GraphRAG for future document uploads
+
+          name: New name for the vault
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._patch(
+            f"/vault/{id}",
+            body=await async_maybe_transform(
+                {
+                    "description": description,
+                    "enable_graph": enable_graph,
+                    "name": name,
+                },
+                vault_update_params.VaultUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultUpdateResponse,
+        )
+
     async def list(
         self,
         *,
@@ -504,6 +662,49 @@ class AsyncVaultResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=VaultListResponse,
+        )
+
+    async def delete(
+        self,
+        id: str,
+        *,
+        async_: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultDeleteResponse:
+        """
+        Permanently deletes a vault and all its contents including documents, vectors,
+        graph data, and S3 buckets. This operation cannot be undone. For large vaults,
+        use the async=true query parameter to queue deletion in the background.
+
+        Args:
+          async_: If true and vault has many objects, queue deletion in background and return
+              immediately
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._delete(
+            f"/vault/{id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"async_": async_}, vault_delete_params.VaultDeleteParams),
+            ),
+            cast_to=VaultDeleteResponse,
         )
 
     async def ingest(
@@ -684,8 +885,14 @@ class VaultResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             vault.retrieve,
         )
+        self.update = to_raw_response_wrapper(
+            vault.update,
+        )
         self.list = to_raw_response_wrapper(
             vault.list,
+        )
+        self.delete = to_raw_response_wrapper(
+            vault.delete,
         )
         self.ingest = to_raw_response_wrapper(
             vault.ingest,
@@ -716,8 +923,14 @@ class AsyncVaultResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             vault.retrieve,
         )
+        self.update = async_to_raw_response_wrapper(
+            vault.update,
+        )
         self.list = async_to_raw_response_wrapper(
             vault.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            vault.delete,
         )
         self.ingest = async_to_raw_response_wrapper(
             vault.ingest,
@@ -748,8 +961,14 @@ class VaultResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             vault.retrieve,
         )
+        self.update = to_streamed_response_wrapper(
+            vault.update,
+        )
         self.list = to_streamed_response_wrapper(
             vault.list,
+        )
+        self.delete = to_streamed_response_wrapper(
+            vault.delete,
         )
         self.ingest = to_streamed_response_wrapper(
             vault.ingest,
@@ -780,8 +999,14 @@ class AsyncVaultResourceWithStreamingResponse:
         self.retrieve = async_to_streamed_response_wrapper(
             vault.retrieve,
         )
+        self.update = async_to_streamed_response_wrapper(
+            vault.update,
+        )
         self.list = async_to_streamed_response_wrapper(
             vault.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            vault.delete,
         )
         self.ingest = async_to_streamed_response_wrapper(
             vault.ingest,

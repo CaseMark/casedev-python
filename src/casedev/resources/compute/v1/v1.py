@@ -14,6 +14,14 @@ from .secrets import (
 )
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
+from .instances import (
+    InstancesResource,
+    AsyncInstancesResource,
+    InstancesResourceWithRawResponse,
+    AsyncInstancesResourceWithRawResponse,
+    InstancesResourceWithStreamingResponse,
+    AsyncInstancesResourceWithStreamingResponse,
+)
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -30,6 +38,14 @@ from .environments import (
     EnvironmentsResourceWithStreamingResponse,
     AsyncEnvironmentsResourceWithStreamingResponse,
 )
+from .instance_types import (
+    InstanceTypesResource,
+    AsyncInstanceTypesResource,
+    InstanceTypesResourceWithRawResponse,
+    AsyncInstanceTypesResourceWithRawResponse,
+    InstanceTypesResourceWithStreamingResponse,
+    AsyncInstanceTypesResourceWithStreamingResponse,
+)
 from ...._base_client import make_request_options
 from ....types.compute import v1_get_usage_params
 from ....types.compute.v1_get_usage_response import V1GetUsageResponse
@@ -41,6 +57,14 @@ class V1Resource(SyncAPIResource):
     @cached_property
     def environments(self) -> EnvironmentsResource:
         return EnvironmentsResource(self._client)
+
+    @cached_property
+    def instance_types(self) -> InstanceTypesResource:
+        return InstanceTypesResource(self._client)
+
+    @cached_property
+    def instances(self) -> InstancesResource:
+        return InstancesResource(self._client)
 
     @cached_property
     def secrets(self) -> SecretsResource:
@@ -143,6 +167,14 @@ class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def environments(self) -> AsyncEnvironmentsResource:
         return AsyncEnvironmentsResource(self._client)
+
+    @cached_property
+    def instance_types(self) -> AsyncInstanceTypesResource:
+        return AsyncInstanceTypesResource(self._client)
+
+    @cached_property
+    def instances(self) -> AsyncInstancesResource:
+        return AsyncInstancesResource(self._client)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResource:
@@ -257,6 +289,14 @@ class V1ResourceWithRawResponse:
         return EnvironmentsResourceWithRawResponse(self._v1.environments)
 
     @cached_property
+    def instance_types(self) -> InstanceTypesResourceWithRawResponse:
+        return InstanceTypesResourceWithRawResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> InstancesResourceWithRawResponse:
+        return InstancesResourceWithRawResponse(self._v1.instances)
+
+    @cached_property
     def secrets(self) -> SecretsResourceWithRawResponse:
         return SecretsResourceWithRawResponse(self._v1.secrets)
 
@@ -275,6 +315,14 @@ class AsyncV1ResourceWithRawResponse:
     @cached_property
     def environments(self) -> AsyncEnvironmentsResourceWithRawResponse:
         return AsyncEnvironmentsResourceWithRawResponse(self._v1.environments)
+
+    @cached_property
+    def instance_types(self) -> AsyncInstanceTypesResourceWithRawResponse:
+        return AsyncInstanceTypesResourceWithRawResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> AsyncInstancesResourceWithRawResponse:
+        return AsyncInstancesResourceWithRawResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithRawResponse:
@@ -297,6 +345,14 @@ class V1ResourceWithStreamingResponse:
         return EnvironmentsResourceWithStreamingResponse(self._v1.environments)
 
     @cached_property
+    def instance_types(self) -> InstanceTypesResourceWithStreamingResponse:
+        return InstanceTypesResourceWithStreamingResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> InstancesResourceWithStreamingResponse:
+        return InstancesResourceWithStreamingResponse(self._v1.instances)
+
+    @cached_property
     def secrets(self) -> SecretsResourceWithStreamingResponse:
         return SecretsResourceWithStreamingResponse(self._v1.secrets)
 
@@ -315,6 +371,14 @@ class AsyncV1ResourceWithStreamingResponse:
     @cached_property
     def environments(self) -> AsyncEnvironmentsResourceWithStreamingResponse:
         return AsyncEnvironmentsResourceWithStreamingResponse(self._v1.environments)
+
+    @cached_property
+    def instance_types(self) -> AsyncInstanceTypesResourceWithStreamingResponse:
+        return AsyncInstanceTypesResourceWithStreamingResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> AsyncInstancesResourceWithStreamingResponse:
+        return AsyncInstancesResourceWithStreamingResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithStreamingResponse:
