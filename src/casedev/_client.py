@@ -31,14 +31,40 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import llm, ocr, vault, voice, format, search, compute
+    from .resources import (
+        llm,
+        ocr,
+        legal,
+        vault,
+        voice,
+        format,
+        memory,
+        search,
+        compute,
+        database,
+        payments,
+        projects,
+        superdoc,
+        privilege,
+        translate,
+        applications,
+    )
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
+    from .resources.legal.legal import LegalResource, AsyncLegalResource
     from .resources.vault.vault import VaultResource, AsyncVaultResource
     from .resources.voice.voice import VoiceResource, AsyncVoiceResource
     from .resources.format.format import FormatResource, AsyncFormatResource
+    from .resources.memory.memory import MemoryResource, AsyncMemoryResource
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
+    from .resources.database.database import DatabaseResource, AsyncDatabaseResource
+    from .resources.payments.payments import PaymentsResource, AsyncPaymentsResource
+    from .resources.projects.projects import ProjectsResource, AsyncProjectsResource
+    from .resources.superdoc.superdoc import SuperdocResource, AsyncSuperdocResource
+    from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
+    from .resources.translate.translate import TranslateResource, AsyncTranslateResource
+    from .resources.applications.applications import ApplicationsResource, AsyncApplicationsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -138,10 +164,22 @@ class Casedev(SyncAPIClient):
         )
 
     @cached_property
+    def applications(self) -> ApplicationsResource:
+        from .resources.applications import ApplicationsResource
+
+        return ApplicationsResource(self)
+
+    @cached_property
     def compute(self) -> ComputeResource:
         from .resources.compute import ComputeResource
 
         return ComputeResource(self)
+
+    @cached_property
+    def database(self) -> DatabaseResource:
+        from .resources.database import DatabaseResource
+
+        return DatabaseResource(self)
 
     @cached_property
     def format(self) -> FormatResource:
@@ -150,10 +188,22 @@ class Casedev(SyncAPIClient):
         return FormatResource(self)
 
     @cached_property
+    def legal(self) -> LegalResource:
+        from .resources.legal import LegalResource
+
+        return LegalResource(self)
+
+    @cached_property
     def llm(self) -> LlmResource:
         from .resources.llm import LlmResource
 
         return LlmResource(self)
+
+    @cached_property
+    def memory(self) -> MemoryResource:
+        from .resources.memory import MemoryResource
+
+        return MemoryResource(self)
 
     @cached_property
     def ocr(self) -> OcrResource:
@@ -162,10 +212,40 @@ class Casedev(SyncAPIClient):
         return OcrResource(self)
 
     @cached_property
+    def payments(self) -> PaymentsResource:
+        from .resources.payments import PaymentsResource
+
+        return PaymentsResource(self)
+
+    @cached_property
+    def privilege(self) -> PrivilegeResource:
+        from .resources.privilege import PrivilegeResource
+
+        return PrivilegeResource(self)
+
+    @cached_property
+    def projects(self) -> ProjectsResource:
+        from .resources.projects import ProjectsResource
+
+        return ProjectsResource(self)
+
+    @cached_property
     def search(self) -> SearchResource:
         from .resources.search import SearchResource
 
         return SearchResource(self)
+
+    @cached_property
+    def superdoc(self) -> SuperdocResource:
+        from .resources.superdoc import SuperdocResource
+
+        return SuperdocResource(self)
+
+    @cached_property
+    def translate(self) -> TranslateResource:
+        from .resources.translate import TranslateResource
+
+        return TranslateResource(self)
 
     @cached_property
     def vault(self) -> VaultResource:
@@ -374,10 +454,22 @@ class AsyncCasedev(AsyncAPIClient):
         )
 
     @cached_property
+    def applications(self) -> AsyncApplicationsResource:
+        from .resources.applications import AsyncApplicationsResource
+
+        return AsyncApplicationsResource(self)
+
+    @cached_property
     def compute(self) -> AsyncComputeResource:
         from .resources.compute import AsyncComputeResource
 
         return AsyncComputeResource(self)
+
+    @cached_property
+    def database(self) -> AsyncDatabaseResource:
+        from .resources.database import AsyncDatabaseResource
+
+        return AsyncDatabaseResource(self)
 
     @cached_property
     def format(self) -> AsyncFormatResource:
@@ -386,10 +478,22 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncFormatResource(self)
 
     @cached_property
+    def legal(self) -> AsyncLegalResource:
+        from .resources.legal import AsyncLegalResource
+
+        return AsyncLegalResource(self)
+
+    @cached_property
     def llm(self) -> AsyncLlmResource:
         from .resources.llm import AsyncLlmResource
 
         return AsyncLlmResource(self)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResource:
+        from .resources.memory import AsyncMemoryResource
+
+        return AsyncMemoryResource(self)
 
     @cached_property
     def ocr(self) -> AsyncOcrResource:
@@ -398,10 +502,40 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncOcrResource(self)
 
     @cached_property
+    def payments(self) -> AsyncPaymentsResource:
+        from .resources.payments import AsyncPaymentsResource
+
+        return AsyncPaymentsResource(self)
+
+    @cached_property
+    def privilege(self) -> AsyncPrivilegeResource:
+        from .resources.privilege import AsyncPrivilegeResource
+
+        return AsyncPrivilegeResource(self)
+
+    @cached_property
+    def projects(self) -> AsyncProjectsResource:
+        from .resources.projects import AsyncProjectsResource
+
+        return AsyncProjectsResource(self)
+
+    @cached_property
     def search(self) -> AsyncSearchResource:
         from .resources.search import AsyncSearchResource
 
         return AsyncSearchResource(self)
+
+    @cached_property
+    def superdoc(self) -> AsyncSuperdocResource:
+        from .resources.superdoc import AsyncSuperdocResource
+
+        return AsyncSuperdocResource(self)
+
+    @cached_property
+    def translate(self) -> AsyncTranslateResource:
+        from .resources.translate import AsyncTranslateResource
+
+        return AsyncTranslateResource(self)
 
     @cached_property
     def vault(self) -> AsyncVaultResource:
@@ -537,10 +671,22 @@ class CasedevWithRawResponse:
         self._client = client
 
     @cached_property
+    def applications(self) -> applications.ApplicationsResourceWithRawResponse:
+        from .resources.applications import ApplicationsResourceWithRawResponse
+
+        return ApplicationsResourceWithRawResponse(self._client.applications)
+
+    @cached_property
     def compute(self) -> compute.ComputeResourceWithRawResponse:
         from .resources.compute import ComputeResourceWithRawResponse
 
         return ComputeResourceWithRawResponse(self._client.compute)
+
+    @cached_property
+    def database(self) -> database.DatabaseResourceWithRawResponse:
+        from .resources.database import DatabaseResourceWithRawResponse
+
+        return DatabaseResourceWithRawResponse(self._client.database)
 
     @cached_property
     def format(self) -> format.FormatResourceWithRawResponse:
@@ -549,10 +695,22 @@ class CasedevWithRawResponse:
         return FormatResourceWithRawResponse(self._client.format)
 
     @cached_property
+    def legal(self) -> legal.LegalResourceWithRawResponse:
+        from .resources.legal import LegalResourceWithRawResponse
+
+        return LegalResourceWithRawResponse(self._client.legal)
+
+    @cached_property
     def llm(self) -> llm.LlmResourceWithRawResponse:
         from .resources.llm import LlmResourceWithRawResponse
 
         return LlmResourceWithRawResponse(self._client.llm)
+
+    @cached_property
+    def memory(self) -> memory.MemoryResourceWithRawResponse:
+        from .resources.memory import MemoryResourceWithRawResponse
+
+        return MemoryResourceWithRawResponse(self._client.memory)
 
     @cached_property
     def ocr(self) -> ocr.OcrResourceWithRawResponse:
@@ -561,10 +719,40 @@ class CasedevWithRawResponse:
         return OcrResourceWithRawResponse(self._client.ocr)
 
     @cached_property
+    def payments(self) -> payments.PaymentsResourceWithRawResponse:
+        from .resources.payments import PaymentsResourceWithRawResponse
+
+        return PaymentsResourceWithRawResponse(self._client.payments)
+
+    @cached_property
+    def privilege(self) -> privilege.PrivilegeResourceWithRawResponse:
+        from .resources.privilege import PrivilegeResourceWithRawResponse
+
+        return PrivilegeResourceWithRawResponse(self._client.privilege)
+
+    @cached_property
+    def projects(self) -> projects.ProjectsResourceWithRawResponse:
+        from .resources.projects import ProjectsResourceWithRawResponse
+
+        return ProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
     def search(self) -> search.SearchResourceWithRawResponse:
         from .resources.search import SearchResourceWithRawResponse
 
         return SearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def superdoc(self) -> superdoc.SuperdocResourceWithRawResponse:
+        from .resources.superdoc import SuperdocResourceWithRawResponse
+
+        return SuperdocResourceWithRawResponse(self._client.superdoc)
+
+    @cached_property
+    def translate(self) -> translate.TranslateResourceWithRawResponse:
+        from .resources.translate import TranslateResourceWithRawResponse
+
+        return TranslateResourceWithRawResponse(self._client.translate)
 
     @cached_property
     def vault(self) -> vault.VaultResourceWithRawResponse:
@@ -586,10 +774,22 @@ class AsyncCasedevWithRawResponse:
         self._client = client
 
     @cached_property
+    def applications(self) -> applications.AsyncApplicationsResourceWithRawResponse:
+        from .resources.applications import AsyncApplicationsResourceWithRawResponse
+
+        return AsyncApplicationsResourceWithRawResponse(self._client.applications)
+
+    @cached_property
     def compute(self) -> compute.AsyncComputeResourceWithRawResponse:
         from .resources.compute import AsyncComputeResourceWithRawResponse
 
         return AsyncComputeResourceWithRawResponse(self._client.compute)
+
+    @cached_property
+    def database(self) -> database.AsyncDatabaseResourceWithRawResponse:
+        from .resources.database import AsyncDatabaseResourceWithRawResponse
+
+        return AsyncDatabaseResourceWithRawResponse(self._client.database)
 
     @cached_property
     def format(self) -> format.AsyncFormatResourceWithRawResponse:
@@ -598,10 +798,22 @@ class AsyncCasedevWithRawResponse:
         return AsyncFormatResourceWithRawResponse(self._client.format)
 
     @cached_property
+    def legal(self) -> legal.AsyncLegalResourceWithRawResponse:
+        from .resources.legal import AsyncLegalResourceWithRawResponse
+
+        return AsyncLegalResourceWithRawResponse(self._client.legal)
+
+    @cached_property
     def llm(self) -> llm.AsyncLlmResourceWithRawResponse:
         from .resources.llm import AsyncLlmResourceWithRawResponse
 
         return AsyncLlmResourceWithRawResponse(self._client.llm)
+
+    @cached_property
+    def memory(self) -> memory.AsyncMemoryResourceWithRawResponse:
+        from .resources.memory import AsyncMemoryResourceWithRawResponse
+
+        return AsyncMemoryResourceWithRawResponse(self._client.memory)
 
     @cached_property
     def ocr(self) -> ocr.AsyncOcrResourceWithRawResponse:
@@ -610,10 +822,40 @@ class AsyncCasedevWithRawResponse:
         return AsyncOcrResourceWithRawResponse(self._client.ocr)
 
     @cached_property
+    def payments(self) -> payments.AsyncPaymentsResourceWithRawResponse:
+        from .resources.payments import AsyncPaymentsResourceWithRawResponse
+
+        return AsyncPaymentsResourceWithRawResponse(self._client.payments)
+
+    @cached_property
+    def privilege(self) -> privilege.AsyncPrivilegeResourceWithRawResponse:
+        from .resources.privilege import AsyncPrivilegeResourceWithRawResponse
+
+        return AsyncPrivilegeResourceWithRawResponse(self._client.privilege)
+
+    @cached_property
+    def projects(self) -> projects.AsyncProjectsResourceWithRawResponse:
+        from .resources.projects import AsyncProjectsResourceWithRawResponse
+
+        return AsyncProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
     def search(self) -> search.AsyncSearchResourceWithRawResponse:
         from .resources.search import AsyncSearchResourceWithRawResponse
 
         return AsyncSearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def superdoc(self) -> superdoc.AsyncSuperdocResourceWithRawResponse:
+        from .resources.superdoc import AsyncSuperdocResourceWithRawResponse
+
+        return AsyncSuperdocResourceWithRawResponse(self._client.superdoc)
+
+    @cached_property
+    def translate(self) -> translate.AsyncTranslateResourceWithRawResponse:
+        from .resources.translate import AsyncTranslateResourceWithRawResponse
+
+        return AsyncTranslateResourceWithRawResponse(self._client.translate)
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithRawResponse:
@@ -635,10 +877,22 @@ class CasedevWithStreamedResponse:
         self._client = client
 
     @cached_property
+    def applications(self) -> applications.ApplicationsResourceWithStreamingResponse:
+        from .resources.applications import ApplicationsResourceWithStreamingResponse
+
+        return ApplicationsResourceWithStreamingResponse(self._client.applications)
+
+    @cached_property
     def compute(self) -> compute.ComputeResourceWithStreamingResponse:
         from .resources.compute import ComputeResourceWithStreamingResponse
 
         return ComputeResourceWithStreamingResponse(self._client.compute)
+
+    @cached_property
+    def database(self) -> database.DatabaseResourceWithStreamingResponse:
+        from .resources.database import DatabaseResourceWithStreamingResponse
+
+        return DatabaseResourceWithStreamingResponse(self._client.database)
 
     @cached_property
     def format(self) -> format.FormatResourceWithStreamingResponse:
@@ -647,10 +901,22 @@ class CasedevWithStreamedResponse:
         return FormatResourceWithStreamingResponse(self._client.format)
 
     @cached_property
+    def legal(self) -> legal.LegalResourceWithStreamingResponse:
+        from .resources.legal import LegalResourceWithStreamingResponse
+
+        return LegalResourceWithStreamingResponse(self._client.legal)
+
+    @cached_property
     def llm(self) -> llm.LlmResourceWithStreamingResponse:
         from .resources.llm import LlmResourceWithStreamingResponse
 
         return LlmResourceWithStreamingResponse(self._client.llm)
+
+    @cached_property
+    def memory(self) -> memory.MemoryResourceWithStreamingResponse:
+        from .resources.memory import MemoryResourceWithStreamingResponse
+
+        return MemoryResourceWithStreamingResponse(self._client.memory)
 
     @cached_property
     def ocr(self) -> ocr.OcrResourceWithStreamingResponse:
@@ -659,10 +925,40 @@ class CasedevWithStreamedResponse:
         return OcrResourceWithStreamingResponse(self._client.ocr)
 
     @cached_property
+    def payments(self) -> payments.PaymentsResourceWithStreamingResponse:
+        from .resources.payments import PaymentsResourceWithStreamingResponse
+
+        return PaymentsResourceWithStreamingResponse(self._client.payments)
+
+    @cached_property
+    def privilege(self) -> privilege.PrivilegeResourceWithStreamingResponse:
+        from .resources.privilege import PrivilegeResourceWithStreamingResponse
+
+        return PrivilegeResourceWithStreamingResponse(self._client.privilege)
+
+    @cached_property
+    def projects(self) -> projects.ProjectsResourceWithStreamingResponse:
+        from .resources.projects import ProjectsResourceWithStreamingResponse
+
+        return ProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
     def search(self) -> search.SearchResourceWithStreamingResponse:
         from .resources.search import SearchResourceWithStreamingResponse
 
         return SearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def superdoc(self) -> superdoc.SuperdocResourceWithStreamingResponse:
+        from .resources.superdoc import SuperdocResourceWithStreamingResponse
+
+        return SuperdocResourceWithStreamingResponse(self._client.superdoc)
+
+    @cached_property
+    def translate(self) -> translate.TranslateResourceWithStreamingResponse:
+        from .resources.translate import TranslateResourceWithStreamingResponse
+
+        return TranslateResourceWithStreamingResponse(self._client.translate)
 
     @cached_property
     def vault(self) -> vault.VaultResourceWithStreamingResponse:
@@ -684,10 +980,22 @@ class AsyncCasedevWithStreamedResponse:
         self._client = client
 
     @cached_property
+    def applications(self) -> applications.AsyncApplicationsResourceWithStreamingResponse:
+        from .resources.applications import AsyncApplicationsResourceWithStreamingResponse
+
+        return AsyncApplicationsResourceWithStreamingResponse(self._client.applications)
+
+    @cached_property
     def compute(self) -> compute.AsyncComputeResourceWithStreamingResponse:
         from .resources.compute import AsyncComputeResourceWithStreamingResponse
 
         return AsyncComputeResourceWithStreamingResponse(self._client.compute)
+
+    @cached_property
+    def database(self) -> database.AsyncDatabaseResourceWithStreamingResponse:
+        from .resources.database import AsyncDatabaseResourceWithStreamingResponse
+
+        return AsyncDatabaseResourceWithStreamingResponse(self._client.database)
 
     @cached_property
     def format(self) -> format.AsyncFormatResourceWithStreamingResponse:
@@ -696,10 +1004,22 @@ class AsyncCasedevWithStreamedResponse:
         return AsyncFormatResourceWithStreamingResponse(self._client.format)
 
     @cached_property
+    def legal(self) -> legal.AsyncLegalResourceWithStreamingResponse:
+        from .resources.legal import AsyncLegalResourceWithStreamingResponse
+
+        return AsyncLegalResourceWithStreamingResponse(self._client.legal)
+
+    @cached_property
     def llm(self) -> llm.AsyncLlmResourceWithStreamingResponse:
         from .resources.llm import AsyncLlmResourceWithStreamingResponse
 
         return AsyncLlmResourceWithStreamingResponse(self._client.llm)
+
+    @cached_property
+    def memory(self) -> memory.AsyncMemoryResourceWithStreamingResponse:
+        from .resources.memory import AsyncMemoryResourceWithStreamingResponse
+
+        return AsyncMemoryResourceWithStreamingResponse(self._client.memory)
 
     @cached_property
     def ocr(self) -> ocr.AsyncOcrResourceWithStreamingResponse:
@@ -708,10 +1028,40 @@ class AsyncCasedevWithStreamedResponse:
         return AsyncOcrResourceWithStreamingResponse(self._client.ocr)
 
     @cached_property
+    def payments(self) -> payments.AsyncPaymentsResourceWithStreamingResponse:
+        from .resources.payments import AsyncPaymentsResourceWithStreamingResponse
+
+        return AsyncPaymentsResourceWithStreamingResponse(self._client.payments)
+
+    @cached_property
+    def privilege(self) -> privilege.AsyncPrivilegeResourceWithStreamingResponse:
+        from .resources.privilege import AsyncPrivilegeResourceWithStreamingResponse
+
+        return AsyncPrivilegeResourceWithStreamingResponse(self._client.privilege)
+
+    @cached_property
+    def projects(self) -> projects.AsyncProjectsResourceWithStreamingResponse:
+        from .resources.projects import AsyncProjectsResourceWithStreamingResponse
+
+        return AsyncProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
     def search(self) -> search.AsyncSearchResourceWithStreamingResponse:
         from .resources.search import AsyncSearchResourceWithStreamingResponse
 
         return AsyncSearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def superdoc(self) -> superdoc.AsyncSuperdocResourceWithStreamingResponse:
+        from .resources.superdoc import AsyncSuperdocResourceWithStreamingResponse
+
+        return AsyncSuperdocResourceWithStreamingResponse(self._client.superdoc)
+
+    @cached_property
+    def translate(self) -> translate.AsyncTranslateResourceWithStreamingResponse:
+        from .resources.translate import AsyncTranslateResourceWithStreamingResponse
+
+        return AsyncTranslateResourceWithStreamingResponse(self._client.translate)
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithStreamingResponse:

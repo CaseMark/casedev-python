@@ -11,8 +11,12 @@ from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
 from casedev.types.vault import (
     ObjectListResponse,
+    ObjectDeleteResponse,
+    ObjectUpdateResponse,
     ObjectGetTextResponse,
     ObjectRetrieveResponse,
+    ObjectGetOcrWordsResponse,
+    ObjectGetSummarizeJobResponse,
     ObjectCreatePresignedURLResponse,
 )
 
@@ -76,6 +80,70 @@ class TestObjects:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_update(self, client: Casedev) -> None:
+        object_ = client.vault.objects.update(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.update(
+            object_id="objectId",
+            id="id",
+            filename="deposition-smith-2024.pdf",
+            metadata={},
+            path="/Discovery/Depositions",
+        )
+        assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.update(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.update(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.update(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.update(
+                object_id="",
+                id="id",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_method_list(self, client: Casedev) -> None:
         object_ = client.vault.objects.list(
             "id",
@@ -114,6 +182,68 @@ class TestObjects:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.objects.with_raw_response.list(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_delete(self, client: Casedev) -> None:
+        object_ = client.vault.objects.delete(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.delete(
+            object_id="objectId",
+            id="id",
+            force="true",
+        )
+        assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_delete(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.delete(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_delete(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.delete(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_delete(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.delete(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.delete(
+                object_id="",
+                id="id",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -235,6 +365,134 @@ class TestObjects:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_get_ocr_words(self, client: Casedev) -> None:
+        object_ = client.vault.objects.get_ocr_words(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_get_ocr_words_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.get_ocr_words(
+            object_id="objectId",
+            id="id",
+            page=0,
+            word_end=0,
+            word_start=0,
+        )
+        assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_get_ocr_words(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.get_ocr_words(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_get_ocr_words(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.get_ocr_words(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_get_ocr_words(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.get_ocr_words(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.get_ocr_words(
+                object_id="",
+                id="id",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_get_summarize_job(self, client: Casedev) -> None:
+        object_ = client.vault.objects.get_summarize_job(
+            job_id="jobId",
+            id="id",
+            object_id="objectId",
+        )
+        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_get_summarize_job(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.get_summarize_job(
+            job_id="jobId",
+            id="id",
+            object_id="objectId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_get_summarize_job(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.get_summarize_job(
+            job_id="jobId",
+            id="id",
+            object_id="objectId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_get_summarize_job(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.get_summarize_job(
+                job_id="jobId",
+                id="",
+                object_id="objectId",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.get_summarize_job(
+                job_id="jobId",
+                id="id",
+                object_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            client.vault.objects.with_raw_response.get_summarize_job(
+                job_id="",
+                id="id",
+                object_id="objectId",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_method_get_text(self, client: Casedev) -> None:
         object_ = client.vault.objects.get_text(
             object_id="objectId",
@@ -345,6 +603,70 @@ class TestAsyncObjects:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_update(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.update(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.update(
+            object_id="objectId",
+            id="id",
+            filename="deposition-smith-2024.pdf",
+            metadata={},
+            path="/Discovery/Depositions",
+        )
+        assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.update(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.update(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectUpdateResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.update(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.update(
+                object_id="",
+                id="id",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         object_ = await async_client.vault.objects.list(
             "id",
@@ -383,6 +705,68 @@ class TestAsyncObjects:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.objects.with_raw_response.list(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_delete(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.delete(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.delete(
+            object_id="objectId",
+            id="id",
+            force="true",
+        )
+        assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.delete(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.delete(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectDeleteResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.delete(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.delete(
+                object_id="",
+                id="id",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -500,6 +884,134 @@ class TestAsyncObjects:
             await async_client.vault.objects.with_raw_response.download(
                 object_id="",
                 id="id",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_get_ocr_words(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.get_ocr_words(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_get_ocr_words_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.get_ocr_words(
+            object_id="objectId",
+            id="id",
+            page=0,
+            word_end=0,
+            word_start=0,
+        )
+        assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_get_ocr_words(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.get_ocr_words(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_get_ocr_words(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.get_ocr_words(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectGetOcrWordsResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_get_ocr_words(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_ocr_words(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_ocr_words(
+                object_id="",
+                id="id",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_get_summarize_job(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.get_summarize_job(
+            job_id="jobId",
+            id="id",
+            object_id="objectId",
+        )
+        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_get_summarize_job(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.get_summarize_job(
+            job_id="jobId",
+            id="id",
+            object_id="objectId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_get_summarize_job(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.get_summarize_job(
+            job_id="jobId",
+            id="id",
+            object_id="objectId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_get_summarize_job(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_summarize_job(
+                job_id="jobId",
+                id="",
+                object_id="objectId",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_summarize_job(
+                job_id="jobId",
+                id="id",
+                object_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_summarize_job(
+                job_id="",
+                id="id",
+                object_id="objectId",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
