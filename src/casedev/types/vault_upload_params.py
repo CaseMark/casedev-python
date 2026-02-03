@@ -30,7 +30,7 @@ class VaultUploadParams(TypedDict, total=False):
     """
 
     size_bytes: Annotated[int, PropertyInfo(alias="sizeBytes")]
-    """File size in bytes (optional, max 500MB).
+    """File size in bytes (optional, max 5GB for single PUT uploads).
 
     When provided, enforces exact file size at S3 level.
     """

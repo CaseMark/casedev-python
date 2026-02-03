@@ -326,8 +326,8 @@ class VaultResource(SyncAPIResource):
               source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
               '/Discovery/Depositions/2024'
 
-          size_bytes: File size in bytes (optional, max 500MB). When provided, enforces exact file
-              size at S3 level.
+          size_bytes: File size in bytes (optional, max 5GB for single PUT uploads). When provided,
+              enforces exact file size at S3 level.
 
           extra_headers: Send extra headers
 
@@ -641,8 +641,8 @@ class AsyncVaultResource(AsyncAPIResource):
               source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
               '/Discovery/Depositions/2024'
 
-          size_bytes: File size in bytes (optional, max 500MB). When provided, enforces exact file
-              size at S3 level.
+          size_bytes: File size in bytes (optional, max 5GB for single PUT uploads). When provided,
+              enforces exact file size at S3 level.
 
           extra_headers: Send extra headers
 
