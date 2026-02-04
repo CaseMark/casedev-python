@@ -24,6 +24,14 @@ from .graphrag import (
     GraphragResourceWithStreamingResponse,
     AsyncGraphragResourceWithStreamingResponse,
 )
+from .multipart import (
+    MultipartResource,
+    AsyncMultipartResource,
+    MultipartResourceWithRawResponse,
+    AsyncMultipartResourceWithRawResponse,
+    MultipartResourceWithStreamingResponse,
+    AsyncMultipartResourceWithStreamingResponse,
+)
 
 __all__ = [
     "GraphragResource",
@@ -32,6 +40,12 @@ __all__ = [
     "AsyncGraphragResourceWithRawResponse",
     "GraphragResourceWithStreamingResponse",
     "AsyncGraphragResourceWithStreamingResponse",
+    "MultipartResource",
+    "AsyncMultipartResource",
+    "MultipartResourceWithRawResponse",
+    "AsyncMultipartResourceWithRawResponse",
+    "MultipartResourceWithStreamingResponse",
+    "AsyncMultipartResourceWithStreamingResponse",
     "ObjectsResource",
     "AsyncObjectsResource",
     "ObjectsResourceWithRawResponse",
