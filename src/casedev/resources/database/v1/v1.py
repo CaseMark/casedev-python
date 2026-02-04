@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import httpx
+
 from .projects import (
     ProjectsResource,
     AsyncProjectsResource,
@@ -10,8 +12,17 @@ from .projects import (
     ProjectsResourceWithStreamingResponse,
     AsyncProjectsResourceWithStreamingResponse,
 )
+from ...._types import Body, Query, Headers, NotGiven, not_given
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
+from ...._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
+from ...._base_client import make_request_options
+from ....types.database.v1_get_usage_response import V1GetUsageResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
@@ -40,6 +51,29 @@ class V1Resource(SyncAPIResource):
         """
         return V1ResourceWithStreamingResponse(self)
 
+    def get_usage(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1GetUsageResponse:
+        """
+        Returns detailed database usage statistics and billing information for the
+        current billing period. Includes compute hours, storage, data transfer, and
+        branch counts with associated costs broken down by project.
+        """
+        return self._get(
+            "/database/v1/usage",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1GetUsageResponse,
+        )
+
 
 class AsyncV1Resource(AsyncAPIResource):
     @cached_property
@@ -65,10 +99,37 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         return AsyncV1ResourceWithStreamingResponse(self)
 
+    async def get_usage(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1GetUsageResponse:
+        """
+        Returns detailed database usage statistics and billing information for the
+        current billing period. Includes compute hours, storage, data transfer, and
+        branch counts with associated costs broken down by project.
+        """
+        return await self._get(
+            "/database/v1/usage",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1GetUsageResponse,
+        )
+
 
 class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
+
+        self.get_usage = to_raw_response_wrapper(
+            v1.get_usage,
+        )
 
     @cached_property
     def projects(self) -> ProjectsResourceWithRawResponse:
@@ -79,6 +140,10 @@ class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
+        self.get_usage = async_to_raw_response_wrapper(
+            v1.get_usage,
+        )
+
     @cached_property
     def projects(self) -> AsyncProjectsResourceWithRawResponse:
         return AsyncProjectsResourceWithRawResponse(self._v1.projects)
@@ -88,6 +153,10 @@ class V1ResourceWithStreamingResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
+        self.get_usage = to_streamed_response_wrapper(
+            v1.get_usage,
+        )
+
     @cached_property
     def projects(self) -> ProjectsResourceWithStreamingResponse:
         return ProjectsResourceWithStreamingResponse(self._v1.projects)
@@ -96,6 +165,10 @@ class V1ResourceWithStreamingResponse:
 class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
+
+        self.get_usage = async_to_streamed_response_wrapper(
+            v1.get_usage,
+        )
 
     @cached_property
     def projects(self) -> AsyncProjectsResourceWithStreamingResponse:

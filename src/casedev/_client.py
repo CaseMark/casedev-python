@@ -42,8 +42,6 @@ if TYPE_CHECKING:
         search,
         compute,
         database,
-        payments,
-        projects,
         superdoc,
         privilege,
         translate,
@@ -59,8 +57,6 @@ if TYPE_CHECKING:
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
     from .resources.database.database import DatabaseResource, AsyncDatabaseResource
-    from .resources.payments.payments import PaymentsResource, AsyncPaymentsResource
-    from .resources.projects.projects import ProjectsResource, AsyncProjectsResource
     from .resources.superdoc.superdoc import SuperdocResource, AsyncSuperdocResource
     from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
     from .resources.translate.translate import TranslateResource, AsyncTranslateResource
@@ -212,22 +208,10 @@ class Casedev(SyncAPIClient):
         return OcrResource(self)
 
     @cached_property
-    def payments(self) -> PaymentsResource:
-        from .resources.payments import PaymentsResource
-
-        return PaymentsResource(self)
-
-    @cached_property
     def privilege(self) -> PrivilegeResource:
         from .resources.privilege import PrivilegeResource
 
         return PrivilegeResource(self)
-
-    @cached_property
-    def projects(self) -> ProjectsResource:
-        from .resources.projects import ProjectsResource
-
-        return ProjectsResource(self)
 
     @cached_property
     def search(self) -> SearchResource:
@@ -502,22 +486,10 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncOcrResource(self)
 
     @cached_property
-    def payments(self) -> AsyncPaymentsResource:
-        from .resources.payments import AsyncPaymentsResource
-
-        return AsyncPaymentsResource(self)
-
-    @cached_property
     def privilege(self) -> AsyncPrivilegeResource:
         from .resources.privilege import AsyncPrivilegeResource
 
         return AsyncPrivilegeResource(self)
-
-    @cached_property
-    def projects(self) -> AsyncProjectsResource:
-        from .resources.projects import AsyncProjectsResource
-
-        return AsyncProjectsResource(self)
 
     @cached_property
     def search(self) -> AsyncSearchResource:
@@ -719,22 +691,10 @@ class CasedevWithRawResponse:
         return OcrResourceWithRawResponse(self._client.ocr)
 
     @cached_property
-    def payments(self) -> payments.PaymentsResourceWithRawResponse:
-        from .resources.payments import PaymentsResourceWithRawResponse
-
-        return PaymentsResourceWithRawResponse(self._client.payments)
-
-    @cached_property
     def privilege(self) -> privilege.PrivilegeResourceWithRawResponse:
         from .resources.privilege import PrivilegeResourceWithRawResponse
 
         return PrivilegeResourceWithRawResponse(self._client.privilege)
-
-    @cached_property
-    def projects(self) -> projects.ProjectsResourceWithRawResponse:
-        from .resources.projects import ProjectsResourceWithRawResponse
-
-        return ProjectsResourceWithRawResponse(self._client.projects)
 
     @cached_property
     def search(self) -> search.SearchResourceWithRawResponse:
@@ -822,22 +782,10 @@ class AsyncCasedevWithRawResponse:
         return AsyncOcrResourceWithRawResponse(self._client.ocr)
 
     @cached_property
-    def payments(self) -> payments.AsyncPaymentsResourceWithRawResponse:
-        from .resources.payments import AsyncPaymentsResourceWithRawResponse
-
-        return AsyncPaymentsResourceWithRawResponse(self._client.payments)
-
-    @cached_property
     def privilege(self) -> privilege.AsyncPrivilegeResourceWithRawResponse:
         from .resources.privilege import AsyncPrivilegeResourceWithRawResponse
 
         return AsyncPrivilegeResourceWithRawResponse(self._client.privilege)
-
-    @cached_property
-    def projects(self) -> projects.AsyncProjectsResourceWithRawResponse:
-        from .resources.projects import AsyncProjectsResourceWithRawResponse
-
-        return AsyncProjectsResourceWithRawResponse(self._client.projects)
 
     @cached_property
     def search(self) -> search.AsyncSearchResourceWithRawResponse:
@@ -925,22 +873,10 @@ class CasedevWithStreamedResponse:
         return OcrResourceWithStreamingResponse(self._client.ocr)
 
     @cached_property
-    def payments(self) -> payments.PaymentsResourceWithStreamingResponse:
-        from .resources.payments import PaymentsResourceWithStreamingResponse
-
-        return PaymentsResourceWithStreamingResponse(self._client.payments)
-
-    @cached_property
     def privilege(self) -> privilege.PrivilegeResourceWithStreamingResponse:
         from .resources.privilege import PrivilegeResourceWithStreamingResponse
 
         return PrivilegeResourceWithStreamingResponse(self._client.privilege)
-
-    @cached_property
-    def projects(self) -> projects.ProjectsResourceWithStreamingResponse:
-        from .resources.projects import ProjectsResourceWithStreamingResponse
-
-        return ProjectsResourceWithStreamingResponse(self._client.projects)
 
     @cached_property
     def search(self) -> search.SearchResourceWithStreamingResponse:
@@ -1028,22 +964,10 @@ class AsyncCasedevWithStreamedResponse:
         return AsyncOcrResourceWithStreamingResponse(self._client.ocr)
 
     @cached_property
-    def payments(self) -> payments.AsyncPaymentsResourceWithStreamingResponse:
-        from .resources.payments import AsyncPaymentsResourceWithStreamingResponse
-
-        return AsyncPaymentsResourceWithStreamingResponse(self._client.payments)
-
-    @cached_property
     def privilege(self) -> privilege.AsyncPrivilegeResourceWithStreamingResponse:
         from .resources.privilege import AsyncPrivilegeResourceWithStreamingResponse
 
         return AsyncPrivilegeResourceWithStreamingResponse(self._client.privilege)
-
-    @cached_property
-    def projects(self) -> projects.AsyncProjectsResourceWithStreamingResponse:
-        from .resources.projects import AsyncProjectsResourceWithStreamingResponse
-
-        return AsyncProjectsResourceWithStreamingResponse(self._client.projects)
 
     @cached_property
     def search(self) -> search.AsyncSearchResourceWithStreamingResponse:

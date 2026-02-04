@@ -2,52 +2,59 @@
 
 from __future__ import annotations
 
+from typing import Iterable
+
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
-from ...._compat import cached_property
-from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._base_client import make_request_options
-from ....types.payments.v1 import transfer_list_params, transfer_create_params
+from ...types.vault import (
+    multipart_init_params,
+    multipart_abort_params,
+    multipart_complete_params,
+    multipart_get_part_urls_params,
+)
+from ..._base_client import make_request_options
+from ...types.vault.multipart_init_response import MultipartInitResponse
+from ...types.vault.multipart_get_part_urls_response import MultipartGetPartURLsResponse
 
-__all__ = ["TransfersResource", "AsyncTransfersResource"]
+__all__ = ["MultipartResource", "AsyncMultipartResource"]
 
 
-class TransfersResource(SyncAPIResource):
+class MultipartResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> TransfersResourceWithRawResponse:
+    def with_raw_response(self) -> MultipartResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#accessing-raw-response-data-eg-headers
         """
-        return TransfersResourceWithRawResponse(self)
+        return MultipartResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> TransfersResourceWithStreamingResponse:
+    def with_streaming_response(self) -> MultipartResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
-        return TransfersResourceWithStreamingResponse(self)
+        return MultipartResourceWithStreamingResponse(self)
 
-    def create(
+    def abort(
         self,
+        id: str,
         *,
-        amount: int,
-        from_account_id: str,
-        to_account_id: str,
-        memo: str | Omit = omit,
-        metadata: object | Omit = omit,
+        object_id: str,
+        upload_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -56,11 +63,9 @@ class TransfersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Create a transfer between payment accounts
+        Abort a multipart upload and discard uploaded parts.
 
         Args:
-          amount: Amount in cents
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -69,18 +74,17 @@ class TransfersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            "/payments/v1/transfers",
+            f"/vault/{id}/multipart/abort",
             body=maybe_transform(
                 {
-                    "amount": amount,
-                    "from_account_id": from_account_id,
-                    "to_account_id": to_account_id,
-                    "memo": memo,
-                    "metadata": metadata,
+                    "object_id": object_id,
+                    "upload_id": upload_id,
                 },
-                transfer_create_params.TransferCreateParams,
+                multipart_abort_params.MultipartAbortParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -88,10 +92,14 @@ class TransfersResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def retrieve(
+    def complete(
         self,
         id: str,
         *,
+        object_id: str,
+        parts: Iterable[multipart_complete_params.Part],
+        size_bytes: int,
+        upload_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -100,90 +108,7 @@ class TransfersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get transfer details by ID
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._get(
-            f"/payments/v1/transfers/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    def list(
-        self,
-        *,
-        from_account_id: str | Omit = omit,
-        limit: int | Omit = omit,
-        offset: int | Omit = omit,
-        status: str | Omit = omit,
-        to_account_id: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List transfers with optional filters
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._get(
-            "/payments/v1/transfers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "from_account_id": from_account_id,
-                        "limit": limit,
-                        "offset": offset,
-                        "status": status,
-                        "to_account_id": to_account_id,
-                    },
-                    transfer_list_params.TransferListParams,
-                ),
-            ),
-            cast_to=NoneType,
-        )
-
-    def approve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Approve and execute a pending transfer
+        Complete a multipart upload by providing the list of part numbers and ETags.
 
         Args:
           extra_headers: Send extra headers
@@ -198,26 +123,38 @@ class TransfersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/payments/v1/transfers/{id}/approve",
+            f"/vault/{id}/multipart/complete",
+            body=maybe_transform(
+                {
+                    "object_id": object_id,
+                    "parts": parts,
+                    "size_bytes": size_bytes,
+                    "upload_id": upload_id,
+                },
+                multipart_complete_params.MultipartCompleteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    def cancel(
+    def get_part_urls(
         self,
         id: str,
         *,
+        object_id: str,
+        parts: Iterable[multipart_get_part_urls_params.Part],
+        upload_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> MultipartGetPartURLsResponse:
         """
-        Cancel a pending transfer
+        Generate presigned URLs for individual multipart upload parts.
 
         Args:
           extra_headers: Send extra headers
@@ -230,44 +167,118 @@ class TransfersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/payments/v1/transfers/{id}/cancel",
+            f"/vault/{id}/multipart/part-urls",
+            body=maybe_transform(
+                {
+                    "object_id": object_id,
+                    "parts": parts,
+                    "upload_id": upload_id,
+                },
+                multipart_get_part_urls_params.MultipartGetPartURLsParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=MultipartGetPartURLsResponse,
+        )
+
+    def init(
+        self,
+        id: str,
+        *,
+        content_type: str,
+        filename: str,
+        size_bytes: int,
+        auto_index: bool | Omit = omit,
+        metadata: object | Omit = omit,
+        part_size_bytes: int | Omit = omit,
+        path: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MultipartInitResponse:
+        """Initiate a multipart upload for large files (>5GB).
+
+        Returns an uploadId and
+        object metadata. Use part URLs endpoint to upload parts and complete endpoint to
+        finalize.
+
+        Args:
+          content_type: MIME type of the file
+
+          filename: Name of the file to upload
+
+          size_bytes: File size in bytes (required, max 8GB).
+
+          auto_index: Whether to automatically process and index the file for search
+
+          metadata: Additional metadata to associate with the file
+
+          part_size_bytes: Multipart part size in bytes (min 5MB). Defaults to 64MB.
+
+          path: Optional folder path for hierarchy preservation
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            f"/vault/{id}/multipart/init",
+            body=maybe_transform(
+                {
+                    "content_type": content_type,
+                    "filename": filename,
+                    "size_bytes": size_bytes,
+                    "auto_index": auto_index,
+                    "metadata": metadata,
+                    "part_size_bytes": part_size_bytes,
+                    "path": path,
+                },
+                multipart_init_params.MultipartInitParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=MultipartInitResponse,
         )
 
 
-class AsyncTransfersResource(AsyncAPIResource):
+class AsyncMultipartResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncTransfersResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncMultipartResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncTransfersResourceWithRawResponse(self)
+        return AsyncMultipartResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncTransfersResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncMultipartResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
-        return AsyncTransfersResourceWithStreamingResponse(self)
+        return AsyncMultipartResourceWithStreamingResponse(self)
 
-    async def create(
+    async def abort(
         self,
+        id: str,
         *,
-        amount: int,
-        from_account_id: str,
-        to_account_id: str,
-        memo: str | Omit = omit,
-        metadata: object | Omit = omit,
+        object_id: str,
+        upload_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -276,11 +287,9 @@ class AsyncTransfersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Create a transfer between payment accounts
+        Abort a multipart upload and discard uploaded parts.
 
         Args:
-          amount: Amount in cents
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -289,18 +298,17 @@ class AsyncTransfersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            "/payments/v1/transfers",
+            f"/vault/{id}/multipart/abort",
             body=await async_maybe_transform(
                 {
-                    "amount": amount,
-                    "from_account_id": from_account_id,
-                    "to_account_id": to_account_id,
-                    "memo": memo,
-                    "metadata": metadata,
+                    "object_id": object_id,
+                    "upload_id": upload_id,
                 },
-                transfer_create_params.TransferCreateParams,
+                multipart_abort_params.MultipartAbortParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -308,10 +316,14 @@ class AsyncTransfersResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def retrieve(
+    async def complete(
         self,
         id: str,
         *,
+        object_id: str,
+        parts: Iterable[multipart_complete_params.Part],
+        size_bytes: int,
+        upload_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -320,90 +332,7 @@ class AsyncTransfersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get transfer details by ID
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._get(
-            f"/payments/v1/transfers/{id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    async def list(
-        self,
-        *,
-        from_account_id: str | Omit = omit,
-        limit: int | Omit = omit,
-        offset: int | Omit = omit,
-        status: str | Omit = omit,
-        to_account_id: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List transfers with optional filters
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._get(
-            "/payments/v1/transfers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "from_account_id": from_account_id,
-                        "limit": limit,
-                        "offset": offset,
-                        "status": status,
-                        "to_account_id": to_account_id,
-                    },
-                    transfer_list_params.TransferListParams,
-                ),
-            ),
-            cast_to=NoneType,
-        )
-
-    async def approve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Approve and execute a pending transfer
+        Complete a multipart upload by providing the list of part numbers and ETags.
 
         Args:
           extra_headers: Send extra headers
@@ -418,26 +347,38 @@ class AsyncTransfersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/payments/v1/transfers/{id}/approve",
+            f"/vault/{id}/multipart/complete",
+            body=await async_maybe_transform(
+                {
+                    "object_id": object_id,
+                    "parts": parts,
+                    "size_bytes": size_bytes,
+                    "upload_id": upload_id,
+                },
+                multipart_complete_params.MultipartCompleteParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    async def cancel(
+    async def get_part_urls(
         self,
         id: str,
         *,
+        object_id: str,
+        parts: Iterable[multipart_get_part_urls_params.Part],
+        upload_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> MultipartGetPartURLsResponse:
         """
-        Cancel a pending transfer
+        Generate presigned URLs for individual multipart upload parts.
 
         Args:
           extra_headers: Send extra headers
@@ -450,95 +391,159 @@ class AsyncTransfersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/payments/v1/transfers/{id}/cancel",
+            f"/vault/{id}/multipart/part-urls",
+            body=await async_maybe_transform(
+                {
+                    "object_id": object_id,
+                    "parts": parts,
+                    "upload_id": upload_id,
+                },
+                multipart_get_part_urls_params.MultipartGetPartURLsParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=MultipartGetPartURLsResponse,
+        )
+
+    async def init(
+        self,
+        id: str,
+        *,
+        content_type: str,
+        filename: str,
+        size_bytes: int,
+        auto_index: bool | Omit = omit,
+        metadata: object | Omit = omit,
+        part_size_bytes: int | Omit = omit,
+        path: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> MultipartInitResponse:
+        """Initiate a multipart upload for large files (>5GB).
+
+        Returns an uploadId and
+        object metadata. Use part URLs endpoint to upload parts and complete endpoint to
+        finalize.
+
+        Args:
+          content_type: MIME type of the file
+
+          filename: Name of the file to upload
+
+          size_bytes: File size in bytes (required, max 8GB).
+
+          auto_index: Whether to automatically process and index the file for search
+
+          metadata: Additional metadata to associate with the file
+
+          part_size_bytes: Multipart part size in bytes (min 5MB). Defaults to 64MB.
+
+          path: Optional folder path for hierarchy preservation
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            f"/vault/{id}/multipart/init",
+            body=await async_maybe_transform(
+                {
+                    "content_type": content_type,
+                    "filename": filename,
+                    "size_bytes": size_bytes,
+                    "auto_index": auto_index,
+                    "metadata": metadata,
+                    "part_size_bytes": part_size_bytes,
+                    "path": path,
+                },
+                multipart_init_params.MultipartInitParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=MultipartInitResponse,
         )
 
 
-class TransfersResourceWithRawResponse:
-    def __init__(self, transfers: TransfersResource) -> None:
-        self._transfers = transfers
+class MultipartResourceWithRawResponse:
+    def __init__(self, multipart: MultipartResource) -> None:
+        self._multipart = multipart
 
-        self.create = to_raw_response_wrapper(
-            transfers.create,
+        self.abort = to_raw_response_wrapper(
+            multipart.abort,
         )
-        self.retrieve = to_raw_response_wrapper(
-            transfers.retrieve,
+        self.complete = to_raw_response_wrapper(
+            multipart.complete,
         )
-        self.list = to_raw_response_wrapper(
-            transfers.list,
+        self.get_part_urls = to_raw_response_wrapper(
+            multipart.get_part_urls,
         )
-        self.approve = to_raw_response_wrapper(
-            transfers.approve,
-        )
-        self.cancel = to_raw_response_wrapper(
-            transfers.cancel,
+        self.init = to_raw_response_wrapper(
+            multipart.init,
         )
 
 
-class AsyncTransfersResourceWithRawResponse:
-    def __init__(self, transfers: AsyncTransfersResource) -> None:
-        self._transfers = transfers
+class AsyncMultipartResourceWithRawResponse:
+    def __init__(self, multipart: AsyncMultipartResource) -> None:
+        self._multipart = multipart
 
-        self.create = async_to_raw_response_wrapper(
-            transfers.create,
+        self.abort = async_to_raw_response_wrapper(
+            multipart.abort,
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            transfers.retrieve,
+        self.complete = async_to_raw_response_wrapper(
+            multipart.complete,
         )
-        self.list = async_to_raw_response_wrapper(
-            transfers.list,
+        self.get_part_urls = async_to_raw_response_wrapper(
+            multipart.get_part_urls,
         )
-        self.approve = async_to_raw_response_wrapper(
-            transfers.approve,
-        )
-        self.cancel = async_to_raw_response_wrapper(
-            transfers.cancel,
+        self.init = async_to_raw_response_wrapper(
+            multipart.init,
         )
 
 
-class TransfersResourceWithStreamingResponse:
-    def __init__(self, transfers: TransfersResource) -> None:
-        self._transfers = transfers
+class MultipartResourceWithStreamingResponse:
+    def __init__(self, multipart: MultipartResource) -> None:
+        self._multipart = multipart
 
-        self.create = to_streamed_response_wrapper(
-            transfers.create,
+        self.abort = to_streamed_response_wrapper(
+            multipart.abort,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            transfers.retrieve,
+        self.complete = to_streamed_response_wrapper(
+            multipart.complete,
         )
-        self.list = to_streamed_response_wrapper(
-            transfers.list,
+        self.get_part_urls = to_streamed_response_wrapper(
+            multipart.get_part_urls,
         )
-        self.approve = to_streamed_response_wrapper(
-            transfers.approve,
-        )
-        self.cancel = to_streamed_response_wrapper(
-            transfers.cancel,
+        self.init = to_streamed_response_wrapper(
+            multipart.init,
         )
 
 
-class AsyncTransfersResourceWithStreamingResponse:
-    def __init__(self, transfers: AsyncTransfersResource) -> None:
-        self._transfers = transfers
+class AsyncMultipartResourceWithStreamingResponse:
+    def __init__(self, multipart: AsyncMultipartResource) -> None:
+        self._multipart = multipart
 
-        self.create = async_to_streamed_response_wrapper(
-            transfers.create,
+        self.abort = async_to_streamed_response_wrapper(
+            multipart.abort,
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            transfers.retrieve,
+        self.complete = async_to_streamed_response_wrapper(
+            multipart.complete,
         )
-        self.list = async_to_streamed_response_wrapper(
-            transfers.list,
+        self.get_part_urls = async_to_streamed_response_wrapper(
+            multipart.get_part_urls,
         )
-        self.approve = async_to_streamed_response_wrapper(
-            transfers.approve,
-        )
-        self.cancel = async_to_streamed_response_wrapper(
-            transfers.cancel,
+        self.init = async_to_streamed_response_wrapper(
+            multipart.init,
         )
