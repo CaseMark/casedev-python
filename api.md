@@ -140,6 +140,16 @@ Methods:
 
 ## V1
 
+Types:
+
+```python
+from casedev.types.database import V1GetUsageResponse
+```
+
+Methods:
+
+- <code title="get /database/v1/usage">client.database.v1.<a href="./src/casedev/resources/database/v1/v1.py">get_usage</a>() -> <a href="./src/casedev/types/database/v1_get_usage_response.py">V1GetUsageResponse</a></code>
+
 ### Projects
 
 Types:
@@ -301,88 +311,6 @@ Methods:
 - <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">download</a>(type, \*, id) -> str</code>
 - <code title="post /ocr/v1/process">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">process</a>(\*\*<a href="src/casedev/types/ocr/v1_process_params.py">params</a>) -> <a href="./src/casedev/types/ocr/v1_process_response.py">V1ProcessResponse</a></code>
 
-# Payments
-
-## V1
-
-### Accounts
-
-Types:
-
-```python
-from casedev.types.payments.v1 import (
-    AccountCreateResponse,
-    AccountGetBalanceResponse,
-    AccountGetLedgerResponse,
-)
-```
-
-Methods:
-
-- <code title="post /payments/v1/accounts">client.payments.v1.accounts.<a href="./src/casedev/resources/payments/v1/accounts.py">create</a>(\*\*<a href="src/casedev/types/payments/v1/account_create_params.py">params</a>) -> <a href="./src/casedev/types/payments/v1/account_create_response.py">AccountCreateResponse</a></code>
-- <code title="get /payments/v1/accounts/{id}">client.payments.v1.accounts.<a href="./src/casedev/resources/payments/v1/accounts.py">retrieve</a>(id) -> None</code>
-- <code title="patch /payments/v1/accounts/{id}">client.payments.v1.accounts.<a href="./src/casedev/resources/payments/v1/accounts.py">update</a>(id, \*\*<a href="src/casedev/types/payments/v1/account_update_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/accounts">client.payments.v1.accounts.<a href="./src/casedev/resources/payments/v1/accounts.py">list</a>(\*\*<a href="src/casedev/types/payments/v1/account_list_params.py">params</a>) -> object</code>
-- <code title="get /payments/v1/accounts/{id}/balance">client.payments.v1.accounts.<a href="./src/casedev/resources/payments/v1/accounts.py">get_balance</a>(id) -> <a href="./src/casedev/types/payments/v1/account_get_balance_response.py">AccountGetBalanceResponse</a></code>
-- <code title="get /payments/v1/accounts/{id}/ledger">client.payments.v1.accounts.<a href="./src/casedev/resources/payments/v1/accounts.py">get_ledger</a>(id, \*\*<a href="src/casedev/types/payments/v1/account_get_ledger_params.py">params</a>) -> <a href="./src/casedev/types/payments/v1/account_get_ledger_response.py">AccountGetLedgerResponse</a></code>
-
-### Charges
-
-Methods:
-
-- <code title="post /payments/v1/charges">client.payments.v1.charges.<a href="./src/casedev/resources/payments/v1/charges.py">create</a>(\*\*<a href="src/casedev/types/payments/v1/charge_create_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/charges/{id}">client.payments.v1.charges.<a href="./src/casedev/resources/payments/v1/charges.py">retrieve</a>(id) -> None</code>
-- <code title="get /payments/v1/charges">client.payments.v1.charges.<a href="./src/casedev/resources/payments/v1/charges.py">list</a>(\*\*<a href="src/casedev/types/payments/v1/charge_list_params.py">params</a>) -> None</code>
-- <code title="post /payments/v1/charges/{id}/cancel">client.payments.v1.charges.<a href="./src/casedev/resources/payments/v1/charges.py">cancel</a>(id) -> None</code>
-- <code title="post /payments/v1/charges/{id}/refund">client.payments.v1.charges.<a href="./src/casedev/resources/payments/v1/charges.py">refund</a>(id, \*\*<a href="src/casedev/types/payments/v1/charge_refund_params.py">params</a>) -> None</code>
-
-### Holds
-
-Methods:
-
-- <code title="post /payments/v1/holds">client.payments.v1.holds.<a href="./src/casedev/resources/payments/v1/holds.py">create</a>(\*\*<a href="src/casedev/types/payments/v1/hold_create_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/holds/{id}">client.payments.v1.holds.<a href="./src/casedev/resources/payments/v1/holds.py">retrieve</a>(id) -> None</code>
-- <code title="get /payments/v1/holds">client.payments.v1.holds.<a href="./src/casedev/resources/payments/v1/holds.py">list</a>(\*\*<a href="src/casedev/types/payments/v1/hold_list_params.py">params</a>) -> None</code>
-- <code title="post /payments/v1/holds/{id}/approve">client.payments.v1.holds.<a href="./src/casedev/resources/payments/v1/holds.py">approve</a>(id, \*\*<a href="src/casedev/types/payments/v1/hold_approve_params.py">params</a>) -> None</code>
-- <code title="post /payments/v1/holds/{id}/cancel">client.payments.v1.holds.<a href="./src/casedev/resources/payments/v1/holds.py">cancel</a>(id) -> None</code>
-- <code title="post /payments/v1/holds/{id}/release">client.payments.v1.holds.<a href="./src/casedev/resources/payments/v1/holds.py">release</a>(id) -> None</code>
-
-### Ledger
-
-Methods:
-
-- <code title="get /payments/v1/ledger">client.payments.v1.ledger.<a href="./src/casedev/resources/payments/v1/ledger.py">get</a>(\*\*<a href="src/casedev/types/payments/v1/ledger_get_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/ledger/transactions">client.payments.v1.ledger.<a href="./src/casedev/resources/payments/v1/ledger.py">list_transactions</a>(\*\*<a href="src/casedev/types/payments/v1/ledger_list_transactions_params.py">params</a>) -> None</code>
-
-### Parties
-
-Methods:
-
-- <code title="post /payments/v1/parties">client.payments.v1.parties.<a href="./src/casedev/resources/payments/v1/parties.py">create</a>(\*\*<a href="src/casedev/types/payments/v1/party_create_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/parties/{id}">client.payments.v1.parties.<a href="./src/casedev/resources/payments/v1/parties.py">retrieve</a>(id) -> None</code>
-- <code title="patch /payments/v1/parties/{id}">client.payments.v1.parties.<a href="./src/casedev/resources/payments/v1/parties.py">update</a>(id, \*\*<a href="src/casedev/types/payments/v1/party_update_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/parties">client.payments.v1.parties.<a href="./src/casedev/resources/payments/v1/parties.py">list</a>(\*\*<a href="src/casedev/types/payments/v1/party_list_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/parties/{id}/payment-methods">client.payments.v1.parties.<a href="./src/casedev/resources/payments/v1/parties.py">list_payment_methods</a>(id) -> None</code>
-
-### Payouts
-
-Methods:
-
-- <code title="post /payments/v1/payouts">client.payments.v1.payouts.<a href="./src/casedev/resources/payments/v1/payouts.py">create</a>(\*\*<a href="src/casedev/types/payments/v1/payout_create_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/payouts/{id}">client.payments.v1.payouts.<a href="./src/casedev/resources/payments/v1/payouts.py">retrieve</a>(id) -> None</code>
-- <code title="get /payments/v1/payouts">client.payments.v1.payouts.<a href="./src/casedev/resources/payments/v1/payouts.py">list</a>(\*\*<a href="src/casedev/types/payments/v1/payout_list_params.py">params</a>) -> None</code>
-- <code title="post /payments/v1/payouts/{id}/cancel">client.payments.v1.payouts.<a href="./src/casedev/resources/payments/v1/payouts.py">cancel</a>(id) -> None</code>
-
-### Transfers
-
-Methods:
-
-- <code title="post /payments/v1/transfers">client.payments.v1.transfers.<a href="./src/casedev/resources/payments/v1/transfers.py">create</a>(\*\*<a href="src/casedev/types/payments/v1/transfer_create_params.py">params</a>) -> None</code>
-- <code title="get /payments/v1/transfers/{id}">client.payments.v1.transfers.<a href="./src/casedev/resources/payments/v1/transfers.py">retrieve</a>(id) -> None</code>
-- <code title="get /payments/v1/transfers">client.payments.v1.transfers.<a href="./src/casedev/resources/payments/v1/transfers.py">list</a>(\*\*<a href="src/casedev/types/payments/v1/transfer_list_params.py">params</a>) -> None</code>
-- <code title="post /payments/v1/transfers/{id}/approve">client.payments.v1.transfers.<a href="./src/casedev/resources/payments/v1/transfers.py">approve</a>(id) -> None</code>
-- <code title="post /payments/v1/transfers/{id}/cancel">client.payments.v1.transfers.<a href="./src/casedev/resources/payments/v1/transfers.py">cancel</a>(id) -> None</code>
-
 # Privilege
 
 ## V1
@@ -396,25 +324,6 @@ from casedev.types.privilege import V1DetectResponse
 Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/casedev/resources/privilege/v1.py">detect</a>(\*\*<a href="src/casedev/types/privilege/v1_detect_params.py">params</a>) -> <a href="./src/casedev/types/privilege/v1_detect_response.py">V1DetectResponse</a></code>
-
-# Projects
-
-## V1
-
-Types:
-
-```python
-from casedev.types.projects import V1ListResponse, V1DeleteResponse
-```
-
-Methods:
-
-- <code title="post /projects/v1">client.projects.v1.<a href="./src/casedev/resources/projects/v1.py">create</a>(\*\*<a href="src/casedev/types/projects/v1_create_params.py">params</a>) -> None</code>
-- <code title="get /projects/v1/{id}">client.projects.v1.<a href="./src/casedev/resources/projects/v1.py">retrieve</a>(id) -> None</code>
-- <code title="get /projects/v1">client.projects.v1.<a href="./src/casedev/resources/projects/v1.py">list</a>() -> <a href="./src/casedev/types/projects/v1_list_response.py">V1ListResponse</a></code>
-- <code title="delete /projects/v1/{id}">client.projects.v1.<a href="./src/casedev/resources/projects/v1.py">delete</a>(id, \*\*<a href="src/casedev/types/projects/v1_delete_params.py">params</a>) -> <a href="./src/casedev/types/projects/v1_delete_response.py">V1DeleteResponse</a></code>
-- <code title="post /projects/v1/{id}/env-vars">client.projects.v1.<a href="./src/casedev/resources/projects/v1.py">create_env_vars</a>(id, \*\*<a href="src/casedev/types/projects/v1_create_env_vars_params.py">params</a>) -> None</code>
-- <code title="get /projects/v1/{id}/env-vars">client.projects.v1.<a href="./src/casedev/resources/projects/v1.py">list_env_vars</a>(id, \*\*<a href="src/casedev/types/projects/v1_list_env_vars_params.py">params</a>) -> None</code>
 
 # Search
 
@@ -512,6 +421,21 @@ Methods:
 - <code title="get /vault/{id}/graphrag/stats">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">get_stats</a>(id) -> <a href="./src/casedev/types/vault/graphrag_get_stats_response.py">GraphragGetStatsResponse</a></code>
 - <code title="post /vault/{id}/graphrag/init">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">init</a>(id) -> <a href="./src/casedev/types/vault/graphrag_init_response.py">GraphragInitResponse</a></code>
 - <code title="post /vault/{id}/graphrag/{objectId}">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">process_object</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/graphrag_process_object_response.py">GraphragProcessObjectResponse</a></code>
+
+## Multipart
+
+Types:
+
+```python
+from casedev.types.vault import MultipartGetPartURLsResponse, MultipartInitResponse
+```
+
+Methods:
+
+- <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">abort</a>(id, \*\*<a href="src/casedev/types/vault/multipart_abort_params.py">params</a>) -> None</code>
+- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">complete</a>(id, \*\*<a href="src/casedev/types/vault/multipart_complete_params.py">params</a>) -> None</code>
+- <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">get_part_urls</a>(id, \*\*<a href="src/casedev/types/vault/multipart_get_part_urls_params.py">params</a>) -> <a href="./src/casedev/types/vault/multipart_get_part_urls_response.py">MultipartGetPartURLsResponse</a></code>
+- <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">init</a>(id, \*\*<a href="src/casedev/types/vault/multipart_init_params.py">params</a>) -> <a href="./src/casedev/types/vault/multipart_init_response.py">MultipartInitResponse</a></code>
 
 ## Objects
 

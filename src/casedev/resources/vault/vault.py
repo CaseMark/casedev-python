@@ -33,6 +33,14 @@ from .graphrag import (
     AsyncGraphragResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
+from .multipart import (
+    MultipartResource,
+    AsyncMultipartResource,
+    MultipartResourceWithRawResponse,
+    AsyncMultipartResourceWithRawResponse,
+    MultipartResourceWithStreamingResponse,
+    AsyncMultipartResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -57,6 +65,10 @@ class VaultResource(SyncAPIResource):
     @cached_property
     def graphrag(self) -> GraphragResource:
         return GraphragResource(self._client)
+
+    @cached_property
+    def multipart(self) -> MultipartResource:
+        return MultipartResource(self._client)
 
     @cached_property
     def objects(self) -> ObjectsResource:
@@ -468,6 +480,10 @@ class AsyncVaultResource(AsyncAPIResource):
     @cached_property
     def graphrag(self) -> AsyncGraphragResource:
         return AsyncGraphragResource(self._client)
+
+    @cached_property
+    def multipart(self) -> AsyncMultipartResource:
+        return AsyncMultipartResource(self._client)
 
     @cached_property
     def objects(self) -> AsyncObjectsResource:
@@ -909,6 +925,10 @@ class VaultResourceWithRawResponse:
         return GraphragResourceWithRawResponse(self._vault.graphrag)
 
     @cached_property
+    def multipart(self) -> MultipartResourceWithRawResponse:
+        return MultipartResourceWithRawResponse(self._vault.multipart)
+
+    @cached_property
     def objects(self) -> ObjectsResourceWithRawResponse:
         return ObjectsResourceWithRawResponse(self._vault.objects)
 
@@ -945,6 +965,10 @@ class AsyncVaultResourceWithRawResponse:
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithRawResponse:
         return AsyncGraphragResourceWithRawResponse(self._vault.graphrag)
+
+    @cached_property
+    def multipart(self) -> AsyncMultipartResourceWithRawResponse:
+        return AsyncMultipartResourceWithRawResponse(self._vault.multipart)
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithRawResponse:
@@ -985,6 +1009,10 @@ class VaultResourceWithStreamingResponse:
         return GraphragResourceWithStreamingResponse(self._vault.graphrag)
 
     @cached_property
+    def multipart(self) -> MultipartResourceWithStreamingResponse:
+        return MultipartResourceWithStreamingResponse(self._vault.multipart)
+
+    @cached_property
     def objects(self) -> ObjectsResourceWithStreamingResponse:
         return ObjectsResourceWithStreamingResponse(self._vault.objects)
 
@@ -1021,6 +1049,10 @@ class AsyncVaultResourceWithStreamingResponse:
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithStreamingResponse:
         return AsyncGraphragResourceWithStreamingResponse(self._vault.graphrag)
+
+    @cached_property
+    def multipart(self) -> AsyncMultipartResourceWithStreamingResponse:
+        return AsyncMultipartResourceWithStreamingResponse(self._vault.multipart)
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithStreamingResponse:
