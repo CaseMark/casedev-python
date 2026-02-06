@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -13,6 +13,7 @@ from ...types import (
     vault_search_params,
     vault_update_params,
     vault_upload_params,
+    vault_confirm_upload_params,
 )
 from .objects import (
     ObjectsResource,
@@ -23,7 +24,7 @@ from .objects import (
     AsyncObjectsResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from .graphrag import (
     GraphragResource,
     AsyncGraphragResource,
@@ -57,6 +58,7 @@ from ...types.vault_search_response import VaultSearchResponse
 from ...types.vault_update_response import VaultUpdateResponse
 from ...types.vault_upload_response import VaultUploadResponse
 from ...types.vault_retrieve_response import VaultRetrieveResponse
+from ...types.vault_confirm_upload_response import VaultConfirmUploadResponse
 
 __all__ = ["VaultResource", "AsyncVaultResource"]
 
@@ -308,6 +310,132 @@ class VaultResource(SyncAPIResource):
             cast_to=VaultDeleteResponse,
         )
 
+    @overload
+    def confirm_upload(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        size_bytes: int,
+        success: Literal[True],
+        error_code: str | Omit = omit,
+        error_message: str | Omit = omit,
+        etag: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultConfirmUploadResponse:
+        """Confirm whether a direct-to-S3 vault upload succeeded or failed.
+
+        This endpoint
+        emits vault.upload.completed or vault.upload.failed events and is idempotent for
+        repeated confirmations.
+
+        Args:
+          size_bytes: Uploaded file size in bytes (required when success=true)
+
+          error_code: Client-side error code (required when success=false)
+
+          error_message: Client-side error message (required when success=false)
+
+          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def confirm_upload(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        error_code: str,
+        error_message: str,
+        success: Literal[False],
+        etag: str | Omit = omit,
+        size_bytes: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultConfirmUploadResponse:
+        """Confirm whether a direct-to-S3 vault upload succeeded or failed.
+
+        This endpoint
+        emits vault.upload.completed or vault.upload.failed events and is idempotent for
+        repeated confirmations.
+
+        Args:
+          error_code: Client-side error code (required when success=false)
+
+          error_message: Client-side error message (required when success=false)
+
+          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
+
+          size_bytes: Uploaded file size in bytes (required when success=true)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["id", "size_bytes", "success"], ["id", "error_code", "error_message", "success"])
+    def confirm_upload(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        size_bytes: int | Omit = omit,
+        success: Literal[True] | Literal[False],
+        error_code: str | Omit = omit,
+        error_message: str | Omit = omit,
+        etag: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultConfirmUploadResponse:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return self._post(
+            f"/vault/{id}/upload/{object_id}/confirm",
+            body=maybe_transform(
+                {
+                    "size_bytes": size_bytes,
+                    "success": success,
+                    "error_code": error_code,
+                    "error_message": error_message,
+                    "etag": etag,
+                },
+                vault_confirm_upload_params.VaultConfirmUploadParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultConfirmUploadResponse,
+        )
+
     def ingest(
         self,
         object_id: str,
@@ -426,9 +554,8 @@ class VaultResource(SyncAPIResource):
     ) -> VaultUploadResponse:
         """
         Generate a presigned URL for uploading files directly to a vault's S3 storage.
-        This endpoint creates a temporary upload URL that allows secure file uploads
-        without exposing credentials. Files can be automatically indexed for semantic
-        search or stored for manual processing.
+        After uploading to S3, confirm the upload result via POST
+        /vault/:vaultId/upload/:objectId/confirm before triggering ingestion.
 
         Args:
           content_type: MIME type of the file (e.g., application/pdf, image/jpeg)
@@ -723,6 +850,132 @@ class AsyncVaultResource(AsyncAPIResource):
             cast_to=VaultDeleteResponse,
         )
 
+    @overload
+    async def confirm_upload(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        size_bytes: int,
+        success: Literal[True],
+        error_code: str | Omit = omit,
+        error_message: str | Omit = omit,
+        etag: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultConfirmUploadResponse:
+        """Confirm whether a direct-to-S3 vault upload succeeded or failed.
+
+        This endpoint
+        emits vault.upload.completed or vault.upload.failed events and is idempotent for
+        repeated confirmations.
+
+        Args:
+          size_bytes: Uploaded file size in bytes (required when success=true)
+
+          error_code: Client-side error code (required when success=false)
+
+          error_message: Client-side error message (required when success=false)
+
+          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def confirm_upload(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        error_code: str,
+        error_message: str,
+        success: Literal[False],
+        etag: str | Omit = omit,
+        size_bytes: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultConfirmUploadResponse:
+        """Confirm whether a direct-to-S3 vault upload succeeded or failed.
+
+        This endpoint
+        emits vault.upload.completed or vault.upload.failed events and is idempotent for
+        repeated confirmations.
+
+        Args:
+          error_code: Client-side error code (required when success=false)
+
+          error_message: Client-side error message (required when success=false)
+
+          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
+
+          size_bytes: Uploaded file size in bytes (required when success=true)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["id", "size_bytes", "success"], ["id", "error_code", "error_message", "success"])
+    async def confirm_upload(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        size_bytes: int | Omit = omit,
+        success: Literal[True] | Literal[False],
+        error_code: str | Omit = omit,
+        error_message: str | Omit = omit,
+        etag: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultConfirmUploadResponse:
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return await self._post(
+            f"/vault/{id}/upload/{object_id}/confirm",
+            body=await async_maybe_transform(
+                {
+                    "size_bytes": size_bytes,
+                    "success": success,
+                    "error_code": error_code,
+                    "error_message": error_message,
+                    "etag": etag,
+                },
+                vault_confirm_upload_params.VaultConfirmUploadParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultConfirmUploadResponse,
+        )
+
     async def ingest(
         self,
         object_id: str,
@@ -841,9 +1094,8 @@ class AsyncVaultResource(AsyncAPIResource):
     ) -> VaultUploadResponse:
         """
         Generate a presigned URL for uploading files directly to a vault's S3 storage.
-        This endpoint creates a temporary upload URL that allows secure file uploads
-        without exposing credentials. Files can be automatically indexed for semantic
-        search or stored for manual processing.
+        After uploading to S3, confirm the upload result via POST
+        /vault/:vaultId/upload/:objectId/confirm before triggering ingestion.
 
         Args:
           content_type: MIME type of the file (e.g., application/pdf, image/jpeg)
@@ -910,6 +1162,9 @@ class VaultResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             vault.delete,
         )
+        self.confirm_upload = to_raw_response_wrapper(
+            vault.confirm_upload,
+        )
         self.ingest = to_raw_response_wrapper(
             vault.ingest,
         )
@@ -951,6 +1206,9 @@ class AsyncVaultResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             vault.delete,
+        )
+        self.confirm_upload = async_to_raw_response_wrapper(
+            vault.confirm_upload,
         )
         self.ingest = async_to_raw_response_wrapper(
             vault.ingest,
@@ -994,6 +1252,9 @@ class VaultResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             vault.delete,
         )
+        self.confirm_upload = to_streamed_response_wrapper(
+            vault.confirm_upload,
+        )
         self.ingest = to_streamed_response_wrapper(
             vault.ingest,
         )
@@ -1035,6 +1296,9 @@ class AsyncVaultResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             vault.delete,
+        )
+        self.confirm_upload = async_to_streamed_response_wrapper(
+            vault.confirm_upload,
         )
         self.ingest = async_to_streamed_response_wrapper(
             vault.ingest,

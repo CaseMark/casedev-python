@@ -387,6 +387,7 @@ from casedev.types import (
     VaultUpdateResponse,
     VaultListResponse,
     VaultDeleteResponse,
+    VaultConfirmUploadResponse,
     VaultIngestResponse,
     VaultSearchResponse,
     VaultUploadResponse,
@@ -400,6 +401,7 @@ Methods:
 - <code title="patch /vault/{id}">client.vault.<a href="./src/casedev/resources/vault/vault.py">update</a>(id, \*\*<a href="src/casedev/types/vault_update_params.py">params</a>) -> <a href="./src/casedev/types/vault_update_response.py">VaultUpdateResponse</a></code>
 - <code title="get /vault">client.vault.<a href="./src/casedev/resources/vault/vault.py">list</a>() -> <a href="./src/casedev/types/vault_list_response.py">VaultListResponse</a></code>
 - <code title="delete /vault/{id}">client.vault.<a href="./src/casedev/resources/vault/vault.py">delete</a>(id, \*\*<a href="src/casedev/types/vault_delete_params.py">params</a>) -> <a href="./src/casedev/types/vault_delete_response.py">VaultDeleteResponse</a></code>
+- <code title="post /vault/{id}/upload/{objectId}/confirm">client.vault.<a href="./src/casedev/resources/vault/vault.py">confirm_upload</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault_confirm_upload_params.py">params</a>) -> <a href="./src/casedev/types/vault_confirm_upload_response.py">VaultConfirmUploadResponse</a></code>
 - <code title="post /vault/{id}/ingest/{objectId}">client.vault.<a href="./src/casedev/resources/vault/vault.py">ingest</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault_ingest_response.py">VaultIngestResponse</a></code>
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/casedev/resources/vault/vault.py">search</a>(id, \*\*<a href="src/casedev/types/vault_search_params.py">params</a>) -> <a href="./src/casedev/types/vault_search_response.py">VaultSearchResponse</a></code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/casedev/resources/vault/vault.py">upload</a>(id, \*\*<a href="src/casedev/types/vault_upload_params.py">params</a>) -> <a href="./src/casedev/types/vault_upload_response.py">VaultUploadResponse</a></code>
