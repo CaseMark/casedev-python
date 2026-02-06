@@ -18,6 +18,7 @@ from casedev.types import (
     VaultUpdateResponse,
     VaultUploadResponse,
     VaultRetrieveResponse,
+    VaultConfirmUploadResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -247,6 +248,163 @@ class TestVault:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.with_raw_response.delete(
                 id="",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_confirm_upload_overload_1(self, client: Casedev) -> None:
+        vault = client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_confirm_upload_with_all_params_overload_1(self, client: Casedev) -> None:
+        vault = client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+            error_code="errorCode",
+            error_message="errorMessage",
+            etag="etag",
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_confirm_upload_overload_1(self, client: Casedev) -> None:
+        response = client.vault.with_raw_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault = response.parse()
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_confirm_upload_overload_1(self, client: Casedev) -> None:
+        with client.vault.with_streaming_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault = response.parse()
+            assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_confirm_upload_overload_1(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.with_raw_response.confirm_upload(
+                object_id="objectId",
+                id="",
+                size_bytes=1,
+                success=True,
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.with_raw_response.confirm_upload(
+                object_id="",
+                id="id",
+                size_bytes=1,
+                success=True,
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_confirm_upload_overload_2(self, client: Casedev) -> None:
+        vault = client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_confirm_upload_with_all_params_overload_2(self, client: Casedev) -> None:
+        vault = client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+            etag="etag",
+            size_bytes=1,
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_confirm_upload_overload_2(self, client: Casedev) -> None:
+        response = client.vault.with_raw_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault = response.parse()
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_confirm_upload_overload_2(self, client: Casedev) -> None:
+        with client.vault.with_streaming_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault = response.parse()
+            assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_confirm_upload_overload_2(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.with_raw_response.confirm_upload(
+                object_id="objectId",
+                id="",
+                error_code="errorCode",
+                error_message="errorMessage",
+                success=False,
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.with_raw_response.confirm_upload(
+                object_id="",
+                id="id",
+                error_code="errorCode",
+                error_message="errorMessage",
+                success=False,
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -650,6 +808,163 @@ class TestAsyncVault:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.with_raw_response.delete(
                 id="",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+        vault = await async_client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_confirm_upload_with_all_params_overload_1(self, async_client: AsyncCasedev) -> None:
+        vault = await async_client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+            error_code="errorCode",
+            error_message="errorMessage",
+            etag="etag",
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.with_raw_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault = await response.parse()
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.with_streaming_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            size_bytes=1,
+            success=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault = await response.parse()
+            assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.with_raw_response.confirm_upload(
+                object_id="objectId",
+                id="",
+                size_bytes=1,
+                success=True,
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.with_raw_response.confirm_upload(
+                object_id="",
+                id="id",
+                size_bytes=1,
+                success=True,
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
+        vault = await async_client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_confirm_upload_with_all_params_overload_2(self, async_client: AsyncCasedev) -> None:
+        vault = await async_client.vault.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+            etag="etag",
+            size_bytes=1,
+        )
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.with_raw_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault = await response.parse()
+        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.with_streaming_response.confirm_upload(
+            object_id="objectId",
+            id="id",
+            error_code="errorCode",
+            error_message="errorMessage",
+            success=False,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault = await response.parse()
+            assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.with_raw_response.confirm_upload(
+                object_id="objectId",
+                id="",
+                error_code="errorCode",
+                error_message="errorMessage",
+                success=False,
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.with_raw_response.confirm_upload(
+                object_id="",
+                id="id",
+                error_code="errorCode",
+                error_message="errorMessage",
+                success=False,
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
