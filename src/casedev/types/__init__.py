@@ -16,3 +16,5 @@ from .vault_update_response import VaultUpdateResponse as VaultUpdateResponse
 from .vault_upload_response import VaultUploadResponse as VaultUploadResponse
 from .llm_get_config_response import LlmGetConfigResponse as LlmGetConfigResponse
 from .vault_retrieve_response import VaultRetrieveResponse as VaultRetrieveResponse
+from .vault_confirm_upload_params import VaultConfirmUploadParams as VaultConfirmUploadParams
+from .vault_confirm_upload_response import VaultConfirmUploadResponse as VaultConfirmUploadResponse

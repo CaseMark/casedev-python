@@ -19,7 +19,10 @@ class ChatCreateCompletionParams(TypedDict, total=False):
     """Maximum number of tokens to generate"""
 
     model: str
-    """Model to use for completion. Defaults to casemark-core-1 if not specified"""
+    """Model to use for completion.
+
+    Defaults to casemark/casemark-core-3 if not specified
+    """
 
     presence_penalty: float
     """Presence penalty parameter"""
