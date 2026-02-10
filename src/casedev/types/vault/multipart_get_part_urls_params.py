@@ -22,3 +22,4 @@ class Part(TypedDict, total=False):
     part_number: Required[Annotated[int, PropertyInfo(alias="partNumber")]]
 
     size_bytes: Required[Annotated[int, PropertyInfo(alias="sizeBytes")]]
+    """Part size in bytes (min 5MB except final part, max 5GB)."""
