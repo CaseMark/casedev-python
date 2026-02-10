@@ -5,16 +5,13 @@ from __future__ import annotations
 from .object_delete_params import ObjectDeleteParams as ObjectDeleteParams
 from .object_list_response import ObjectListResponse as ObjectListResponse
 from .object_update_params import ObjectUpdateParams as ObjectUpdateParams
-from .multipart_init_params import MultipartInitParams as MultipartInitParams
 from .graphrag_init_response import GraphragInitResponse as GraphragInitResponse
 from .multipart_abort_params import MultipartAbortParams as MultipartAbortParams
 from .object_delete_response import ObjectDeleteResponse as ObjectDeleteResponse
 from .object_update_response import ObjectUpdateResponse as ObjectUpdateResponse
-from .multipart_init_response import MultipartInitResponse as MultipartInitResponse
 from .object_download_response import ObjectDownloadResponse as ObjectDownloadResponse
 from .object_get_text_response import ObjectGetTextResponse as ObjectGetTextResponse
 from .object_retrieve_response import ObjectRetrieveResponse as ObjectRetrieveResponse
-from .multipart_complete_params import MultipartCompleteParams as MultipartCompleteParams
 from .graphrag_get_stats_response import GraphragGetStatsResponse as GraphragGetStatsResponse
 from .object_get_ocr_words_params import ObjectGetOcrWordsParams as ObjectGetOcrWordsParams
 from .object_get_ocr_words_response import ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse

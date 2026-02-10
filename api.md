@@ -429,15 +429,13 @@ Methods:
 Types:
 
 ```python
-from casedev.types.vault import MultipartGetPartURLsResponse, MultipartInitResponse
+from casedev.types.vault import MultipartGetPartURLsResponse
 ```
 
 Methods:
 
 - <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">abort</a>(id, \*\*<a href="src/casedev/types/vault/multipart_abort_params.py">params</a>) -> None</code>
-- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">complete</a>(id, \*\*<a href="src/casedev/types/vault/multipart_complete_params.py">params</a>) -> None</code>
 - <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">get_part_urls</a>(id, \*\*<a href="src/casedev/types/vault/multipart_get_part_urls_params.py">params</a>) -> <a href="./src/casedev/types/vault/multipart_get_part_urls_response.py">MultipartGetPartURLsResponse</a></code>
-- <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">init</a>(id, \*\*<a href="src/casedev/types/vault/multipart_init_params.py">params</a>) -> <a href="./src/casedev/types/vault/multipart_init_response.py">MultipartInitResponse</a></code>
 
 ## Objects
 
