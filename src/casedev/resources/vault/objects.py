@@ -406,11 +406,8 @@ class ObjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectGetSummarizeJobResponse:
-        """Get the status of a CaseMark summary workflow job.
-
-        If the job has been
-        processing for too long, this endpoint will poll CaseMark directly to recover
-        stuck jobs.
+        """
+        Get the status of a CaseMark summary workflow job.
 
         Args:
           extra_headers: Send extra headers
@@ -845,11 +842,8 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectGetSummarizeJobResponse:
-        """Get the status of a CaseMark summary workflow job.
-
-        If the job has been
-        processing for too long, this endpoint will poll CaseMark directly to recover
-        stuck jobs.
+        """
+        Get the status of a CaseMark summary workflow job.
 
         Args:
           extra_headers: Send extra headers
