@@ -406,6 +406,18 @@ Methods:
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/casedev/resources/vault/vault.py">search</a>(id, \*\*<a href="src/casedev/types/vault_search_params.py">params</a>) -> <a href="./src/casedev/types/vault_search_response.py">VaultSearchResponse</a></code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/casedev/resources/vault/vault.py">upload</a>(id, \*\*<a href="src/casedev/types/vault_upload_params.py">params</a>) -> <a href="./src/casedev/types/vault_upload_response.py">VaultUploadResponse</a></code>
 
+## Events
+
+### Subscriptions
+
+Methods:
+
+- <code title="post /vault/{id}/events/subscriptions">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">create</a>(id, \*\*<a href="src/casedev/types/vault/events/subscription_create_params.py">params</a>) -> None</code>
+- <code title="patch /vault/{id}/events/subscriptions/{subscriptionId}">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">update</a>(subscription_id, \*, id, \*\*<a href="src/casedev/types/vault/events/subscription_update_params.py">params</a>) -> None</code>
+- <code title="get /vault/{id}/events/subscriptions">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">list</a>(id) -> None</code>
+- <code title="delete /vault/{id}/events/subscriptions/{subscriptionId}">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">delete</a>(subscription_id, \*, id) -> None</code>
+- <code title="post /vault/{id}/events/subscriptions/{subscriptionId}/test">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">test</a>(subscription_id, \*, id, \*\*<a href="src/casedev/types/vault/events/subscription_test_params.py">params</a>) -> None</code>
+
 ## Graphrag
 
 Types:
