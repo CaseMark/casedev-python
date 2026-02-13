@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Union
 from datetime import date
+from typing_extensions import Literal
 
 import httpx
 
@@ -24,6 +25,7 @@ from ...types.legal import (
     v1_research_params,
     v1_get_citations_params,
     v1_get_full_text_params,
+    v1_patent_search_params,
     v1_list_jurisdictions_params,
     v1_get_citations_from_url_params,
 )
@@ -34,6 +36,7 @@ from ...types.legal.v1_similar_response import V1SimilarResponse
 from ...types.legal.v1_research_response import V1ResearchResponse
 from ...types.legal.v1_get_citations_response import V1GetCitationsResponse
 from ...types.legal.v1_get_full_text_response import V1GetFullTextResponse
+from ...types.legal.v1_patent_search_response import V1PatentSearchResponse
 from ...types.legal.v1_list_jurisdictions_response import V1ListJurisdictionsResponse
 from ...types.legal.v1_get_citations_from_url_response import V1GetCitationsFromURLResponse
 
@@ -272,6 +275,98 @@ class V1Resource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1ListJurisdictionsResponse,
+        )
+
+    def patent_search(
+        self,
+        *,
+        query: str,
+        application_status: str | Omit = omit,
+        application_type: Literal["Utility", "Design", "Plant", "Provisional", "Reissue"] | Omit = omit,
+        assignee: str | Omit = omit,
+        filing_date_from: Union[str, date] | Omit = omit,
+        filing_date_to: Union[str, date] | Omit = omit,
+        grant_date_from: Union[str, date] | Omit = omit,
+        grant_date_to: Union[str, date] | Omit = omit,
+        inventor: str | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        sort_by: Literal["filingDate", "grantDate"] | Omit = omit,
+        sort_order: Literal["asc", "desc"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1PatentSearchResponse:
+        """Search the USPTO Open Data Portal for US patent applications and granted
+        patents.
+
+        Supports free-text queries, field-specific search, filters by
+        assignee/inventor/status/type, date ranges, and pagination. Covers applications
+        filed on or after January 1, 2001. Data is refreshed daily.
+
+        Args:
+          query: Free-text search across all patent fields, or field-specific query (e.g.
+              "applicationMetaData.patentNumber:11234567"). Supports AND, OR, NOT operators.
+
+          application_status: Filter by application status (e.g. "Patented Case", "Abandoned", "Pending")
+
+          application_type: Filter by application type
+
+          assignee: Filter by assignee/owner name (e.g. "Google LLC")
+
+          filing_date_from: Start of filing date range (YYYY-MM-DD)
+
+          filing_date_to: End of filing date range (YYYY-MM-DD)
+
+          grant_date_from: Start of grant date range (YYYY-MM-DD)
+
+          grant_date_to: End of grant date range (YYYY-MM-DD)
+
+          inventor: Filter by inventor name
+
+          limit: Number of results to return (default 25, max 100)
+
+          offset: Starting position for pagination
+
+          sort_by: Field to sort results by
+
+          sort_order: Sort order (default desc, newest first)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/patent-search",
+            body=maybe_transform(
+                {
+                    "query": query,
+                    "application_status": application_status,
+                    "application_type": application_type,
+                    "assignee": assignee,
+                    "filing_date_from": filing_date_from,
+                    "filing_date_to": filing_date_to,
+                    "grant_date_from": grant_date_from,
+                    "grant_date_to": grant_date_to,
+                    "inventor": inventor,
+                    "limit": limit,
+                    "offset": offset,
+                    "sort_by": sort_by,
+                    "sort_order": sort_order,
+                },
+                v1_patent_search_params.V1PatentSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1PatentSearchResponse,
         )
 
     def research(
@@ -657,6 +752,98 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=V1ListJurisdictionsResponse,
         )
 
+    async def patent_search(
+        self,
+        *,
+        query: str,
+        application_status: str | Omit = omit,
+        application_type: Literal["Utility", "Design", "Plant", "Provisional", "Reissue"] | Omit = omit,
+        assignee: str | Omit = omit,
+        filing_date_from: Union[str, date] | Omit = omit,
+        filing_date_to: Union[str, date] | Omit = omit,
+        grant_date_from: Union[str, date] | Omit = omit,
+        grant_date_to: Union[str, date] | Omit = omit,
+        inventor: str | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        sort_by: Literal["filingDate", "grantDate"] | Omit = omit,
+        sort_order: Literal["asc", "desc"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1PatentSearchResponse:
+        """Search the USPTO Open Data Portal for US patent applications and granted
+        patents.
+
+        Supports free-text queries, field-specific search, filters by
+        assignee/inventor/status/type, date ranges, and pagination. Covers applications
+        filed on or after January 1, 2001. Data is refreshed daily.
+
+        Args:
+          query: Free-text search across all patent fields, or field-specific query (e.g.
+              "applicationMetaData.patentNumber:11234567"). Supports AND, OR, NOT operators.
+
+          application_status: Filter by application status (e.g. "Patented Case", "Abandoned", "Pending")
+
+          application_type: Filter by application type
+
+          assignee: Filter by assignee/owner name (e.g. "Google LLC")
+
+          filing_date_from: Start of filing date range (YYYY-MM-DD)
+
+          filing_date_to: End of filing date range (YYYY-MM-DD)
+
+          grant_date_from: Start of grant date range (YYYY-MM-DD)
+
+          grant_date_to: End of grant date range (YYYY-MM-DD)
+
+          inventor: Filter by inventor name
+
+          limit: Number of results to return (default 25, max 100)
+
+          offset: Starting position for pagination
+
+          sort_by: Field to sort results by
+
+          sort_order: Sort order (default desc, newest first)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/patent-search",
+            body=await async_maybe_transform(
+                {
+                    "query": query,
+                    "application_status": application_status,
+                    "application_type": application_type,
+                    "assignee": assignee,
+                    "filing_date_from": filing_date_from,
+                    "filing_date_to": filing_date_to,
+                    "grant_date_from": grant_date_from,
+                    "grant_date_to": grant_date_to,
+                    "inventor": inventor,
+                    "limit": limit,
+                    "offset": offset,
+                    "sort_by": sort_by,
+                    "sort_order": sort_order,
+                },
+                v1_patent_search_params.V1PatentSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1PatentSearchResponse,
+        )
+
     async def research(
         self,
         *,
@@ -823,6 +1010,9 @@ class V1ResourceWithRawResponse:
         self.list_jurisdictions = to_raw_response_wrapper(
             v1.list_jurisdictions,
         )
+        self.patent_search = to_raw_response_wrapper(
+            v1.patent_search,
+        )
         self.research = to_raw_response_wrapper(
             v1.research,
         )
@@ -852,6 +1042,9 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.list_jurisdictions = async_to_raw_response_wrapper(
             v1.list_jurisdictions,
+        )
+        self.patent_search = async_to_raw_response_wrapper(
+            v1.patent_search,
         )
         self.research = async_to_raw_response_wrapper(
             v1.research,
@@ -883,6 +1076,9 @@ class V1ResourceWithStreamingResponse:
         self.list_jurisdictions = to_streamed_response_wrapper(
             v1.list_jurisdictions,
         )
+        self.patent_search = to_streamed_response_wrapper(
+            v1.patent_search,
+        )
         self.research = to_streamed_response_wrapper(
             v1.research,
         )
@@ -912,6 +1108,9 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.list_jurisdictions = async_to_streamed_response_wrapper(
             v1.list_jurisdictions,
+        )
+        self.patent_search = async_to_streamed_response_wrapper(
+            v1.patent_search,
         )
         self.research = async_to_streamed_response_wrapper(
             v1.research,

@@ -17,6 +17,7 @@ from casedev.types.legal import (
     V1ResearchResponse,
     V1GetFullTextResponse,
     V1GetCitationsResponse,
+    V1PatentSearchResponse,
     V1ListJurisdictionsResponse,
     V1GetCitationsFromURLResponse,
 )
@@ -215,6 +216,60 @@ class TestV1:
 
             v1 = response.parse()
             assert_matches_type(V1ListJurisdictionsResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_patent_search(self, client: Casedev) -> None:
+        v1 = client.legal.v1.patent_search(
+            query="x",
+        )
+        assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_patent_search_with_all_params(self, client: Casedev) -> None:
+        v1 = client.legal.v1.patent_search(
+            query="x",
+            application_status="applicationStatus",
+            application_type="Utility",
+            assignee="assignee",
+            filing_date_from=parse_date("2019-12-27"),
+            filing_date_to=parse_date("2019-12-27"),
+            grant_date_from=parse_date("2019-12-27"),
+            grant_date_to=parse_date("2019-12-27"),
+            inventor="inventor",
+            limit=1,
+            offset=0,
+            sort_by="filingDate",
+            sort_order="asc",
+        )
+        assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_patent_search(self, client: Casedev) -> None:
+        response = client.legal.v1.with_raw_response.patent_search(
+            query="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_patent_search(self, client: Casedev) -> None:
+        with client.legal.v1.with_streaming_response.patent_search(
+            query="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -536,6 +591,60 @@ class TestAsyncV1:
 
             v1 = await response.parse()
             assert_matches_type(V1ListJurisdictionsResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_patent_search(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.patent_search(
+            query="x",
+        )
+        assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_patent_search_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.patent_search(
+            query="x",
+            application_status="applicationStatus",
+            application_type="Utility",
+            assignee="assignee",
+            filing_date_from=parse_date("2019-12-27"),
+            filing_date_to=parse_date("2019-12-27"),
+            grant_date_from=parse_date("2019-12-27"),
+            grant_date_to=parse_date("2019-12-27"),
+            inventor="inventor",
+            limit=1,
+            offset=0,
+            sort_by="filingDate",
+            sort_order="asc",
+        )
+        assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_patent_search(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.legal.v1.with_raw_response.patent_search(
+            query="x",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_patent_search(self, async_client: AsyncCasedev) -> None:
+        async with async_client.legal.v1.with_streaming_response.patent_search(
+            query="x",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1PatentSearchResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
