@@ -12,8 +12,10 @@ from .v1_similar_response import V1SimilarResponse as V1SimilarResponse
 from .v1_research_response import V1ResearchResponse as V1ResearchResponse
 from .v1_get_citations_params import V1GetCitationsParams as V1GetCitationsParams
 from .v1_get_full_text_params import V1GetFullTextParams as V1GetFullTextParams
+from .v1_patent_search_params import V1PatentSearchParams as V1PatentSearchParams
 from .v1_get_citations_response import V1GetCitationsResponse as V1GetCitationsResponse
 from .v1_get_full_text_response import V1GetFullTextResponse as V1GetFullTextResponse
+from .v1_patent_search_response import V1PatentSearchResponse as V1PatentSearchResponse
 from .v1_list_jurisdictions_params import V1ListJurisdictionsParams as V1ListJurisdictionsParams
 from .v1_list_jurisdictions_response import V1ListJurisdictionsResponse as V1ListJurisdictionsResponse
 from .v1_get_citations_from_url_params import V1GetCitationsFromURLParams as V1GetCitationsFromURLParams
