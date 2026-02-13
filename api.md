@@ -507,6 +507,7 @@ Methods:
 
 - <code title="post /voice/transcription">client.voice.transcription.<a href="./src/casedev/resources/voice/transcription.py">create</a>(\*\*<a href="src/casedev/types/voice/transcription_create_params.py">params</a>) -> <a href="./src/casedev/types/voice/transcription_create_response.py">TranscriptionCreateResponse</a></code>
 - <code title="get /voice/transcription/{id}">client.voice.transcription.<a href="./src/casedev/resources/voice/transcription.py">retrieve</a>(id) -> <a href="./src/casedev/types/voice/transcription_retrieve_response.py">TranscriptionRetrieveResponse</a></code>
+- <code title="delete /voice/transcription/{id}">client.voice.transcription.<a href="./src/casedev/resources/voice/transcription.py">delete</a>(id) -> None</code>
 
 ## V1
 
