@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.7.0 (2026-02-13)
+
+Full Changelog: [v0.6.1...v0.7.0](https://github.com/CaseMark/casedev-python/compare/v0.6.1...v0.7.0)
+
+### Features
+
+* **api:** api update ([e7ffc76](https://github.com/CaseMark/casedev-python/commit/e7ffc76d19f6ef07eb8dede8d5e447ec120e9e9b))
+* **api:** api update ([a4f3ec4](https://github.com/CaseMark/casedev-python/commit/a4f3ec4a63d720f1609724986690da1570bb9ad2))
+* **api:** api update ([1302637](https://github.com/CaseMark/casedev-python/commit/1302637edebcb3969708cd36ad4b2f55c81d4fae))
+
+
+### Chores
+
+* format all `api.md` files ([0a14fe4](https://github.com/CaseMark/casedev-python/commit/0a14fe431acd3a9a034d51d15448ed8013ef347e))
+* **internal:** fix lint error on Python 3.14 ([949df45](https://github.com/CaseMark/casedev-python/commit/949df458de6bcb8b4f6a12a1ad9128d9b8af4250))
+
 ## 0.6.1 (2026-02-10)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/CaseMark/casedev-python/compare/v0.6.0...v0.6.1)
