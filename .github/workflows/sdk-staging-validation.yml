@@ -100,3 +100,40 @@ jobs:
             --tb=short \
             -n auto \
             tests/
+
+  smoke:
+    timeout-minutes: 5
+    name: smoke (live API)
+    runs-on: ubuntu-latest
+    # Run after the mock tests pass — no point hitting live if spec is broken
+    needs: [test]
+    # Only run when secrets are available (they won't be on forks/Stainless PRs)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.9.13'
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run live smoke tests
+        env:
+          CASEDEV_API_KEY: ${{ secrets.CASEDEV_API_KEY }}
+          CASEDEV_BASE_URL: ${{ secrets.CASEDEV_BASE_URL || 'https://api.case.dev' }}
+        run: |
+          if [ -z "$CASEDEV_API_KEY" ]; then
+            echo "::warning::CASEDEV_API_KEY secret not set — skipping live smoke tests"
+            exit 0
+          fi
+          uv run --isolated --all-extras pytest \
+            tests/custom/ \
+            -m smoke \
+            --tb=short \
+            --timeout=30 \
+            -v
