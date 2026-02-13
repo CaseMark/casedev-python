@@ -215,6 +215,7 @@ from casedev.types.legal import (
     V1GetCitationsFromURLResponse,
     V1GetFullTextResponse,
     V1ListJurisdictionsResponse,
+    V1PatentSearchResponse,
     V1ResearchResponse,
     V1SimilarResponse,
     V1VerifyResponse,
@@ -228,6 +229,7 @@ Methods:
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations_from_url</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_from_url_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_from_url_response.py">V1GetCitationsFromURLResponse</a></code>
 - <code title="post /legal/v1/full-text">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_full_text</a>(\*\*<a href="src/casedev/types/legal/v1_get_full_text_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_full_text_response.py">V1GetFullTextResponse</a></code>
 - <code title="post /legal/v1/jurisdictions">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">list_jurisdictions</a>(\*\*<a href="src/casedev/types/legal/v1_list_jurisdictions_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_list_jurisdictions_response.py">V1ListJurisdictionsResponse</a></code>
+- <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">patent_search</a>(\*\*<a href="src/casedev/types/legal/v1_patent_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_patent_search_response.py">V1PatentSearchResponse</a></code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">research</a>(\*\*<a href="src/casedev/types/legal/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_research_response.py">V1ResearchResponse</a></code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">similar</a>(\*\*<a href="src/casedev/types/legal/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_similar_response.py">V1SimilarResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>
