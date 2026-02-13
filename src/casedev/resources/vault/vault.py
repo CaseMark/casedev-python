@@ -49,6 +49,14 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from .events.events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from ..._base_client import make_request_options
 from ...types.vault_list_response import VaultListResponse
 from ...types.vault_create_response import VaultCreateResponse
@@ -64,6 +72,10 @@ __all__ = ["VaultResource", "AsyncVaultResource"]
 
 
 class VaultResource(SyncAPIResource):
+    @cached_property
+    def events(self) -> EventsResource:
+        return EventsResource(self._client)
+
     @cached_property
     def graphrag(self) -> GraphragResource:
         return GraphragResource(self._client)
@@ -604,6 +616,10 @@ class VaultResource(SyncAPIResource):
 
 
 class AsyncVaultResource(AsyncAPIResource):
+    @cached_property
+    def events(self) -> AsyncEventsResource:
+        return AsyncEventsResource(self._client)
+
     @cached_property
     def graphrag(self) -> AsyncGraphragResource:
         return AsyncGraphragResource(self._client)
@@ -1176,6 +1192,10 @@ class VaultResourceWithRawResponse:
         )
 
     @cached_property
+    def events(self) -> EventsResourceWithRawResponse:
+        return EventsResourceWithRawResponse(self._vault.events)
+
+    @cached_property
     def graphrag(self) -> GraphragResourceWithRawResponse:
         return GraphragResourceWithRawResponse(self._vault.graphrag)
 
@@ -1219,6 +1239,10 @@ class AsyncVaultResourceWithRawResponse:
         self.upload = async_to_raw_response_wrapper(
             vault.upload,
         )
+
+    @cached_property
+    def events(self) -> AsyncEventsResourceWithRawResponse:
+        return AsyncEventsResourceWithRawResponse(self._vault.events)
 
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithRawResponse:
@@ -1266,6 +1290,10 @@ class VaultResourceWithStreamingResponse:
         )
 
     @cached_property
+    def events(self) -> EventsResourceWithStreamingResponse:
+        return EventsResourceWithStreamingResponse(self._vault.events)
+
+    @cached_property
     def graphrag(self) -> GraphragResourceWithStreamingResponse:
         return GraphragResourceWithStreamingResponse(self._vault.graphrag)
 
@@ -1309,6 +1337,10 @@ class AsyncVaultResourceWithStreamingResponse:
         self.upload = async_to_streamed_response_wrapper(
             vault.upload,
         )
+
+    @cached_property
+    def events(self) -> AsyncEventsResourceWithStreamingResponse:
+        return AsyncEventsResourceWithStreamingResponse(self._vault.events)
 
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithStreamingResponse:

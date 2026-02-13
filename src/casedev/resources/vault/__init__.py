@@ -8,6 +8,14 @@ from .vault import (
     VaultResourceWithStreamingResponse,
     AsyncVaultResourceWithStreamingResponse,
 )
+from .events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -34,6 +42,12 @@ from .multipart import (
 )
 
 __all__ = [
+    "EventsResource",
+    "AsyncEventsResource",
+    "EventsResourceWithRawResponse",
+    "AsyncEventsResourceWithRawResponse",
+    "EventsResourceWithStreamingResponse",
+    "AsyncEventsResourceWithStreamingResponse",
     "GraphragResource",
     "AsyncGraphragResource",
     "GraphragResourceWithRawResponse",
