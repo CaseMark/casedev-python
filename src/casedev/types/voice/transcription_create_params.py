@@ -49,6 +49,9 @@ class TranscriptionCreateParams(TypedDict, total=False):
     speakers_expected: int
     """Expected number of speakers (improves accuracy when known)"""
 
+    speech_models: SequenceNotStr[str]
+    """Priority-ordered speech models to use"""
+
     vault_id: str
     """Vault ID containing the audio file (use with object_id)"""
 
