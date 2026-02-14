@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.1 (2026-02-14)
+
+Full Changelog: [v0.8.0...v0.8.1](https://github.com/CaseMark/casedev-python/compare/v0.8.0...v0.8.1)
+
+### Bug Fixes
+
+* resolve CI failures in smoke test integration ([9f166ff](https://github.com/CaseMark/casedev-python/commit/9f166ffdbdbe73ac5092a212070e11350ba3d9ff))
+
+
+### Styles
+
+* fix ruff isort import formatting in smoke tests ([e80a3f3](https://github.com/CaseMark/casedev-python/commit/e80a3f35b28539a307ccf6be344e862cfb18679e))
+
 ## 0.8.0 (2026-02-13)
 
 Full Changelog: [v0.7.0...v0.8.0](https://github.com/CaseMark/casedev-python/compare/v0.7.0...v0.8.0)
