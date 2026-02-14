@@ -39,6 +39,7 @@ class TestTranscription:
             punctuate=True,
             speaker_labels=True,
             speakers_expected=0,
+            speech_models=["string"],
             vault_id="vault_id",
             word_boost=["string"],
         )
@@ -178,6 +179,7 @@ class TestAsyncTranscription:
             punctuate=True,
             speaker_labels=True,
             speakers_expected=0,
+            speech_models=["string"],
             vault_id="vault_id",
             word_boost=["string"],
         )

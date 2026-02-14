@@ -59,6 +59,7 @@ class TranscriptionResource(SyncAPIResource):
         punctuate: bool | Omit = omit,
         speaker_labels: bool | Omit = omit,
         speakers_expected: int | Omit = omit,
+        speech_models: SequenceNotStr[str] | Omit = omit,
         vault_id: str | Omit = omit,
         word_boost: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -105,6 +106,8 @@ class TranscriptionResource(SyncAPIResource):
 
           speakers_expected: Expected number of speakers (improves accuracy when known)
 
+          speech_models: Priority-ordered speech models to use
+
           vault_id: Vault ID containing the audio file (use with object_id)
 
           word_boost: Custom vocabulary words to boost (e.g., legal terms)
@@ -133,6 +136,7 @@ class TranscriptionResource(SyncAPIResource):
                     "punctuate": punctuate,
                     "speaker_labels": speaker_labels,
                     "speakers_expected": speakers_expected,
+                    "speech_models": speech_models,
                     "vault_id": vault_id,
                     "word_boost": word_boost,
                 },
@@ -253,6 +257,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         punctuate: bool | Omit = omit,
         speaker_labels: bool | Omit = omit,
         speakers_expected: int | Omit = omit,
+        speech_models: SequenceNotStr[str] | Omit = omit,
         vault_id: str | Omit = omit,
         word_boost: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -299,6 +304,8 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           speakers_expected: Expected number of speakers (improves accuracy when known)
 
+          speech_models: Priority-ordered speech models to use
+
           vault_id: Vault ID containing the audio file (use with object_id)
 
           word_boost: Custom vocabulary words to boost (e.g., legal terms)
@@ -327,6 +334,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
                     "punctuate": punctuate,
                     "speaker_labels": speaker_labels,
                     "speakers_expected": speakers_expected,
+                    "speech_models": speech_models,
                     "vault_id": vault_id,
                     "word_boost": word_boost,
                 },
