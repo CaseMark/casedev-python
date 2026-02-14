@@ -25,7 +25,6 @@ import pytest
 
 from casedev import Casedev
 
-
 # ---------------------------------------------------------------------------
 # Skip the entire module if no API key is configured.
 # This lets the test suite run cleanly in environments that only have
