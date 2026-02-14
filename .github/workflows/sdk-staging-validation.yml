@@ -1,0 +1,140 @@
+name: SDK Staging Validation
+
+on:
+  push:
+    branches:
+      - 'next'
+  schedule:
+    # Run daily at 06:00 UTC to catch Stainless generation issues
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to validate (defaults to next)'
+        required: false
+        default: 'next'
+
+concurrency:
+  group: sdk-staging-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    timeout-minutes: 10
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.9.13'
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run lints
+        run: ./scripts/lint
+
+  build:
+    timeout-minutes: 10
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.9.13'
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run build
+        run: uv build
+
+  test:
+    timeout-minutes: 15
+    name: test (python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.9.13'
+
+      - name: Install Node.js (for Prism)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Start Prism mock server
+        run: |
+          ./scripts/mock --daemon
+          echo "Prism mock server started"
+
+      - name: Run SDK tests (including Prism API tests)
+        env:
+          RUN_PRISM_TESTS: 'true'
+          UV_PYTHON: ">=${{ matrix.python-version }}.0"
+          DEFER_PYDANTIC_BUILD: 'false'
+        run: |
+          uv run --isolated --all-extras pytest \
+            --tb=short \
+            -n auto \
+            --ignore=tests/custom \
+            tests/
+
+  smoke:
+    timeout-minutes: 5
+    name: smoke (live API)
+    runs-on: ubuntu-latest
+    # Run after the mock tests pass — no point hitting live if spec is broken
+    needs: [test]
+    # Only run when secrets are available (they won't be on forks/Stainless PRs)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || 'next' }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.9.13'
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run live smoke tests
+        env:
+          CASEDEV_API_KEY: ${{ secrets.CASEDEV_API_KEY }}
+          CASEDEV_BASE_URL: ${{ secrets.CASEDEV_BASE_URL || 'https://api.case.dev' }}
+        run: |
+          if [ -z "$CASEDEV_API_KEY" ]; then
+            echo "::warning::CASEDEV_API_KEY secret not set — skipping live smoke tests"
+            exit 0
+          fi
+          uv run --isolated --all-extras pytest \
+            tests/custom/ \
+            -m smoke \
+            --tb=short \
+            --timeout=30 \
+            -v
