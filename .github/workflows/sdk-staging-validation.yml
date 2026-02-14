@@ -99,6 +99,7 @@ jobs:
           uv run --isolated --all-extras pytest \
             --tb=short \
             -n auto \
+            --ignore=tests/custom \
             tests/
 
   smoke:

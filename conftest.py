@@ -9,18 +9,24 @@ This file lives at the project root (outside tests/) and won't be
 overwritten by Stainless SDK regeneration.
 """
 
+# pyright: reportUnknownMemberType=false, reportUnknownVariableType=false
+# pyright: reportUnknownParameterType=false, reportUnknownArgumentType=false
+# pyright: reportMissingTypeArgument=false
+
 from __future__ import annotations
 
 import os
 
+import pytest
 
-def pytest_collection_modifyitems(items: list) -> None:
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     if os.environ.get("RUN_PRISM_TESTS", "").lower() != "true":
         return
 
     for item in items:
         # Remove skip markers whose reason is "Prism tests are disabled"
-        markers_to_keep = []
+        markers_to_keep: list[pytest.Mark] = []
         for marker in item.iter_markers("skip"):
             reason = marker.kwargs.get("reason", "") or (marker.args[0] if marker.args else "")
             if reason == "Prism tests are disabled":
