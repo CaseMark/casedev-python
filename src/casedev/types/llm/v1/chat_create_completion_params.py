@@ -12,6 +12,12 @@ class ChatCreateCompletionParams(TypedDict, total=False):
     messages: Required[Iterable[Message]]
     """List of messages comprising the conversation"""
 
+    casemark_show_reasoning: bool
+    """CaseMark-only: when true, allows reasoning fields in responses.
+
+    Defaults to false (reasoning is suppressed).
+    """
+
     frequency_penalty: float
     """Frequency penalty parameter"""
 
