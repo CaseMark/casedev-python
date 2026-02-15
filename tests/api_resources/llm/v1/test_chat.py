@@ -35,6 +35,7 @@ class TestChat:
                     "role": "system",
                 }
             ],
+            casemark_show_reasoning=False,
             frequency_penalty=0,
             max_tokens=1000,
             model="casemark/casemark-core-3",
@@ -95,6 +96,7 @@ class TestAsyncChat:
                     "role": "system",
                 }
             ],
+            casemark_show_reasoning=False,
             frequency_penalty=0,
             max_tokens=1000,
             model="casemark/casemark-core-3",

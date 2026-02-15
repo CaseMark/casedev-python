@@ -47,6 +47,7 @@ class ChatResource(SyncAPIResource):
         self,
         *,
         messages: Iterable[chat_create_completion_params.Message],
+        casemark_show_reasoning: bool | Omit = omit,
         frequency_penalty: float | Omit = omit,
         max_tokens: int | Omit = omit,
         model: str | Omit = omit,
@@ -70,6 +71,9 @@ class ChatResource(SyncAPIResource):
 
         Args:
           messages: List of messages comprising the conversation
+
+          casemark_show_reasoning: CaseMark-only: when true, allows reasoning fields in responses. Defaults to
+              false (reasoning is suppressed).
 
           frequency_penalty: Frequency penalty parameter
 
@@ -99,6 +103,7 @@ class ChatResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "messages": messages,
+                    "casemark_show_reasoning": casemark_show_reasoning,
                     "frequency_penalty": frequency_penalty,
                     "max_tokens": max_tokens,
                     "model": model,
@@ -140,6 +145,7 @@ class AsyncChatResource(AsyncAPIResource):
         self,
         *,
         messages: Iterable[chat_create_completion_params.Message],
+        casemark_show_reasoning: bool | Omit = omit,
         frequency_penalty: float | Omit = omit,
         max_tokens: int | Omit = omit,
         model: str | Omit = omit,
@@ -163,6 +169,9 @@ class AsyncChatResource(AsyncAPIResource):
 
         Args:
           messages: List of messages comprising the conversation
+
+          casemark_show_reasoning: CaseMark-only: when true, allows reasoning fields in responses. Defaults to
+              false (reasoning is suppressed).
 
           frequency_penalty: Frequency penalty parameter
 
@@ -192,6 +201,7 @@ class AsyncChatResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "messages": messages,
+                    "casemark_show_reasoning": casemark_show_reasoning,
                     "frequency_penalty": frequency_penalty,
                     "max_tokens": max_tokens,
                     "model": model,
