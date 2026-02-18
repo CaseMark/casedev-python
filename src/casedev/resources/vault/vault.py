@@ -7,6 +7,14 @@ from typing_extensions import Literal, overload
 
 import httpx
 
+from .groups import (
+    GroupsResource,
+    AsyncGroupsResource,
+    GroupsResourceWithRawResponse,
+    AsyncGroupsResourceWithRawResponse,
+    GroupsResourceWithStreamingResponse,
+    AsyncGroupsResourceWithStreamingResponse,
+)
 from ...types import (
     vault_create_params,
     vault_delete_params,
@@ -81,6 +89,10 @@ class VaultResource(SyncAPIResource):
         return GraphragResource(self._client)
 
     @cached_property
+    def groups(self) -> GroupsResource:
+        return GroupsResource(self._client)
+
+    @cached_property
     def multipart(self) -> MultipartResource:
         return MultipartResource(self._client)
 
@@ -114,6 +126,7 @@ class VaultResource(SyncAPIResource):
         description: str | Omit = omit,
         enable_graph: bool | Omit = omit,
         enable_indexing: bool | Omit = omit,
+        group_id: str | Omit = omit,
         metadata: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -139,6 +152,9 @@ class VaultResource(SyncAPIResource):
           enable_indexing: Enable vector indexing and search capabilities. Set to false for storage-only
               vaults.
 
+          group_id: Assign the vault to a vault group for access control. Required when using a
+              group-scoped API key.
+
           metadata: Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
               compliance tracking)
 
@@ -158,6 +174,7 @@ class VaultResource(SyncAPIResource):
                     "description": description,
                     "enable_graph": enable_graph,
                     "enable_indexing": enable_indexing,
+                    "group_id": group_id,
                     "metadata": metadata,
                 },
                 vault_create_params.VaultCreateParams,
@@ -209,6 +226,7 @@ class VaultResource(SyncAPIResource):
         *,
         description: Optional[str] | Omit = omit,
         enable_graph: bool | Omit = omit,
+        group_id: Optional[str] | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -228,6 +246,9 @@ class VaultResource(SyncAPIResource):
 
           enable_graph: Whether to enable GraphRAG for future document uploads
 
+          group_id: Move the vault to a different group, or set to null to remove from its current
+              group.
+
           name: New name for the vault
 
           extra_headers: Send extra headers
@@ -246,6 +267,7 @@ class VaultResource(SyncAPIResource):
                 {
                     "description": description,
                     "enable_graph": enable_graph,
+                    "group_id": group_id,
                     "name": name,
                 },
                 vault_update_params.VaultUpdateParams,
@@ -625,6 +647,10 @@ class AsyncVaultResource(AsyncAPIResource):
         return AsyncGraphragResource(self._client)
 
     @cached_property
+    def groups(self) -> AsyncGroupsResource:
+        return AsyncGroupsResource(self._client)
+
+    @cached_property
     def multipart(self) -> AsyncMultipartResource:
         return AsyncMultipartResource(self._client)
 
@@ -658,6 +684,7 @@ class AsyncVaultResource(AsyncAPIResource):
         description: str | Omit = omit,
         enable_graph: bool | Omit = omit,
         enable_indexing: bool | Omit = omit,
+        group_id: str | Omit = omit,
         metadata: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -683,6 +710,9 @@ class AsyncVaultResource(AsyncAPIResource):
           enable_indexing: Enable vector indexing and search capabilities. Set to false for storage-only
               vaults.
 
+          group_id: Assign the vault to a vault group for access control. Required when using a
+              group-scoped API key.
+
           metadata: Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA
               compliance tracking)
 
@@ -702,6 +732,7 @@ class AsyncVaultResource(AsyncAPIResource):
                     "description": description,
                     "enable_graph": enable_graph,
                     "enable_indexing": enable_indexing,
+                    "group_id": group_id,
                     "metadata": metadata,
                 },
                 vault_create_params.VaultCreateParams,
@@ -753,6 +784,7 @@ class AsyncVaultResource(AsyncAPIResource):
         *,
         description: Optional[str] | Omit = omit,
         enable_graph: bool | Omit = omit,
+        group_id: Optional[str] | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -772,6 +804,9 @@ class AsyncVaultResource(AsyncAPIResource):
 
           enable_graph: Whether to enable GraphRAG for future document uploads
 
+          group_id: Move the vault to a different group, or set to null to remove from its current
+              group.
+
           name: New name for the vault
 
           extra_headers: Send extra headers
@@ -790,6 +825,7 @@ class AsyncVaultResource(AsyncAPIResource):
                 {
                     "description": description,
                     "enable_graph": enable_graph,
+                    "group_id": group_id,
                     "name": name,
                 },
                 vault_update_params.VaultUpdateParams,
@@ -1200,6 +1236,10 @@ class VaultResourceWithRawResponse:
         return GraphragResourceWithRawResponse(self._vault.graphrag)
 
     @cached_property
+    def groups(self) -> GroupsResourceWithRawResponse:
+        return GroupsResourceWithRawResponse(self._vault.groups)
+
+    @cached_property
     def multipart(self) -> MultipartResourceWithRawResponse:
         return MultipartResourceWithRawResponse(self._vault.multipart)
 
@@ -1247,6 +1287,10 @@ class AsyncVaultResourceWithRawResponse:
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithRawResponse:
         return AsyncGraphragResourceWithRawResponse(self._vault.graphrag)
+
+    @cached_property
+    def groups(self) -> AsyncGroupsResourceWithRawResponse:
+        return AsyncGroupsResourceWithRawResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResourceWithRawResponse:
@@ -1298,6 +1342,10 @@ class VaultResourceWithStreamingResponse:
         return GraphragResourceWithStreamingResponse(self._vault.graphrag)
 
     @cached_property
+    def groups(self) -> GroupsResourceWithStreamingResponse:
+        return GroupsResourceWithStreamingResponse(self._vault.groups)
+
+    @cached_property
     def multipart(self) -> MultipartResourceWithStreamingResponse:
         return MultipartResourceWithStreamingResponse(self._vault.multipart)
 
@@ -1345,6 +1393,10 @@ class AsyncVaultResourceWithStreamingResponse:
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithStreamingResponse:
         return AsyncGraphragResourceWithStreamingResponse(self._vault.graphrag)
+
+    @cached_property
+    def groups(self) -> AsyncGroupsResourceWithStreamingResponse:
+        return AsyncGroupsResourceWithStreamingResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResourceWithStreamingResponse:

@@ -1,3 +1,15 @@
+# System
+
+Types:
+
+```python
+from casedev.types import SystemListServicesResponse
+```
+
+Methods:
+
+- <code title="get /services">client.system.<a href="./src/casedev/resources/system.py">list_services</a>() -> <a href="./src/casedev/types/system_list_services_response.py">SystemListServicesResponse</a></code>
+
 # Applications
 
 ## V1
@@ -437,6 +449,15 @@ Methods:
 - <code title="get /vault/{id}/graphrag/stats">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">get_stats</a>(id) -> <a href="./src/casedev/types/vault/graphrag_get_stats_response.py">GraphragGetStatsResponse</a></code>
 - <code title="post /vault/{id}/graphrag/init">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">init</a>(id) -> <a href="./src/casedev/types/vault/graphrag_init_response.py">GraphragInitResponse</a></code>
 - <code title="post /vault/{id}/graphrag/{objectId}">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">process_object</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/graphrag_process_object_response.py">GraphragProcessObjectResponse</a></code>
+
+## Groups
+
+Methods:
+
+- <code title="post /vault/groups">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">create</a>() -> None</code>
+- <code title="patch /vault/groups/{groupId}">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">update</a>(group_id) -> None</code>
+- <code title="get /vault/groups">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">list</a>() -> None</code>
+- <code title="delete /vault/groups/{groupId}">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">delete</a>(group_id) -> None</code>
 
 ## Multipart
 

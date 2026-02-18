@@ -64,6 +64,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .system import (
+    SystemResource,
+    AsyncSystemResource,
+    SystemResourceWithRawResponse,
+    AsyncSystemResourceWithRawResponse,
+    SystemResourceWithStreamingResponse,
+    AsyncSystemResourceWithStreamingResponse,
+)
 from .compute import (
     ComputeResource,
     AsyncComputeResource,
@@ -114,6 +122,12 @@ from .applications import (
 )
 
 __all__ = [
+    "SystemResource",
+    "AsyncSystemResource",
+    "SystemResourceWithRawResponse",
+    "AsyncSystemResourceWithRawResponse",
+    "SystemResourceWithStreamingResponse",
+    "AsyncSystemResourceWithStreamingResponse",
     "ApplicationsResource",
     "AsyncApplicationsResource",
     "ApplicationsResourceWithRawResponse",

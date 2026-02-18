@@ -16,6 +16,14 @@ from .events import (
     EventsResourceWithStreamingResponse,
     AsyncEventsResourceWithStreamingResponse,
 )
+from .groups import (
+    GroupsResource,
+    AsyncGroupsResource,
+    GroupsResourceWithRawResponse,
+    AsyncGroupsResourceWithRawResponse,
+    GroupsResourceWithStreamingResponse,
+    AsyncGroupsResourceWithStreamingResponse,
+)
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -54,6 +62,12 @@ __all__ = [
     "AsyncGraphragResourceWithRawResponse",
     "GraphragResourceWithStreamingResponse",
     "AsyncGraphragResourceWithStreamingResponse",
+    "GroupsResource",
+    "AsyncGroupsResource",
+    "GroupsResourceWithRawResponse",
+    "AsyncGroupsResourceWithRawResponse",
+    "GroupsResourceWithStreamingResponse",
+    "AsyncGroupsResourceWithStreamingResponse",
     "MultipartResource",
     "AsyncMultipartResource",
     "MultipartResourceWithRawResponse",
