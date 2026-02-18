@@ -352,8 +352,6 @@ class VaultResource(SyncAPIResource):
         id: str,
         size_bytes: int,
         success: Literal[True],
-        error_code: str | Omit = omit,
-        error_message: str | Omit = omit,
         etag: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -369,11 +367,9 @@ class VaultResource(SyncAPIResource):
         repeated confirmations.
 
         Args:
-          size_bytes: Uploaded file size in bytes (required when success=true)
+          size_bytes: Uploaded file size in bytes
 
-          error_code: Client-side error code (required when success=false)
-
-          error_message: Client-side error message (required when success=false)
+          success: Whether the upload succeeded
 
           etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
 
@@ -396,8 +392,6 @@ class VaultResource(SyncAPIResource):
         error_code: str,
         error_message: str,
         success: Literal[False],
-        etag: str | Omit = omit,
-        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -412,13 +406,11 @@ class VaultResource(SyncAPIResource):
         repeated confirmations.
 
         Args:
-          error_code: Client-side error code (required when success=false)
+          error_code: Client-side error code
 
-          error_message: Client-side error message (required when success=false)
+          error_message: Client-side error message
 
-          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
-
-          size_bytes: Uploaded file size in bytes (required when success=true)
+          success: Whether the upload succeeded
 
           extra_headers: Send extra headers
 
@@ -438,9 +430,9 @@ class VaultResource(SyncAPIResource):
         id: str,
         size_bytes: int | Omit = omit,
         success: Literal[True] | Literal[False],
+        etag: str | Omit = omit,
         error_code: str | Omit = omit,
         error_message: str | Omit = omit,
-        etag: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -458,9 +450,9 @@ class VaultResource(SyncAPIResource):
                 {
                     "size_bytes": size_bytes,
                     "success": success,
+                    "etag": etag,
                     "error_code": error_code,
                     "error_message": error_message,
-                    "etag": etag,
                 },
                 vault_confirm_upload_params.VaultConfirmUploadParams,
             ),
@@ -910,8 +902,6 @@ class AsyncVaultResource(AsyncAPIResource):
         id: str,
         size_bytes: int,
         success: Literal[True],
-        error_code: str | Omit = omit,
-        error_message: str | Omit = omit,
         etag: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -927,11 +917,9 @@ class AsyncVaultResource(AsyncAPIResource):
         repeated confirmations.
 
         Args:
-          size_bytes: Uploaded file size in bytes (required when success=true)
+          size_bytes: Uploaded file size in bytes
 
-          error_code: Client-side error code (required when success=false)
-
-          error_message: Client-side error message (required when success=false)
+          success: Whether the upload succeeded
 
           etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
 
@@ -954,8 +942,6 @@ class AsyncVaultResource(AsyncAPIResource):
         error_code: str,
         error_message: str,
         success: Literal[False],
-        etag: str | Omit = omit,
-        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -970,13 +956,11 @@ class AsyncVaultResource(AsyncAPIResource):
         repeated confirmations.
 
         Args:
-          error_code: Client-side error code (required when success=false)
+          error_code: Client-side error code
 
-          error_message: Client-side error message (required when success=false)
+          error_message: Client-side error message
 
-          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
-
-          size_bytes: Uploaded file size in bytes (required when success=true)
+          success: Whether the upload succeeded
 
           extra_headers: Send extra headers
 
@@ -996,9 +980,9 @@ class AsyncVaultResource(AsyncAPIResource):
         id: str,
         size_bytes: int | Omit = omit,
         success: Literal[True] | Literal[False],
+        etag: str | Omit = omit,
         error_code: str | Omit = omit,
         error_message: str | Omit = omit,
-        etag: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1016,9 +1000,9 @@ class AsyncVaultResource(AsyncAPIResource):
                 {
                     "size_bytes": size_bytes,
                     "success": success,
+                    "etag": etag,
                     "error_code": error_code,
                     "error_message": error_message,
-                    "etag": etag,
                 },
                 vault_confirm_upload_params.VaultConfirmUploadParams,
             ),

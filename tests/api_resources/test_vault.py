@@ -271,8 +271,6 @@ class TestVault:
             id="id",
             size_bytes=1,
             success=True,
-            error_code="errorCode",
-            error_message="errorMessage",
             etag="etag",
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
@@ -337,20 +335,6 @@ class TestVault:
             error_code="errorCode",
             error_message="errorMessage",
             success=False,
-        )
-        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_confirm_upload_with_all_params_overload_2(self, client: Casedev) -> None:
-        vault = client.vault.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-            etag="etag",
-            size_bytes=1,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
@@ -833,8 +817,6 @@ class TestAsyncVault:
             id="id",
             size_bytes=1,
             success=True,
-            error_code="errorCode",
-            error_message="errorMessage",
             etag="etag",
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
@@ -899,20 +881,6 @@ class TestAsyncVault:
             error_code="errorCode",
             error_message="errorMessage",
             success=False,
-        )
-        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_confirm_upload_with_all_params_overload_2(self, async_client: AsyncCasedev) -> None:
-        vault = await async_client.vault.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-            etag="etag",
-            size_bytes=1,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
