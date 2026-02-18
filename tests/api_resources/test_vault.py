@@ -43,6 +43,7 @@ class TestVault:
             description="Repository for all client contract reviews and analysis",
             enable_graph=True,
             enable_indexing=True,
+            group_id="grp_abc123",
             metadata={
                 "containsPHI": True,
                 "hipaaCompliant": True,
@@ -133,6 +134,7 @@ class TestVault:
             id="id",
             description="description",
             enable_graph=False,
+            group_id="groupId",
             name="Updated Vault Name",
         )
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
@@ -603,6 +605,7 @@ class TestAsyncVault:
             description="Repository for all client contract reviews and analysis",
             enable_graph=True,
             enable_indexing=True,
+            group_id="grp_abc123",
             metadata={
                 "containsPHI": True,
                 "hipaaCompliant": True,
@@ -693,6 +696,7 @@ class TestAsyncVault:
             id="id",
             description="description",
             enable_graph=False,
+            group_id="groupId",
             name="Updated Vault Name",
         )
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
