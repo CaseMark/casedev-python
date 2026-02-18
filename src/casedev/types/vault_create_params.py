@@ -28,6 +28,12 @@ class VaultCreateParams(TypedDict, total=False):
     Set to false for storage-only vaults.
     """
 
+    group_id: Annotated[str, PropertyInfo(alias="groupId")]
+    """Assign the vault to a vault group for access control.
+
+    Required when using a group-scoped API key.
+    """
+
     metadata: object
     """
     Optional metadata to attach to the vault (e.g., { containsPHI: true } for HIPAA

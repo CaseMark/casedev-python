@@ -40,6 +40,7 @@ if TYPE_CHECKING:
         format,
         memory,
         search,
+        system,
         compute,
         database,
         superdoc,
@@ -47,6 +48,7 @@ if TYPE_CHECKING:
         translate,
         applications,
     )
+    from .resources.system import SystemResource, AsyncSystemResource
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
     from .resources.legal.legal import LegalResource, AsyncLegalResource
@@ -158,6 +160,12 @@ class Casedev(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+    @cached_property
+    def system(self) -> SystemResource:
+        from .resources.system import SystemResource
+
+        return SystemResource(self)
 
     @cached_property
     def applications(self) -> ApplicationsResource:
@@ -438,6 +446,12 @@ class AsyncCasedev(AsyncAPIClient):
         )
 
     @cached_property
+    def system(self) -> AsyncSystemResource:
+        from .resources.system import AsyncSystemResource
+
+        return AsyncSystemResource(self)
+
+    @cached_property
     def applications(self) -> AsyncApplicationsResource:
         from .resources.applications import AsyncApplicationsResource
 
@@ -643,6 +657,12 @@ class CasedevWithRawResponse:
         self._client = client
 
     @cached_property
+    def system(self) -> system.SystemResourceWithRawResponse:
+        from .resources.system import SystemResourceWithRawResponse
+
+        return SystemResourceWithRawResponse(self._client.system)
+
+    @cached_property
     def applications(self) -> applications.ApplicationsResourceWithRawResponse:
         from .resources.applications import ApplicationsResourceWithRawResponse
 
@@ -732,6 +752,12 @@ class AsyncCasedevWithRawResponse:
 
     def __init__(self, client: AsyncCasedev) -> None:
         self._client = client
+
+    @cached_property
+    def system(self) -> system.AsyncSystemResourceWithRawResponse:
+        from .resources.system import AsyncSystemResourceWithRawResponse
+
+        return AsyncSystemResourceWithRawResponse(self._client.system)
 
     @cached_property
     def applications(self) -> applications.AsyncApplicationsResourceWithRawResponse:
@@ -825,6 +851,12 @@ class CasedevWithStreamedResponse:
         self._client = client
 
     @cached_property
+    def system(self) -> system.SystemResourceWithStreamingResponse:
+        from .resources.system import SystemResourceWithStreamingResponse
+
+        return SystemResourceWithStreamingResponse(self._client.system)
+
+    @cached_property
     def applications(self) -> applications.ApplicationsResourceWithStreamingResponse:
         from .resources.applications import ApplicationsResourceWithStreamingResponse
 
@@ -914,6 +946,12 @@ class AsyncCasedevWithStreamedResponse:
 
     def __init__(self, client: AsyncCasedev) -> None:
         self._client = client
+
+    @cached_property
+    def system(self) -> system.AsyncSystemResourceWithStreamingResponse:
+        from .resources.system import AsyncSystemResourceWithStreamingResponse
+
+        return AsyncSystemResourceWithStreamingResponse(self._client.system)
 
     @cached_property
     def applications(self) -> applications.AsyncApplicationsResourceWithStreamingResponse:
