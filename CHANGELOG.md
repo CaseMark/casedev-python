@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.1 (2026-02-20)
+
+Full Changelog: [v0.11.0...v0.11.1](https://github.com/CaseMark/casedev-python/compare/v0.11.0...v0.11.1)
+
+### Chores
+
+* **internal:** remove mock server code ([85989d2](https://github.com/CaseMark/casedev-python/commit/85989d2beea17ba3b7cd73049f09fa0b40dde021))
+* update mock server docs ([398b8ee](https://github.com/CaseMark/casedev-python/commit/398b8ee1872d14c12b605015dac7e234a5f6eb8b))
+
 ## 0.11.0 (2026-02-20)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/CaseMark/casedev-python/compare/v0.10.0...v0.11.0)
