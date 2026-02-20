@@ -17,13 +17,11 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_pricing(self, client: Casedev) -> None:
         v1 = client.compute.v1.get_pricing()
         assert v1 is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_pricing(self, client: Casedev) -> None:
         response = client.compute.v1.with_raw_response.get_pricing()
@@ -33,7 +31,6 @@ class TestV1:
         v1 = response.parse()
         assert v1 is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_pricing(self, client: Casedev) -> None:
         with client.compute.v1.with_streaming_response.get_pricing() as response:
@@ -45,13 +42,11 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_usage(self, client: Casedev) -> None:
         v1 = client.compute.v1.get_usage()
         assert_matches_type(V1GetUsageResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_usage_with_all_params(self, client: Casedev) -> None:
         v1 = client.compute.v1.get_usage(
@@ -60,7 +55,6 @@ class TestV1:
         )
         assert_matches_type(V1GetUsageResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_usage(self, client: Casedev) -> None:
         response = client.compute.v1.with_raw_response.get_usage()
@@ -70,7 +64,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1GetUsageResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_usage(self, client: Casedev) -> None:
         with client.compute.v1.with_streaming_response.get_usage() as response:
@@ -88,13 +81,11 @@ class TestAsyncV1:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_pricing(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.compute.v1.get_pricing()
         assert v1 is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_pricing(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.with_raw_response.get_pricing()
@@ -104,7 +95,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert v1 is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_pricing(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.with_streaming_response.get_pricing() as response:
@@ -116,13 +106,11 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_usage(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.compute.v1.get_usage()
         assert_matches_type(V1GetUsageResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_usage_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.compute.v1.get_usage(
@@ -131,7 +119,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1GetUsageResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_usage(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.with_raw_response.get_usage()
@@ -141,7 +128,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1GetUsageResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_usage(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.with_streaming_response.get_usage() as response:

@@ -17,13 +17,11 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_voices(self, client: Casedev) -> None:
         v1 = client.voice.v1.list_voices()
         assert_matches_type(V1ListVoicesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_voices_with_all_params(self, client: Casedev) -> None:
         v1 = client.voice.v1.list_voices(
@@ -39,7 +37,6 @@ class TestV1:
         )
         assert_matches_type(V1ListVoicesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_voices(self, client: Casedev) -> None:
         response = client.voice.v1.with_raw_response.list_voices()
@@ -49,7 +46,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1ListVoicesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_voices(self, client: Casedev) -> None:
         with client.voice.v1.with_streaming_response.list_voices() as response:
@@ -67,13 +63,11 @@ class TestAsyncV1:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_voices(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.voice.v1.list_voices()
         assert_matches_type(V1ListVoicesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_voices_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.voice.v1.list_voices(
@@ -89,7 +83,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ListVoicesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_voices(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.v1.with_raw_response.list_voices()
@@ -99,7 +92,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1ListVoicesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_voices(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.v1.with_streaming_response.list_voices() as response:

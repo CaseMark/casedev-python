@@ -15,7 +15,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSubscriptions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.create(
@@ -24,7 +23,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.create(
@@ -36,7 +34,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.vault.events.subscriptions.with_raw_response.create(
@@ -49,7 +46,6 @@ class TestSubscriptions:
         subscription = response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.vault.events.subscriptions.with_streaming_response.create(
@@ -64,7 +60,6 @@ class TestSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -73,7 +68,6 @@ class TestSubscriptions:
                 callback_url="https://example.com",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.update(
@@ -82,7 +76,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.update(
@@ -97,7 +90,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Casedev) -> None:
         response = client.vault.events.subscriptions.with_raw_response.update(
@@ -110,7 +102,6 @@ class TestSubscriptions:
         subscription = response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Casedev) -> None:
         with client.vault.events.subscriptions.with_streaming_response.update(
@@ -125,7 +116,6 @@ class TestSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -140,7 +130,6 @@ class TestSubscriptions:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.list(
@@ -148,7 +137,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.vault.events.subscriptions.with_raw_response.list(
@@ -160,7 +148,6 @@ class TestSubscriptions:
         subscription = response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.vault.events.subscriptions.with_streaming_response.list(
@@ -174,7 +161,6 @@ class TestSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -182,7 +168,6 @@ class TestSubscriptions:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.delete(
@@ -191,7 +176,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.vault.events.subscriptions.with_raw_response.delete(
@@ -204,7 +188,6 @@ class TestSubscriptions:
         subscription = response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.vault.events.subscriptions.with_streaming_response.delete(
@@ -219,7 +202,6 @@ class TestSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -234,7 +216,6 @@ class TestSubscriptions:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_test(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.test(
@@ -243,7 +224,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_test_with_all_params(self, client: Casedev) -> None:
         subscription = client.vault.events.subscriptions.test(
@@ -255,7 +235,6 @@ class TestSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_test(self, client: Casedev) -> None:
         response = client.vault.events.subscriptions.with_raw_response.test(
@@ -268,7 +247,6 @@ class TestSubscriptions:
         subscription = response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_test(self, client: Casedev) -> None:
         with client.vault.events.subscriptions.with_streaming_response.test(
@@ -283,7 +261,6 @@ class TestSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_test(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -304,7 +281,6 @@ class TestAsyncSubscriptions:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.create(
@@ -313,7 +289,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.create(
@@ -325,7 +300,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.events.subscriptions.with_raw_response.create(
@@ -338,7 +312,6 @@ class TestAsyncSubscriptions:
         subscription = await response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.events.subscriptions.with_streaming_response.create(
@@ -353,7 +326,6 @@ class TestAsyncSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -362,7 +334,6 @@ class TestAsyncSubscriptions:
                 callback_url="https://example.com",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.update(
@@ -371,7 +342,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.update(
@@ -386,7 +356,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.events.subscriptions.with_raw_response.update(
@@ -399,7 +368,6 @@ class TestAsyncSubscriptions:
         subscription = await response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.events.subscriptions.with_streaming_response.update(
@@ -414,7 +382,6 @@ class TestAsyncSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -429,7 +396,6 @@ class TestAsyncSubscriptions:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.list(
@@ -437,7 +403,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.events.subscriptions.with_raw_response.list(
@@ -449,7 +414,6 @@ class TestAsyncSubscriptions:
         subscription = await response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.events.subscriptions.with_streaming_response.list(
@@ -463,7 +427,6 @@ class TestAsyncSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -471,7 +434,6 @@ class TestAsyncSubscriptions:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.delete(
@@ -480,7 +442,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.events.subscriptions.with_raw_response.delete(
@@ -493,7 +454,6 @@ class TestAsyncSubscriptions:
         subscription = await response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.events.subscriptions.with_streaming_response.delete(
@@ -508,7 +468,6 @@ class TestAsyncSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -523,7 +482,6 @@ class TestAsyncSubscriptions:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_test(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.test(
@@ -532,7 +490,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_test_with_all_params(self, async_client: AsyncCasedev) -> None:
         subscription = await async_client.vault.events.subscriptions.test(
@@ -544,7 +501,6 @@ class TestAsyncSubscriptions:
         )
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_test(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.events.subscriptions.with_raw_response.test(
@@ -557,7 +513,6 @@ class TestAsyncSubscriptions:
         subscription = await response.parse()
         assert subscription is None
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_test(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.events.subscriptions.with_streaming_response.test(
@@ -572,7 +527,6 @@ class TestAsyncSubscriptions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_test(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
