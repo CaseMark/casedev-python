@@ -19,7 +19,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestProjects:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create(
@@ -28,7 +28,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create(
@@ -51,7 +51,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.create(
@@ -64,7 +64,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.create(
@@ -79,7 +79,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         project = client.applications.v1.projects.retrieve(
@@ -87,7 +87,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.retrieve(
@@ -99,7 +99,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.retrieve(
@@ -113,7 +113,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -121,13 +121,13 @@ class TestProjects:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         project = client.applications.v1.projects.list()
         assert_matches_type(ProjectListResponse, project, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.list()
@@ -137,7 +137,7 @@ class TestProjects:
         project = response.parse()
         assert_matches_type(ProjectListResponse, project, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.list() as response:
@@ -149,7 +149,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         project = client.applications.v1.projects.delete(
@@ -157,7 +157,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.delete(
@@ -166,7 +166,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.delete(
@@ -178,7 +178,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.delete(
@@ -192,7 +192,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -200,7 +200,7 @@ class TestProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_deployment(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create_deployment(
@@ -208,7 +208,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_deployment_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create_deployment(
@@ -224,7 +224,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_deployment(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.create_deployment(
@@ -236,7 +236,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_deployment(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.create_deployment(
@@ -250,7 +250,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create_deployment(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -258,7 +258,7 @@ class TestProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_domain(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create_domain(
@@ -267,7 +267,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_domain_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create_domain(
@@ -277,7 +277,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_domain(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.create_domain(
@@ -290,7 +290,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_domain(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.create_domain(
@@ -305,7 +305,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create_domain(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -314,7 +314,7 @@ class TestProjects:
                 domain="domain",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_env(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create_env(
@@ -325,7 +325,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_env_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.create_env(
@@ -338,7 +338,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_env(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.create_env(
@@ -353,7 +353,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_env(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.create_env(
@@ -370,7 +370,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create_env(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -381,7 +381,7 @@ class TestProjects:
                 value="value",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_domain(self, client: Casedev) -> None:
         project = client.applications.v1.projects.delete_domain(
@@ -390,7 +390,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete_domain(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.delete_domain(
@@ -403,7 +403,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete_domain(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.delete_domain(
@@ -418,7 +418,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete_domain(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -433,7 +433,7 @@ class TestProjects:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_env(self, client: Casedev) -> None:
         project = client.applications.v1.projects.delete_env(
@@ -442,7 +442,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete_env(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.delete_env(
@@ -455,7 +455,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete_env(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.delete_env(
@@ -470,7 +470,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete_env(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -485,7 +485,7 @@ class TestProjects:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_runtime_logs(self, client: Casedev) -> None:
         project = client.applications.v1.projects.get_runtime_logs(
@@ -493,7 +493,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_runtime_logs_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.get_runtime_logs(
@@ -502,7 +502,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_runtime_logs(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.get_runtime_logs(
@@ -514,7 +514,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_runtime_logs(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.get_runtime_logs(
@@ -528,7 +528,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get_runtime_logs(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -536,7 +536,7 @@ class TestProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_deployments(self, client: Casedev) -> None:
         project = client.applications.v1.projects.list_deployments(
@@ -544,7 +544,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_deployments_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.list_deployments(
@@ -555,7 +555,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_deployments(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.list_deployments(
@@ -567,7 +567,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_deployments(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.list_deployments(
@@ -581,7 +581,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list_deployments(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -589,7 +589,7 @@ class TestProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_domains(self, client: Casedev) -> None:
         project = client.applications.v1.projects.list_domains(
@@ -597,7 +597,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_domains(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.list_domains(
@@ -609,7 +609,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_domains(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.list_domains(
@@ -623,7 +623,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list_domains(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -631,7 +631,7 @@ class TestProjects:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_env(self, client: Casedev) -> None:
         project = client.applications.v1.projects.list_env(
@@ -639,7 +639,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_env_with_all_params(self, client: Casedev) -> None:
         project = client.applications.v1.projects.list_env(
@@ -648,7 +648,7 @@ class TestProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_env(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.list_env(
@@ -660,7 +660,7 @@ class TestProjects:
         project = response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_env(self, client: Casedev) -> None:
         with client.applications.v1.projects.with_streaming_response.list_env(
@@ -674,7 +674,7 @@ class TestProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list_env(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -688,7 +688,7 @@ class TestAsyncProjects:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create(
@@ -697,7 +697,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create(
@@ -720,7 +720,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.create(
@@ -733,7 +733,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.create(
@@ -748,7 +748,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.retrieve(
@@ -756,7 +756,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.retrieve(
@@ -768,7 +768,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.retrieve(
@@ -782,7 +782,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -790,13 +790,13 @@ class TestAsyncProjects:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list()
         assert_matches_type(ProjectListResponse, project, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.list()
@@ -806,7 +806,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert_matches_type(ProjectListResponse, project, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.list() as response:
@@ -818,7 +818,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.delete(
@@ -826,7 +826,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.delete(
@@ -835,7 +835,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.delete(
@@ -847,7 +847,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.delete(
@@ -861,7 +861,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -869,7 +869,7 @@ class TestAsyncProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_deployment(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create_deployment(
@@ -877,7 +877,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_deployment_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create_deployment(
@@ -893,7 +893,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_deployment(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.create_deployment(
@@ -905,7 +905,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_deployment(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.create_deployment(
@@ -919,7 +919,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create_deployment(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -927,7 +927,7 @@ class TestAsyncProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_domain(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create_domain(
@@ -936,7 +936,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_domain_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create_domain(
@@ -946,7 +946,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_domain(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.create_domain(
@@ -959,7 +959,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_domain(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.create_domain(
@@ -974,7 +974,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create_domain(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -983,7 +983,7 @@ class TestAsyncProjects:
                 domain="domain",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_env(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create_env(
@@ -994,7 +994,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_env_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.create_env(
@@ -1007,7 +1007,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_env(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.create_env(
@@ -1022,7 +1022,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_env(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.create_env(
@@ -1039,7 +1039,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create_env(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1050,7 +1050,7 @@ class TestAsyncProjects:
                 value="value",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_domain(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.delete_domain(
@@ -1059,7 +1059,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete_domain(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.delete_domain(
@@ -1072,7 +1072,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete_domain(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.delete_domain(
@@ -1087,7 +1087,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete_domain(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1102,7 +1102,7 @@ class TestAsyncProjects:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_env(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.delete_env(
@@ -1111,7 +1111,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete_env(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.delete_env(
@@ -1124,7 +1124,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete_env(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.delete_env(
@@ -1139,7 +1139,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete_env(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1154,7 +1154,7 @@ class TestAsyncProjects:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_runtime_logs(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.get_runtime_logs(
@@ -1162,7 +1162,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_runtime_logs_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.get_runtime_logs(
@@ -1171,7 +1171,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_runtime_logs(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.get_runtime_logs(
@@ -1183,7 +1183,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_runtime_logs(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.get_runtime_logs(
@@ -1197,7 +1197,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get_runtime_logs(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1205,7 +1205,7 @@ class TestAsyncProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_deployments(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list_deployments(
@@ -1213,7 +1213,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_deployments_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list_deployments(
@@ -1224,7 +1224,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_deployments(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.list_deployments(
@@ -1236,7 +1236,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_deployments(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.list_deployments(
@@ -1250,7 +1250,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list_deployments(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1258,7 +1258,7 @@ class TestAsyncProjects:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_domains(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list_domains(
@@ -1266,7 +1266,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_domains(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.list_domains(
@@ -1278,7 +1278,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_domains(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.list_domains(
@@ -1292,7 +1292,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list_domains(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1300,7 +1300,7 @@ class TestAsyncProjects:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_env(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list_env(
@@ -1308,7 +1308,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_env_with_all_params(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list_env(
@@ -1317,7 +1317,7 @@ class TestAsyncProjects:
         )
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_env(self, async_client: AsyncCasedev) -> None:
         response = await async_client.applications.v1.projects.with_raw_response.list_env(
@@ -1329,7 +1329,7 @@ class TestAsyncProjects:
         project = await response.parse()
         assert project is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_env(self, async_client: AsyncCasedev) -> None:
         async with async_client.applications.v1.projects.with_streaming_response.list_env(
@@ -1343,7 +1343,7 @@ class TestAsyncProjects:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list_env(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

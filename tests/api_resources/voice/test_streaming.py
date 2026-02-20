@@ -17,13 +17,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestStreaming:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_url(self, client: Casedev) -> None:
         streaming = client.voice.streaming.get_url()
         assert_matches_type(StreamingGetURLResponse, streaming, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_url(self, client: Casedev) -> None:
         response = client.voice.streaming.with_raw_response.get_url()
@@ -33,7 +33,7 @@ class TestStreaming:
         streaming = response.parse()
         assert_matches_type(StreamingGetURLResponse, streaming, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_url(self, client: Casedev) -> None:
         with client.voice.streaming.with_streaming_response.get_url() as response:
@@ -51,13 +51,13 @@ class TestAsyncStreaming:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_url(self, async_client: AsyncCasedev) -> None:
         streaming = await async_client.voice.streaming.get_url()
         assert_matches_type(StreamingGetURLResponse, streaming, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_url(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.streaming.with_raw_response.get_url()
@@ -67,7 +67,7 @@ class TestAsyncStreaming:
         streaming = await response.parse()
         assert_matches_type(StreamingGetURLResponse, streaming, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_url(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.streaming.with_streaming_response.get_url() as response:
