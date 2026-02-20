@@ -25,7 +25,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_answer(self, client: Casedev) -> None:
         v1 = client.search.v1.answer(
@@ -33,7 +33,7 @@ class TestV1:
         )
         assert_matches_type(V1AnswerResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_answer_with_all_params(self, client: Casedev) -> None:
         v1 = client.search.v1.answer(
@@ -51,7 +51,7 @@ class TestV1:
         )
         assert_matches_type(V1AnswerResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_answer(self, client: Casedev) -> None:
         response = client.search.v1.with_raw_response.answer(
@@ -63,7 +63,7 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1AnswerResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_answer(self, client: Casedev) -> None:
         with client.search.v1.with_streaming_response.answer(
@@ -77,7 +77,7 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_contents(self, client: Casedev) -> None:
         v1 = client.search.v1.contents(
@@ -85,7 +85,7 @@ class TestV1:
         )
         assert_matches_type(V1ContentsResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_contents_with_all_params(self, client: Casedev) -> None:
         v1 = client.search.v1.contents(
@@ -102,7 +102,7 @@ class TestV1:
         )
         assert_matches_type(V1ContentsResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_contents(self, client: Casedev) -> None:
         response = client.search.v1.with_raw_response.contents(
@@ -114,7 +114,7 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1ContentsResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_contents(self, client: Casedev) -> None:
         with client.search.v1.with_streaming_response.contents(
@@ -128,7 +128,7 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_research(self, client: Casedev) -> None:
         v1 = client.search.v1.research(
@@ -136,7 +136,7 @@ class TestV1:
         )
         assert_matches_type(V1ResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_research_with_all_params(self, client: Casedev) -> None:
         v1 = client.search.v1.research(
@@ -147,7 +147,7 @@ class TestV1:
         )
         assert_matches_type(V1ResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_research(self, client: Casedev) -> None:
         response = client.search.v1.with_raw_response.research(
@@ -159,7 +159,7 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1ResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_research(self, client: Casedev) -> None:
         with client.search.v1.with_streaming_response.research(
@@ -173,7 +173,7 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_research(self, client: Casedev) -> None:
         v1 = client.search.v1.retrieve_research(
@@ -181,7 +181,7 @@ class TestV1:
         )
         assert_matches_type(V1RetrieveResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_research_with_all_params(self, client: Casedev) -> None:
         v1 = client.search.v1.retrieve_research(
@@ -191,7 +191,7 @@ class TestV1:
         )
         assert_matches_type(V1RetrieveResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve_research(self, client: Casedev) -> None:
         response = client.search.v1.with_raw_response.retrieve_research(
@@ -203,7 +203,7 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1RetrieveResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve_research(self, client: Casedev) -> None:
         with client.search.v1.with_streaming_response.retrieve_research(
@@ -217,7 +217,7 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve_research(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -225,7 +225,7 @@ class TestV1:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_search(self, client: Casedev) -> None:
         v1 = client.search.v1.search(
@@ -233,7 +233,7 @@ class TestV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_search_with_all_params(self, client: Casedev) -> None:
         v1 = client.search.v1.search(
@@ -254,7 +254,7 @@ class TestV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_search(self, client: Casedev) -> None:
         response = client.search.v1.with_raw_response.search(
@@ -266,7 +266,7 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_search(self, client: Casedev) -> None:
         with client.search.v1.with_streaming_response.search(
@@ -280,7 +280,7 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_similar(self, client: Casedev) -> None:
         v1 = client.search.v1.similar(
@@ -288,7 +288,7 @@ class TestV1:
         )
         assert_matches_type(V1SimilarResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_similar_with_all_params(self, client: Casedev) -> None:
         v1 = client.search.v1.similar(
@@ -305,7 +305,7 @@ class TestV1:
         )
         assert_matches_type(V1SimilarResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_similar(self, client: Casedev) -> None:
         response = client.search.v1.with_raw_response.similar(
@@ -317,7 +317,7 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1SimilarResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_similar(self, client: Casedev) -> None:
         with client.search.v1.with_streaming_response.similar(
@@ -337,7 +337,7 @@ class TestAsyncV1:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_answer(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.answer(
@@ -345,7 +345,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1AnswerResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_answer_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.answer(
@@ -363,7 +363,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1AnswerResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_answer(self, async_client: AsyncCasedev) -> None:
         response = await async_client.search.v1.with_raw_response.answer(
@@ -375,7 +375,7 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1AnswerResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_answer(self, async_client: AsyncCasedev) -> None:
         async with async_client.search.v1.with_streaming_response.answer(
@@ -389,7 +389,7 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_contents(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.contents(
@@ -397,7 +397,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ContentsResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_contents_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.contents(
@@ -414,7 +414,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ContentsResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_contents(self, async_client: AsyncCasedev) -> None:
         response = await async_client.search.v1.with_raw_response.contents(
@@ -426,7 +426,7 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1ContentsResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_contents(self, async_client: AsyncCasedev) -> None:
         async with async_client.search.v1.with_streaming_response.contents(
@@ -440,7 +440,7 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_research(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.research(
@@ -448,7 +448,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_research_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.research(
@@ -459,7 +459,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_research(self, async_client: AsyncCasedev) -> None:
         response = await async_client.search.v1.with_raw_response.research(
@@ -471,7 +471,7 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1ResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_research(self, async_client: AsyncCasedev) -> None:
         async with async_client.search.v1.with_streaming_response.research(
@@ -485,7 +485,7 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_research(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.retrieve_research(
@@ -493,7 +493,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1RetrieveResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_research_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.retrieve_research(
@@ -503,7 +503,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1RetrieveResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve_research(self, async_client: AsyncCasedev) -> None:
         response = await async_client.search.v1.with_raw_response.retrieve_research(
@@ -515,7 +515,7 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1RetrieveResearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve_research(self, async_client: AsyncCasedev) -> None:
         async with async_client.search.v1.with_streaming_response.retrieve_research(
@@ -529,7 +529,7 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve_research(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -537,7 +537,7 @@ class TestAsyncV1:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_search(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.search(
@@ -545,7 +545,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.search(
@@ -566,7 +566,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncCasedev) -> None:
         response = await async_client.search.v1.with_raw_response.search(
@@ -578,7 +578,7 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncCasedev) -> None:
         async with async_client.search.v1.with_streaming_response.search(
@@ -592,7 +592,7 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_similar(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.similar(
@@ -600,7 +600,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1SimilarResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_similar_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.search.v1.similar(
@@ -617,7 +617,7 @@ class TestAsyncV1:
         )
         assert_matches_type(V1SimilarResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_similar(self, async_client: AsyncCasedev) -> None:
         response = await async_client.search.v1.with_raw_response.similar(
@@ -629,7 +629,7 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1SimilarResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_similar(self, async_client: AsyncCasedev) -> None:
         async with async_client.search.v1.with_streaming_response.similar(

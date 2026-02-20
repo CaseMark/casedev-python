@@ -23,7 +23,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestEnvironments:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         environment = client.compute.v1.environments.create(
@@ -31,7 +31,7 @@ class TestEnvironments:
         )
         assert_matches_type(EnvironmentCreateResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.compute.v1.environments.with_raw_response.create(
@@ -43,7 +43,7 @@ class TestEnvironments:
         environment = response.parse()
         assert_matches_type(EnvironmentCreateResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.compute.v1.environments.with_streaming_response.create(
@@ -57,7 +57,7 @@ class TestEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         environment = client.compute.v1.environments.retrieve(
@@ -65,7 +65,7 @@ class TestEnvironments:
         )
         assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.compute.v1.environments.with_raw_response.retrieve(
@@ -77,7 +77,7 @@ class TestEnvironments:
         environment = response.parse()
         assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.compute.v1.environments.with_streaming_response.retrieve(
@@ -91,7 +91,7 @@ class TestEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `name` but received ''"):
@@ -99,13 +99,13 @@ class TestEnvironments:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         environment = client.compute.v1.environments.list()
         assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.compute.v1.environments.with_raw_response.list()
@@ -115,7 +115,7 @@ class TestEnvironments:
         environment = response.parse()
         assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.compute.v1.environments.with_streaming_response.list() as response:
@@ -127,7 +127,7 @@ class TestEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         environment = client.compute.v1.environments.delete(
@@ -135,7 +135,7 @@ class TestEnvironments:
         )
         assert_matches_type(EnvironmentDeleteResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.compute.v1.environments.with_raw_response.delete(
@@ -147,7 +147,7 @@ class TestEnvironments:
         environment = response.parse()
         assert_matches_type(EnvironmentDeleteResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.compute.v1.environments.with_streaming_response.delete(
@@ -161,7 +161,7 @@ class TestEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `name` but received ''"):
@@ -169,7 +169,7 @@ class TestEnvironments:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_set_default(self, client: Casedev) -> None:
         environment = client.compute.v1.environments.set_default(
@@ -177,7 +177,7 @@ class TestEnvironments:
         )
         assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_set_default(self, client: Casedev) -> None:
         response = client.compute.v1.environments.with_raw_response.set_default(
@@ -189,7 +189,7 @@ class TestEnvironments:
         environment = response.parse()
         assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_set_default(self, client: Casedev) -> None:
         with client.compute.v1.environments.with_streaming_response.set_default(
@@ -203,7 +203,7 @@ class TestEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_set_default(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `name` but received ''"):
@@ -217,7 +217,7 @@ class TestAsyncEnvironments:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         environment = await async_client.compute.v1.environments.create(
@@ -225,7 +225,7 @@ class TestAsyncEnvironments:
         )
         assert_matches_type(EnvironmentCreateResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.environments.with_raw_response.create(
@@ -237,7 +237,7 @@ class TestAsyncEnvironments:
         environment = await response.parse()
         assert_matches_type(EnvironmentCreateResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.environments.with_streaming_response.create(
@@ -251,7 +251,7 @@ class TestAsyncEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         environment = await async_client.compute.v1.environments.retrieve(
@@ -259,7 +259,7 @@ class TestAsyncEnvironments:
         )
         assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.environments.with_raw_response.retrieve(
@@ -271,7 +271,7 @@ class TestAsyncEnvironments:
         environment = await response.parse()
         assert_matches_type(EnvironmentRetrieveResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.environments.with_streaming_response.retrieve(
@@ -285,7 +285,7 @@ class TestAsyncEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `name` but received ''"):
@@ -293,13 +293,13 @@ class TestAsyncEnvironments:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         environment = await async_client.compute.v1.environments.list()
         assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.environments.with_raw_response.list()
@@ -309,7 +309,7 @@ class TestAsyncEnvironments:
         environment = await response.parse()
         assert_matches_type(EnvironmentListResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.environments.with_streaming_response.list() as response:
@@ -321,7 +321,7 @@ class TestAsyncEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         environment = await async_client.compute.v1.environments.delete(
@@ -329,7 +329,7 @@ class TestAsyncEnvironments:
         )
         assert_matches_type(EnvironmentDeleteResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.environments.with_raw_response.delete(
@@ -341,7 +341,7 @@ class TestAsyncEnvironments:
         environment = await response.parse()
         assert_matches_type(EnvironmentDeleteResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.environments.with_streaming_response.delete(
@@ -355,7 +355,7 @@ class TestAsyncEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `name` but received ''"):
@@ -363,7 +363,7 @@ class TestAsyncEnvironments:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_set_default(self, async_client: AsyncCasedev) -> None:
         environment = await async_client.compute.v1.environments.set_default(
@@ -371,7 +371,7 @@ class TestAsyncEnvironments:
         )
         assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_set_default(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.environments.with_raw_response.set_default(
@@ -383,7 +383,7 @@ class TestAsyncEnvironments:
         environment = await response.parse()
         assert_matches_type(EnvironmentSetDefaultResponse, environment, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_set_default(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.environments.with_streaming_response.set_default(
@@ -397,7 +397,7 @@ class TestAsyncEnvironments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_set_default(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `name` but received ''"):

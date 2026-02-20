@@ -17,13 +17,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestTranscription:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         transcription = client.voice.transcription.create()
         assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         transcription = client.voice.transcription.create(
@@ -45,7 +45,7 @@ class TestTranscription:
         )
         assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.create()
@@ -55,7 +55,7 @@ class TestTranscription:
         transcription = response.parse()
         assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.create() as response:
@@ -67,7 +67,7 @@ class TestTranscription:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         transcription = client.voice.transcription.retrieve(
@@ -75,7 +75,7 @@ class TestTranscription:
         )
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.retrieve(
@@ -87,7 +87,7 @@ class TestTranscription:
         transcription = response.parse()
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.retrieve(
@@ -101,7 +101,7 @@ class TestTranscription:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -109,7 +109,7 @@ class TestTranscription:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         transcription = client.voice.transcription.delete(
@@ -117,7 +117,7 @@ class TestTranscription:
         )
         assert transcription is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.delete(
@@ -129,7 +129,7 @@ class TestTranscription:
         transcription = response.parse()
         assert transcription is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.delete(
@@ -143,7 +143,7 @@ class TestTranscription:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -157,13 +157,13 @@ class TestAsyncTranscription:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.create()
         assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.create(
@@ -185,7 +185,7 @@ class TestAsyncTranscription:
         )
         assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.create()
@@ -195,7 +195,7 @@ class TestAsyncTranscription:
         transcription = await response.parse()
         assert_matches_type(TranscriptionCreateResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.create() as response:
@@ -207,7 +207,7 @@ class TestAsyncTranscription:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.retrieve(
@@ -215,7 +215,7 @@ class TestAsyncTranscription:
         )
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.retrieve(
@@ -227,7 +227,7 @@ class TestAsyncTranscription:
         transcription = await response.parse()
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.retrieve(
@@ -241,7 +241,7 @@ class TestAsyncTranscription:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -249,7 +249,7 @@ class TestAsyncTranscription:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.delete(
@@ -257,7 +257,7 @@ class TestAsyncTranscription:
         )
         assert transcription is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.delete(
@@ -269,7 +269,7 @@ class TestAsyncTranscription:
         transcription = await response.parse()
         assert transcription is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.delete(
@@ -283,7 +283,7 @@ class TestAsyncTranscription:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
