@@ -226,7 +226,7 @@ wheels = [
 
 [[package]]
 name = "casedev"
-version = "0.11.0"
+version = "0.11.1"
 source = { editable = "." }
 dependencies = [
     { name = "anyio" },
