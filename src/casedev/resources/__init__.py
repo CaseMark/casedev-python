@@ -16,6 +16,14 @@ from .ocr import (
     OcrResourceWithStreamingResponse,
     AsyncOcrResourceWithStreamingResponse,
 )
+from .agent import (
+    AgentResource,
+    AsyncAgentResource,
+    AgentResourceWithRawResponse,
+    AsyncAgentResourceWithRawResponse,
+    AgentResourceWithStreamingResponse,
+    AsyncAgentResourceWithStreamingResponse,
+)
 from .legal import (
     LegalResource,
     AsyncLegalResource,
@@ -122,6 +130,12 @@ from .applications import (
 )
 
 __all__ = [
+    "AgentResource",
+    "AsyncAgentResource",
+    "AgentResourceWithRawResponse",
+    "AsyncAgentResourceWithRawResponse",
+    "AgentResourceWithStreamingResponse",
+    "AsyncAgentResourceWithStreamingResponse",
     "SystemResource",
     "AsyncSystemResource",
     "SystemResourceWithRawResponse",
