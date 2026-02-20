@@ -140,12 +140,12 @@ from casedev import Casedev
 
 client = Casedev()
 
-response = client.format.v1.create_document(
-    content="content",
-    output_format="pdf",
-    options={},
+agent = client.agent.v1.agents.create(
+    instructions="instructions",
+    name="name",
+    sandbox={},
 )
-print(response.options)
+print(agent.sandbox)
 ```
 
 ## Handling errors

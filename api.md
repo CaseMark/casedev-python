@@ -1,3 +1,53 @@
+# Agent
+
+## V1
+
+### Agents
+
+Types:
+
+```python
+from casedev.types.agent.v1 import (
+    AgentCreateResponse,
+    AgentRetrieveResponse,
+    AgentUpdateResponse,
+    AgentListResponse,
+    AgentDeleteResponse,
+)
+```
+
+Methods:
+
+- <code title="post /agent/v1/agents">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/agent_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/agent_create_response.py">AgentCreateResponse</a></code>
+- <code title="get /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">retrieve</a>(id) -> <a href="./src/casedev/types/agent/v1/agent_retrieve_response.py">AgentRetrieveResponse</a></code>
+- <code title="patch /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">update</a>(id, \*\*<a href="src/casedev/types/agent/v1/agent_update_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/agent_update_response.py">AgentUpdateResponse</a></code>
+- <code title="get /agent/v1/agents">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">list</a>() -> <a href="./src/casedev/types/agent/v1/agent_list_response.py">AgentListResponse</a></code>
+- <code title="delete /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">delete</a>(id) -> <a href="./src/casedev/types/agent/v1/agent_delete_response.py">AgentDeleteResponse</a></code>
+
+### Run
+
+Types:
+
+```python
+from casedev.types.agent.v1 import (
+    RunCreateResponse,
+    RunCancelResponse,
+    RunExecResponse,
+    RunGetDetailsResponse,
+    RunGetStatusResponse,
+    RunWatchResponse,
+)
+```
+
+Methods:
+
+- <code title="post /agent/v1/run">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/run_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_create_response.py">RunCreateResponse</a></code>
+- <code title="post /agent/v1/run/{id}/cancel">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v1/run_cancel_response.py">RunCancelResponse</a></code>
+- <code title="post /agent/v1/run/{id}/exec">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">exec</a>(id) -> <a href="./src/casedev/types/agent/v1/run_exec_response.py">RunExecResponse</a></code>
+- <code title="get /agent/v1/run/{id}/details">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_details</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_details_response.py">RunGetDetailsResponse</a></code>
+- <code title="get /agent/v1/run/{id}/status">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_status</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_status_response.py">RunGetStatusResponse</a></code>
+- <code title="post /agent/v1/run/{id}/watch">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">watch</a>(id, \*\*<a href="src/casedev/types/agent/v1/run_watch_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_watch_response.py">RunWatchResponse</a></code>
+
 # System
 
 Types:

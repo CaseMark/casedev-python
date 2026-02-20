@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from .resources import (
         llm,
         ocr,
+        agent,
         legal,
         vault,
         voice,
@@ -51,6 +52,7 @@ if TYPE_CHECKING:
     from .resources.system import SystemResource, AsyncSystemResource
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
+    from .resources.agent.agent import AgentResource, AsyncAgentResource
     from .resources.legal.legal import LegalResource, AsyncLegalResource
     from .resources.vault.vault import VaultResource, AsyncVaultResource
     from .resources.voice.voice import VoiceResource, AsyncVoiceResource
@@ -160,6 +162,12 @@ class Casedev(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+    @cached_property
+    def agent(self) -> AgentResource:
+        from .resources.agent import AgentResource
+
+        return AgentResource(self)
 
     @cached_property
     def system(self) -> SystemResource:
@@ -446,6 +454,12 @@ class AsyncCasedev(AsyncAPIClient):
         )
 
     @cached_property
+    def agent(self) -> AsyncAgentResource:
+        from .resources.agent import AsyncAgentResource
+
+        return AsyncAgentResource(self)
+
+    @cached_property
     def system(self) -> AsyncSystemResource:
         from .resources.system import AsyncSystemResource
 
@@ -657,6 +671,12 @@ class CasedevWithRawResponse:
         self._client = client
 
     @cached_property
+    def agent(self) -> agent.AgentResourceWithRawResponse:
+        from .resources.agent import AgentResourceWithRawResponse
+
+        return AgentResourceWithRawResponse(self._client.agent)
+
+    @cached_property
     def system(self) -> system.SystemResourceWithRawResponse:
         from .resources.system import SystemResourceWithRawResponse
 
@@ -752,6 +772,12 @@ class AsyncCasedevWithRawResponse:
 
     def __init__(self, client: AsyncCasedev) -> None:
         self._client = client
+
+    @cached_property
+    def agent(self) -> agent.AsyncAgentResourceWithRawResponse:
+        from .resources.agent import AsyncAgentResourceWithRawResponse
+
+        return AsyncAgentResourceWithRawResponse(self._client.agent)
 
     @cached_property
     def system(self) -> system.AsyncSystemResourceWithRawResponse:
@@ -851,6 +877,12 @@ class CasedevWithStreamedResponse:
         self._client = client
 
     @cached_property
+    def agent(self) -> agent.AgentResourceWithStreamingResponse:
+        from .resources.agent import AgentResourceWithStreamingResponse
+
+        return AgentResourceWithStreamingResponse(self._client.agent)
+
+    @cached_property
     def system(self) -> system.SystemResourceWithStreamingResponse:
         from .resources.system import SystemResourceWithStreamingResponse
 
@@ -946,6 +978,12 @@ class AsyncCasedevWithStreamedResponse:
 
     def __init__(self, client: AsyncCasedev) -> None:
         self._client = client
+
+    @cached_property
+    def agent(self) -> agent.AsyncAgentResourceWithStreamingResponse:
+        from .resources.agent import AsyncAgentResourceWithStreamingResponse
+
+        return AsyncAgentResourceWithStreamingResponse(self._client.agent)
 
     @cached_property
     def system(self) -> system.AsyncSystemResourceWithStreamingResponse:
