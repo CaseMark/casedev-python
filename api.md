@@ -280,6 +280,7 @@ from casedev.types.legal import (
     V1PatentSearchResponse,
     V1ResearchResponse,
     V1SimilarResponse,
+    V1TrademarkSearchResponse,
     V1VerifyResponse,
 )
 ```
@@ -294,6 +295,7 @@ Methods:
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">patent_search</a>(\*\*<a href="src/casedev/types/legal/v1_patent_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_patent_search_response.py">V1PatentSearchResponse</a></code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">research</a>(\*\*<a href="src/casedev/types/legal/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_research_response.py">V1ResearchResponse</a></code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">similar</a>(\*\*<a href="src/casedev/types/legal/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_similar_response.py">V1SimilarResponse</a></code>
+- <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">trademark_search</a>(\*\*<a href="src/casedev/types/legal/v1_trademark_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_trademark_search_response.py">V1TrademarkSearchResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>
 
 # Llm

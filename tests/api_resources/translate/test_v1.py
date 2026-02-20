@@ -21,7 +21,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_detect(self, client: Casedev) -> None:
         v1 = client.translate.v1.detect(
@@ -29,7 +28,6 @@ class TestV1:
         )
         assert_matches_type(V1DetectResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_detect(self, client: Casedev) -> None:
         response = client.translate.v1.with_raw_response.detect(
@@ -41,7 +39,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1DetectResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_detect(self, client: Casedev) -> None:
         with client.translate.v1.with_streaming_response.detect(
@@ -55,13 +52,11 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_languages(self, client: Casedev) -> None:
         v1 = client.translate.v1.list_languages()
         assert_matches_type(V1ListLanguagesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_languages_with_all_params(self, client: Casedev) -> None:
         v1 = client.translate.v1.list_languages(
@@ -70,7 +65,6 @@ class TestV1:
         )
         assert_matches_type(V1ListLanguagesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_languages(self, client: Casedev) -> None:
         response = client.translate.v1.with_raw_response.list_languages()
@@ -80,7 +74,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1ListLanguagesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_languages(self, client: Casedev) -> None:
         with client.translate.v1.with_streaming_response.list_languages() as response:
@@ -92,7 +85,6 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_translate(self, client: Casedev) -> None:
         v1 = client.translate.v1.translate(
@@ -101,7 +93,6 @@ class TestV1:
         )
         assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_translate_with_all_params(self, client: Casedev) -> None:
         v1 = client.translate.v1.translate(
@@ -113,7 +104,6 @@ class TestV1:
         )
         assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_translate(self, client: Casedev) -> None:
         response = client.translate.v1.with_raw_response.translate(
@@ -126,7 +116,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_translate(self, client: Casedev) -> None:
         with client.translate.v1.with_streaming_response.translate(
@@ -147,7 +136,6 @@ class TestAsyncV1:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_detect(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.translate.v1.detect(
@@ -155,7 +143,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1DetectResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_detect(self, async_client: AsyncCasedev) -> None:
         response = await async_client.translate.v1.with_raw_response.detect(
@@ -167,7 +154,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1DetectResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_detect(self, async_client: AsyncCasedev) -> None:
         async with async_client.translate.v1.with_streaming_response.detect(
@@ -181,13 +167,11 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_languages(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.translate.v1.list_languages()
         assert_matches_type(V1ListLanguagesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_languages_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.translate.v1.list_languages(
@@ -196,7 +180,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ListLanguagesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_languages(self, async_client: AsyncCasedev) -> None:
         response = await async_client.translate.v1.with_raw_response.list_languages()
@@ -206,7 +189,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1ListLanguagesResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_languages(self, async_client: AsyncCasedev) -> None:
         async with async_client.translate.v1.with_streaming_response.list_languages() as response:
@@ -218,7 +200,6 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_translate(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.translate.v1.translate(
@@ -227,7 +208,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_translate_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.translate.v1.translate(
@@ -239,7 +219,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_translate(self, async_client: AsyncCasedev) -> None:
         response = await async_client.translate.v1.with_raw_response.translate(
@@ -252,7 +231,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_translate(self, async_client: AsyncCasedev) -> None:
         async with async_client.translate.v1.with_streaming_response.translate(
