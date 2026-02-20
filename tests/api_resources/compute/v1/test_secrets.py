@@ -23,7 +23,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSecrets:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.create(
@@ -31,7 +31,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretCreateResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.create(
@@ -41,7 +41,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretCreateResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.compute.v1.secrets.with_raw_response.create(
@@ -53,7 +53,7 @@ class TestSecrets:
         secret = response.parse()
         assert_matches_type(SecretCreateResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.compute.v1.secrets.with_streaming_response.create(
@@ -67,13 +67,13 @@ class TestSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.list()
         assert_matches_type(SecretListResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.list(
@@ -81,7 +81,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretListResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.compute.v1.secrets.with_raw_response.list()
@@ -91,7 +91,7 @@ class TestSecrets:
         secret = response.parse()
         assert_matches_type(SecretListResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.compute.v1.secrets.with_streaming_response.list() as response:
@@ -103,7 +103,7 @@ class TestSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_group(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.delete_group(
@@ -111,7 +111,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretDeleteGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_group_with_all_params(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.delete_group(
@@ -121,7 +121,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretDeleteGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete_group(self, client: Casedev) -> None:
         response = client.compute.v1.secrets.with_raw_response.delete_group(
@@ -133,7 +133,7 @@ class TestSecrets:
         secret = response.parse()
         assert_matches_type(SecretDeleteGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete_group(self, client: Casedev) -> None:
         with client.compute.v1.secrets.with_streaming_response.delete_group(
@@ -147,7 +147,7 @@ class TestSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete_group(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group` but received ''"):
@@ -155,7 +155,7 @@ class TestSecrets:
                 group="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_group(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.retrieve_group(
@@ -163,7 +163,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretRetrieveGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_group_with_all_params(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.retrieve_group(
@@ -172,7 +172,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretRetrieveGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve_group(self, client: Casedev) -> None:
         response = client.compute.v1.secrets.with_raw_response.retrieve_group(
@@ -184,7 +184,7 @@ class TestSecrets:
         secret = response.parse()
         assert_matches_type(SecretRetrieveGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve_group(self, client: Casedev) -> None:
         with client.compute.v1.secrets.with_streaming_response.retrieve_group(
@@ -198,7 +198,7 @@ class TestSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve_group(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group` but received ''"):
@@ -206,7 +206,7 @@ class TestSecrets:
                 group="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_group(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.update_group(
@@ -215,7 +215,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretUpdateGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_group_with_all_params(self, client: Casedev) -> None:
         secret = client.compute.v1.secrets.update_group(
@@ -225,7 +225,7 @@ class TestSecrets:
         )
         assert_matches_type(SecretUpdateGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update_group(self, client: Casedev) -> None:
         response = client.compute.v1.secrets.with_raw_response.update_group(
@@ -238,7 +238,7 @@ class TestSecrets:
         secret = response.parse()
         assert_matches_type(SecretUpdateGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update_group(self, client: Casedev) -> None:
         with client.compute.v1.secrets.with_streaming_response.update_group(
@@ -253,7 +253,7 @@ class TestSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update_group(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group` but received ''"):
@@ -268,7 +268,7 @@ class TestAsyncSecrets:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.create(
@@ -276,7 +276,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretCreateResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.create(
@@ -286,7 +286,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretCreateResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.secrets.with_raw_response.create(
@@ -298,7 +298,7 @@ class TestAsyncSecrets:
         secret = await response.parse()
         assert_matches_type(SecretCreateResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.secrets.with_streaming_response.create(
@@ -312,13 +312,13 @@ class TestAsyncSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.list()
         assert_matches_type(SecretListResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.list(
@@ -326,7 +326,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretListResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.secrets.with_raw_response.list()
@@ -336,7 +336,7 @@ class TestAsyncSecrets:
         secret = await response.parse()
         assert_matches_type(SecretListResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.secrets.with_streaming_response.list() as response:
@@ -348,7 +348,7 @@ class TestAsyncSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_group(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.delete_group(
@@ -356,7 +356,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretDeleteGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_group_with_all_params(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.delete_group(
@@ -366,7 +366,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretDeleteGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete_group(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.secrets.with_raw_response.delete_group(
@@ -378,7 +378,7 @@ class TestAsyncSecrets:
         secret = await response.parse()
         assert_matches_type(SecretDeleteGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete_group(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.secrets.with_streaming_response.delete_group(
@@ -392,7 +392,7 @@ class TestAsyncSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete_group(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group` but received ''"):
@@ -400,7 +400,7 @@ class TestAsyncSecrets:
                 group="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_group(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.retrieve_group(
@@ -408,7 +408,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretRetrieveGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_group_with_all_params(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.retrieve_group(
@@ -417,7 +417,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretRetrieveGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve_group(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.secrets.with_raw_response.retrieve_group(
@@ -429,7 +429,7 @@ class TestAsyncSecrets:
         secret = await response.parse()
         assert_matches_type(SecretRetrieveGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve_group(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.secrets.with_streaming_response.retrieve_group(
@@ -443,7 +443,7 @@ class TestAsyncSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve_group(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group` but received ''"):
@@ -451,7 +451,7 @@ class TestAsyncSecrets:
                 group="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_group(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.update_group(
@@ -460,7 +460,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretUpdateGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_group_with_all_params(self, async_client: AsyncCasedev) -> None:
         secret = await async_client.compute.v1.secrets.update_group(
@@ -470,7 +470,7 @@ class TestAsyncSecrets:
         )
         assert_matches_type(SecretUpdateGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update_group(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.secrets.with_raw_response.update_group(
@@ -483,7 +483,7 @@ class TestAsyncSecrets:
         secret = await response.parse()
         assert_matches_type(SecretUpdateGroupResponse, secret, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update_group(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.secrets.with_streaming_response.update_group(
@@ -498,7 +498,7 @@ class TestAsyncSecrets:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update_group(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group` but received ''"):

@@ -27,7 +27,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestVault:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         vault = client.vault.create(
@@ -35,7 +35,7 @@ class TestVault:
         )
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         vault = client.vault.create(
@@ -51,7 +51,7 @@ class TestVault:
         )
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.create(
@@ -63,7 +63,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.create(
@@ -77,7 +77,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         vault = client.vault.retrieve(
@@ -85,7 +85,7 @@ class TestVault:
         )
         assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.retrieve(
@@ -97,7 +97,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.retrieve(
@@ -111,7 +111,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -119,7 +119,7 @@ class TestVault:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: Casedev) -> None:
         vault = client.vault.update(
@@ -127,7 +127,7 @@ class TestVault:
         )
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Casedev) -> None:
         vault = client.vault.update(
@@ -139,7 +139,7 @@ class TestVault:
         )
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.update(
@@ -151,7 +151,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.update(
@@ -165,7 +165,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -173,13 +173,13 @@ class TestVault:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         vault = client.vault.list()
         assert_matches_type(VaultListResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.list()
@@ -189,7 +189,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultListResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.list() as response:
@@ -201,7 +201,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         vault = client.vault.delete(
@@ -209,7 +209,7 @@ class TestVault:
         )
         assert_matches_type(VaultDeleteResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_with_all_params(self, client: Casedev) -> None:
         vault = client.vault.delete(
@@ -218,7 +218,7 @@ class TestVault:
         )
         assert_matches_type(VaultDeleteResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.delete(
@@ -230,7 +230,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultDeleteResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.delete(
@@ -244,7 +244,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -252,7 +252,7 @@ class TestVault:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_confirm_upload_overload_1(self, client: Casedev) -> None:
         vault = client.vault.confirm_upload(
@@ -263,7 +263,7 @@ class TestVault:
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_confirm_upload_with_all_params_overload_1(self, client: Casedev) -> None:
         vault = client.vault.confirm_upload(
@@ -275,7 +275,7 @@ class TestVault:
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_confirm_upload_overload_1(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.confirm_upload(
@@ -290,7 +290,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_confirm_upload_overload_1(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.confirm_upload(
@@ -307,7 +307,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_confirm_upload_overload_1(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -326,7 +326,7 @@ class TestVault:
                 success=True,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_confirm_upload_overload_2(self, client: Casedev) -> None:
         vault = client.vault.confirm_upload(
@@ -338,7 +338,7 @@ class TestVault:
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_confirm_upload_overload_2(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.confirm_upload(
@@ -354,7 +354,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_confirm_upload_overload_2(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.confirm_upload(
@@ -372,7 +372,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_confirm_upload_overload_2(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -393,7 +393,7 @@ class TestVault:
                 success=False,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_ingest(self, client: Casedev) -> None:
         vault = client.vault.ingest(
@@ -402,7 +402,7 @@ class TestVault:
         )
         assert_matches_type(VaultIngestResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_ingest(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.ingest(
@@ -415,7 +415,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultIngestResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_ingest(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.ingest(
@@ -430,7 +430,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_ingest(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -445,7 +445,7 @@ class TestVault:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_search(self, client: Casedev) -> None:
         vault = client.vault.search(
@@ -454,7 +454,7 @@ class TestVault:
         )
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_search_with_all_params(self, client: Casedev) -> None:
         vault = client.vault.search(
@@ -466,7 +466,7 @@ class TestVault:
         )
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_search(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.search(
@@ -479,7 +479,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_search(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.search(
@@ -494,7 +494,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_search(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -503,7 +503,7 @@ class TestVault:
                 query="query",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_upload(self, client: Casedev) -> None:
         vault = client.vault.upload(
@@ -513,7 +513,7 @@ class TestVault:
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_upload_with_all_params(self, client: Casedev) -> None:
         vault = client.vault.upload(
@@ -527,7 +527,7 @@ class TestVault:
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_upload(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.upload(
@@ -541,7 +541,7 @@ class TestVault:
         vault = response.parse()
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_upload(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.upload(
@@ -557,7 +557,7 @@ class TestVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_upload(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -573,7 +573,7 @@ class TestAsyncVault:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.create(
@@ -581,7 +581,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.create(
@@ -597,7 +597,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.create(
@@ -609,7 +609,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultCreateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.create(
@@ -623,7 +623,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.retrieve(
@@ -631,7 +631,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.retrieve(
@@ -643,7 +643,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultRetrieveResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.retrieve(
@@ -657,7 +657,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -665,7 +665,7 @@ class TestAsyncVault:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.update(
@@ -673,7 +673,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.update(
@@ -685,7 +685,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.update(
@@ -697,7 +697,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultUpdateResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.update(
@@ -711,7 +711,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -719,13 +719,13 @@ class TestAsyncVault:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.list()
         assert_matches_type(VaultListResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.list()
@@ -735,7 +735,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultListResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.list() as response:
@@ -747,7 +747,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.delete(
@@ -755,7 +755,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultDeleteResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_with_all_params(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.delete(
@@ -764,7 +764,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultDeleteResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.delete(
@@ -776,7 +776,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultDeleteResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.delete(
@@ -790,7 +790,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -798,7 +798,7 @@ class TestAsyncVault:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.confirm_upload(
@@ -809,7 +809,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_confirm_upload_with_all_params_overload_1(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.confirm_upload(
@@ -821,7 +821,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.confirm_upload(
@@ -836,7 +836,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.confirm_upload(
@@ -853,7 +853,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -872,7 +872,7 @@ class TestAsyncVault:
                 success=True,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.confirm_upload(
@@ -884,7 +884,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.confirm_upload(
@@ -900,7 +900,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.confirm_upload(
@@ -918,7 +918,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -939,7 +939,7 @@ class TestAsyncVault:
                 success=False,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_ingest(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.ingest(
@@ -948,7 +948,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultIngestResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_ingest(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.ingest(
@@ -961,7 +961,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultIngestResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_ingest(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.ingest(
@@ -976,7 +976,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_ingest(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -991,7 +991,7 @@ class TestAsyncVault:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_search(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.search(
@@ -1000,7 +1000,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.search(
@@ -1012,7 +1012,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.search(
@@ -1025,7 +1025,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.search(
@@ -1040,7 +1040,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_search(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1049,7 +1049,7 @@ class TestAsyncVault:
                 query="query",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_upload(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.upload(
@@ -1059,7 +1059,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_upload_with_all_params(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.upload(
@@ -1073,7 +1073,7 @@ class TestAsyncVault:
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.upload(
@@ -1087,7 +1087,7 @@ class TestAsyncVault:
         vault = await response.parse()
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.upload(
@@ -1103,7 +1103,7 @@ class TestAsyncVault:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_upload(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
