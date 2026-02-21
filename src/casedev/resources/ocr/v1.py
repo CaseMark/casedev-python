@@ -11,10 +11,18 @@ from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
 )
 from ...types.ocr import v1_process_params
 from ..._base_client import make_request_options
@@ -90,7 +98,7 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
+    ) -> BinaryAPIResponse:
         """Download OCR processing results in various formats.
 
         Returns the processed
@@ -110,12 +118,13 @@ class V1Resource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not type:
             raise ValueError(f"Expected a non-empty value for `type` but received {type!r}")
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return self._get(
             f"/ocr/v1/{id}/download/{type}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=str,
+            cast_to=BinaryAPIResponse,
         )
 
     def process(
@@ -250,7 +259,7 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
+    ) -> AsyncBinaryAPIResponse:
         """Download OCR processing results in various formats.
 
         Returns the processed
@@ -270,12 +279,13 @@ class AsyncV1Resource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not type:
             raise ValueError(f"Expected a non-empty value for `type` but received {type!r}")
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return await self._get(
             f"/ocr/v1/{id}/download/{type}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=str,
+            cast_to=AsyncBinaryAPIResponse,
         )
 
     async def process(
@@ -351,8 +361,9 @@ class V1ResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             v1.retrieve,
         )
-        self.download = to_raw_response_wrapper(
+        self.download = to_custom_raw_response_wrapper(
             v1.download,
+            BinaryAPIResponse,
         )
         self.process = to_raw_response_wrapper(
             v1.process,
@@ -366,8 +377,9 @@ class AsyncV1ResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             v1.retrieve,
         )
-        self.download = async_to_raw_response_wrapper(
+        self.download = async_to_custom_raw_response_wrapper(
             v1.download,
+            AsyncBinaryAPIResponse,
         )
         self.process = async_to_raw_response_wrapper(
             v1.process,
@@ -381,8 +393,9 @@ class V1ResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             v1.retrieve,
         )
-        self.download = to_streamed_response_wrapper(
+        self.download = to_custom_streamed_response_wrapper(
             v1.download,
+            StreamedBinaryAPIResponse,
         )
         self.process = to_streamed_response_wrapper(
             v1.process,
@@ -396,8 +409,9 @@ class AsyncV1ResourceWithStreamingResponse:
         self.retrieve = async_to_streamed_response_wrapper(
             v1.retrieve,
         )
-        self.download = async_to_streamed_response_wrapper(
+        self.download = async_to_custom_streamed_response_wrapper(
             v1.download,
+            AsyncStreamedBinaryAPIResponse,
         )
         self.process = async_to_streamed_response_wrapper(
             v1.process,

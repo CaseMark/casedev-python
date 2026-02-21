@@ -5,10 +5,18 @@ from __future__ import annotations
 import os
 from typing import Any, cast
 
+import httpx
 import pytest
+from respx import MockRouter
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
+from casedev._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+)
 from casedev.types.vault import (
     ObjectListResponse,
     ObjectDeleteResponse,
@@ -289,40 +297,58 @@ class TestObjects:
             )
 
     @parametrize
-    def test_method_download(self, client: Casedev) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_download(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
         object_ = client.vault.objects.download(
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(str, object_, path=["response"])
+        assert object_.is_closed
+        assert object_.json() == {"foo": "bar"}
+        assert cast(Any, object_.is_closed) is True
+        assert isinstance(object_, BinaryAPIResponse)
 
     @parametrize
-    def test_raw_response_download(self, client: Casedev) -> None:
-        response = client.vault.objects.with_raw_response.download(
+    @pytest.mark.respx(base_url=base_url)
+    def test_raw_response_download(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
+
+        object_ = client.vault.objects.with_raw_response.download(
             object_id="objectId",
             id="id",
         )
 
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        object_ = response.parse()
-        assert_matches_type(str, object_, path=["response"])
+        assert object_.is_closed is True
+        assert object_.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert object_.json() == {"foo": "bar"}
+        assert isinstance(object_, BinaryAPIResponse)
 
     @parametrize
-    def test_streaming_response_download(self, client: Casedev) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_streaming_response_download(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
         with client.vault.objects.with_streaming_response.download(
             object_id="objectId",
             id="id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ) as object_:
+            assert not object_.is_closed
+            assert object_.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            object_ = response.parse()
-            assert_matches_type(str, object_, path=["response"])
+            assert object_.json() == {"foo": "bar"}
+            assert cast(Any, object_.is_closed) is True
+            assert isinstance(object_, StreamedBinaryAPIResponse)
 
-        assert cast(Any, response.is_closed) is True
+        assert cast(Any, object_.is_closed) is True
 
     @parametrize
+    @pytest.mark.respx(base_url=base_url)
     def test_path_params_download(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.objects.with_raw_response.download(
@@ -772,40 +798,58 @@ class TestAsyncObjects:
             )
 
     @parametrize
-    async def test_method_download(self, async_client: AsyncCasedev) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
         object_ = await async_client.vault.objects.download(
             object_id="objectId",
             id="id",
         )
-        assert_matches_type(str, object_, path=["response"])
+        assert object_.is_closed
+        assert await object_.json() == {"foo": "bar"}
+        assert cast(Any, object_.is_closed) is True
+        assert isinstance(object_, AsyncBinaryAPIResponse)
 
     @parametrize
-    async def test_raw_response_download(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.vault.objects.with_raw_response.download(
+    @pytest.mark.respx(base_url=base_url)
+    async def test_raw_response_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
+
+        object_ = await async_client.vault.objects.with_raw_response.download(
             object_id="objectId",
             id="id",
         )
 
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        object_ = await response.parse()
-        assert_matches_type(str, object_, path=["response"])
+        assert object_.is_closed is True
+        assert object_.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert await object_.json() == {"foo": "bar"}
+        assert isinstance(object_, AsyncBinaryAPIResponse)
 
     @parametrize
-    async def test_streaming_response_download(self, async_client: AsyncCasedev) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_streaming_response_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
         async with async_client.vault.objects.with_streaming_response.download(
             object_id="objectId",
             id="id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ) as object_:
+            assert not object_.is_closed
+            assert object_.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            object_ = await response.parse()
-            assert_matches_type(str, object_, path=["response"])
+            assert await object_.json() == {"foo": "bar"}
+            assert cast(Any, object_.is_closed) is True
+            assert isinstance(object_, AsyncStreamedBinaryAPIResponse)
 
-        assert cast(Any, response.is_closed) is True
+        assert cast(Any, object_.is_closed) is True
 
     @parametrize
+    @pytest.mark.respx(base_url=base_url)
     async def test_path_params_download(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.objects.with_raw_response.download(
