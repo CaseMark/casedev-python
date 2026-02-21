@@ -17,13 +17,11 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestInstanceTypes:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         instance_type = client.compute.v1.instance_types.list()
         assert_matches_type(InstanceTypeListResponse, instance_type, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.compute.v1.instance_types.with_raw_response.list()
@@ -33,7 +31,6 @@ class TestInstanceTypes:
         instance_type = response.parse()
         assert_matches_type(InstanceTypeListResponse, instance_type, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.compute.v1.instance_types.with_streaming_response.list() as response:
@@ -51,13 +48,11 @@ class TestAsyncInstanceTypes:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         instance_type = await async_client.compute.v1.instance_types.list()
         assert_matches_type(InstanceTypeListResponse, instance_type, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.compute.v1.instance_types.with_raw_response.list()
@@ -67,7 +62,6 @@ class TestAsyncInstanceTypes:
         instance_type = await response.parse()
         assert_matches_type(InstanceTypeListResponse, instance_type, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.compute.v1.instance_types.with_streaming_response.list() as response:

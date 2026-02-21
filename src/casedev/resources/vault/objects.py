@@ -12,10 +12,18 @@ from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
 )
 from ...types.vault import (
     object_delete_params,
@@ -302,7 +310,7 @@ class ObjectsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
+    ) -> BinaryAPIResponse:
         """Downloads a file from a vault.
 
         Returns the actual file content as a binary
@@ -323,12 +331,13 @@ class ObjectsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return self._get(
             f"/vault/{id}/objects/{object_id}/download",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=str,
+            cast_to=BinaryAPIResponse,
         )
 
     def get_ocr_words(
@@ -738,7 +747,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> str:
+    ) -> AsyncBinaryAPIResponse:
         """Downloads a file from a vault.
 
         Returns the actual file content as a binary
@@ -759,12 +768,13 @@ class AsyncObjectsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return await self._get(
             f"/vault/{id}/objects/{object_id}/download",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=str,
+            cast_to=AsyncBinaryAPIResponse,
         )
 
     async def get_ocr_words(
@@ -927,8 +937,9 @@ class ObjectsResourceWithRawResponse:
         self.create_presigned_url = to_raw_response_wrapper(
             objects.create_presigned_url,
         )
-        self.download = to_raw_response_wrapper(
+        self.download = to_custom_raw_response_wrapper(
             objects.download,
+            BinaryAPIResponse,
         )
         self.get_ocr_words = to_raw_response_wrapper(
             objects.get_ocr_words,
@@ -960,8 +971,9 @@ class AsyncObjectsResourceWithRawResponse:
         self.create_presigned_url = async_to_raw_response_wrapper(
             objects.create_presigned_url,
         )
-        self.download = async_to_raw_response_wrapper(
+        self.download = async_to_custom_raw_response_wrapper(
             objects.download,
+            AsyncBinaryAPIResponse,
         )
         self.get_ocr_words = async_to_raw_response_wrapper(
             objects.get_ocr_words,
@@ -993,8 +1005,9 @@ class ObjectsResourceWithStreamingResponse:
         self.create_presigned_url = to_streamed_response_wrapper(
             objects.create_presigned_url,
         )
-        self.download = to_streamed_response_wrapper(
+        self.download = to_custom_streamed_response_wrapper(
             objects.download,
+            StreamedBinaryAPIResponse,
         )
         self.get_ocr_words = to_streamed_response_wrapper(
             objects.get_ocr_words,
@@ -1026,8 +1039,9 @@ class AsyncObjectsResourceWithStreamingResponse:
         self.create_presigned_url = async_to_streamed_response_wrapper(
             objects.create_presigned_url,
         )
-        self.download = async_to_streamed_response_wrapper(
+        self.download = async_to_custom_streamed_response_wrapper(
             objects.download,
+            AsyncStreamedBinaryAPIResponse,
         )
         self.get_ocr_words = async_to_streamed_response_wrapper(
             objects.get_ocr_words,

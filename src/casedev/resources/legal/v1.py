@@ -26,6 +26,7 @@ from ...types.legal import (
     v1_get_citations_params,
     v1_get_full_text_params,
     v1_patent_search_params,
+    v1_trademark_search_params,
     v1_list_jurisdictions_params,
     v1_get_citations_from_url_params,
 )
@@ -37,6 +38,7 @@ from ...types.legal.v1_research_response import V1ResearchResponse
 from ...types.legal.v1_get_citations_response import V1GetCitationsResponse
 from ...types.legal.v1_get_full_text_response import V1GetFullTextResponse
 from ...types.legal.v1_patent_search_response import V1PatentSearchResponse
+from ...types.legal.v1_trademark_search_response import V1TrademarkSearchResponse
 from ...types.legal.v1_list_jurisdictions_response import V1ListJurisdictionsResponse
 from ...types.legal.v1_get_citations_from_url_response import V1GetCitationsFromURLResponse
 
@@ -475,6 +477,54 @@ class V1Resource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1SimilarResponse,
+        )
+
+    def trademark_search(
+        self,
+        *,
+        registration_number: str | Omit = omit,
+        serial_number: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1TrademarkSearchResponse:
+        """
+        Look up trademark status and details from the USPTO Trademark Status & Document
+        Retrieval (TSDR) system. Supports lookup by serial number or registration
+        number. Returns mark text, status, owner, goods/services, Nice classification,
+        filing/registration dates, and more.
+
+        Args:
+          registration_number: USPTO registration number (e.g. "6123456"). Provide either serialNumber or
+              registrationNumber.
+
+          serial_number: USPTO serial number (e.g. "97123456"). Provide either serialNumber or
+              registrationNumber.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/trademark-search",
+            body=maybe_transform(
+                {
+                    "registration_number": registration_number,
+                    "serial_number": serial_number,
+                },
+                v1_trademark_search_params.V1TrademarkSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1TrademarkSearchResponse,
         )
 
     def verify(
@@ -952,6 +1002,54 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=V1SimilarResponse,
         )
 
+    async def trademark_search(
+        self,
+        *,
+        registration_number: str | Omit = omit,
+        serial_number: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1TrademarkSearchResponse:
+        """
+        Look up trademark status and details from the USPTO Trademark Status & Document
+        Retrieval (TSDR) system. Supports lookup by serial number or registration
+        number. Returns mark text, status, owner, goods/services, Nice classification,
+        filing/registration dates, and more.
+
+        Args:
+          registration_number: USPTO registration number (e.g. "6123456"). Provide either serialNumber or
+              registrationNumber.
+
+          serial_number: USPTO serial number (e.g. "97123456"). Provide either serialNumber or
+              registrationNumber.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/trademark-search",
+            body=await async_maybe_transform(
+                {
+                    "registration_number": registration_number,
+                    "serial_number": serial_number,
+                },
+                v1_trademark_search_params.V1TrademarkSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1TrademarkSearchResponse,
+        )
+
     async def verify(
         self,
         *,
@@ -1019,6 +1117,9 @@ class V1ResourceWithRawResponse:
         self.similar = to_raw_response_wrapper(
             v1.similar,
         )
+        self.trademark_search = to_raw_response_wrapper(
+            v1.trademark_search,
+        )
         self.verify = to_raw_response_wrapper(
             v1.verify,
         )
@@ -1051,6 +1152,9 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.similar = async_to_raw_response_wrapper(
             v1.similar,
+        )
+        self.trademark_search = async_to_raw_response_wrapper(
+            v1.trademark_search,
         )
         self.verify = async_to_raw_response_wrapper(
             v1.verify,
@@ -1085,6 +1189,9 @@ class V1ResourceWithStreamingResponse:
         self.similar = to_streamed_response_wrapper(
             v1.similar,
         )
+        self.trademark_search = to_streamed_response_wrapper(
+            v1.trademark_search,
+        )
         self.verify = to_streamed_response_wrapper(
             v1.verify,
         )
@@ -1117,6 +1224,9 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.similar = async_to_streamed_response_wrapper(
             v1.similar,
+        )
+        self.trademark_search = async_to_streamed_response_wrapper(
+            v1.trademark_search,
         )
         self.verify = async_to_streamed_response_wrapper(
             v1.verify,

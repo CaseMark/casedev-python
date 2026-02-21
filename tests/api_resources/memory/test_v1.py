@@ -24,7 +24,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
         v1 = client.memory.v1.create(
@@ -37,7 +36,6 @@ class TestV1:
         )
         assert_matches_type(V1CreateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         v1 = client.memory.v1.create(
@@ -66,7 +64,6 @@ class TestV1:
         )
         assert_matches_type(V1CreateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
         response = client.memory.v1.with_raw_response.create(
@@ -83,7 +80,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1CreateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
         with client.memory.v1.with_streaming_response.create(
@@ -102,7 +98,6 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         v1 = client.memory.v1.retrieve(
@@ -110,7 +105,6 @@ class TestV1:
         )
         assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.memory.v1.with_raw_response.retrieve(
@@ -122,7 +116,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.memory.v1.with_streaming_response.retrieve(
@@ -136,7 +129,6 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -144,13 +136,11 @@ class TestV1:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         v1 = client.memory.v1.list()
         assert_matches_type(V1ListResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Casedev) -> None:
         v1 = client.memory.v1.list(
@@ -172,7 +162,6 @@ class TestV1:
         )
         assert_matches_type(V1ListResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.memory.v1.with_raw_response.list()
@@ -182,7 +171,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1ListResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.memory.v1.with_streaming_response.list() as response:
@@ -194,7 +182,6 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         v1 = client.memory.v1.delete(
@@ -202,7 +189,6 @@ class TestV1:
         )
         assert_matches_type(V1DeleteResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.memory.v1.with_raw_response.delete(
@@ -214,7 +200,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1DeleteResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.memory.v1.with_streaming_response.delete(
@@ -228,7 +213,6 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -236,13 +220,11 @@ class TestV1:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_all(self, client: Casedev) -> None:
         v1 = client.memory.v1.delete_all()
         assert_matches_type(V1DeleteAllResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_all_with_all_params(self, client: Casedev) -> None:
         v1 = client.memory.v1.delete_all(
@@ -261,7 +243,6 @@ class TestV1:
         )
         assert_matches_type(V1DeleteAllResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete_all(self, client: Casedev) -> None:
         response = client.memory.v1.with_raw_response.delete_all()
@@ -271,7 +252,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1DeleteAllResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete_all(self, client: Casedev) -> None:
         with client.memory.v1.with_streaming_response.delete_all() as response:
@@ -283,7 +263,6 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_search(self, client: Casedev) -> None:
         v1 = client.memory.v1.search(
@@ -291,7 +270,6 @@ class TestV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_search_with_all_params(self, client: Casedev) -> None:
         v1 = client.memory.v1.search(
@@ -313,7 +291,6 @@ class TestV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_search(self, client: Casedev) -> None:
         response = client.memory.v1.with_raw_response.search(
@@ -325,7 +302,6 @@ class TestV1:
         v1 = response.parse()
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_search(self, client: Casedev) -> None:
         with client.memory.v1.with_streaming_response.search(
@@ -345,7 +321,6 @@ class TestAsyncV1:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.create(
@@ -358,7 +333,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1CreateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.create(
@@ -387,7 +361,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1CreateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
         response = await async_client.memory.v1.with_raw_response.create(
@@ -404,7 +377,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1CreateResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
         async with async_client.memory.v1.with_streaming_response.create(
@@ -423,7 +395,6 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.retrieve(
@@ -431,7 +402,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.memory.v1.with_raw_response.retrieve(
@@ -443,7 +413,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.memory.v1.with_streaming_response.retrieve(
@@ -457,7 +426,6 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -465,13 +433,11 @@ class TestAsyncV1:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.list()
         assert_matches_type(V1ListResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.list(
@@ -493,7 +459,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1ListResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.memory.v1.with_raw_response.list()
@@ -503,7 +468,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1ListResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.memory.v1.with_streaming_response.list() as response:
@@ -515,7 +479,6 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.delete(
@@ -523,7 +486,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1DeleteResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.memory.v1.with_raw_response.delete(
@@ -535,7 +497,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1DeleteResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.memory.v1.with_streaming_response.delete(
@@ -549,7 +510,6 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -557,13 +517,11 @@ class TestAsyncV1:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_all(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.delete_all()
         assert_matches_type(V1DeleteAllResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_all_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.delete_all(
@@ -582,7 +540,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1DeleteAllResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete_all(self, async_client: AsyncCasedev) -> None:
         response = await async_client.memory.v1.with_raw_response.delete_all()
@@ -592,7 +549,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1DeleteAllResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete_all(self, async_client: AsyncCasedev) -> None:
         async with async_client.memory.v1.with_streaming_response.delete_all() as response:
@@ -604,7 +560,6 @@ class TestAsyncV1:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_search(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.search(
@@ -612,7 +567,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.memory.v1.search(
@@ -634,7 +588,6 @@ class TestAsyncV1:
         )
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncCasedev) -> None:
         response = await async_client.memory.v1.with_raw_response.search(
@@ -646,7 +599,6 @@ class TestAsyncV1:
         v1 = await response.parse()
         assert_matches_type(V1SearchResponse, v1, path=["response"])
 
-    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncCasedev) -> None:
         async with async_client.memory.v1.with_streaming_response.search(

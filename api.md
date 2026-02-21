@@ -280,6 +280,7 @@ from casedev.types.legal import (
     V1PatentSearchResponse,
     V1ResearchResponse,
     V1SimilarResponse,
+    V1TrademarkSearchResponse,
     V1VerifyResponse,
 )
 ```
@@ -294,6 +295,7 @@ Methods:
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">patent_search</a>(\*\*<a href="src/casedev/types/legal/v1_patent_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_patent_search_response.py">V1PatentSearchResponse</a></code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">research</a>(\*\*<a href="src/casedev/types/legal/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_research_response.py">V1ResearchResponse</a></code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">similar</a>(\*\*<a href="src/casedev/types/legal/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_similar_response.py">V1SimilarResponse</a></code>
+- <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">trademark_search</a>(\*\*<a href="src/casedev/types/legal/v1_trademark_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_trademark_search_response.py">V1TrademarkSearchResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>
 
 # Llm
@@ -366,13 +368,13 @@ Methods:
 Types:
 
 ```python
-from casedev.types.ocr import V1RetrieveResponse, V1DownloadResponse, V1ProcessResponse
+from casedev.types.ocr import V1RetrieveResponse, V1ProcessResponse
 ```
 
 Methods:
 
 - <code title="get /ocr/v1/{id}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">retrieve</a>(id) -> <a href="./src/casedev/types/ocr/v1_retrieve_response.py">V1RetrieveResponse</a></code>
-- <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">download</a>(type, \*, id) -> str</code>
+- <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">download</a>(type, \*, id) -> BinaryAPIResponse</code>
 - <code title="post /ocr/v1/process">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">process</a>(\*\*<a href="src/casedev/types/ocr/v1_process_params.py">params</a>) -> <a href="./src/casedev/types/ocr/v1_process_response.py">V1ProcessResponse</a></code>
 
 # Privilege
@@ -533,7 +535,6 @@ from casedev.types.vault import (
     ObjectListResponse,
     ObjectDeleteResponse,
     ObjectCreatePresignedURLResponse,
-    ObjectDownloadResponse,
     ObjectGetOcrWordsResponse,
     ObjectGetSummarizeJobResponse,
     ObjectGetTextResponse,
@@ -547,7 +548,7 @@ Methods:
 - <code title="get /vault/{id}/objects">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">list</a>(id) -> <a href="./src/casedev/types/vault/object_list_response.py">ObjectListResponse</a></code>
 - <code title="delete /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">delete</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_delete_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_delete_response.py">ObjectDeleteResponse</a></code>
 - <code title="post /vault/{id}/objects/{objectId}/presigned-url">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">create_presigned_url</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_create_presigned_url_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_create_presigned_url_response.py">ObjectCreatePresignedURLResponse</a></code>
-- <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">download</a>(object_id, \*, id) -> str</code>
+- <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">download</a>(object_id, \*, id) -> BinaryAPIResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/ocr-words">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_ocr_words</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_ocr_words_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_ocr_words_response.py">ObjectGetOcrWordsResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_summarize_job</a>(job_id, \*, id, object_id) -> <a href="./src/casedev/types/vault/object_get_summarize_job_response.py">ObjectGetSummarizeJobResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_text</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/object_get_text_response.py">ObjectGetTextResponse</a></code>

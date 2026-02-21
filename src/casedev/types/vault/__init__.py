@@ -9,7 +9,6 @@ from .graphrag_init_response import GraphragInitResponse as GraphragInitResponse
 from .multipart_abort_params import MultipartAbortParams as MultipartAbortParams
 from .object_delete_response import ObjectDeleteResponse as ObjectDeleteResponse
 from .object_update_response import ObjectUpdateResponse as ObjectUpdateResponse
-from .object_download_response import ObjectDownloadResponse as ObjectDownloadResponse
 from .object_get_text_response import ObjectGetTextResponse as ObjectGetTextResponse
 from .object_retrieve_response import ObjectRetrieveResponse as ObjectRetrieveResponse
 from .graphrag_get_stats_response import GraphragGetStatsResponse as GraphragGetStatsResponse
