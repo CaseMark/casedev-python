@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.12.2 (2026-02-23)
+
+Full Changelog: [v0.12.1...v0.12.2](https://github.com/CaseMark/casedev-python/compare/v0.12.1...v0.12.2)
+
+### Bug Fixes
+
+* only alert on CI failure for PRs targeting main ([7ad6c4b](https://github.com/CaseMark/casedev-python/commit/7ad6c4b62772ab94d3ca060d27f587eb7e5f8672))
+* only alert Slack on CI failure for main branch ([0941a51](https://github.com/CaseMark/casedev-python/commit/0941a5150ba78f3661915378cfd10f7d2dd059b4))
+
 ## 0.12.1 (2026-02-23)
 
 Full Changelog: [v0.12.0...v0.12.1](https://github.com/CaseMark/casedev-python/compare/v0.12.0...v0.12.1)
