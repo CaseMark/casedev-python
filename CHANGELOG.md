@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.1 (2026-02-23)
+
+Full Changelog: [v0.12.0...v0.12.1](https://github.com/CaseMark/casedev-python/compare/v0.12.0...v0.12.1)
+
+### Chores
+
+* replace PR open Slack alert with CI failure alert ([ddb4311](https://github.com/CaseMark/casedev-python/commit/ddb4311f3e9dbd837e147278e74360c53edfc39f))
+
 ## 0.12.0 (2026-02-21)
 
 Full Changelog: [v0.11.2...v0.12.0](https://github.com/CaseMark/casedev-python/compare/v0.11.2...v0.12.0)
