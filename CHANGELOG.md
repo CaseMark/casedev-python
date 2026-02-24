@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.5 (2026-02-24)
+
+Full Changelog: [v0.12.4...v0.12.5](https://github.com/CaseMark/casedev-python/compare/v0.12.4...v0.12.5)
+
+### Bug Fixes
+
+* prevent duplicate Slack alerts from release-please branches ([5baa9ee](https://github.com/CaseMark/casedev-python/commit/5baa9ee4572bed65b873e4a0e5d7c1e5c0f694f9))
+
 ## 0.12.4 (2026-02-24)
 
 Full Changelog: [v0.12.3...v0.12.4](https://github.com/CaseMark/casedev-python/compare/v0.12.3...v0.12.4)
