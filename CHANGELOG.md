@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.3 (2026-02-24)
+
+Full Changelog: [v0.12.2...v0.12.3](https://github.com/CaseMark/casedev-python/compare/v0.12.2...v0.12.3)
+
+### Chores
+
+* **internal:** add request options to SSE classes ([c06aa38](https://github.com/CaseMark/casedev-python/commit/c06aa386cdaa7d2aa51eaa088525c61e959844c4))
+
 ## 0.12.2 (2026-02-23)
 
 Full Changelog: [v0.12.1...v0.12.2](https://github.com/CaseMark/casedev-python/compare/v0.12.1...v0.12.2)
