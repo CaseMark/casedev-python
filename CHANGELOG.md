@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.4 (2026-02-24)
+
+Full Changelog: [v0.12.3...v0.12.4](https://github.com/CaseMark/casedev-python/compare/v0.12.3...v0.12.4)
+
+### Chores
+
+* **internal:** make `test_proxy_environment_variables` more resilient ([926dcd4](https://github.com/CaseMark/casedev-python/commit/926dcd48c22e1cf94f3894ed365df6898cb27c59))
+
 ## 0.12.3 (2026-02-24)
 
 Full Changelog: [v0.12.2...v0.12.3](https://github.com/CaseMark/casedev-python/compare/v0.12.2...v0.12.3)
