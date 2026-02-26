@@ -44,6 +44,7 @@ class TestAgents:
                 "cpu": 0,
                 "memory_mi_b": 0,
             },
+            vault_groups=["string"],
             vault_ids=["string"],
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
@@ -130,6 +131,7 @@ class TestAgents:
             model="model",
             name="name",
             sandbox={},
+            vault_groups=["string"],
             vault_ids=["string"],
         )
         assert_matches_type(AgentUpdateResponse, agent, path=["response"])
@@ -255,6 +257,7 @@ class TestAsyncAgents:
                 "cpu": 0,
                 "memory_mi_b": 0,
             },
+            vault_groups=["string"],
             vault_ids=["string"],
         )
         assert_matches_type(AgentCreateResponse, agent, path=["response"])
@@ -341,6 +344,7 @@ class TestAsyncAgents:
             model="model",
             name="name",
             sandbox={},
+            vault_groups=["string"],
             vault_ids=["string"],
         )
         assert_matches_type(AgentUpdateResponse, agent, path=["response"])

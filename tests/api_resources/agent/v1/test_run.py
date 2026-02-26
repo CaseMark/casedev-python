@@ -39,6 +39,7 @@ class TestRun:
             prompt="prompt",
             guidance="guidance",
             model="model",
+            object_ids=["string"],
         )
         assert_matches_type(RunCreateResponse, run, path=["response"])
 
@@ -283,6 +284,7 @@ class TestAsyncRun:
             prompt="prompt",
             guidance="guidance",
             model="model",
+            object_ids=["string"],
         )
         assert_matches_type(RunCreateResponse, run, path=["response"])
 

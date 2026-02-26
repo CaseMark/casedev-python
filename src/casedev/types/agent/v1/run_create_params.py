@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import Required, Annotated, TypedDict
 
+from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 
 __all__ = ["RunCreateParams"]
@@ -22,3 +23,9 @@ class RunCreateParams(TypedDict, total=False):
 
     model: Optional[str]
     """Override the agent default model for this run"""
+
+    object_ids: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="objectIds")]
+    """Scope this run to specific vault object IDs.
+
+    The agent will only be able to access these objects during execution.
+    """
