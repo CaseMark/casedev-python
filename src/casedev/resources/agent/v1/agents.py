@@ -57,6 +57,7 @@ class AgentsResource(SyncAPIResource):
         enabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         model: str | Omit = omit,
         sandbox: Optional[agent_create_params.Sandbox] | Omit = omit,
+        vault_groups: Optional[SequenceNotStr[str]] | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -86,6 +87,8 @@ class AgentsResource(SyncAPIResource):
 
           sandbox: Custom sandbox configuration (cpu, memoryMiB)
 
+          vault_groups: Restrict agent to vaults within specific vault group IDs
+
           vault_ids: Restrict agent to specific vault IDs
 
           extra_headers: Send extra headers
@@ -107,6 +110,7 @@ class AgentsResource(SyncAPIResource):
                     "enabled_tools": enabled_tools,
                     "model": model,
                     "sandbox": sandbox,
+                    "vault_groups": vault_groups,
                     "vault_ids": vault_ids,
                 },
                 agent_create_params.AgentCreateParams,
@@ -161,6 +165,7 @@ class AgentsResource(SyncAPIResource):
         model: str | Omit = omit,
         name: str | Omit = omit,
         sandbox: Optional[object] | Omit = omit,
+        vault_groups: Optional[SequenceNotStr[str]] | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -195,6 +200,7 @@ class AgentsResource(SyncAPIResource):
                     "model": model,
                     "name": name,
                     "sandbox": sandbox,
+                    "vault_groups": vault_groups,
                     "vault_ids": vault_ids,
                 },
                 agent_update_params.AgentUpdateParams,
@@ -288,6 +294,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         enabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         model: str | Omit = omit,
         sandbox: Optional[agent_create_params.Sandbox] | Omit = omit,
+        vault_groups: Optional[SequenceNotStr[str]] | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -317,6 +324,8 @@ class AsyncAgentsResource(AsyncAPIResource):
 
           sandbox: Custom sandbox configuration (cpu, memoryMiB)
 
+          vault_groups: Restrict agent to vaults within specific vault group IDs
+
           vault_ids: Restrict agent to specific vault IDs
 
           extra_headers: Send extra headers
@@ -338,6 +347,7 @@ class AsyncAgentsResource(AsyncAPIResource):
                     "enabled_tools": enabled_tools,
                     "model": model,
                     "sandbox": sandbox,
+                    "vault_groups": vault_groups,
                     "vault_ids": vault_ids,
                 },
                 agent_create_params.AgentCreateParams,
@@ -392,6 +402,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         model: str | Omit = omit,
         name: str | Omit = omit,
         sandbox: Optional[object] | Omit = omit,
+        vault_groups: Optional[SequenceNotStr[str]] | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -426,6 +437,7 @@ class AsyncAgentsResource(AsyncAPIResource):
                     "model": model,
                     "name": name,
                     "sandbox": sandbox,
+                    "vault_groups": vault_groups,
                     "vault_ids": vault_ids,
                 },
                 agent_update_params.AgentUpdateParams,

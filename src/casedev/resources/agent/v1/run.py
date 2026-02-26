@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -55,6 +55,7 @@ class RunResource(SyncAPIResource):
         prompt: str,
         guidance: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
+        object_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -76,6 +77,9 @@ class RunResource(SyncAPIResource):
 
           model: Override the agent default model for this run
 
+          object_ids: Scope this run to specific vault object IDs. The agent will only be able to
+              access these objects during execution.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -92,6 +96,7 @@ class RunResource(SyncAPIResource):
                     "prompt": prompt,
                     "guidance": guidance,
                     "model": model,
+                    "object_ids": object_ids,
                 },
                 run_create_params.RunCreateParams,
             ),
@@ -307,6 +312,7 @@ class AsyncRunResource(AsyncAPIResource):
         prompt: str,
         guidance: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
+        object_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -328,6 +334,9 @@ class AsyncRunResource(AsyncAPIResource):
 
           model: Override the agent default model for this run
 
+          object_ids: Scope this run to specific vault object IDs. The agent will only be able to
+              access these objects during execution.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -344,6 +353,7 @@ class AsyncRunResource(AsyncAPIResource):
                     "prompt": prompt,
                     "guidance": guidance,
                     "model": model,
+                    "object_ids": object_ids,
                 },
                 run_create_params.RunCreateParams,
             ),

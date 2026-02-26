@@ -24,6 +24,14 @@ from .agents import (
     AgentsResourceWithStreamingResponse,
     AsyncAgentsResourceWithStreamingResponse,
 )
+from .execute import (
+    ExecuteResource,
+    AsyncExecuteResource,
+    ExecuteResourceWithRawResponse,
+    AsyncExecuteResourceWithRawResponse,
+    ExecuteResourceWithStreamingResponse,
+    AsyncExecuteResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AgentsResource",
@@ -38,6 +46,12 @@ __all__ = [
     "AsyncRunResourceWithRawResponse",
     "RunResourceWithStreamingResponse",
     "AsyncRunResourceWithStreamingResponse",
+    "ExecuteResource",
+    "AsyncExecuteResource",
+    "ExecuteResourceWithRawResponse",
+    "AsyncExecuteResourceWithRawResponse",
+    "ExecuteResourceWithStreamingResponse",
+    "AsyncExecuteResourceWithStreamingResponse",
     "V1Resource",
     "AsyncV1Resource",
     "V1ResourceWithRawResponse",

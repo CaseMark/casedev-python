@@ -8,18 +8,12 @@ from typing_extensions import Required, Annotated, TypedDict
 from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 
-__all__ = ["AgentCreateParams", "Sandbox"]
+__all__ = ["ExecuteCreateParams", "Sandbox"]
 
 
-class AgentCreateParams(TypedDict, total=False):
-    instructions: Required[str]
-    """System instructions that define agent behavior"""
-
-    name: Required[str]
-    """Display name for the agent"""
-
-    description: str
-    """Optional description of the agent"""
+class ExecuteCreateParams(TypedDict, total=False):
+    prompt: Required[str]
+    """Task prompt for the agent"""
 
     disabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="disabledTools")]
     """Denylist of tools the agent cannot use"""
@@ -27,24 +21,33 @@ class AgentCreateParams(TypedDict, total=False):
     enabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="enabledTools")]
     """Allowlist of tools the agent can use"""
 
-    model: str
-    """LLM model identifier (e.g.
+    guidance: Optional[str]
+    """Additional context or constraints for this run"""
 
-    anthropic/claude-sonnet-4.6). Defaults to anthropic/claude-sonnet-4.6
+    instructions: str
+    """System instructions.
+
+    Defaults to a general-purpose legal assistant prompt if not provided.
+    """
+
+    model: str
+    """LLM model identifier. Defaults to anthropic/claude-sonnet-4.6"""
+
+    object_ids: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="objectIds")]
+    """Scope this run to specific vault object IDs.
+
+    The agent will only access these objects.
     """
 
     sandbox: Optional[Sandbox]
-    """Custom sandbox configuration (cpu, memoryMiB)"""
-
-    vault_groups: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultGroups")]
-    """Restrict agent to vaults within specific vault group IDs"""
+    """Custom sandbox resources (cpu, memoryMiB)"""
 
     vault_ids: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultIds")]
     """Restrict agent to specific vault IDs"""
 
 
 class Sandbox(TypedDict, total=False):
-    """Custom sandbox configuration (cpu, memoryMiB)"""
+    """Custom sandbox resources (cpu, memoryMiB)"""
 
     cpu: int
     """Number of CPUs"""

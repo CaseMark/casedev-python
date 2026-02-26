@@ -48,6 +48,18 @@ Methods:
 - <code title="get /agent/v1/run/{id}/status">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_status</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_status_response.py">RunGetStatusResponse</a></code>
 - <code title="post /agent/v1/run/{id}/watch">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">watch</a>(id, \*\*<a href="src/casedev/types/agent/v1/run_watch_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_watch_response.py">RunWatchResponse</a></code>
 
+### Execute
+
+Types:
+
+```python
+from casedev.types.agent.v1 import ExecuteCreateResponse
+```
+
+Methods:
+
+- <code title="post /agent/v1/execute">client.agent.v1.execute.<a href="./src/casedev/resources/agent/v1/execute.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/execute_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/execute_create_response.py">ExecuteCreateResponse</a></code>
+
 # System
 
 Types:
