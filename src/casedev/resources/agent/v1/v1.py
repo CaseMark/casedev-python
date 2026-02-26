@@ -18,6 +18,14 @@ from .agents import (
     AgentsResourceWithStreamingResponse,
     AsyncAgentsResourceWithStreamingResponse,
 )
+from .execute import (
+    ExecuteResource,
+    AsyncExecuteResource,
+    ExecuteResourceWithRawResponse,
+    AsyncExecuteResourceWithRawResponse,
+    ExecuteResourceWithStreamingResponse,
+    AsyncExecuteResourceWithStreamingResponse,
+)
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 
@@ -32,6 +40,10 @@ class V1Resource(SyncAPIResource):
     @cached_property
     def run(self) -> RunResource:
         return RunResource(self._client)
+
+    @cached_property
+    def execute(self) -> ExecuteResource:
+        return ExecuteResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
@@ -61,6 +73,10 @@ class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def run(self) -> AsyncRunResource:
         return AsyncRunResource(self._client)
+
+    @cached_property
+    def execute(self) -> AsyncExecuteResource:
+        return AsyncExecuteResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
@@ -94,6 +110,10 @@ class V1ResourceWithRawResponse:
     def run(self) -> RunResourceWithRawResponse:
         return RunResourceWithRawResponse(self._v1.run)
 
+    @cached_property
+    def execute(self) -> ExecuteResourceWithRawResponse:
+        return ExecuteResourceWithRawResponse(self._v1.execute)
+
 
 class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
@@ -106,6 +126,10 @@ class AsyncV1ResourceWithRawResponse:
     @cached_property
     def run(self) -> AsyncRunResourceWithRawResponse:
         return AsyncRunResourceWithRawResponse(self._v1.run)
+
+    @cached_property
+    def execute(self) -> AsyncExecuteResourceWithRawResponse:
+        return AsyncExecuteResourceWithRawResponse(self._v1.execute)
 
 
 class V1ResourceWithStreamingResponse:
@@ -120,6 +144,10 @@ class V1ResourceWithStreamingResponse:
     def run(self) -> RunResourceWithStreamingResponse:
         return RunResourceWithStreamingResponse(self._v1.run)
 
+    @cached_property
+    def execute(self) -> ExecuteResourceWithStreamingResponse:
+        return ExecuteResourceWithStreamingResponse(self._v1.execute)
+
 
 class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
@@ -132,3 +160,7 @@ class AsyncV1ResourceWithStreamingResponse:
     @cached_property
     def run(self) -> AsyncRunResourceWithStreamingResponse:
         return AsyncRunResourceWithStreamingResponse(self._v1.run)
+
+    @cached_property
+    def execute(self) -> AsyncExecuteResourceWithStreamingResponse:
+        return AsyncExecuteResourceWithStreamingResponse(self._v1.execute)

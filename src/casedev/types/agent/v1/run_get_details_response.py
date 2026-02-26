@@ -73,6 +73,9 @@ class RunGetDetailsResponse(BaseModel):
 
     guidance: Optional[str] = None
 
+    modal_sandbox_id: Optional[str] = FieldInfo(alias="modalSandboxId", default=None)
+    """Modal sandbox ID (available once sandbox is created)"""
+
     model: Optional[str] = None
 
     prompt: Optional[str] = None
@@ -88,3 +91,6 @@ class RunGetDetailsResponse(BaseModel):
 
     usage: Optional[Usage] = None
     """Token usage statistics"""
+
+    workflow_id: Optional[str] = FieldInfo(alias="workflowId", default=None)
+    """Durable workflow run ID"""

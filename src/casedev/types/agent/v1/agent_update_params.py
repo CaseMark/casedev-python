@@ -26,4 +26,6 @@ class AgentUpdateParams(TypedDict, total=False):
 
     sandbox: Optional[object]
 
+    vault_groups: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultGroups")]
+
     vault_ids: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultIds")]

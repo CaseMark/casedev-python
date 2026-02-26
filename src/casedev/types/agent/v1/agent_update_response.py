@@ -33,4 +33,6 @@ class AgentUpdateResponse(BaseModel):
 
     updated_at: Optional[datetime] = FieldInfo(alias="updatedAt", default=None)
 
+    vault_groups: Optional[List[str]] = FieldInfo(alias="vaultGroups", default=None)
+
     vault_ids: Optional[List[str]] = FieldInfo(alias="vaultIds", default=None)
