@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.1 (2026-02-27)
+
+Full Changelog: [v0.13.0...v0.13.1](https://github.com/CaseMark/casedev-python/compare/v0.13.0...v0.13.1)
+
+### Chores
+
+* **ci:** bump uv version ([e739162](https://github.com/CaseMark/casedev-python/commit/e73916268b1604b6b96e894fa0df2da41608ce57))
+
 ## 0.13.0 (2026-02-26)
 
 Full Changelog: [v0.12.6...v0.13.0](https://github.com/CaseMark/casedev-python/compare/v0.12.6...v0.13.0)
