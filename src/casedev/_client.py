@@ -41,6 +41,7 @@ if TYPE_CHECKING:
         format,
         memory,
         search,
+        skills,
         system,
         compute,
         database,
@@ -49,6 +50,7 @@ if TYPE_CHECKING:
         translate,
         applications,
     )
+    from .resources.skills import SkillsResource, AsyncSkillsResource
     from .resources.system import SystemResource, AsyncSystemResource
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
@@ -228,6 +230,12 @@ class Casedev(SyncAPIClient):
         from .resources.privilege import PrivilegeResource
 
         return PrivilegeResource(self)
+
+    @cached_property
+    def skills(self) -> SkillsResource:
+        from .resources.skills import SkillsResource
+
+        return SkillsResource(self)
 
     @cached_property
     def search(self) -> SearchResource:
@@ -520,6 +528,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncPrivilegeResource(self)
 
     @cached_property
+    def skills(self) -> AsyncSkillsResource:
+        from .resources.skills import AsyncSkillsResource
+
+        return AsyncSkillsResource(self)
+
+    @cached_property
     def search(self) -> AsyncSearchResource:
         from .resources.search import AsyncSearchResource
 
@@ -737,6 +751,12 @@ class CasedevWithRawResponse:
         return PrivilegeResourceWithRawResponse(self._client.privilege)
 
     @cached_property
+    def skills(self) -> skills.SkillsResourceWithRawResponse:
+        from .resources.skills import SkillsResourceWithRawResponse
+
+        return SkillsResourceWithRawResponse(self._client.skills)
+
+    @cached_property
     def search(self) -> search.SearchResourceWithRawResponse:
         from .resources.search import SearchResourceWithRawResponse
 
@@ -838,6 +858,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.privilege import AsyncPrivilegeResourceWithRawResponse
 
         return AsyncPrivilegeResourceWithRawResponse(self._client.privilege)
+
+    @cached_property
+    def skills(self) -> skills.AsyncSkillsResourceWithRawResponse:
+        from .resources.skills import AsyncSkillsResourceWithRawResponse
+
+        return AsyncSkillsResourceWithRawResponse(self._client.skills)
 
     @cached_property
     def search(self) -> search.AsyncSearchResourceWithRawResponse:
@@ -943,6 +969,12 @@ class CasedevWithStreamedResponse:
         return PrivilegeResourceWithStreamingResponse(self._client.privilege)
 
     @cached_property
+    def skills(self) -> skills.SkillsResourceWithStreamingResponse:
+        from .resources.skills import SkillsResourceWithStreamingResponse
+
+        return SkillsResourceWithStreamingResponse(self._client.skills)
+
+    @cached_property
     def search(self) -> search.SearchResourceWithStreamingResponse:
         from .resources.search import SearchResourceWithStreamingResponse
 
@@ -1044,6 +1076,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.privilege import AsyncPrivilegeResourceWithStreamingResponse
 
         return AsyncPrivilegeResourceWithStreamingResponse(self._client.privilege)
+
+    @cached_property
+    def skills(self) -> skills.AsyncSkillsResourceWithStreamingResponse:
+        from .resources.skills import AsyncSkillsResourceWithStreamingResponse
+
+        return AsyncSkillsResourceWithStreamingResponse(self._client.skills)
 
     @cached_property
     def search(self) -> search.AsyncSearchResourceWithStreamingResponse:

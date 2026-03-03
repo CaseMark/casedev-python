@@ -27,7 +27,7 @@ class ChatCreateCompletionParams(TypedDict, total=False):
     model: str
     """Model to use for completion.
 
-    Defaults to casemark/casemark-core-3 if not specified
+    Defaults to casemark/casemark-core-6 if not specified
     """
 
     presence_penalty: float
