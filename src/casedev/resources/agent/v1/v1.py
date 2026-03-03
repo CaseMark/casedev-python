@@ -10,6 +10,14 @@ from .run import (
     RunResourceWithStreamingResponse,
     AsyncRunResourceWithStreamingResponse,
 )
+from .chat import (
+    ChatResource,
+    AsyncChatResource,
+    ChatResourceWithRawResponse,
+    AsyncChatResourceWithRawResponse,
+    ChatResourceWithStreamingResponse,
+    AsyncChatResourceWithStreamingResponse,
+)
 from .agents import (
     AgentsResource,
     AsyncAgentsResource,
@@ -46,6 +54,10 @@ class V1Resource(SyncAPIResource):
         return ExecuteResource(self._client)
 
     @cached_property
+    def chat(self) -> ChatResource:
+        return ChatResource(self._client)
+
+    @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -77,6 +89,10 @@ class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def execute(self) -> AsyncExecuteResource:
         return AsyncExecuteResource(self._client)
+
+    @cached_property
+    def chat(self) -> AsyncChatResource:
+        return AsyncChatResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
@@ -114,6 +130,10 @@ class V1ResourceWithRawResponse:
     def execute(self) -> ExecuteResourceWithRawResponse:
         return ExecuteResourceWithRawResponse(self._v1.execute)
 
+    @cached_property
+    def chat(self) -> ChatResourceWithRawResponse:
+        return ChatResourceWithRawResponse(self._v1.chat)
+
 
 class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
@@ -130,6 +150,10 @@ class AsyncV1ResourceWithRawResponse:
     @cached_property
     def execute(self) -> AsyncExecuteResourceWithRawResponse:
         return AsyncExecuteResourceWithRawResponse(self._v1.execute)
+
+    @cached_property
+    def chat(self) -> AsyncChatResourceWithRawResponse:
+        return AsyncChatResourceWithRawResponse(self._v1.chat)
 
 
 class V1ResourceWithStreamingResponse:
@@ -148,6 +172,10 @@ class V1ResourceWithStreamingResponse:
     def execute(self) -> ExecuteResourceWithStreamingResponse:
         return ExecuteResourceWithStreamingResponse(self._v1.execute)
 
+    @cached_property
+    def chat(self) -> ChatResourceWithStreamingResponse:
+        return ChatResourceWithStreamingResponse(self._v1.chat)
+
 
 class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
@@ -164,3 +192,7 @@ class AsyncV1ResourceWithStreamingResponse:
     @cached_property
     def execute(self) -> AsyncExecuteResourceWithStreamingResponse:
         return AsyncExecuteResourceWithStreamingResponse(self._v1.execute)
+
+    @cached_property
+    def chat(self) -> AsyncChatResourceWithStreamingResponse:
+        return AsyncChatResourceWithStreamingResponse(self._v1.chat)
