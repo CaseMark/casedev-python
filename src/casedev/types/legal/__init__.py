@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 from .v1_find_params import V1FindParams as V1FindParams
+from .v1_docket_params import V1DocketParams as V1DocketParams
 from .v1_find_response import V1FindResponse as V1FindResponse
 from .v1_verify_params import V1VerifyParams as V1VerifyParams
 from .v1_similar_params import V1SimilarParams as V1SimilarParams
+from .v1_docket_response import V1DocketResponse as V1DocketResponse
 from .v1_research_params import V1ResearchParams as V1ResearchParams
 from .v1_verify_response import V1VerifyResponse as V1VerifyResponse
 from .v1_similar_response import V1SimilarResponse as V1SimilarResponse
 from .v1_research_response import V1ResearchResponse as V1ResearchResponse
+from .v1_list_courts_params import V1ListCourtsParams as V1ListCourtsParams
 from .v1_get_citations_params import V1GetCitationsParams as V1GetCitationsParams
 from .v1_get_full_text_params import V1GetFullTextParams as V1GetFullTextParams
+from .v1_list_courts_response import V1ListCourtsResponse as V1ListCourtsResponse
 from .v1_patent_search_params import V1PatentSearchParams as V1PatentSearchParams
 from .v1_get_citations_response import V1GetCitationsResponse as V1GetCitationsResponse
 from .v1_get_full_text_response import V1GetFullTextResponse as V1GetFullTextResponse

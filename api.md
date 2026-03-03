@@ -284,10 +284,12 @@ Types:
 
 ```python
 from casedev.types.legal import (
+    V1DocketResponse,
     V1FindResponse,
     V1GetCitationsResponse,
     V1GetCitationsFromURLResponse,
     V1GetFullTextResponse,
+    V1ListCourtsResponse,
     V1ListJurisdictionsResponse,
     V1PatentSearchResponse,
     V1ResearchResponse,
@@ -299,10 +301,12 @@ from casedev.types.legal import (
 
 Methods:
 
+- <code title="post /legal/v1/docket">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">docket</a>(\*\*<a href="src/casedev/types/legal/v1_docket_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_docket_response.py">V1DocketResponse</a></code>
 - <code title="post /legal/v1/find">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">find</a>(\*\*<a href="src/casedev/types/legal/v1_find_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_find_response.py">V1FindResponse</a></code>
 - <code title="post /legal/v1/citations">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_response.py">V1GetCitationsResponse</a></code>
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations_from_url</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_from_url_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_from_url_response.py">V1GetCitationsFromURLResponse</a></code>
 - <code title="post /legal/v1/full-text">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_full_text</a>(\*\*<a href="src/casedev/types/legal/v1_get_full_text_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_full_text_response.py">V1GetFullTextResponse</a></code>
+- <code title="post /legal/v1/courts">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">list_courts</a>(\*\*<a href="src/casedev/types/legal/v1_list_courts_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_list_courts_response.py">V1ListCourtsResponse</a></code>
 - <code title="post /legal/v1/jurisdictions">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">list_jurisdictions</a>(\*\*<a href="src/casedev/types/legal/v1_list_jurisdictions_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_list_jurisdictions_response.py">V1ListJurisdictionsResponse</a></code>
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">patent_search</a>(\*\*<a href="src/casedev/types/legal/v1_patent_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_patent_search_response.py">V1PatentSearchResponse</a></code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">research</a>(\*\*<a href="src/casedev/types/legal/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_research_response.py">V1ResearchResponse</a></code>
@@ -402,6 +406,19 @@ from casedev.types.privilege import V1DetectResponse
 Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/casedev/resources/privilege/v1.py">detect</a>(\*\*<a href="src/casedev/types/privilege/v1_detect_params.py">params</a>) -> <a href="./src/casedev/types/privilege/v1_detect_response.py">V1DetectResponse</a></code>
+
+# Skills
+
+Types:
+
+```python
+from casedev.types import SkillReadResponse, SkillResolveResponse
+```
+
+Methods:
+
+- <code title="get /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills.py">read</a>(slug) -> <a href="./src/casedev/types/skill_read_response.py">SkillReadResponse</a></code>
+- <code title="get /skills/resolve">client.skills.<a href="./src/casedev/resources/skills.py">resolve</a>(\*\*<a href="src/casedev/types/skill_resolve_params.py">params</a>) -> <a href="./src/casedev/types/skill_resolve_response.py">SkillResolveResponse</a></code>
 
 # Search
 

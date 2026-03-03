@@ -20,9 +20,11 @@ from ..._response import (
 )
 from ...types.legal import (
     v1_find_params,
+    v1_docket_params,
     v1_verify_params,
     v1_similar_params,
     v1_research_params,
+    v1_list_courts_params,
     v1_get_citations_params,
     v1_get_full_text_params,
     v1_patent_search_params,
@@ -32,9 +34,11 @@ from ...types.legal import (
 )
 from ..._base_client import make_request_options
 from ...types.legal.v1_find_response import V1FindResponse
+from ...types.legal.v1_docket_response import V1DocketResponse
 from ...types.legal.v1_verify_response import V1VerifyResponse
 from ...types.legal.v1_similar_response import V1SimilarResponse
 from ...types.legal.v1_research_response import V1ResearchResponse
+from ...types.legal.v1_list_courts_response import V1ListCourtsResponse
 from ...types.legal.v1_get_citations_response import V1GetCitationsResponse
 from ...types.legal.v1_get_full_text_response import V1GetFullTextResponse
 from ...types.legal.v1_patent_search_response import V1PatentSearchResponse
@@ -64,6 +68,84 @@ class V1Resource(SyncAPIResource):
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
         return V1ResourceWithStreamingResponse(self)
+
+    def docket(
+        self,
+        *,
+        type: Literal["search", "lookup"],
+        court: str | Omit = omit,
+        date_filed_after: Union[str, date] | Omit = omit,
+        date_filed_before: Union[str, date] | Omit = omit,
+        docket_id: str | Omit = omit,
+        include_entries: bool | Omit = omit,
+        limit: int | Omit = omit,
+        live: bool | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1DocketResponse:
+        """
+        Search federal court dockets or retrieve a specific docket with optional filing
+        entries via CourtListener RECAP data.
+
+        Args:
+          type: Search dockets or look up a docket by ID
+
+          court: Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")
+
+          date_filed_after: Optional lower bound for filing date (YYYY-MM-DD)
+
+          date_filed_before: Optional upper bound for filing date (YYYY-MM-DD)
+
+          docket_id: CourtListener docket ID (required for lookup)
+
+          include_entries: Include docket entries/filings in lookup responses
+
+          limit: Page size for search results or entry list (default 25 for search, 50 for
+              lookup)
+
+          live: Reserved for future PACER live fetch support. Setting true currently
+              returns 400.
+
+          offset: Offset for search results or entry list
+
+          query: Case name or party name search query (required for search)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/docket",
+            body=maybe_transform(
+                {
+                    "type": type,
+                    "court": court,
+                    "date_filed_after": date_filed_after,
+                    "date_filed_before": date_filed_before,
+                    "docket_id": docket_id,
+                    "include_entries": include_entries,
+                    "limit": limit,
+                    "live": live,
+                    "offset": offset,
+                    "query": query,
+                },
+                v1_docket_params.V1DocketParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1DocketResponse,
+        )
 
     def find(
         self,
@@ -241,6 +323,59 @@ class V1Resource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1GetFullTextResponse,
+        )
+
+    def list_courts(
+        self,
+        *,
+        in_use_only: bool | Omit = omit,
+        jurisdiction: str | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1ListCourtsResponse:
+        """Returns CourtListener court IDs and names for docket filtering.
+
+        Use these IDs in
+        legal.docket() as the court parameter.
+
+        Args:
+          in_use_only: Only return courts currently in use by CourtListener
+
+          jurisdiction: Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+
+          query: Search by court name or slug (e.g. "Northern District", "nysd", "ca9")
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/courts",
+            body=maybe_transform(
+                {
+                    "in_use_only": in_use_only,
+                    "jurisdiction": jurisdiction,
+                    "limit": limit,
+                    "offset": offset,
+                    "query": query,
+                },
+                v1_list_courts_params.V1ListCourtsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1ListCourtsResponse,
         )
 
     def list_jurisdictions(
@@ -586,6 +721,84 @@ class AsyncV1Resource(AsyncAPIResource):
         """
         return AsyncV1ResourceWithStreamingResponse(self)
 
+    async def docket(
+        self,
+        *,
+        type: Literal["search", "lookup"],
+        court: str | Omit = omit,
+        date_filed_after: Union[str, date] | Omit = omit,
+        date_filed_before: Union[str, date] | Omit = omit,
+        docket_id: str | Omit = omit,
+        include_entries: bool | Omit = omit,
+        limit: int | Omit = omit,
+        live: bool | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1DocketResponse:
+        """
+        Search federal court dockets or retrieve a specific docket with optional filing
+        entries via CourtListener RECAP data.
+
+        Args:
+          type: Search dockets or look up a docket by ID
+
+          court: Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")
+
+          date_filed_after: Optional lower bound for filing date (YYYY-MM-DD)
+
+          date_filed_before: Optional upper bound for filing date (YYYY-MM-DD)
+
+          docket_id: CourtListener docket ID (required for lookup)
+
+          include_entries: Include docket entries/filings in lookup responses
+
+          limit: Page size for search results or entry list (default 25 for search, 50 for
+              lookup)
+
+          live: Reserved for future PACER live fetch support. Setting true currently
+              returns 400.
+
+          offset: Offset for search results or entry list
+
+          query: Case name or party name search query (required for search)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/docket",
+            body=await async_maybe_transform(
+                {
+                    "type": type,
+                    "court": court,
+                    "date_filed_after": date_filed_after,
+                    "date_filed_before": date_filed_before,
+                    "docket_id": docket_id,
+                    "include_entries": include_entries,
+                    "limit": limit,
+                    "live": live,
+                    "offset": offset,
+                    "query": query,
+                },
+                v1_docket_params.V1DocketParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1DocketResponse,
+        )
+
     async def find(
         self,
         *,
@@ -764,6 +977,59 @@ class AsyncV1Resource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1GetFullTextResponse,
+        )
+
+    async def list_courts(
+        self,
+        *,
+        in_use_only: bool | Omit = omit,
+        jurisdiction: str | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1ListCourtsResponse:
+        """Returns CourtListener court IDs and names for docket filtering.
+
+        Use these IDs in
+        legal.docket() as the court parameter.
+
+        Args:
+          in_use_only: Only return courts currently in use by CourtListener
+
+          jurisdiction: Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+
+          query: Search by court name or slug (e.g. "Northern District", "nysd", "ca9")
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/courts",
+            body=await async_maybe_transform(
+                {
+                    "in_use_only": in_use_only,
+                    "jurisdiction": jurisdiction,
+                    "limit": limit,
+                    "offset": offset,
+                    "query": query,
+                },
+                v1_list_courts_params.V1ListCourtsParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1ListCourtsResponse,
         )
 
     async def list_jurisdictions(
@@ -1093,6 +1359,9 @@ class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
+        self.docket = to_raw_response_wrapper(
+            v1.docket,
+        )
         self.find = to_raw_response_wrapper(
             v1.find,
         )
@@ -1104,6 +1373,9 @@ class V1ResourceWithRawResponse:
         )
         self.get_full_text = to_raw_response_wrapper(
             v1.get_full_text,
+        )
+        self.list_courts = to_raw_response_wrapper(
+            v1.list_courts,
         )
         self.list_jurisdictions = to_raw_response_wrapper(
             v1.list_jurisdictions,
@@ -1129,6 +1401,9 @@ class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
+        self.docket = async_to_raw_response_wrapper(
+            v1.docket,
+        )
         self.find = async_to_raw_response_wrapper(
             v1.find,
         )
@@ -1140,6 +1415,9 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.get_full_text = async_to_raw_response_wrapper(
             v1.get_full_text,
+        )
+        self.list_courts = async_to_raw_response_wrapper(
+            v1.list_courts,
         )
         self.list_jurisdictions = async_to_raw_response_wrapper(
             v1.list_jurisdictions,
@@ -1165,6 +1443,9 @@ class V1ResourceWithStreamingResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
+        self.docket = to_streamed_response_wrapper(
+            v1.docket,
+        )
         self.find = to_streamed_response_wrapper(
             v1.find,
         )
@@ -1176,6 +1457,9 @@ class V1ResourceWithStreamingResponse:
         )
         self.get_full_text = to_streamed_response_wrapper(
             v1.get_full_text,
+        )
+        self.list_courts = to_streamed_response_wrapper(
+            v1.list_courts,
         )
         self.list_jurisdictions = to_streamed_response_wrapper(
             v1.list_jurisdictions,
@@ -1201,6 +1485,9 @@ class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
+        self.docket = async_to_streamed_response_wrapper(
+            v1.docket,
+        )
         self.find = async_to_streamed_response_wrapper(
             v1.find,
         )
@@ -1212,6 +1499,9 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.get_full_text = async_to_streamed_response_wrapper(
             v1.get_full_text,
+        )
+        self.list_courts = async_to_streamed_response_wrapper(
+            v1.list_courts,
         )
         self.list_jurisdictions = async_to_streamed_response_wrapper(
             v1.list_jurisdictions,

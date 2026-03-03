@@ -12,9 +12,11 @@ from tests.utils import assert_matches_type
 from casedev._utils import parse_date
 from casedev.types.legal import (
     V1FindResponse,
+    V1DocketResponse,
     V1VerifyResponse,
     V1SimilarResponse,
     V1ResearchResponse,
+    V1ListCourtsResponse,
     V1GetFullTextResponse,
     V1GetCitationsResponse,
     V1PatentSearchResponse,
@@ -28,6 +30,53 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_docket(self, client: Casedev) -> None:
+        v1 = client.legal.v1.docket(
+            type="search",
+        )
+        assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+    @parametrize
+    def test_method_docket_with_all_params(self, client: Casedev) -> None:
+        v1 = client.legal.v1.docket(
+            type="search",
+            court="court",
+            date_filed_after=parse_date("2019-12-27"),
+            date_filed_before=parse_date("2019-12-27"),
+            docket_id="docketId",
+            include_entries=True,
+            limit=1,
+            live=True,
+            offset=0,
+            query="xx",
+        )
+        assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+    @parametrize
+    def test_raw_response_docket(self, client: Casedev) -> None:
+        response = client.legal.v1.with_raw_response.docket(
+            type="search",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+    @parametrize
+    def test_streaming_response_docket(self, client: Casedev) -> None:
+        with client.legal.v1.with_streaming_response.docket(
+            type="search",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_find(self, client: Casedev) -> None:
@@ -169,6 +218,42 @@ class TestV1:
 
             v1 = response.parse()
             assert_matches_type(V1GetFullTextResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_list_courts(self, client: Casedev) -> None:
+        v1 = client.legal.v1.list_courts()
+        assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
+
+    @parametrize
+    def test_method_list_courts_with_all_params(self, client: Casedev) -> None:
+        v1 = client.legal.v1.list_courts(
+            in_use_only=True,
+            jurisdiction="jurisdiction",
+            limit=1,
+            offset=0,
+            query="xx",
+        )
+        assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
+
+    @parametrize
+    def test_raw_response_list_courts(self, client: Casedev) -> None:
+        response = client.legal.v1.with_raw_response.list_courts()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list_courts(self, client: Casedev) -> None:
+        with client.legal.v1.with_streaming_response.list_courts() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -406,6 +491,53 @@ class TestAsyncV1:
     )
 
     @parametrize
+    async def test_method_docket(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.docket(
+            type="search",
+        )
+        assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_method_docket_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.docket(
+            type="search",
+            court="court",
+            date_filed_after=parse_date("2019-12-27"),
+            date_filed_before=parse_date("2019-12-27"),
+            docket_id="docketId",
+            include_entries=True,
+            limit=1,
+            live=True,
+            offset=0,
+            query="xx",
+        )
+        assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_raw_response_docket(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.legal.v1.with_raw_response.docket(
+            type="search",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_docket(self, async_client: AsyncCasedev) -> None:
+        async with async_client.legal.v1.with_streaming_response.docket(
+            type="search",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     async def test_method_find(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.legal.v1.find(
             query="xxx",
@@ -545,6 +677,42 @@ class TestAsyncV1:
 
             v1 = await response.parse()
             assert_matches_type(V1GetFullTextResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_list_courts(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.list_courts()
+        assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_method_list_courts_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.list_courts(
+            in_use_only=True,
+            jurisdiction="jurisdiction",
+            limit=1,
+            offset=0,
+            query="xx",
+        )
+        assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list_courts(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.legal.v1.with_raw_response.list_courts()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list_courts(self, async_client: AsyncCasedev) -> None:
+        async with async_client.legal.v1.with_streaming_response.list_courts() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1ListCourtsResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

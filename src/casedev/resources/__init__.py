@@ -72,6 +72,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .skills import (
+    SkillsResource,
+    AsyncSkillsResource,
+    SkillsResourceWithRawResponse,
+    AsyncSkillsResourceWithRawResponse,
+    SkillsResourceWithStreamingResponse,
+    AsyncSkillsResourceWithStreamingResponse,
+)
 from .system import (
     SystemResource,
     AsyncSystemResource,
@@ -196,6 +204,12 @@ __all__ = [
     "AsyncPrivilegeResourceWithRawResponse",
     "PrivilegeResourceWithStreamingResponse",
     "AsyncPrivilegeResourceWithStreamingResponse",
+    "SkillsResource",
+    "AsyncSkillsResource",
+    "SkillsResourceWithRawResponse",
+    "AsyncSkillsResourceWithRawResponse",
+    "SkillsResourceWithStreamingResponse",
+    "AsyncSkillsResourceWithStreamingResponse",
     "SearchResource",
     "AsyncSearchResource",
     "SearchResourceWithRawResponse",
