@@ -5,12 +5,18 @@ from __future__ import annotations
 from .run_watch_params import RunWatchParams as RunWatchParams
 from .run_create_params import RunCreateParams as RunCreateParams
 from .run_exec_response import RunExecResponse as RunExecResponse
+from .chat_create_params import ChatCreateParams as ChatCreateParams
+from .chat_stream_params import ChatStreamParams as ChatStreamParams
 from .run_watch_response import RunWatchResponse as RunWatchResponse
 from .agent_create_params import AgentCreateParams as AgentCreateParams
 from .agent_list_response import AgentListResponse as AgentListResponse
 from .agent_update_params import AgentUpdateParams as AgentUpdateParams
 from .run_cancel_response import RunCancelResponse as RunCancelResponse
 from .run_create_response import RunCreateResponse as RunCreateResponse
+from .chat_cancel_response import ChatCancelResponse as ChatCancelResponse
+from .chat_create_response import ChatCreateResponse as ChatCreateResponse
+from .chat_delete_response import ChatDeleteResponse as ChatDeleteResponse
+from .chat_stream_response import ChatStreamResponse as ChatStreamResponse
 from .agent_create_response import AgentCreateResponse as AgentCreateResponse
 from .agent_delete_response import AgentDeleteResponse as AgentDeleteResponse
 from .agent_update_response import AgentUpdateResponse as AgentUpdateResponse
@@ -18,4 +24,5 @@ from .execute_create_params import ExecuteCreateParams as ExecuteCreateParams
 from .agent_retrieve_response import AgentRetrieveResponse as AgentRetrieveResponse
 from .execute_create_response import ExecuteCreateResponse as ExecuteCreateResponse
 from .run_get_status_response import RunGetStatusResponse as RunGetStatusResponse
+from .chat_send_message_params import ChatSendMessageParams as ChatSendMessageParams
 from .run_get_details_response import RunGetDetailsResponse as RunGetDetailsResponse
