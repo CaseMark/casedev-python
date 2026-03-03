@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.1 (2026-03-03)
+
+Full Changelog: [v0.14.0...v0.14.1](https://github.com/CaseMark/casedev-python/compare/v0.14.0...v0.14.1)
+
+### Bug Fixes
+
+* deduplicate CI Slack alerts at workflow level, not PR level ([#41](https://github.com/CaseMark/casedev-python/issues/41)) ([3b5a07b](https://github.com/CaseMark/casedev-python/commit/3b5a07b58dc107b49c5c7581ed8327cbeee8d20b))
+
 ## 0.14.0 (2026-03-03)
 
 Full Changelog: [v0.13.1...v0.14.0](https://github.com/CaseMark/casedev-python/compare/v0.13.1...v0.14.0)
