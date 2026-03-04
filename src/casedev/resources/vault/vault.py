@@ -80,24 +80,30 @@ __all__ = ["VaultResource", "AsyncVaultResource"]
 
 
 class VaultResource(SyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def events(self) -> EventsResource:
         return EventsResource(self._client)
 
     @cached_property
     def graphrag(self) -> GraphragResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return GraphragResource(self._client)
 
     @cached_property
     def groups(self) -> GroupsResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return GroupsResource(self._client)
 
     @cached_property
     def multipart(self) -> MultipartResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return MultipartResource(self._client)
 
     @cached_property
     def objects(self) -> ObjectsResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return ObjectsResource(self._client)
 
     @cached_property
@@ -630,24 +636,30 @@ class VaultResource(SyncAPIResource):
 
 
 class AsyncVaultResource(AsyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def events(self) -> AsyncEventsResource:
         return AsyncEventsResource(self._client)
 
     @cached_property
     def graphrag(self) -> AsyncGraphragResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncGraphragResource(self._client)
 
     @cached_property
     def groups(self) -> AsyncGroupsResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncGroupsResource(self._client)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncMultipartResource(self._client)
 
     @cached_property
     def objects(self) -> AsyncObjectsResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncObjectsResource(self._client)
 
     @cached_property
@@ -1217,18 +1229,22 @@ class VaultResourceWithRawResponse:
 
     @cached_property
     def graphrag(self) -> GraphragResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return GraphragResourceWithRawResponse(self._vault.graphrag)
 
     @cached_property
     def groups(self) -> GroupsResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return GroupsResourceWithRawResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> MultipartResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return MultipartResourceWithRawResponse(self._vault.multipart)
 
     @cached_property
     def objects(self) -> ObjectsResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return ObjectsResourceWithRawResponse(self._vault.objects)
 
 
@@ -1270,18 +1286,22 @@ class AsyncVaultResourceWithRawResponse:
 
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncGraphragResourceWithRawResponse(self._vault.graphrag)
 
     @cached_property
     def groups(self) -> AsyncGroupsResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncGroupsResourceWithRawResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncMultipartResourceWithRawResponse(self._vault.multipart)
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncObjectsResourceWithRawResponse(self._vault.objects)
 
 
@@ -1323,18 +1343,22 @@ class VaultResourceWithStreamingResponse:
 
     @cached_property
     def graphrag(self) -> GraphragResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return GraphragResourceWithStreamingResponse(self._vault.graphrag)
 
     @cached_property
     def groups(self) -> GroupsResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return GroupsResourceWithStreamingResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> MultipartResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return MultipartResourceWithStreamingResponse(self._vault.multipart)
 
     @cached_property
     def objects(self) -> ObjectsResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return ObjectsResourceWithStreamingResponse(self._vault.objects)
 
 
@@ -1376,16 +1400,20 @@ class AsyncVaultResourceWithStreamingResponse:
 
     @cached_property
     def graphrag(self) -> AsyncGraphragResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncGraphragResourceWithStreamingResponse(self._vault.graphrag)
 
     @cached_property
     def groups(self) -> AsyncGroupsResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncGroupsResourceWithStreamingResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncMultipartResourceWithStreamingResponse(self._vault.multipart)
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncObjectsResourceWithStreamingResponse(self._vault.objects)

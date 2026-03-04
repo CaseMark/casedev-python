@@ -19,6 +19,7 @@ __all__ = ["PrivilegeResource", "AsyncPrivilegeResource"]
 class PrivilegeResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """Privilege detection for e-discovery and litigation workflows"""
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class PrivilegeResource(SyncAPIResource):
 class AsyncPrivilegeResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Privilege detection for e-discovery and litigation workflows"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class PrivilegeResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Privilege detection for e-discovery and litigation workflows"""
         return V1ResourceWithRawResponse(self._privilege.v1)
 
 
@@ -81,6 +84,7 @@ class AsyncPrivilegeResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Privilege detection for e-discovery and litigation workflows"""
         return AsyncV1ResourceWithRawResponse(self._privilege.v1)
 
 
@@ -90,6 +94,7 @@ class PrivilegeResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Privilege detection for e-discovery and litigation workflows"""
         return V1ResourceWithStreamingResponse(self._privilege.v1)
 
 
@@ -99,4 +104,5 @@ class AsyncPrivilegeResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Privilege detection for e-discovery and litigation workflows"""
         return AsyncV1ResourceWithStreamingResponse(self._privilege.v1)

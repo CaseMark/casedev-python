@@ -30,6 +30,8 @@ __all__ = ["DeploymentsResource", "AsyncDeploymentsResource"]
 
 
 class DeploymentsResource(SyncAPIResource):
+    """Web application deployment management"""
+
     @cached_property
     def with_raw_response(self) -> DeploymentsResourceWithRawResponse:
         """
@@ -387,6 +389,8 @@ class DeploymentsResource(SyncAPIResource):
 
 
 class AsyncDeploymentsResource(AsyncAPIResource):
+    """Web application deployment management"""
+
     @cached_property
     def with_raw_response(self) -> AsyncDeploymentsResourceWithRawResponse:
         """

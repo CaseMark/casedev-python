@@ -19,6 +19,9 @@ __all__ = ["MemoryResource", "AsyncMemoryResource"]
 class MemoryResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """
+        Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+        """
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +47,9 @@ class MemoryResource(SyncAPIResource):
 class AsyncMemoryResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """
+        Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+        """
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +78,9 @@ class MemoryResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """
+        Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+        """
         return V1ResourceWithRawResponse(self._memory.v1)
 
 
@@ -81,6 +90,9 @@ class AsyncMemoryResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """
+        Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+        """
         return AsyncV1ResourceWithRawResponse(self._memory.v1)
 
 
@@ -90,6 +102,9 @@ class MemoryResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """
+        Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+        """
         return V1ResourceWithStreamingResponse(self._memory.v1)
 
 
@@ -99,4 +114,7 @@ class AsyncMemoryResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """
+        Persistent memory for AI agents with semantic search and 12 generic indexed tag fields
+        """
         return AsyncV1ResourceWithStreamingResponse(self._memory.v1)

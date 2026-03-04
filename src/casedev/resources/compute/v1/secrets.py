@@ -34,6 +34,8 @@ __all__ = ["SecretsResource", "AsyncSecretsResource"]
 
 
 class SecretsResource(SyncAPIResource):
+    """Serverless GPU and CPU infrastructure"""
+
     @cached_property
     def with_raw_response(self) -> SecretsResourceWithRawResponse:
         """
@@ -300,6 +302,8 @@ class SecretsResource(SyncAPIResource):
 
 
 class AsyncSecretsResource(AsyncAPIResource):
+    """Serverless GPU and CPU infrastructure"""
+
     @cached_property
     def with_raw_response(self) -> AsyncSecretsResourceWithRawResponse:
         """

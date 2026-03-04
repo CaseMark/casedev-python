@@ -19,6 +19,7 @@ __all__ = ["OcrResource", "AsyncOcrResource"]
 class OcrResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """Extract text from PDFs, images, and scanned documents"""
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class OcrResource(SyncAPIResource):
 class AsyncOcrResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Extract text from PDFs, images, and scanned documents"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class OcrResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Extract text from PDFs, images, and scanned documents"""
         return V1ResourceWithRawResponse(self._ocr.v1)
 
 
@@ -81,6 +84,7 @@ class AsyncOcrResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Extract text from PDFs, images, and scanned documents"""
         return AsyncV1ResourceWithRawResponse(self._ocr.v1)
 
 
@@ -90,6 +94,7 @@ class OcrResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Extract text from PDFs, images, and scanned documents"""
         return V1ResourceWithStreamingResponse(self._ocr.v1)
 
 
@@ -99,4 +104,5 @@ class AsyncOcrResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Extract text from PDFs, images, and scanned documents"""
         return AsyncV1ResourceWithStreamingResponse(self._ocr.v1)

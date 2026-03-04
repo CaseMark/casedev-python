@@ -22,6 +22,8 @@ __all__ = ["GraphragResource", "AsyncGraphragResource"]
 
 
 class GraphragResource(SyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> GraphragResourceWithRawResponse:
         """
@@ -154,6 +156,8 @@ class GraphragResource(SyncAPIResource):
 
 
 class AsyncGraphragResource(AsyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> AsyncGraphragResourceWithRawResponse:
         """

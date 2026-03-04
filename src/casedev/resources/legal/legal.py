@@ -19,6 +19,7 @@ __all__ = ["LegalResource", "AsyncLegalResource"]
 class LegalResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """Legal research tools including citation verification"""
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class LegalResource(SyncAPIResource):
 class AsyncLegalResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Legal research tools including citation verification"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class LegalResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Legal research tools including citation verification"""
         return V1ResourceWithRawResponse(self._legal.v1)
 
 
@@ -81,6 +84,7 @@ class AsyncLegalResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Legal research tools including citation verification"""
         return AsyncV1ResourceWithRawResponse(self._legal.v1)
 
 
@@ -90,6 +94,7 @@ class LegalResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Legal research tools including citation verification"""
         return V1ResourceWithStreamingResponse(self._legal.v1)
 
 
@@ -99,4 +104,5 @@ class AsyncLegalResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Legal research tools including citation verification"""
         return AsyncV1ResourceWithStreamingResponse(self._legal.v1)

@@ -19,6 +19,7 @@ __all__ = ["SearchResource", "AsyncSearchResource"]
 class SearchResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """Web search, AI answers, and deep research"""
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class SearchResource(SyncAPIResource):
 class AsyncSearchResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Web search, AI answers, and deep research"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class SearchResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Web search, AI answers, and deep research"""
         return V1ResourceWithRawResponse(self._search.v1)
 
 
@@ -81,6 +84,7 @@ class AsyncSearchResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Web search, AI answers, and deep research"""
         return AsyncV1ResourceWithRawResponse(self._search.v1)
 
 
@@ -90,6 +94,7 @@ class SearchResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Web search, AI answers, and deep research"""
         return V1ResourceWithStreamingResponse(self._search.v1)
 
 
@@ -99,4 +104,5 @@ class AsyncSearchResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Web search, AI answers, and deep research"""
         return AsyncV1ResourceWithStreamingResponse(self._search.v1)
