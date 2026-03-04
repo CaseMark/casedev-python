@@ -24,6 +24,8 @@ __all__ = ["ChatResource", "AsyncChatResource"]
 
 
 class ChatResource(SyncAPIResource):
+    """Access 40+ language models through a unified API"""
+
     @cached_property
     def with_raw_response(self) -> ChatResourceWithRawResponse:
         """
@@ -122,6 +124,8 @@ class ChatResource(SyncAPIResource):
 
 
 class AsyncChatResource(AsyncAPIResource):
+    """Access 40+ language models through a unified API"""
+
     @cached_property
     def with_raw_response(self) -> AsyncChatResourceWithRawResponse:
         """

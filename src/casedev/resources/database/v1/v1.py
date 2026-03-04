@@ -28,8 +28,11 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Serverless PostgreSQL databases with instant branching"""
+
     @cached_property
     def projects(self) -> ProjectsResource:
+        """Serverless PostgreSQL databases with instant branching"""
         return ProjectsResource(self._client)
 
     @cached_property
@@ -76,8 +79,11 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Serverless PostgreSQL databases with instant branching"""
+
     @cached_property
     def projects(self) -> AsyncProjectsResource:
+        """Serverless PostgreSQL databases with instant branching"""
         return AsyncProjectsResource(self._client)
 
     @cached_property
@@ -133,6 +139,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def projects(self) -> ProjectsResourceWithRawResponse:
+        """Serverless PostgreSQL databases with instant branching"""
         return ProjectsResourceWithRawResponse(self._v1.projects)
 
 
@@ -146,6 +153,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def projects(self) -> AsyncProjectsResourceWithRawResponse:
+        """Serverless PostgreSQL databases with instant branching"""
         return AsyncProjectsResourceWithRawResponse(self._v1.projects)
 
 
@@ -159,6 +167,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def projects(self) -> ProjectsResourceWithStreamingResponse:
+        """Serverless PostgreSQL databases with instant branching"""
         return ProjectsResourceWithStreamingResponse(self._v1.projects)
 
 
@@ -172,4 +181,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def projects(self) -> AsyncProjectsResourceWithStreamingResponse:
+        """Serverless PostgreSQL databases with instant branching"""
         return AsyncProjectsResourceWithStreamingResponse(self._v1.projects)

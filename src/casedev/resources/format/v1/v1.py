@@ -35,8 +35,11 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
+
     @cached_property
     def templates(self) -> TemplatesResource:
+        """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
         return TemplatesResource(self._client)
 
     @cached_property
@@ -112,8 +115,11 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
+
     @cached_property
     def templates(self) -> AsyncTemplatesResource:
+        """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
         return AsyncTemplatesResource(self._client)
 
     @cached_property
@@ -199,6 +205,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def templates(self) -> TemplatesResourceWithRawResponse:
+        """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
         return TemplatesResourceWithRawResponse(self._v1.templates)
 
 
@@ -213,6 +220,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def templates(self) -> AsyncTemplatesResourceWithRawResponse:
+        """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
         return AsyncTemplatesResourceWithRawResponse(self._v1.templates)
 
 
@@ -227,6 +235,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def templates(self) -> TemplatesResourceWithStreamingResponse:
+        """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
         return TemplatesResourceWithStreamingResponse(self._v1.templates)
 
 
@@ -241,4 +250,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def templates(self) -> AsyncTemplatesResourceWithStreamingResponse:
+        """Document formatting and template rendering (MD/JSON to PDF/DOCX)"""
         return AsyncTemplatesResourceWithStreamingResponse(self._v1.templates)

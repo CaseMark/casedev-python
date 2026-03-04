@@ -32,8 +32,11 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Audio transcription and text-to-speech"""
+
     @cached_property
     def speak(self) -> SpeakResource:
+        """Audio transcription and text-to-speech"""
         return SpeakResource(self._client)
 
     @cached_property
@@ -135,8 +138,11 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Audio transcription and text-to-speech"""
+
     @cached_property
     def speak(self) -> AsyncSpeakResource:
+        """Audio transcription and text-to-speech"""
         return AsyncSpeakResource(self._client)
 
     @cached_property
@@ -247,6 +253,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def speak(self) -> SpeakResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return SpeakResourceWithRawResponse(self._v1.speak)
 
 
@@ -260,6 +267,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def speak(self) -> AsyncSpeakResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncSpeakResourceWithRawResponse(self._v1.speak)
 
 
@@ -273,6 +281,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def speak(self) -> SpeakResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return SpeakResourceWithStreamingResponse(self._v1.speak)
 
 
@@ -286,4 +295,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def speak(self) -> AsyncSpeakResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncSpeakResourceWithStreamingResponse(self._v1.speak)

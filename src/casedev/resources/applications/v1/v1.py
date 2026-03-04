@@ -35,6 +35,7 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 class V1Resource(SyncAPIResource):
     @cached_property
     def deployments(self) -> DeploymentsResource:
+        """Web application deployment management"""
         return DeploymentsResource(self._client)
 
     @cached_property
@@ -43,6 +44,7 @@ class V1Resource(SyncAPIResource):
 
     @cached_property
     def workflows(self) -> WorkflowsResource:
+        """Web application deployment management"""
         return WorkflowsResource(self._client)
 
     @cached_property
@@ -68,6 +70,7 @@ class V1Resource(SyncAPIResource):
 class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
+        """Web application deployment management"""
         return AsyncDeploymentsResource(self._client)
 
     @cached_property
@@ -76,6 +79,7 @@ class AsyncV1Resource(AsyncAPIResource):
 
     @cached_property
     def workflows(self) -> AsyncWorkflowsResource:
+        """Web application deployment management"""
         return AsyncWorkflowsResource(self._client)
 
     @cached_property
@@ -104,6 +108,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def deployments(self) -> DeploymentsResourceWithRawResponse:
+        """Web application deployment management"""
         return DeploymentsResourceWithRawResponse(self._v1.deployments)
 
     @cached_property
@@ -112,6 +117,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def workflows(self) -> WorkflowsResourceWithRawResponse:
+        """Web application deployment management"""
         return WorkflowsResourceWithRawResponse(self._v1.workflows)
 
 
@@ -121,6 +127,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResourceWithRawResponse:
+        """Web application deployment management"""
         return AsyncDeploymentsResourceWithRawResponse(self._v1.deployments)
 
     @cached_property
@@ -129,6 +136,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def workflows(self) -> AsyncWorkflowsResourceWithRawResponse:
+        """Web application deployment management"""
         return AsyncWorkflowsResourceWithRawResponse(self._v1.workflows)
 
 
@@ -138,6 +146,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def deployments(self) -> DeploymentsResourceWithStreamingResponse:
+        """Web application deployment management"""
         return DeploymentsResourceWithStreamingResponse(self._v1.deployments)
 
     @cached_property
@@ -146,6 +155,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def workflows(self) -> WorkflowsResourceWithStreamingResponse:
+        """Web application deployment management"""
         return WorkflowsResourceWithStreamingResponse(self._v1.workflows)
 
 
@@ -155,6 +165,7 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResourceWithStreamingResponse:
+        """Web application deployment management"""
         return AsyncDeploymentsResourceWithStreamingResponse(self._v1.deployments)
 
     @cached_property
@@ -163,4 +174,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def workflows(self) -> AsyncWorkflowsResourceWithStreamingResponse:
+        """Web application deployment management"""
         return AsyncWorkflowsResourceWithStreamingResponse(self._v1.workflows)

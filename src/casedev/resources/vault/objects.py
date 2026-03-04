@@ -45,6 +45,8 @@ __all__ = ["ObjectsResource", "AsyncObjectsResource"]
 
 
 class ObjectsResource(SyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> ObjectsResourceWithRawResponse:
         """
@@ -482,6 +484,8 @@ class ObjectsResource(SyncAPIResource):
 
 
 class AsyncObjectsResource(AsyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> AsyncObjectsResourceWithRawResponse:
         """

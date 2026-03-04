@@ -19,6 +19,8 @@ __all__ = ["GroupsResource", "AsyncGroupsResource"]
 
 
 class GroupsResource(SyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> GroupsResourceWithRawResponse:
         """
@@ -148,6 +150,8 @@ class GroupsResource(SyncAPIResource):
 
 
 class AsyncGroupsResource(AsyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> AsyncGroupsResourceWithRawResponse:
         """

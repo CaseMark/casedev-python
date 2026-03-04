@@ -34,8 +34,11 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Access 40+ language models through a unified API"""
+
     @cached_property
     def chat(self) -> ChatResource:
+        """Access 40+ language models through a unified API"""
         return ChatResource(self._client)
 
     @cached_property
@@ -143,8 +146,11 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Access 40+ language models through a unified API"""
+
     @cached_property
     def chat(self) -> AsyncChatResource:
+        """Access 40+ language models through a unified API"""
         return AsyncChatResource(self._client)
 
     @cached_property
@@ -264,6 +270,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def chat(self) -> ChatResourceWithRawResponse:
+        """Access 40+ language models through a unified API"""
         return ChatResourceWithRawResponse(self._v1.chat)
 
 
@@ -280,6 +287,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def chat(self) -> AsyncChatResourceWithRawResponse:
+        """Access 40+ language models through a unified API"""
         return AsyncChatResourceWithRawResponse(self._v1.chat)
 
 
@@ -296,6 +304,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def chat(self) -> ChatResourceWithStreamingResponse:
+        """Access 40+ language models through a unified API"""
         return ChatResourceWithStreamingResponse(self._v1.chat)
 
 
@@ -312,4 +321,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def chat(self) -> AsyncChatResourceWithStreamingResponse:
+        """Access 40+ language models through a unified API"""
         return AsyncChatResourceWithStreamingResponse(self._v1.chat)

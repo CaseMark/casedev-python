@@ -19,6 +19,7 @@ __all__ = ["EventsResource", "AsyncEventsResource"]
 class EventsResource(SyncAPIResource):
     @cached_property
     def subscriptions(self) -> SubscriptionsResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return SubscriptionsResource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class EventsResource(SyncAPIResource):
 class AsyncEventsResource(AsyncAPIResource):
     @cached_property
     def subscriptions(self) -> AsyncSubscriptionsResource:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncSubscriptionsResource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class EventsResourceWithRawResponse:
 
     @cached_property
     def subscriptions(self) -> SubscriptionsResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return SubscriptionsResourceWithRawResponse(self._events.subscriptions)
 
 
@@ -81,6 +84,7 @@ class AsyncEventsResourceWithRawResponse:
 
     @cached_property
     def subscriptions(self) -> AsyncSubscriptionsResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncSubscriptionsResourceWithRawResponse(self._events.subscriptions)
 
 
@@ -90,6 +94,7 @@ class EventsResourceWithStreamingResponse:
 
     @cached_property
     def subscriptions(self) -> SubscriptionsResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return SubscriptionsResourceWithStreamingResponse(self._events.subscriptions)
 
 
@@ -99,4 +104,5 @@ class AsyncEventsResourceWithStreamingResponse:
 
     @cached_property
     def subscriptions(self) -> AsyncSubscriptionsResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         return AsyncSubscriptionsResourceWithStreamingResponse(self._events.subscriptions)

@@ -28,8 +28,11 @@ __all__ = ["LlmResource", "AsyncLlmResource"]
 
 
 class LlmResource(SyncAPIResource):
+    """Access 40+ language models through a unified API"""
+
     @cached_property
     def v1(self) -> V1Resource:
+        """Access 40+ language models through a unified API"""
         return V1Resource(self._client)
 
     @cached_property
@@ -84,8 +87,11 @@ class LlmResource(SyncAPIResource):
 
 
 class AsyncLlmResource(AsyncAPIResource):
+    """Access 40+ language models through a unified API"""
+
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Access 40+ language models through a unified API"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -149,6 +155,7 @@ class LlmResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Access 40+ language models through a unified API"""
         return V1ResourceWithRawResponse(self._llm.v1)
 
 
@@ -162,6 +169,7 @@ class AsyncLlmResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Access 40+ language models through a unified API"""
         return AsyncV1ResourceWithRawResponse(self._llm.v1)
 
 
@@ -175,6 +183,7 @@ class LlmResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Access 40+ language models through a unified API"""
         return V1ResourceWithStreamingResponse(self._llm.v1)
 
 
@@ -188,4 +197,5 @@ class AsyncLlmResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Access 40+ language models through a unified API"""
         return AsyncV1ResourceWithStreamingResponse(self._llm.v1)

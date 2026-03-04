@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.1 (2026-03-04)
+
+Full Changelog: [v0.15.0...v0.15.1](https://github.com/CaseMark/casedev-python/compare/v0.15.0...v0.15.1)
+
+### Chores
+
+* **internal:** codegen related update ([4fccd08](https://github.com/CaseMark/casedev-python/commit/4fccd0875f8f5a90b640f536548200c6c22f66eb))
+
 ## 0.15.0 (2026-03-03)
 
 Full Changelog: [v0.14.1...v0.15.0](https://github.com/CaseMark/casedev-python/compare/v0.14.1...v0.15.0)

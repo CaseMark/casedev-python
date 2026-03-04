@@ -25,6 +25,8 @@ __all__ = ["TranscriptionResource", "AsyncTranscriptionResource"]
 
 
 class TranscriptionResource(SyncAPIResource):
+    """Audio transcription and text-to-speech"""
+
     @cached_property
     def with_raw_response(self) -> TranscriptionResourceWithRawResponse:
         """
@@ -223,6 +225,8 @@ class TranscriptionResource(SyncAPIResource):
 
 
 class AsyncTranscriptionResource(AsyncAPIResource):
+    """Audio transcription and text-to-speech"""
+
     @cached_property
     def with_raw_response(self) -> AsyncTranscriptionResourceWithRawResponse:
         """

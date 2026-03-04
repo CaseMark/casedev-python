@@ -23,6 +23,8 @@ __all__ = ["SubscriptionsResource", "AsyncSubscriptionsResource"]
 
 
 class SubscriptionsResource(SyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> SubscriptionsResourceWithRawResponse:
         """
@@ -275,6 +277,8 @@ class SubscriptionsResource(SyncAPIResource):
 
 
 class AsyncSubscriptionsResource(AsyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> AsyncSubscriptionsResourceWithRawResponse:
         """
