@@ -35,14 +35,17 @@ __all__ = ["VoiceResource", "AsyncVoiceResource"]
 class VoiceResource(SyncAPIResource):
     @cached_property
     def streaming(self) -> StreamingResource:
+        """Audio transcription and text-to-speech"""
         return StreamingResource(self._client)
 
     @cached_property
     def transcription(self) -> TranscriptionResource:
+        """Audio transcription and text-to-speech"""
         return TranscriptionResource(self._client)
 
     @cached_property
     def v1(self) -> V1Resource:
+        """Audio transcription and text-to-speech"""
         return V1Resource(self._client)
 
     @cached_property
@@ -68,14 +71,17 @@ class VoiceResource(SyncAPIResource):
 class AsyncVoiceResource(AsyncAPIResource):
     @cached_property
     def streaming(self) -> AsyncStreamingResource:
+        """Audio transcription and text-to-speech"""
         return AsyncStreamingResource(self._client)
 
     @cached_property
     def transcription(self) -> AsyncTranscriptionResource:
+        """Audio transcription and text-to-speech"""
         return AsyncTranscriptionResource(self._client)
 
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Audio transcription and text-to-speech"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -104,14 +110,17 @@ class VoiceResourceWithRawResponse:
 
     @cached_property
     def streaming(self) -> StreamingResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return StreamingResourceWithRawResponse(self._voice.streaming)
 
     @cached_property
     def transcription(self) -> TranscriptionResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return TranscriptionResourceWithRawResponse(self._voice.transcription)
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return V1ResourceWithRawResponse(self._voice.v1)
 
 
@@ -121,14 +130,17 @@ class AsyncVoiceResourceWithRawResponse:
 
     @cached_property
     def streaming(self) -> AsyncStreamingResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncStreamingResourceWithRawResponse(self._voice.streaming)
 
     @cached_property
     def transcription(self) -> AsyncTranscriptionResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncTranscriptionResourceWithRawResponse(self._voice.transcription)
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncV1ResourceWithRawResponse(self._voice.v1)
 
 
@@ -138,14 +150,17 @@ class VoiceResourceWithStreamingResponse:
 
     @cached_property
     def streaming(self) -> StreamingResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return StreamingResourceWithStreamingResponse(self._voice.streaming)
 
     @cached_property
     def transcription(self) -> TranscriptionResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return TranscriptionResourceWithStreamingResponse(self._voice.transcription)
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return V1ResourceWithStreamingResponse(self._voice.v1)
 
 
@@ -155,12 +170,15 @@ class AsyncVoiceResourceWithStreamingResponse:
 
     @cached_property
     def streaming(self) -> AsyncStreamingResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncStreamingResourceWithStreamingResponse(self._voice.streaming)
 
     @cached_property
     def transcription(self) -> AsyncTranscriptionResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncTranscriptionResourceWithStreamingResponse(self._voice.transcription)
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
         return AsyncV1ResourceWithStreamingResponse(self._voice.v1)

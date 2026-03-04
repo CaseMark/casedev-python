@@ -20,6 +20,8 @@ __all__ = ["SystemResource", "AsyncSystemResource"]
 
 
 class SystemResource(SyncAPIResource):
+    """Public system metadata and discovery endpoints"""
+
     @cached_property
     def with_raw_response(self) -> SystemResourceWithRawResponse:
         """
@@ -65,6 +67,8 @@ class SystemResource(SyncAPIResource):
 
 
 class AsyncSystemResource(AsyncAPIResource):
+    """Public system metadata and discovery endpoints"""
+
     @cached_property
     def with_raw_response(self) -> AsyncSystemResourceWithRawResponse:
         """

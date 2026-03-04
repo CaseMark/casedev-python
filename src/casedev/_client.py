@@ -173,6 +173,7 @@ class Casedev(SyncAPIClient):
 
     @cached_property
     def system(self) -> SystemResource:
+        """Public system metadata and discovery endpoints"""
         from .resources.system import SystemResource
 
         return SystemResource(self)
@@ -209,6 +210,7 @@ class Casedev(SyncAPIClient):
 
     @cached_property
     def llm(self) -> LlmResource:
+        """Access 40+ language models through a unified API"""
         from .resources.llm import LlmResource
 
         return LlmResource(self)
@@ -233,6 +235,7 @@ class Casedev(SyncAPIClient):
 
     @cached_property
     def skills(self) -> SkillsResource:
+        """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResource
 
         return SkillsResource(self)
@@ -257,6 +260,7 @@ class Casedev(SyncAPIClient):
 
     @cached_property
     def vault(self) -> VaultResource:
+        """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import VaultResource
 
         return VaultResource(self)
@@ -469,6 +473,7 @@ class AsyncCasedev(AsyncAPIClient):
 
     @cached_property
     def system(self) -> AsyncSystemResource:
+        """Public system metadata and discovery endpoints"""
         from .resources.system import AsyncSystemResource
 
         return AsyncSystemResource(self)
@@ -505,6 +510,7 @@ class AsyncCasedev(AsyncAPIClient):
 
     @cached_property
     def llm(self) -> AsyncLlmResource:
+        """Access 40+ language models through a unified API"""
         from .resources.llm import AsyncLlmResource
 
         return AsyncLlmResource(self)
@@ -529,6 +535,7 @@ class AsyncCasedev(AsyncAPIClient):
 
     @cached_property
     def skills(self) -> AsyncSkillsResource:
+        """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResource
 
         return AsyncSkillsResource(self)
@@ -553,6 +560,7 @@ class AsyncCasedev(AsyncAPIClient):
 
     @cached_property
     def vault(self) -> AsyncVaultResource:
+        """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import AsyncVaultResource
 
         return AsyncVaultResource(self)
@@ -692,6 +700,7 @@ class CasedevWithRawResponse:
 
     @cached_property
     def system(self) -> system.SystemResourceWithRawResponse:
+        """Public system metadata and discovery endpoints"""
         from .resources.system import SystemResourceWithRawResponse
 
         return SystemResourceWithRawResponse(self._client.system)
@@ -728,6 +737,7 @@ class CasedevWithRawResponse:
 
     @cached_property
     def llm(self) -> llm.LlmResourceWithRawResponse:
+        """Access 40+ language models through a unified API"""
         from .resources.llm import LlmResourceWithRawResponse
 
         return LlmResourceWithRawResponse(self._client.llm)
@@ -752,6 +762,7 @@ class CasedevWithRawResponse:
 
     @cached_property
     def skills(self) -> skills.SkillsResourceWithRawResponse:
+        """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResourceWithRawResponse
 
         return SkillsResourceWithRawResponse(self._client.skills)
@@ -776,6 +787,7 @@ class CasedevWithRawResponse:
 
     @cached_property
     def vault(self) -> vault.VaultResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import VaultResourceWithRawResponse
 
         return VaultResourceWithRawResponse(self._client.vault)
@@ -801,6 +813,7 @@ class AsyncCasedevWithRawResponse:
 
     @cached_property
     def system(self) -> system.AsyncSystemResourceWithRawResponse:
+        """Public system metadata and discovery endpoints"""
         from .resources.system import AsyncSystemResourceWithRawResponse
 
         return AsyncSystemResourceWithRawResponse(self._client.system)
@@ -837,6 +850,7 @@ class AsyncCasedevWithRawResponse:
 
     @cached_property
     def llm(self) -> llm.AsyncLlmResourceWithRawResponse:
+        """Access 40+ language models through a unified API"""
         from .resources.llm import AsyncLlmResourceWithRawResponse
 
         return AsyncLlmResourceWithRawResponse(self._client.llm)
@@ -861,6 +875,7 @@ class AsyncCasedevWithRawResponse:
 
     @cached_property
     def skills(self) -> skills.AsyncSkillsResourceWithRawResponse:
+        """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResourceWithRawResponse
 
         return AsyncSkillsResourceWithRawResponse(self._client.skills)
@@ -885,6 +900,7 @@ class AsyncCasedevWithRawResponse:
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import AsyncVaultResourceWithRawResponse
 
         return AsyncVaultResourceWithRawResponse(self._client.vault)
@@ -910,6 +926,7 @@ class CasedevWithStreamedResponse:
 
     @cached_property
     def system(self) -> system.SystemResourceWithStreamingResponse:
+        """Public system metadata and discovery endpoints"""
         from .resources.system import SystemResourceWithStreamingResponse
 
         return SystemResourceWithStreamingResponse(self._client.system)
@@ -946,6 +963,7 @@ class CasedevWithStreamedResponse:
 
     @cached_property
     def llm(self) -> llm.LlmResourceWithStreamingResponse:
+        """Access 40+ language models through a unified API"""
         from .resources.llm import LlmResourceWithStreamingResponse
 
         return LlmResourceWithStreamingResponse(self._client.llm)
@@ -970,6 +988,7 @@ class CasedevWithStreamedResponse:
 
     @cached_property
     def skills(self) -> skills.SkillsResourceWithStreamingResponse:
+        """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResourceWithStreamingResponse
 
         return SkillsResourceWithStreamingResponse(self._client.skills)
@@ -994,6 +1013,7 @@ class CasedevWithStreamedResponse:
 
     @cached_property
     def vault(self) -> vault.VaultResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import VaultResourceWithStreamingResponse
 
         return VaultResourceWithStreamingResponse(self._client.vault)
@@ -1019,6 +1039,7 @@ class AsyncCasedevWithStreamedResponse:
 
     @cached_property
     def system(self) -> system.AsyncSystemResourceWithStreamingResponse:
+        """Public system metadata and discovery endpoints"""
         from .resources.system import AsyncSystemResourceWithStreamingResponse
 
         return AsyncSystemResourceWithStreamingResponse(self._client.system)
@@ -1055,6 +1076,7 @@ class AsyncCasedevWithStreamedResponse:
 
     @cached_property
     def llm(self) -> llm.AsyncLlmResourceWithStreamingResponse:
+        """Access 40+ language models through a unified API"""
         from .resources.llm import AsyncLlmResourceWithStreamingResponse
 
         return AsyncLlmResourceWithStreamingResponse(self._client.llm)
@@ -1079,6 +1101,7 @@ class AsyncCasedevWithStreamedResponse:
 
     @cached_property
     def skills(self) -> skills.AsyncSkillsResourceWithStreamingResponse:
+        """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResourceWithStreamingResponse
 
         return AsyncSkillsResourceWithStreamingResponse(self._client.skills)
@@ -1103,6 +1126,7 @@ class AsyncCasedevWithStreamedResponse:
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import AsyncVaultResourceWithStreamingResponse
 
         return AsyncVaultResourceWithStreamingResponse(self._client.vault)

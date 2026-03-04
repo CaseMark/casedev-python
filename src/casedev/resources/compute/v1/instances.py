@@ -27,6 +27,8 @@ __all__ = ["InstancesResource", "AsyncInstancesResource"]
 
 
 class InstancesResource(SyncAPIResource):
+    """Serverless GPU and CPU infrastructure"""
+
     @cached_property
     def with_raw_response(self) -> InstancesResourceWithRawResponse:
         """
@@ -202,6 +204,8 @@ class InstancesResource(SyncAPIResource):
 
 
 class AsyncInstancesResource(AsyncAPIResource):
+    """Serverless GPU and CPU infrastructure"""
+
     @cached_property
     def with_raw_response(self) -> AsyncInstancesResourceWithRawResponse:
         """

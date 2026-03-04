@@ -24,6 +24,8 @@ __all__ = ["MultipartResource", "AsyncMultipartResource"]
 
 
 class MultipartResource(SyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> MultipartResourceWithRawResponse:
         """
@@ -132,6 +134,8 @@ class MultipartResource(SyncAPIResource):
 
 
 class AsyncMultipartResource(AsyncAPIResource):
+    """Secure document storage with semantic search and GraphRAG"""
+
     @cached_property
     def with_raw_response(self) -> AsyncMultipartResourceWithRawResponse:
         """

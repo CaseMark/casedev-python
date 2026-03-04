@@ -54,20 +54,26 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Serverless GPU and CPU infrastructure"""
+
     @cached_property
     def environments(self) -> EnvironmentsResource:
+        """Serverless GPU and CPU infrastructure"""
         return EnvironmentsResource(self._client)
 
     @cached_property
     def instance_types(self) -> InstanceTypesResource:
+        """Serverless GPU and CPU infrastructure"""
         return InstanceTypesResource(self._client)
 
     @cached_property
     def instances(self) -> InstancesResource:
+        """Serverless GPU and CPU infrastructure"""
         return InstancesResource(self._client)
 
     @cached_property
     def secrets(self) -> SecretsResource:
+        """Serverless GPU and CPU infrastructure"""
         return SecretsResource(self._client)
 
     @cached_property
@@ -164,20 +170,26 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Serverless GPU and CPU infrastructure"""
+
     @cached_property
     def environments(self) -> AsyncEnvironmentsResource:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncEnvironmentsResource(self._client)
 
     @cached_property
     def instance_types(self) -> AsyncInstanceTypesResource:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncInstanceTypesResource(self._client)
 
     @cached_property
     def instances(self) -> AsyncInstancesResource:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncInstancesResource(self._client)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResource:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncSecretsResource(self._client)
 
     @cached_property
@@ -286,18 +298,22 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def environments(self) -> EnvironmentsResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return EnvironmentsResourceWithRawResponse(self._v1.environments)
 
     @cached_property
     def instance_types(self) -> InstanceTypesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return InstanceTypesResourceWithRawResponse(self._v1.instance_types)
 
     @cached_property
     def instances(self) -> InstancesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return InstancesResourceWithRawResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> SecretsResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return SecretsResourceWithRawResponse(self._v1.secrets)
 
 
@@ -314,18 +330,22 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def environments(self) -> AsyncEnvironmentsResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncEnvironmentsResourceWithRawResponse(self._v1.environments)
 
     @cached_property
     def instance_types(self) -> AsyncInstanceTypesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncInstanceTypesResourceWithRawResponse(self._v1.instance_types)
 
     @cached_property
     def instances(self) -> AsyncInstancesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncInstancesResourceWithRawResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncSecretsResourceWithRawResponse(self._v1.secrets)
 
 
@@ -342,18 +362,22 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def environments(self) -> EnvironmentsResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return EnvironmentsResourceWithStreamingResponse(self._v1.environments)
 
     @cached_property
     def instance_types(self) -> InstanceTypesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return InstanceTypesResourceWithStreamingResponse(self._v1.instance_types)
 
     @cached_property
     def instances(self) -> InstancesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return InstancesResourceWithStreamingResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> SecretsResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return SecretsResourceWithStreamingResponse(self._v1.secrets)
 
 
@@ -370,16 +394,20 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def environments(self) -> AsyncEnvironmentsResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncEnvironmentsResourceWithStreamingResponse(self._v1.environments)
 
     @cached_property
     def instance_types(self) -> AsyncInstanceTypesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncInstanceTypesResourceWithStreamingResponse(self._v1.instance_types)
 
     @cached_property
     def instances(self) -> AsyncInstancesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncInstancesResourceWithStreamingResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncSecretsResourceWithStreamingResponse(self._v1.secrets)

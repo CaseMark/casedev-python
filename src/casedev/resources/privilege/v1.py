@@ -25,6 +25,8 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Privilege detection for e-discovery and litigation workflows"""
+
     @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
         """
@@ -125,6 +127,8 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Privilege detection for e-discovery and litigation workflows"""
+
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
         """

@@ -20,6 +20,8 @@ __all__ = ["StreamingResource", "AsyncStreamingResource"]
 
 
 class StreamingResource(SyncAPIResource):
+    """Audio transcription and text-to-speech"""
+
     @cached_property
     def with_raw_response(self) -> StreamingResourceWithRawResponse:
         """
@@ -72,6 +74,8 @@ class StreamingResource(SyncAPIResource):
 
 
 class AsyncStreamingResource(AsyncAPIResource):
+    """Audio transcription and text-to-speech"""
+
     @cached_property
     def with_raw_response(self) -> AsyncStreamingResourceWithRawResponse:
         """

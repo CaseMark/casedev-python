@@ -23,6 +23,8 @@ __all__ = ["SkillsResource", "AsyncSkillsResource"]
 
 
 class SkillsResource(SyncAPIResource):
+    """Search and read legal AI skills for agents"""
+
     @cached_property
     def with_raw_response(self) -> SkillsResourceWithRawResponse:
         """
@@ -126,6 +128,8 @@ class SkillsResource(SyncAPIResource):
 
 
 class AsyncSkillsResource(AsyncAPIResource):
+    """Search and read legal AI skills for agents"""
+
     @cached_property
     def with_raw_response(self) -> AsyncSkillsResourceWithRawResponse:
         """

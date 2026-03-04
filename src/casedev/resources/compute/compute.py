@@ -19,6 +19,7 @@ __all__ = ["ComputeResource", "AsyncComputeResource"]
 class ComputeResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """Serverless GPU and CPU infrastructure"""
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class ComputeResource(SyncAPIResource):
 class AsyncComputeResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class ComputeResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return V1ResourceWithRawResponse(self._compute.v1)
 
 
@@ -81,6 +84,7 @@ class AsyncComputeResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncV1ResourceWithRawResponse(self._compute.v1)
 
 
@@ -90,6 +94,7 @@ class ComputeResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return V1ResourceWithStreamingResponse(self._compute.v1)
 
 
@@ -99,4 +104,5 @@ class AsyncComputeResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
         return AsyncV1ResourceWithStreamingResponse(self._compute.v1)

@@ -50,6 +50,8 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Legal research tools including citation verification"""
+
     @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
         """
@@ -702,6 +704,8 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Legal research tools including citation verification"""
+
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
         """
