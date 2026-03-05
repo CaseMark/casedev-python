@@ -16,12 +16,14 @@ from ...._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...._streaming import Stream, AsyncStream
 from ...._base_client import make_request_options
-from ....types.agent.v1 import run_watch_params, run_create_params
+from ....types.agent.v1 import run_watch_params, run_create_params, run_events_params
 from ....types.agent.v1.run_exec_response import RunExecResponse
 from ....types.agent.v1.run_watch_response import RunWatchResponse
 from ....types.agent.v1.run_cancel_response import RunCancelResponse
 from ....types.agent.v1.run_create_response import RunCreateResponse
+from ....types.agent.v1.run_events_response import RunEventsResponse
 from ....types.agent.v1.run_get_status_response import RunGetStatusResponse
 from ....types.agent.v1.run_get_details_response import RunGetDetailsResponse
 
@@ -139,6 +141,50 @@ class RunResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=RunCancelResponse,
+        )
+
+    def events(
+        self,
+        id: str,
+        *,
+        last_event_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Stream[RunEventsResponse]:
+        """Streams real-time run events over SSE.
+
+        Supports replay using Last-Event-ID.
+
+        Args:
+          last_event_id: Replay events after this sequence number
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        return self._get(
+            f"/agent/v1/run/{id}/events",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"last_event_id": last_event_id}, run_events_params.RunEventsParams),
+            ),
+            cast_to=str,
+            stream=True,
+            stream_cls=Stream[RunEventsResponse],
         )
 
     def exec(
@@ -398,6 +444,50 @@ class AsyncRunResource(AsyncAPIResource):
             cast_to=RunCancelResponse,
         )
 
+    async def events(
+        self,
+        id: str,
+        *,
+        last_event_id: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncStream[RunEventsResponse]:
+        """Streams real-time run events over SSE.
+
+        Supports replay using Last-Event-ID.
+
+        Args:
+          last_event_id: Replay events after this sequence number
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        return await self._get(
+            f"/agent/v1/run/{id}/events",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"last_event_id": last_event_id}, run_events_params.RunEventsParams),
+            ),
+            cast_to=str,
+            stream=True,
+            stream_cls=AsyncStream[RunEventsResponse],
+        )
+
     async def exec(
         self,
         id: str,
@@ -552,6 +642,9 @@ class RunResourceWithRawResponse:
         self.cancel = to_raw_response_wrapper(
             run.cancel,
         )
+        self.events = to_raw_response_wrapper(
+            run.events,
+        )
         self.exec = to_raw_response_wrapper(
             run.exec,
         )
@@ -575,6 +668,9 @@ class AsyncRunResourceWithRawResponse:
         )
         self.cancel = async_to_raw_response_wrapper(
             run.cancel,
+        )
+        self.events = async_to_raw_response_wrapper(
+            run.events,
         )
         self.exec = async_to_raw_response_wrapper(
             run.exec,
@@ -600,6 +696,9 @@ class RunResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             run.cancel,
         )
+        self.events = to_streamed_response_wrapper(
+            run.events,
+        )
         self.exec = to_streamed_response_wrapper(
             run.exec,
         )
@@ -623,6 +722,9 @@ class AsyncRunResourceWithStreamingResponse:
         )
         self.cancel = async_to_streamed_response_wrapper(
             run.cancel,
+        )
+        self.events = async_to_streamed_response_wrapper(
+            run.events,
         )
         self.exec = async_to_streamed_response_wrapper(
             run.exec,
