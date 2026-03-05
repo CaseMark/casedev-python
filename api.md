@@ -305,6 +305,8 @@ Types:
 
 ```python
 from casedev.types.legal import (
+    DocketDetail,
+    DocketSearchResult,
     V1DocketResponse,
     V1FindResponse,
     V1GetCitationsResponse,
