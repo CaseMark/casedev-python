@@ -32,6 +32,7 @@ Types:
 from casedev.types.agent.v1 import (
     RunCreateResponse,
     RunCancelResponse,
+    RunEventsResponse,
     RunExecResponse,
     RunGetDetailsResponse,
     RunGetStatusResponse,
@@ -43,6 +44,7 @@ Methods:
 
 - <code title="post /agent/v1/run">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/run_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_create_response.py">RunCreateResponse</a></code>
 - <code title="post /agent/v1/run/{id}/cancel">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v1/run_cancel_response.py">RunCancelResponse</a></code>
+- <code title="get /agent/v1/run/{id}/events">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">events</a>(id, \*\*<a href="src/casedev/types/agent/v1/run_events_params.py">params</a>) -> str</code>
 - <code title="post /agent/v1/run/{id}/exec">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">exec</a>(id) -> <a href="./src/casedev/types/agent/v1/run_exec_response.py">RunExecResponse</a></code>
 - <code title="get /agent/v1/run/{id}/details">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_details</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_details_response.py">RunGetDetailsResponse</a></code>
 - <code title="get /agent/v1/run/{id}/status">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_status</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_status_response.py">RunGetStatusResponse</a></code>
@@ -69,6 +71,7 @@ from casedev.types.agent.v1 import (
     ChatCreateResponse,
     ChatDeleteResponse,
     ChatCancelResponse,
+    ChatRespondResponse,
     ChatStreamResponse,
 )
 ```
@@ -78,6 +81,7 @@ Methods:
 - <code title="post /agent/v1/chat">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/chat_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/chat_create_response.py">ChatCreateResponse</a></code>
 - <code title="delete /agent/v1/chat/{id}">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat.py">delete</a>(id) -> <a href="./src/casedev/types/agent/v1/chat_delete_response.py">ChatDeleteResponse</a></code>
 - <code title="post /agent/v1/chat/{id}/cancel">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v1/chat_cancel_response.py">ChatCancelResponse</a></code>
+- <code title="post /agent/v1/chat/{id}/respond">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat.py">respond</a>(id, \*\*<a href="src/casedev/types/agent/v1/chat_respond_params.py">params</a>) -> str</code>
 - <code title="post /agent/v1/chat/{id}/message">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat.py">send_message</a>(id, \*\*<a href="src/casedev/types/agent/v1/chat_send_message_params.py">params</a>) -> None</code>
 - <code title="get /agent/v1/chat/{id}/stream">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat.py">stream</a>(id, \*\*<a href="src/casedev/types/agent/v1/chat_stream_params.py">params</a>) -> str</code>
 

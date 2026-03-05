@@ -107,6 +107,56 @@ class TestRun:
                 "",
             )
 
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    def test_method_events(self, client: Casedev) -> None:
+        run_stream = client.agent.v1.run.events(
+            id="id",
+        )
+        run_stream.response.close()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    def test_method_events_with_all_params(self, client: Casedev) -> None:
+        run_stream = client.agent.v1.run.events(
+            id="id",
+            last_event_id=0,
+        )
+        run_stream.response.close()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    def test_raw_response_events(self, client: Casedev) -> None:
+        response = client.agent.v1.run.with_raw_response.events(
+            id="id",
+        )
+
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        stream = response.parse()
+        stream.close()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    def test_streaming_response_events(self, client: Casedev) -> None:
+        with client.agent.v1.run.with_streaming_response.events(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            stream = response.parse()
+            stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    def test_path_params_events(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.agent.v1.run.with_raw_response.events(
+                id="",
+            )
+
     @parametrize
     def test_method_exec(self, client: Casedev) -> None:
         run = client.agent.v1.run.exec(
@@ -350,6 +400,56 @@ class TestAsyncRun:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agent.v1.run.with_raw_response.cancel(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    async def test_method_events(self, async_client: AsyncCasedev) -> None:
+        run_stream = await async_client.agent.v1.run.events(
+            id="id",
+        )
+        await run_stream.response.aclose()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    async def test_method_events_with_all_params(self, async_client: AsyncCasedev) -> None:
+        run_stream = await async_client.agent.v1.run.events(
+            id="id",
+            last_event_id=0,
+        )
+        await run_stream.response.aclose()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    async def test_raw_response_events(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.agent.v1.run.with_raw_response.events(
+            id="id",
+        )
+
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        stream = await response.parse()
+        await stream.close()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    async def test_streaming_response_events(self, async_client: AsyncCasedev) -> None:
+        async with async_client.agent.v1.run.with_streaming_response.events(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            stream = await response.parse()
+            await stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    async def test_path_params_events(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.agent.v1.run.with_raw_response.events(
+                id="",
             )
 
     @parametrize
