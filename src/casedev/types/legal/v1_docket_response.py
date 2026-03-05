@@ -7,38 +7,10 @@ from typing_extensions import Literal
 from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
+from .docket_detail import DocketDetail
+from .docket_search_result import DocketSearchResult
 
-__all__ = ["V1DocketResponse", "Docket", "Entry", "EntryDocument", "Pagination"]
-
-
-class Docket(BaseModel):
-    """Full docket record (lookup mode)"""
-
-    id: Optional[str] = None
-
-    assigned_to: Optional[str] = FieldInfo(alias="assignedTo", default=None)
-
-    case_name: Optional[str] = FieldInfo(alias="caseName", default=None)
-
-    cause: Optional[str] = None
-
-    court: Optional[str] = None
-
-    court_id: Optional[str] = FieldInfo(alias="courtId", default=None)
-
-    date_filed: Optional[datetime.date] = FieldInfo(alias="dateFiled", default=None)
-
-    date_terminated: Optional[datetime.date] = FieldInfo(alias="dateTerminated", default=None)
-
-    docket_number: Optional[str] = FieldInfo(alias="docketNumber", default=None)
-
-    nature_of_suit: Optional[str] = FieldInfo(alias="natureOfSuit", default=None)
-
-    pacer_case_id: Optional[str] = FieldInfo(alias="pacerCaseId", default=None)
-
-    parties: Optional[List[str]] = None
-
-    url: Optional[str] = None
+__all__ = ["V1DocketResponse", "Entry", "EntryDocument", "Pagination"]
 
 
 class EntryDocument(BaseModel):
@@ -87,10 +59,10 @@ class V1DocketResponse(BaseModel):
     date_filed_before: Optional[datetime.date] = FieldInfo(alias="dateFiledBefore", default=None)
     """Echo of date filter"""
 
-    docket: Optional[Docket] = None
+    docket: Optional[DocketDetail] = None
     """Full docket record (lookup mode)"""
 
-    dockets: Optional[List[Docket]] = None
+    dockets: Optional[List[DocketSearchResult]] = None
     """Search results (search mode)"""
 
     entries: Optional[List[Entry]] = None

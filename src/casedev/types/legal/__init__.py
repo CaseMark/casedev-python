@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .docket_detail import DocketDetail as DocketDetail
 from .v1_find_params import V1FindParams as V1FindParams
 from .v1_docket_params import V1DocketParams as V1DocketParams
 from .v1_find_response import V1FindResponse as V1FindResponse
@@ -11,6 +12,7 @@ from .v1_docket_response import V1DocketResponse as V1DocketResponse
 from .v1_research_params import V1ResearchParams as V1ResearchParams
 from .v1_verify_response import V1VerifyResponse as V1VerifyResponse
 from .v1_similar_response import V1SimilarResponse as V1SimilarResponse
+from .docket_search_result import DocketSearchResult as DocketSearchResult
 from .v1_research_response import V1ResearchResponse as V1ResearchResponse
 from .v1_list_courts_params import V1ListCourtsParams as V1ListCourtsParams
 from .v1_get_citations_params import V1GetCitationsParams as V1GetCitationsParams
