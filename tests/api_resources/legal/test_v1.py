@@ -12,6 +12,7 @@ from tests.utils import assert_matches_type
 from casedev._utils import parse_date
 from casedev.types.legal import (
     V1FindResponse,
+    V1DraftResponse,
     V1DocketResponse,
     V1VerifyResponse,
     V1SimilarResponse,
@@ -75,6 +76,59 @@ class TestV1:
 
             v1 = response.parse()
             assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_draft(self, client: Casedev) -> None:
+        v1 = client.legal.v1.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+        )
+        assert_matches_type(V1DraftResponse, v1, path=["response"])
+
+    @parametrize
+    def test_method_draft_with_all_params(self, client: Casedev) -> None:
+        v1 = client.legal.v1.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+            citations=True,
+            format="format",
+            length={
+                "target": 0,
+                "unit": "words",
+            },
+            model="model",
+            object_ids=["string"],
+            output_name="output_name",
+            output_type="pdf",
+            verified=True,
+        )
+        assert_matches_type(V1DraftResponse, v1, path=["response"])
+
+    @parametrize
+    def test_raw_response_draft(self, client: Casedev) -> None:
+        response = client.legal.v1.with_raw_response.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1DraftResponse, v1, path=["response"])
+
+    @parametrize
+    def test_streaming_response_draft(self, client: Casedev) -> None:
+        with client.legal.v1.with_streaming_response.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1DraftResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -534,6 +588,59 @@ class TestAsyncV1:
 
             v1 = await response.parse()
             assert_matches_type(V1DocketResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_draft(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+        )
+        assert_matches_type(V1DraftResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_method_draft_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+            citations=True,
+            format="format",
+            length={
+                "target": 0,
+                "unit": "words",
+            },
+            model="model",
+            object_ids=["string"],
+            output_name="output_name",
+            output_type="pdf",
+            verified=True,
+        )
+        assert_matches_type(V1DraftResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_raw_response_draft(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.legal.v1.with_raw_response.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1DraftResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_draft(self, async_client: AsyncCasedev) -> None:
+        async with async_client.legal.v1.with_streaming_response.draft(
+            instructions="xxxxxxxxxx",
+            vault_id="vault_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1DraftResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
