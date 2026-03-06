@@ -32,6 +32,7 @@ class TestChat:
             idle_timeout_ms=0,
             model="model",
             title="title",
+            vault_ids=["string"],
         )
         assert_matches_type(ChatCreateResponse, chat, path=["response"])
 
@@ -285,6 +286,7 @@ class TestAsyncChat:
             idle_timeout_ms=0,
             model="model",
             title="title",
+            vault_ids=["string"],
         )
         assert_matches_type(ChatCreateResponse, chat, path=["response"])
 

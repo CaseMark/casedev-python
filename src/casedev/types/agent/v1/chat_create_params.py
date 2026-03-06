@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
+from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 
 __all__ = ["ChatCreateParams"]
@@ -22,3 +23,6 @@ class ChatCreateParams(TypedDict, total=False):
 
     title: str
     """Optional human-readable session title"""
+
+    vault_ids: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultIds")]
+    """Restrict the chat session to specific vault IDs"""

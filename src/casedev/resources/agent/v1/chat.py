@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -54,6 +54,7 @@ class ChatResource(SyncAPIResource):
         idle_timeout_ms: Optional[int] | Omit = omit,
         model: Optional[str] | Omit = omit,
         title: str | Omit = omit,
+        vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -74,6 +75,8 @@ class ChatResource(SyncAPIResource):
 
           title: Optional human-readable session title
 
+          vault_ids: Restrict the chat session to specific vault IDs
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -89,6 +92,7 @@ class ChatResource(SyncAPIResource):
                     "idle_timeout_ms": idle_timeout_ms,
                     "model": model,
                     "title": title,
+                    "vault_ids": vault_ids,
                 },
                 chat_create_params.ChatCreateParams,
             ),
@@ -316,6 +320,7 @@ class AsyncChatResource(AsyncAPIResource):
         idle_timeout_ms: Optional[int] | Omit = omit,
         model: Optional[str] | Omit = omit,
         title: str | Omit = omit,
+        vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -336,6 +341,8 @@ class AsyncChatResource(AsyncAPIResource):
 
           title: Optional human-readable session title
 
+          vault_ids: Restrict the chat session to specific vault IDs
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -351,6 +358,7 @@ class AsyncChatResource(AsyncAPIResource):
                     "idle_timeout_ms": idle_timeout_ms,
                     "model": model,
                     "title": title,
+                    "vault_ids": vault_ids,
                 },
                 chat_create_params.ChatCreateParams,
             ),
