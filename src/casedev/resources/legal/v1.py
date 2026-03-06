@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, Optional
 from datetime import date
 from typing_extensions import Literal
 
@@ -20,6 +20,7 @@ from ..._response import (
 )
 from ...types.legal import (
     v1_find_params,
+    v1_draft_params,
     v1_docket_params,
     v1_verify_params,
     v1_similar_params,
@@ -34,6 +35,7 @@ from ...types.legal import (
 )
 from ..._base_client import make_request_options
 from ...types.legal.v1_find_response import V1FindResponse
+from ...types.legal.v1_draft_response import V1DraftResponse
 from ...types.legal.v1_docket_response import V1DocketResponse
 from ...types.legal.v1_verify_response import V1VerifyResponse
 from ...types.legal.v1_similar_response import V1SimilarResponse
@@ -147,6 +149,87 @@ class V1Resource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1DocketResponse,
+        )
+
+    def draft(
+        self,
+        *,
+        instructions: str,
+        vault_id: str,
+        citations: bool | Omit = omit,
+        format: Optional[str] | Omit = omit,
+        length: Optional[v1_draft_params.Length] | Omit = omit,
+        model: Optional[str] | Omit = omit,
+        object_ids: Optional[SequenceNotStr[str]] | Omit = omit,
+        output_name: Optional[str] | Omit = omit,
+        output_type: Literal["pdf", "docx", "xlsx", "pptx", "md"] | Omit = omit,
+        verified: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1DraftResponse:
+        """Generate a legal document with structured inputs.
+
+        Powered by an agent that
+        handles research, formatting, citation verification, and vault upload. Returns a
+        run ID for polling.
+
+        Args:
+          instructions: What to draft — the core task. E.g., "Motion to compel defendant to produce
+              discovery responses"
+
+          vault_id: Vault ID where the final document will be uploaded
+
+          citations: Research and include legal citations
+
+          format: Court or jurisdiction formatting hint. Triggers a legal-skills search. E.g.,
+              "California Superior Court", "SDNY", "federal pleading"
+
+          length: Target document length
+
+          model: LLM model override. Defaults to anthropic/claude-sonnet-4.6
+
+          object_ids: Vault object IDs to use as source/reference documents
+
+          output_name: Filename for the output document. Auto-generated if omitted.
+
+          output_type: Output file format
+
+          verified: Verify all citations in a loop — re-run verification and repair bad citations
+              until they pass
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/draft",
+            body=maybe_transform(
+                {
+                    "instructions": instructions,
+                    "vault_id": vault_id,
+                    "citations": citations,
+                    "format": format,
+                    "length": length,
+                    "model": model,
+                    "object_ids": object_ids,
+                    "output_name": output_name,
+                    "output_type": output_type,
+                    "verified": verified,
+                },
+                v1_draft_params.V1DraftParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1DraftResponse,
         )
 
     def find(
@@ -803,6 +886,87 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=V1DocketResponse,
         )
 
+    async def draft(
+        self,
+        *,
+        instructions: str,
+        vault_id: str,
+        citations: bool | Omit = omit,
+        format: Optional[str] | Omit = omit,
+        length: Optional[v1_draft_params.Length] | Omit = omit,
+        model: Optional[str] | Omit = omit,
+        object_ids: Optional[SequenceNotStr[str]] | Omit = omit,
+        output_name: Optional[str] | Omit = omit,
+        output_type: Literal["pdf", "docx", "xlsx", "pptx", "md"] | Omit = omit,
+        verified: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1DraftResponse:
+        """Generate a legal document with structured inputs.
+
+        Powered by an agent that
+        handles research, formatting, citation verification, and vault upload. Returns a
+        run ID for polling.
+
+        Args:
+          instructions: What to draft — the core task. E.g., "Motion to compel defendant to produce
+              discovery responses"
+
+          vault_id: Vault ID where the final document will be uploaded
+
+          citations: Research and include legal citations
+
+          format: Court or jurisdiction formatting hint. Triggers a legal-skills search. E.g.,
+              "California Superior Court", "SDNY", "federal pleading"
+
+          length: Target document length
+
+          model: LLM model override. Defaults to anthropic/claude-sonnet-4.6
+
+          object_ids: Vault object IDs to use as source/reference documents
+
+          output_name: Filename for the output document. Auto-generated if omitted.
+
+          output_type: Output file format
+
+          verified: Verify all citations in a loop — re-run verification and repair bad citations
+              until they pass
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/draft",
+            body=await async_maybe_transform(
+                {
+                    "instructions": instructions,
+                    "vault_id": vault_id,
+                    "citations": citations,
+                    "format": format,
+                    "length": length,
+                    "model": model,
+                    "object_ids": object_ids,
+                    "output_name": output_name,
+                    "output_type": output_type,
+                    "verified": verified,
+                },
+                v1_draft_params.V1DraftParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1DraftResponse,
+        )
+
     async def find(
         self,
         *,
@@ -1366,6 +1530,9 @@ class V1ResourceWithRawResponse:
         self.docket = to_raw_response_wrapper(
             v1.docket,
         )
+        self.draft = to_raw_response_wrapper(
+            v1.draft,
+        )
         self.find = to_raw_response_wrapper(
             v1.find,
         )
@@ -1407,6 +1574,9 @@ class AsyncV1ResourceWithRawResponse:
 
         self.docket = async_to_raw_response_wrapper(
             v1.docket,
+        )
+        self.draft = async_to_raw_response_wrapper(
+            v1.draft,
         )
         self.find = async_to_raw_response_wrapper(
             v1.find,
@@ -1450,6 +1620,9 @@ class V1ResourceWithStreamingResponse:
         self.docket = to_streamed_response_wrapper(
             v1.docket,
         )
+        self.draft = to_streamed_response_wrapper(
+            v1.draft,
+        )
         self.find = to_streamed_response_wrapper(
             v1.find,
         )
@@ -1491,6 +1664,9 @@ class AsyncV1ResourceWithStreamingResponse:
 
         self.docket = async_to_streamed_response_wrapper(
             v1.docket,
+        )
+        self.draft = async_to_streamed_response_wrapper(
+            v1.draft,
         )
         self.find = async_to_streamed_response_wrapper(
             v1.find,
