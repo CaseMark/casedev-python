@@ -312,6 +312,7 @@ from casedev.types.legal import (
     DocketDetail,
     DocketSearchResult,
     V1DocketResponse,
+    V1DraftResponse,
     V1FindResponse,
     V1GetCitationsResponse,
     V1GetCitationsFromURLResponse,
@@ -329,6 +330,7 @@ from casedev.types.legal import (
 Methods:
 
 - <code title="post /legal/v1/docket">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">docket</a>(\*\*<a href="src/casedev/types/legal/v1_docket_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_docket_response.py">V1DocketResponse</a></code>
+- <code title="post /legal/v1/draft">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">draft</a>(\*\*<a href="src/casedev/types/legal/v1_draft_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_draft_response.py">V1DraftResponse</a></code>
 - <code title="post /legal/v1/find">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">find</a>(\*\*<a href="src/casedev/types/legal/v1_find_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_find_response.py">V1FindResponse</a></code>
 - <code title="post /legal/v1/citations">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_response.py">V1GetCitationsResponse</a></code>
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations_from_url</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_from_url_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_from_url_response.py">V1GetCitationsFromURLResponse</a></code>

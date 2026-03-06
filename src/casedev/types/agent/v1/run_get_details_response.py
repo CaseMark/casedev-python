@@ -8,7 +8,17 @@ from pydantic import Field as FieldInfo
 
 from ...._models import BaseModel
 
-__all__ = ["RunGetDetailsResponse", "Result", "ResultLogs", "Step", "Usage"]
+__all__ = ["RunGetDetailsResponse", "Result", "ResultFinalResponse", "ResultLogs", "Step", "Usage"]
+
+
+class ResultFinalResponse(BaseModel):
+    """Compact agent-facing result summary and execution issues"""
+
+    created_object_ids: Optional[List[str]] = FieldInfo(alias="createdObjectIds", default=None)
+
+    issues: Optional[List[str]] = None
+
+    summary: Optional[str] = None
 
 
 class ResultLogs(BaseModel):
@@ -24,10 +34,15 @@ class ResultLogs(BaseModel):
 class Result(BaseModel):
     """Final output from the agent"""
 
+    final_response: Optional[ResultFinalResponse] = FieldInfo(alias="finalResponse", default=None)
+    """Compact agent-facing result summary and execution issues"""
+
     logs: Optional[ResultLogs] = None
     """Sandbox execution logs (OpenCode server + runner script)"""
 
     output: Optional[str] = None
+
+    output_object_ids: Optional[List[str]] = FieldInfo(alias="outputObjectIds", default=None)
 
 
 class Step(BaseModel):

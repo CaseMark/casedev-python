@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from .docket_detail import DocketDetail as DocketDetail
 from .v1_find_params import V1FindParams as V1FindParams
+from .v1_draft_params import V1DraftParams as V1DraftParams
 from .v1_docket_params import V1DocketParams as V1DocketParams
 from .v1_find_response import V1FindResponse as V1FindResponse
 from .v1_verify_params import V1VerifyParams as V1VerifyParams
+from .v1_draft_response import V1DraftResponse as V1DraftResponse
 from .v1_similar_params import V1SimilarParams as V1SimilarParams
 from .v1_docket_response import V1DocketResponse as V1DocketResponse
 from .v1_research_params import V1ResearchParams as V1ResearchParams
