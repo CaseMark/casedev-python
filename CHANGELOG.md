@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.1 (2026-03-07)
+
+Full Changelog: [v0.21.0...v0.21.1](https://github.com/CaseMark/casedev-python/compare/v0.21.0...v0.21.1)
+
+### Refactors
+
+* **types:** use `extra_items` from PEP 728 ([4c16824](https://github.com/CaseMark/casedev-python/commit/4c168248947f9b55e2017d86cc4cadd95e9b1519))
+
 ## 0.21.0 (2026-03-06)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/CaseMark/casedev-python/compare/v0.20.0...v0.21.0)
