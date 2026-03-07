@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.2 (2026-03-07)
+
+Full Changelog: [v0.21.1...v0.21.2](https://github.com/CaseMark/casedev-python/compare/v0.21.1...v0.21.2)
+
+### Chores
+
+* **test:** do not count install time for mock server timeout ([8bdc678](https://github.com/CaseMark/casedev-python/commit/8bdc67826e5fcff5d67eaa3a493b2be405a58fdb))
+
 ## 0.21.1 (2026-03-07)
 
 Full Changelog: [v0.21.0...v0.21.1](https://github.com/CaseMark/casedev-python/compare/v0.21.0...v0.21.1)
