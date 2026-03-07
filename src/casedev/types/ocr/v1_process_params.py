@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
-from typing_extensions import Literal, Required, TypeAlias, TypedDict
+from typing import Dict
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["V1ProcessParams", "Features", "FeaturesTables"]
 
@@ -31,14 +31,11 @@ class V1ProcessParams(TypedDict, total=False):
     """S3 key prefix for results"""
 
 
-class FeaturesTablesTyped(TypedDict, total=False):
+class FeaturesTables(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
     """Extract tables as structured data"""
 
     format: Literal["csv", "json"]
     """Output format for extracted tables"""
-
-
-FeaturesTables: TypeAlias = Union[FeaturesTablesTyped, Dict[str, object]]
 
 
 class Features(TypedDict, total=False):
