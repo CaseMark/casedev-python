@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.3 (2026-03-07)
+
+Full Changelog: [v0.21.2...v0.21.3](https://github.com/CaseMark/casedev-python/compare/v0.21.2...v0.21.3)
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([e1c51bd](https://github.com/CaseMark/casedev-python/commit/e1c51bd809ab2cd38ba613c32f049f3d620c3802))
+
 ## 0.21.2 (2026-03-07)
 
 Full Changelog: [v0.21.1...v0.21.2](https://github.com/CaseMark/casedev-python/compare/v0.21.1...v0.21.2)
