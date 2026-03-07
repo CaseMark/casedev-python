@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing import Union
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
@@ -28,7 +28,7 @@ class VaultSearchParams(TypedDict, total=False):
     """Maximum number of results to return"""
 
 
-class FiltersTyped(TypedDict, total=False):
+class Filters(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
     """Filters to narrow search results to specific documents"""
 
     object_id: Union[str, SequenceNotStr[str]]
@@ -36,6 +36,3 @@ class FiltersTyped(TypedDict, total=False):
 
     Accepts a single ID or array of IDs.
     """
-
-
-Filters: TypeAlias = Union[FiltersTyped, Dict[str, object]]
