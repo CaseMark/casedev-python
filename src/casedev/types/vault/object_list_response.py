@@ -32,6 +32,15 @@ class Object(BaseModel):
     ingestion_completed_at: Optional[datetime] = FieldInfo(alias="ingestionCompletedAt", default=None)
     """Processing completion timestamp"""
 
+    ingestion_error: Optional[str] = FieldInfo(alias="ingestionError", default=None)
+    """Failure reason when ingestion status is a failed state"""
+
+    ingestion_started_at: Optional[datetime] = FieldInfo(alias="ingestionStartedAt", default=None)
+    """When ingestion processing began"""
+
+    ingestion_workflow_id: Optional[str] = FieldInfo(alias="ingestionWorkflowId", default=None)
+    """Durable workflow run ID for the active or last ingestion attempt"""
+
     metadata: Optional[object] = None
     """Custom metadata associated with the document"""
 
