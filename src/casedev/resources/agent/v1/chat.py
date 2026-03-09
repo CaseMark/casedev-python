@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Iterable, Optional
 
 import httpx
 
@@ -18,12 +18,20 @@ from ...._response import (
 )
 from ...._streaming import Stream, AsyncStream
 from ...._base_client import make_request_options
-from ....types.agent.v1 import chat_create_params, chat_stream_params, chat_respond_params, chat_send_message_params
+from ....types.agent.v1 import (
+    chat_create_params,
+    chat_stream_params,
+    chat_respond_params,
+    chat_ui_stream_params,
+    chat_send_message_params,
+    chat_reply_to_question_params,
+)
 from ....types.agent.v1.chat_cancel_response import ChatCancelResponse
 from ....types.agent.v1.chat_create_response import ChatCreateResponse
 from ....types.agent.v1.chat_delete_response import ChatDeleteResponse
 from ....types.agent.v1.chat_stream_response import ChatStreamResponse
 from ....types.agent.v1.chat_respond_response import ChatRespondResponse
+from ....types.agent.v1.chat_ui_stream_response import ChatUiStreamResponse
 
 __all__ = ["ChatResource", "AsyncChatResource"]
 
@@ -169,6 +177,46 @@ class ChatResource(SyncAPIResource):
             cast_to=ChatCancelResponse,
         )
 
+    def reply_to_question(
+        self,
+        request_id: str,
+        *,
+        id: str,
+        answers: Iterable[SequenceNotStr[str]],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Answers a pending OpenCode question for the chat session bound to this agent
+        chat.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not request_id:
+            raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            f"/agent/v1/chat/{id}/question/{request_id}/reply",
+            body=maybe_transform({"answers": answers}, chat_reply_to_question_params.ChatReplyToQuestionParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     def respond(
         self,
         id: str,
@@ -183,7 +231,8 @@ class ChatResource(SyncAPIResource):
     ) -> Stream[ChatRespondResponse]:
         """
         Streams a single assistant turn as normalized state events with stable turn,
-        message, and part ids.
+        message, and part ids. Emits session.usage before turn.completed when token data
+        is available.
 
         Args:
           body: OpenCode message payload. Passed through 1:1.
@@ -291,6 +340,47 @@ class ChatResource(SyncAPIResource):
             cast_to=str,
             stream=True,
             stream_cls=Stream[ChatStreamResponse],
+        )
+
+    def ui_stream(
+        self,
+        id: str,
+        *,
+        body: object,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Stream[ChatUiStreamResponse]:
+        """
+        Streams a single assistant turn as AI SDK UIMessageChunk SSE events for direct
+        client rendering.
+
+        Args:
+          body: OpenCode message payload. Passed through 1:1.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        return self._post(
+            f"/agent/v1/chat/{id}/ui-stream",
+            body=maybe_transform(body, chat_ui_stream_params.ChatUiStreamParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=str,
+            stream=True,
+            stream_cls=Stream[ChatUiStreamResponse],
         )
 
 
@@ -435,6 +525,48 @@ class AsyncChatResource(AsyncAPIResource):
             cast_to=ChatCancelResponse,
         )
 
+    async def reply_to_question(
+        self,
+        request_id: str,
+        *,
+        id: str,
+        answers: Iterable[SequenceNotStr[str]],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Answers a pending OpenCode question for the chat session bound to this agent
+        chat.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not request_id:
+            raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            f"/agent/v1/chat/{id}/question/{request_id}/reply",
+            body=await async_maybe_transform(
+                {"answers": answers}, chat_reply_to_question_params.ChatReplyToQuestionParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def respond(
         self,
         id: str,
@@ -449,7 +581,8 @@ class AsyncChatResource(AsyncAPIResource):
     ) -> AsyncStream[ChatRespondResponse]:
         """
         Streams a single assistant turn as normalized state events with stable turn,
-        message, and part ids.
+        message, and part ids. Emits session.usage before turn.completed when token data
+        is available.
 
         Args:
           body: OpenCode message payload. Passed through 1:1.
@@ -561,6 +694,47 @@ class AsyncChatResource(AsyncAPIResource):
             stream_cls=AsyncStream[ChatStreamResponse],
         )
 
+    async def ui_stream(
+        self,
+        id: str,
+        *,
+        body: object,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncStream[ChatUiStreamResponse]:
+        """
+        Streams a single assistant turn as AI SDK UIMessageChunk SSE events for direct
+        client rendering.
+
+        Args:
+          body: OpenCode message payload. Passed through 1:1.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        return await self._post(
+            f"/agent/v1/chat/{id}/ui-stream",
+            body=await async_maybe_transform(body, chat_ui_stream_params.ChatUiStreamParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=str,
+            stream=True,
+            stream_cls=AsyncStream[ChatUiStreamResponse],
+        )
+
 
 class ChatResourceWithRawResponse:
     def __init__(self, chat: ChatResource) -> None:
@@ -575,6 +749,9 @@ class ChatResourceWithRawResponse:
         self.cancel = to_raw_response_wrapper(
             chat.cancel,
         )
+        self.reply_to_question = to_raw_response_wrapper(
+            chat.reply_to_question,
+        )
         self.respond = to_raw_response_wrapper(
             chat.respond,
         )
@@ -583,6 +760,9 @@ class ChatResourceWithRawResponse:
         )
         self.stream = to_raw_response_wrapper(
             chat.stream,
+        )
+        self.ui_stream = to_raw_response_wrapper(
+            chat.ui_stream,
         )
 
 
@@ -599,6 +779,9 @@ class AsyncChatResourceWithRawResponse:
         self.cancel = async_to_raw_response_wrapper(
             chat.cancel,
         )
+        self.reply_to_question = async_to_raw_response_wrapper(
+            chat.reply_to_question,
+        )
         self.respond = async_to_raw_response_wrapper(
             chat.respond,
         )
@@ -607,6 +790,9 @@ class AsyncChatResourceWithRawResponse:
         )
         self.stream = async_to_raw_response_wrapper(
             chat.stream,
+        )
+        self.ui_stream = async_to_raw_response_wrapper(
+            chat.ui_stream,
         )
 
 
@@ -623,6 +809,9 @@ class ChatResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             chat.cancel,
         )
+        self.reply_to_question = to_streamed_response_wrapper(
+            chat.reply_to_question,
+        )
         self.respond = to_streamed_response_wrapper(
             chat.respond,
         )
@@ -631,6 +820,9 @@ class ChatResourceWithStreamingResponse:
         )
         self.stream = to_streamed_response_wrapper(
             chat.stream,
+        )
+        self.ui_stream = to_streamed_response_wrapper(
+            chat.ui_stream,
         )
 
 
@@ -647,6 +839,9 @@ class AsyncChatResourceWithStreamingResponse:
         self.cancel = async_to_streamed_response_wrapper(
             chat.cancel,
         )
+        self.reply_to_question = async_to_streamed_response_wrapper(
+            chat.reply_to_question,
+        )
         self.respond = async_to_streamed_response_wrapper(
             chat.respond,
         )
@@ -655,4 +850,7 @@ class AsyncChatResourceWithStreamingResponse:
         )
         self.stream = async_to_streamed_response_wrapper(
             chat.stream,
+        )
+        self.ui_stream = async_to_streamed_response_wrapper(
+            chat.ui_stream,
         )

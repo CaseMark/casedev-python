@@ -8,7 +8,16 @@ from pydantic import Field as FieldInfo
 
 from ...._models import BaseModel
 
-__all__ = ["RunGetDetailsResponse", "Result", "ResultFinalResponse", "ResultLogs", "Step", "Usage"]
+__all__ = [
+    "RunGetDetailsResponse",
+    "Result",
+    "ResultFinalResponse",
+    "ResultLogs",
+    "Step",
+    "Usage",
+    "UsageEntry",
+    "UsageSummary",
+]
 
 
 class ResultFinalResponse(BaseModel):
@@ -63,16 +72,58 @@ class Step(BaseModel):
     type: Optional[Literal["output", "thinking", "tool_call", "tool_result"]] = None
 
 
+class UsageEntry(BaseModel):
+    id: Optional[str] = None
+
+    completion_tokens: Optional[int] = FieldInfo(alias="completionTokens", default=None)
+
+    cost_micros: Optional[int] = FieldInfo(alias="costMicros", default=None)
+
+    endpoint: Optional[str] = None
+
+    kind: Optional[Literal["llm", "api"]] = None
+
+    metadata: Optional[object] = None
+
+    method: Optional[str] = None
+
+    model: Optional[str] = None
+
+    prompt_tokens: Optional[int] = FieldInfo(alias="promptTokens", default=None)
+
+    service: Optional[str] = None
+
+    status_code: Optional[int] = FieldInfo(alias="statusCode", default=None)
+
+    timestamp: Optional[datetime] = None
+
+    total_tokens: Optional[int] = FieldInfo(alias="totalTokens", default=None)
+
+
+class UsageSummary(BaseModel):
+    cost_micros: Optional[int] = FieldInfo(alias="costMicros", default=None)
+
+    total_input_tokens: Optional[int] = FieldInfo(alias="totalInputTokens", default=None)
+
+    total_output_tokens: Optional[int] = FieldInfo(alias="totalOutputTokens", default=None)
+
+    total_tokens: Optional[int] = FieldInfo(alias="totalTokens", default=None)
+
+
 class Usage(BaseModel):
     """Token usage statistics"""
 
     duration_ms: Optional[int] = FieldInfo(alias="durationMs", default=None)
+
+    entries: Optional[List[UsageEntry]] = None
 
     input_tokens: Optional[int] = FieldInfo(alias="inputTokens", default=None)
 
     model: Optional[str] = None
 
     output_tokens: Optional[int] = FieldInfo(alias="outputTokens", default=None)
+
+    summary: Optional[UsageSummary] = None
 
     tool_calls: Optional[int] = FieldInfo(alias="toolCalls", default=None)
 
