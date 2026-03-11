@@ -11,6 +11,7 @@ from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
 from casedev.types.agent.v1 import (
     RunExecResponse,
+    RunListResponse,
     RunWatchResponse,
     RunCancelResponse,
     RunCreateResponse,
@@ -37,6 +38,7 @@ class TestRun:
         run = client.agent.v1.run.create(
             agent_id="agentId",
             prompt="prompt",
+            callback_url="https://example.com",
             guidance="guidance",
             model="model",
             object_ids=["string"],
@@ -66,6 +68,41 @@ class TestRun:
 
             run = response.parse()
             assert_matches_type(RunCreateResponse, run, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_list(self, client: Casedev) -> None:
+        run = client.agent.v1.run.list()
+        assert_matches_type(RunListResponse, run, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Casedev) -> None:
+        run = client.agent.v1.run.list(
+            agent_id="agentId",
+            cursor="cursor",
+            limit=1,
+            status="queued",
+        )
+        assert_matches_type(RunListResponse, run, path=["response"])
+
+    @parametrize
+    def test_raw_response_list(self, client: Casedev) -> None:
+        response = client.agent.v1.run.with_raw_response.list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        run = response.parse()
+        assert_matches_type(RunListResponse, run, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list(self, client: Casedev) -> None:
+        with client.agent.v1.run.with_streaming_response.list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            run = response.parse()
+            assert_matches_type(RunListResponse, run, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -332,6 +369,7 @@ class TestAsyncRun:
         run = await async_client.agent.v1.run.create(
             agent_id="agentId",
             prompt="prompt",
+            callback_url="https://example.com",
             guidance="guidance",
             model="model",
             object_ids=["string"],
@@ -361,6 +399,41 @@ class TestAsyncRun:
 
             run = await response.parse()
             assert_matches_type(RunCreateResponse, run, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_list(self, async_client: AsyncCasedev) -> None:
+        run = await async_client.agent.v1.run.list()
+        assert_matches_type(RunListResponse, run, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
+        run = await async_client.agent.v1.run.list(
+            agent_id="agentId",
+            cursor="cursor",
+            limit=1,
+            status="queued",
+        )
+        assert_matches_type(RunListResponse, run, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.agent.v1.run.with_raw_response.list()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        run = await response.parse()
+        assert_matches_type(RunListResponse, run, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
+        async with async_client.agent.v1.run.with_streaming_response.list() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            run = await response.parse()
+            assert_matches_type(RunListResponse, run, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

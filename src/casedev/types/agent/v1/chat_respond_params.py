@@ -2,11 +2,24 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, TypedDict
+from typing import Iterable
+from typing_extensions import Literal, Required, TypedDict
 
-__all__ = ["ChatRespondParams"]
+__all__ = ["ChatRespondParams", "Part"]
 
 
 class ChatRespondParams(TypedDict, total=False):
-    body: Required[object]
-    """OpenCode message payload. Passed through 1:1."""
+    parts: Iterable[Part]
+    """Message content parts.
+
+    Currently only "text" type is supported. Additional types (e.g. file, image) may
+    be added in future versions.
+    """
+
+
+class Part(TypedDict, total=False):
+    text: Required[str]
+    """The message text content"""
+
+    type: Required[Literal["text"]]
+    """Part type. Currently only "text" is supported."""
