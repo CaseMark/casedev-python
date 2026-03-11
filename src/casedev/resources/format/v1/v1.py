@@ -87,6 +87,9 @@ class V1Resource(SyncAPIResource):
 
           input_format: Format of the input content
 
+          options: Optional template composition and styling settings used during document
+              generation
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -166,6 +169,9 @@ class AsyncV1Resource(AsyncAPIResource):
           output_format: Desired output format
 
           input_format: Format of the input content
+
+          options: Optional template composition and styling settings used during document
+              generation
 
           extra_headers: Send extra headers
 

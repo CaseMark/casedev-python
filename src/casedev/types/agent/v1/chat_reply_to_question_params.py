@@ -14,3 +14,4 @@ class ChatReplyToQuestionParams(TypedDict, total=False):
     id: Required[str]
 
     answers: Required[Iterable[SequenceNotStr[str]]]
+    """Answer selections for each prompt element in the pending question"""

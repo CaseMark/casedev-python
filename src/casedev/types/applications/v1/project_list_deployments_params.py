@@ -12,7 +12,7 @@ class ProjectListDeploymentsParams(TypedDict, total=False):
     """Maximum number of deployments to return"""
 
     state: str
-    """Filter by deployment state"""
+    """Deployment state to filter by"""
 
     target: Literal["production", "staging"]
-    """Filter by deployment target"""
+    """Deployment target to filter by"""

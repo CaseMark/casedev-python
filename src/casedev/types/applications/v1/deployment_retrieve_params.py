@@ -11,7 +11,7 @@ __all__ = ["DeploymentRetrieveParams"]
 
 class DeploymentRetrieveParams(TypedDict, total=False):
     project_id: Required[Annotated[str, PropertyInfo(alias="projectId")]]
-    """Project ID (for authorization)"""
+    """Project ID used to verify access to the deployment"""
 
     include_logs: Annotated[bool, PropertyInfo(alias="includeLogs")]
-    """Include build logs"""
+    """Whether to include build logs in the response"""

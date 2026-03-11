@@ -62,6 +62,10 @@ class MultipartResource(SyncAPIResource):
         Abort a multipart upload and discard uploaded parts (live).
 
         Args:
+          object_id: Vault object ID associated with the multipart upload
+
+          upload_id: Multipart upload ID returned when the upload was initialized
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -106,6 +110,12 @@ class MultipartResource(SyncAPIResource):
         Generate presigned URLs for individual multipart upload parts (live).
 
         Args:
+          object_id: Vault object ID associated with the multipart upload
+
+          parts: Multipart parts that need presigned upload URLs
+
+          upload_id: Multipart upload ID returned when the upload was initialized
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -172,6 +182,10 @@ class AsyncMultipartResource(AsyncAPIResource):
         Abort a multipart upload and discard uploaded parts (live).
 
         Args:
+          object_id: Vault object ID associated with the multipart upload
+
+          upload_id: Multipart upload ID returned when the upload was initialized
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -216,6 +230,12 @@ class AsyncMultipartResource(AsyncAPIResource):
         Generate presigned URLs for individual multipart upload parts (live).
 
         Args:
+          object_id: Vault object ID associated with the multipart upload
+
+          parts: Multipart parts that need presigned upload URLs
+
+          upload_id: Multipart upload ID returned when the upload was initialized
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

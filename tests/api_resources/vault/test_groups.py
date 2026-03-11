@@ -17,12 +17,24 @@ class TestGroups:
 
     @parametrize
     def test_method_create(self, client: Casedev) -> None:
-        group = client.vault.groups.create()
+        group = client.vault.groups.create(
+            name="name",
+        )
+        assert group is None
+
+    @parametrize
+    def test_method_create_with_all_params(self, client: Casedev) -> None:
+        group = client.vault.groups.create(
+            name="name",
+            description="description",
+        )
         assert group is None
 
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
-        response = client.vault.groups.with_raw_response.create()
+        response = client.vault.groups.with_raw_response.create(
+            name="name",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -31,7 +43,9 @@ class TestGroups:
 
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
-        with client.vault.groups.with_streaming_response.create() as response:
+        with client.vault.groups.with_streaming_response.create(
+            name="name",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -43,14 +57,23 @@ class TestGroups:
     @parametrize
     def test_method_update(self, client: Casedev) -> None:
         group = client.vault.groups.update(
-            "groupId",
+            group_id="groupId",
+        )
+        assert group is None
+
+    @parametrize
+    def test_method_update_with_all_params(self, client: Casedev) -> None:
+        group = client.vault.groups.update(
+            group_id="groupId",
+            description="description",
+            name="name",
         )
         assert group is None
 
     @parametrize
     def test_raw_response_update(self, client: Casedev) -> None:
         response = client.vault.groups.with_raw_response.update(
-            "groupId",
+            group_id="groupId",
         )
 
         assert response.is_closed is True
@@ -61,7 +84,7 @@ class TestGroups:
     @parametrize
     def test_streaming_response_update(self, client: Casedev) -> None:
         with client.vault.groups.with_streaming_response.update(
-            "groupId",
+            group_id="groupId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -75,7 +98,7 @@ class TestGroups:
     def test_path_params_update(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group_id` but received ''"):
             client.vault.groups.with_raw_response.update(
-                "",
+                group_id="",
             )
 
     @parametrize
@@ -149,12 +172,24 @@ class TestAsyncGroups:
 
     @parametrize
     async def test_method_create(self, async_client: AsyncCasedev) -> None:
-        group = await async_client.vault.groups.create()
+        group = await async_client.vault.groups.create(
+            name="name",
+        )
+        assert group is None
+
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
+        group = await async_client.vault.groups.create(
+            name="name",
+            description="description",
+        )
         assert group is None
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.vault.groups.with_raw_response.create()
+        response = await async_client.vault.groups.with_raw_response.create(
+            name="name",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -163,7 +198,9 @@ class TestAsyncGroups:
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
-        async with async_client.vault.groups.with_streaming_response.create() as response:
+        async with async_client.vault.groups.with_streaming_response.create(
+            name="name",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -175,14 +212,23 @@ class TestAsyncGroups:
     @parametrize
     async def test_method_update(self, async_client: AsyncCasedev) -> None:
         group = await async_client.vault.groups.update(
-            "groupId",
+            group_id="groupId",
+        )
+        assert group is None
+
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncCasedev) -> None:
+        group = await async_client.vault.groups.update(
+            group_id="groupId",
+            description="description",
+            name="name",
         )
         assert group is None
 
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.groups.with_raw_response.update(
-            "groupId",
+            group_id="groupId",
         )
 
         assert response.is_closed is True
@@ -193,7 +239,7 @@ class TestAsyncGroups:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.groups.with_streaming_response.update(
-            "groupId",
+            group_id="groupId",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -207,7 +253,7 @@ class TestAsyncGroups:
     async def test_path_params_update(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `group_id` but received ''"):
             await async_client.vault.groups.with_raw_response.update(
-                "",
+                group_id="",
             )
 
     @parametrize

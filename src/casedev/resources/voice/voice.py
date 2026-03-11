@@ -19,6 +19,14 @@ from .streaming import (
     StreamingResourceWithStreamingResponse,
     AsyncStreamingResourceWithStreamingResponse,
 )
+from .boost_list import (
+    BoostListResource,
+    AsyncBoostListResource,
+    BoostListResourceWithRawResponse,
+    AsyncBoostListResourceWithRawResponse,
+    BoostListResourceWithStreamingResponse,
+    AsyncBoostListResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from .transcription import (
     TranscriptionResource,
@@ -37,6 +45,11 @@ class VoiceResource(SyncAPIResource):
     def streaming(self) -> StreamingResource:
         """Audio transcription and text-to-speech"""
         return StreamingResource(self._client)
+
+    @cached_property
+    def boost_list(self) -> BoostListResource:
+        """Audio transcription and text-to-speech"""
+        return BoostListResource(self._client)
 
     @cached_property
     def transcription(self) -> TranscriptionResource:
@@ -73,6 +86,11 @@ class AsyncVoiceResource(AsyncAPIResource):
     def streaming(self) -> AsyncStreamingResource:
         """Audio transcription and text-to-speech"""
         return AsyncStreamingResource(self._client)
+
+    @cached_property
+    def boost_list(self) -> AsyncBoostListResource:
+        """Audio transcription and text-to-speech"""
+        return AsyncBoostListResource(self._client)
 
     @cached_property
     def transcription(self) -> AsyncTranscriptionResource:
@@ -114,6 +132,11 @@ class VoiceResourceWithRawResponse:
         return StreamingResourceWithRawResponse(self._voice.streaming)
 
     @cached_property
+    def boost_list(self) -> BoostListResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
+        return BoostListResourceWithRawResponse(self._voice.boost_list)
+
+    @cached_property
     def transcription(self) -> TranscriptionResourceWithRawResponse:
         """Audio transcription and text-to-speech"""
         return TranscriptionResourceWithRawResponse(self._voice.transcription)
@@ -132,6 +155,11 @@ class AsyncVoiceResourceWithRawResponse:
     def streaming(self) -> AsyncStreamingResourceWithRawResponse:
         """Audio transcription and text-to-speech"""
         return AsyncStreamingResourceWithRawResponse(self._voice.streaming)
+
+    @cached_property
+    def boost_list(self) -> AsyncBoostListResourceWithRawResponse:
+        """Audio transcription and text-to-speech"""
+        return AsyncBoostListResourceWithRawResponse(self._voice.boost_list)
 
     @cached_property
     def transcription(self) -> AsyncTranscriptionResourceWithRawResponse:
@@ -154,6 +182,11 @@ class VoiceResourceWithStreamingResponse:
         return StreamingResourceWithStreamingResponse(self._voice.streaming)
 
     @cached_property
+    def boost_list(self) -> BoostListResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
+        return BoostListResourceWithStreamingResponse(self._voice.boost_list)
+
+    @cached_property
     def transcription(self) -> TranscriptionResourceWithStreamingResponse:
         """Audio transcription and text-to-speech"""
         return TranscriptionResourceWithStreamingResponse(self._voice.transcription)
@@ -172,6 +205,11 @@ class AsyncVoiceResourceWithStreamingResponse:
     def streaming(self) -> AsyncStreamingResourceWithStreamingResponse:
         """Audio transcription and text-to-speech"""
         return AsyncStreamingResourceWithStreamingResponse(self._voice.streaming)
+
+    @cached_property
+    def boost_list(self) -> AsyncBoostListResourceWithStreamingResponse:
+        """Audio transcription and text-to-speech"""
+        return AsyncBoostListResourceWithStreamingResponse(self._voice.boost_list)
 
     @cached_property
     def transcription(self) -> AsyncTranscriptionResourceWithStreamingResponse:

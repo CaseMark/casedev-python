@@ -19,6 +19,7 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.applications.v1 import (
+    project_list_params,
     project_create_params,
     project_delete_params,
     project_list_env_params,
@@ -73,26 +74,28 @@ class ProjectsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Create a new web application project
+        Creates a new application project, validates GitHub access, provisions a default
+        case.dev domain, and starts the deployment workflow. The initial response
+        returns as soon as the workflow is queued so clients can poll for progress.
 
         Args:
-          git_repo: GitHub repository URL or "owner/repo"
+          git_repo: GitHub repository URL or owner/repo identifier
 
-          name: Project name
+          name: Human-readable project name
 
-          build_command: Custom build command
+          build_command: Custom build command to override the framework default
 
-          environment_variables: Environment variables to set on the project
+          environment_variables: Environment variables to create before the first deployment
 
-          framework: Framework (e.g., "nextjs", "remix", "astro")
+          framework: Framework preset for the hosting project, such as nextjs or remix
 
-          git_branch: Git branch to deploy
+          git_branch: Git branch to deploy. Defaults to main.
 
-          install_command: Custom install command
+          install_command: Custom install command to override the framework default
 
-          output_directory: Build output directory
+          output_directory: Build output directory relative to the project root
 
-          root_directory: Root directory of the project
+          root_directory: Repository subdirectory that contains the app to deploy
 
           extra_headers: Send extra headers
 
@@ -137,7 +140,9 @@ class ProjectsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get details of a specific web application project
+        Returns project details, domains, and recent deployment information for one
+        application project or deployed Thurgood app. Use this endpoint when you need a
+        single record with hosting metadata for a details view.
 
         Args:
           extra_headers: Send extra headers
@@ -162,6 +167,8 @@ class ProjectsResource(SyncAPIResource):
     def list(
         self,
         *,
+        enrich: bool | Omit = omit,
+        limit: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -169,11 +176,38 @@ class ProjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProjectListResponse:
-        """List all web application projects"""
+        """
+        Lists application projects and deployed Thurgood apps for the authenticated
+        organization. Use enrich=true to include additional hosting metadata for
+        projects linked to Vercel.
+
+        Args:
+          enrich: Whether to include additional hosting metadata from Vercel
+
+          limit: Maximum number of projects to return from each backing source
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._get(
             "/applications/v1/projects",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "enrich": enrich,
+                        "limit": limit,
+                    },
+                    project_list_params.ProjectListParams,
+                ),
             ),
             cast_to=ProjectListResponse,
         )
@@ -190,11 +224,14 @@ class ProjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a web application project
+        """Soft-deletes an application project or deployed Thurgood app from Case.dev.
+
+        By
+        default it also removes the linked hosting project; set deleteFromHosting=false
+        to keep the external hosting resources intact.
 
         Args:
-          delete_from_hosting: Also delete the project from hosting (default: true)
+          delete_from_hosting: Whether to also delete the linked hosting project. Defaults to true.
 
           extra_headers: Send extra headers
 
@@ -234,7 +271,9 @@ class ProjectsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Trigger a new deployment for a project.
+        Starts a new deployment for an existing project using its saved repository and
+        hosting configuration. Any environment variables passed in the request are
+        merged into the deployment workflow before the build starts.
 
         Args:
           environment_variables: Additional environment variables to set or update before deployment
@@ -497,15 +536,18 @@ class ProjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        List deployments for a specific project
+        """Lists deployments for one project in the authenticated organization.
+
+        If the
+        hosting project has not been created yet, this endpoint returns an empty list
+        with a progress message instead of failing.
 
         Args:
           limit: Maximum number of deployments to return
 
-          state: Filter by deployment state
+          state: Deployment state to filter by
 
-          target: Filter by deployment target
+          target: Deployment target to filter by
 
           extra_headers: Send extra headers
 
@@ -654,26 +696,28 @@ class AsyncProjectsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Create a new web application project
+        Creates a new application project, validates GitHub access, provisions a default
+        case.dev domain, and starts the deployment workflow. The initial response
+        returns as soon as the workflow is queued so clients can poll for progress.
 
         Args:
-          git_repo: GitHub repository URL or "owner/repo"
+          git_repo: GitHub repository URL or owner/repo identifier
 
-          name: Project name
+          name: Human-readable project name
 
-          build_command: Custom build command
+          build_command: Custom build command to override the framework default
 
-          environment_variables: Environment variables to set on the project
+          environment_variables: Environment variables to create before the first deployment
 
-          framework: Framework (e.g., "nextjs", "remix", "astro")
+          framework: Framework preset for the hosting project, such as nextjs or remix
 
-          git_branch: Git branch to deploy
+          git_branch: Git branch to deploy. Defaults to main.
 
-          install_command: Custom install command
+          install_command: Custom install command to override the framework default
 
-          output_directory: Build output directory
+          output_directory: Build output directory relative to the project root
 
-          root_directory: Root directory of the project
+          root_directory: Repository subdirectory that contains the app to deploy
 
           extra_headers: Send extra headers
 
@@ -718,7 +762,9 @@ class AsyncProjectsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get details of a specific web application project
+        Returns project details, domains, and recent deployment information for one
+        application project or deployed Thurgood app. Use this endpoint when you need a
+        single record with hosting metadata for a details view.
 
         Args:
           extra_headers: Send extra headers
@@ -743,6 +789,8 @@ class AsyncProjectsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        enrich: bool | Omit = omit,
+        limit: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -750,11 +798,38 @@ class AsyncProjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProjectListResponse:
-        """List all web application projects"""
+        """
+        Lists application projects and deployed Thurgood apps for the authenticated
+        organization. Use enrich=true to include additional hosting metadata for
+        projects linked to Vercel.
+
+        Args:
+          enrich: Whether to include additional hosting metadata from Vercel
+
+          limit: Maximum number of projects to return from each backing source
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._get(
             "/applications/v1/projects",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "enrich": enrich,
+                        "limit": limit,
+                    },
+                    project_list_params.ProjectListParams,
+                ),
             ),
             cast_to=ProjectListResponse,
         )
@@ -771,11 +846,14 @@ class AsyncProjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a web application project
+        """Soft-deletes an application project or deployed Thurgood app from Case.dev.
+
+        By
+        default it also removes the linked hosting project; set deleteFromHosting=false
+        to keep the external hosting resources intact.
 
         Args:
-          delete_from_hosting: Also delete the project from hosting (default: true)
+          delete_from_hosting: Whether to also delete the linked hosting project. Defaults to true.
 
           extra_headers: Send extra headers
 
@@ -815,7 +893,9 @@ class AsyncProjectsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Trigger a new deployment for a project.
+        Starts a new deployment for an existing project using its saved repository and
+        hosting configuration. Any environment variables passed in the request are
+        merged into the deployment workflow before the build starts.
 
         Args:
           environment_variables: Additional environment variables to set or update before deployment
@@ -1080,15 +1160,18 @@ class AsyncProjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        List deployments for a specific project
+        """Lists deployments for one project in the authenticated organization.
+
+        If the
+        hosting project has not been created yet, this endpoint returns an empty list
+        with a progress message instead of failing.
 
         Args:
           limit: Maximum number of deployments to return
 
-          state: Filter by deployment state
+          state: Deployment state to filter by
 
-          target: Filter by deployment target
+          target: Deployment target to filter by
 
           extra_headers: Send extra headers
 

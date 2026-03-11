@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from .group_create_params import GroupCreateParams as GroupCreateParams
+from .group_update_params import GroupUpdateParams as GroupUpdateParams
 from .object_delete_params import ObjectDeleteParams as ObjectDeleteParams
 from .object_list_response import ObjectListResponse as ObjectListResponse
 from .object_update_params import ObjectUpdateParams as ObjectUpdateParams
