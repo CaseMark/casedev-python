@@ -12,7 +12,8 @@ __all__ = ["AgentUpdateParams"]
 
 
 class AgentUpdateParams(TypedDict, total=False):
-    description: str
+    description: Optional[str]
+    """Updated agent description. Pass null to clear if supported by the client."""
 
     disabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="disabledTools")]
     """Denylist of tools the agent cannot use.
@@ -29,13 +30,19 @@ class AgentUpdateParams(TypedDict, total=False):
     """
 
     instructions: str
+    """Updated system instructions that guide agent behavior"""
 
     model: str
+    """Model identifier the agent should use for future runs"""
 
     name: str
+    """Updated agent display name"""
 
     sandbox: Optional[object]
+    """Sandbox configuration override for future agent runs. Pass null to clear."""
 
     vault_groups: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultGroups")]
+    """Vault group IDs the agent can access. Pass null to clear."""
 
     vault_ids: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="vaultIds")]
+    """Vault IDs the agent can access directly. Pass null to clear."""

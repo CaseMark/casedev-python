@@ -11,4 +11,4 @@ __all__ = ["DeploymentGetLogsParams"]
 
 class DeploymentGetLogsParams(TypedDict, total=False):
     project_id: Required[Annotated[str, PropertyInfo(alias="projectId")]]
-    """Project ID (for authorization)"""
+    """Project ID used to verify access to the deployment"""

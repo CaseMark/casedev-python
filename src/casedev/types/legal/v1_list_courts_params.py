@@ -17,8 +17,10 @@ class V1ListCourtsParams(TypedDict, total=False):
     """Optional CourtListener jurisdiction code filter (e.g. FD, F, S)"""
 
     limit: int
+    """Maximum number of courts to return"""
 
     offset: int
+    """Number of courts to skip before returning results"""
 
     query: str
     """Search by court name or slug (e.g. "Northern District", "nysd", "ca9")"""

@@ -197,6 +197,8 @@ class ChatResource(SyncAPIResource):
         chat.
 
         Args:
+          answers: Answer selections for each prompt element in the pending question
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -531,6 +533,8 @@ class AsyncChatResource(AsyncAPIResource):
         chat.
 
         Args:
+          answers: Answer selections for each prompt element in the pending question
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

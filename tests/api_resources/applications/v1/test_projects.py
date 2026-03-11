@@ -119,6 +119,14 @@ class TestProjects:
         assert_matches_type(ProjectListResponse, project, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Casedev) -> None:
+        project = client.applications.v1.projects.list(
+            enrich=True,
+            limit=0,
+        )
+        assert_matches_type(ProjectListResponse, project, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.applications.v1.projects.with_raw_response.list()
 
@@ -727,6 +735,14 @@ class TestAsyncProjects:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         project = await async_client.applications.v1.projects.list()
+        assert_matches_type(ProjectListResponse, project, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
+        project = await async_client.applications.v1.projects.list(
+            enrich=True,
+            limit=0,
+        )
         assert_matches_type(ProjectListResponse, project, path=["response"])
 
     @parametrize

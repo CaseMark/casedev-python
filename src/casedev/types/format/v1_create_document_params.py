@@ -21,6 +21,10 @@ class V1CreateDocumentParams(TypedDict, total=False):
     """Format of the input content"""
 
     options: Options
+    """
+    Optional template composition and styling settings used during document
+    generation
+    """
 
 
 class OptionsComponent(TypedDict, total=False):
@@ -38,5 +42,9 @@ class OptionsComponent(TypedDict, total=False):
 
 
 class Options(TypedDict, total=False):
+    """
+    Optional template composition and styling settings used during document generation
+    """
+
     components: Iterable[OptionsComponent]
     """Template components with variables"""

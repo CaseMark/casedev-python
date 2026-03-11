@@ -435,6 +435,10 @@ class V1Resource(SyncAPIResource):
 
           jurisdiction: Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
 
+          limit: Maximum number of courts to return
+
+          offset: Number of courts to skip before returning results
+
           query: Search by court name or slug (e.g. "Northern District", "nysd", "ca9")
 
           extra_headers: Send extra headers
@@ -1171,6 +1175,10 @@ class AsyncV1Resource(AsyncAPIResource):
           in_use_only: Only return courts currently in use by CourtListener
 
           jurisdiction: Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+
+          limit: Maximum number of courts to return
+
+          offset: Number of courts to skip before returning results
 
           query: Search by court name or slug (e.g. "Northern District", "nysd", "ca9")
 

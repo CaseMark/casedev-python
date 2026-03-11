@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
-from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -13,6 +16,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.vault import group_create_params, group_update_params
 from ..._base_client import make_request_options
 
 __all__ = ["GroupsResource", "AsyncGroupsResource"]
@@ -43,6 +47,8 @@ class GroupsResource(SyncAPIResource):
     def create(
         self,
         *,
+        name: str,
+        description: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -50,10 +56,33 @@ class GroupsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Create vault group"""
+        """
+        Creates a vault group for organizing vaults and applying group-scoped access
+        controls. Group-scoped API keys cannot create or manage vault groups.
+
+        Args:
+          name: Human-readable name for the vault group
+
+          description: Optional description of the vault group purpose
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/vault/groups",
+            body=maybe_transform(
+                {
+                    "name": name,
+                    "description": description,
+                },
+                group_create_params.GroupCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -64,6 +93,8 @@ class GroupsResource(SyncAPIResource):
         self,
         group_id: str,
         *,
+        description: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -71,10 +102,16 @@ class GroupsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Update vault group
+        """Updates a vault group for the authenticated organization.
+
+        Only provided fields
+        are changed, and setting description to null removes the current description.
 
         Args:
+          description: Updated vault group description. Pass null to remove the current description.
+
+          name: New human-readable name for the vault group
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -88,6 +125,13 @@ class GroupsResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._patch(
             f"/vault/groups/{group_id}",
+            body=maybe_transform(
+                {
+                    "description": description,
+                    "name": name,
+                },
+                group_update_params.GroupUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -104,7 +148,11 @@ class GroupsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """List vault groups"""
+        """Lists vault groups visible to the authenticated organization.
+
+        Group-scoped API
+        keys only receive groups within their allowed scope.
+        """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/vault/groups",
@@ -125,8 +173,10 @@ class GroupsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete vault group
+        """Soft-deletes a vault group that no longer has any active vaults assigned.
+
+        This
+        operation is blocked when the group still contains vaults.
 
         Args:
           extra_headers: Send extra headers
@@ -174,6 +224,8 @@ class AsyncGroupsResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        name: str,
+        description: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,10 +233,33 @@ class AsyncGroupsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Create vault group"""
+        """
+        Creates a vault group for organizing vaults and applying group-scoped access
+        controls. Group-scoped API keys cannot create or manage vault groups.
+
+        Args:
+          name: Human-readable name for the vault group
+
+          description: Optional description of the vault group purpose
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/vault/groups",
+            body=await async_maybe_transform(
+                {
+                    "name": name,
+                    "description": description,
+                },
+                group_create_params.GroupCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -195,6 +270,8 @@ class AsyncGroupsResource(AsyncAPIResource):
         self,
         group_id: str,
         *,
+        description: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -202,10 +279,16 @@ class AsyncGroupsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Update vault group
+        """Updates a vault group for the authenticated organization.
+
+        Only provided fields
+        are changed, and setting description to null removes the current description.
 
         Args:
+          description: Updated vault group description. Pass null to remove the current description.
+
+          name: New human-readable name for the vault group
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -219,6 +302,13 @@ class AsyncGroupsResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._patch(
             f"/vault/groups/{group_id}",
+            body=await async_maybe_transform(
+                {
+                    "description": description,
+                    "name": name,
+                },
+                group_update_params.GroupUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -235,7 +325,11 @@ class AsyncGroupsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """List vault groups"""
+        """Lists vault groups visible to the authenticated organization.
+
+        Group-scoped API
+        keys only receive groups within their allowed scope.
+        """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/vault/groups",
@@ -256,8 +350,10 @@ class AsyncGroupsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete vault group
+        """Soft-deletes a vault group that no longer has any active vaults assigned.
+
+        This
+        operation is blocked when the group still contains vaults.
 
         Args:
           extra_headers: Send extra headers

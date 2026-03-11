@@ -65,6 +65,15 @@ class SubscriptionsResource(SyncAPIResource):
         filters can limit notifications to specific vault objects.
 
         Args:
+          callback_url: Webhook endpoint URL that will receive vault event deliveries
+
+          event_types: Vault event types to deliver. Omit to receive the default supported set.
+
+          object_ids: Vault object IDs to limit notifications to. Omit to receive events for all
+              objects in the vault.
+
+          signing_secret: Optional secret used to sign outbound webhook deliveries
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -116,6 +125,19 @@ class SubscriptionsResource(SyncAPIResource):
         webhook subscription.
 
         Args:
+          callback_url: Updated webhook endpoint URL for deliveries
+
+          clear_signing_secret: Whether to remove the existing signing secret
+
+          event_types: Updated event types to deliver for this subscription
+
+          is_active: Whether the subscription should continue delivering events
+
+          object_ids: Updated vault object IDs to limit notifications to. Pass an empty array to
+              remove the filter.
+
+          signing_secret: Replacement secret used to sign webhook deliveries
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -319,6 +341,15 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         filters can limit notifications to specific vault objects.
 
         Args:
+          callback_url: Webhook endpoint URL that will receive vault event deliveries
+
+          event_types: Vault event types to deliver. Omit to receive the default supported set.
+
+          object_ids: Vault object IDs to limit notifications to. Omit to receive events for all
+              objects in the vault.
+
+          signing_secret: Optional secret used to sign outbound webhook deliveries
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -370,6 +401,19 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         webhook subscription.
 
         Args:
+          callback_url: Updated webhook endpoint URL for deliveries
+
+          clear_signing_secret: Whether to remove the existing signing secret
+
+          event_types: Updated event types to deliver for this subscription
+
+          is_active: Whether the subscription should continue delivering events
+
+          object_ids: Updated vault object IDs to limit notifications to. Pass an empty array to
+              remove the filter.
+
+          signing_secret: Replacement secret used to sign webhook deliveries
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

@@ -11,13 +11,13 @@ __all__ = ["DeploymentListParams"]
 
 class DeploymentListParams(TypedDict, total=False):
     project_id: Required[Annotated[str, PropertyInfo(alias="projectId")]]
-    """Project ID"""
+    """Project ID to list deployments for"""
 
     limit: float
     """Maximum number of deployments to return"""
 
     state: str
-    """Filter by deployment state"""
+    """Deployment state to filter by"""
 
     target: Literal["production", "staging"]
-    """Filter by deployment target"""
+    """Deployment target to filter by"""

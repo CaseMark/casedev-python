@@ -59,3 +59,4 @@ class Length(TypedDict, total=False):
     """Target value (e.g., 2000 words or 5 pages)"""
 
     unit: Literal["words", "pages"]
+    """Whether the target length is measured in words or pages"""

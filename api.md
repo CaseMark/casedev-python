@@ -129,7 +129,7 @@ Methods:
 
 - <code title="post /applications/v1/projects">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create</a>(\*\*<a href="src/casedev/types/applications/v1/project_create_params.py">params</a>) -> None</code>
 - <code title="get /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">retrieve</a>(id) -> None</code>
-- <code title="get /applications/v1/projects">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">list</a>() -> <a href="./src/casedev/types/applications/v1/project_list_response.py">ProjectListResponse</a></code>
+- <code title="get /applications/v1/projects">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">list</a>(\*\*<a href="src/casedev/types/applications/v1/project_list_params.py">params</a>) -> <a href="./src/casedev/types/applications/v1/project_list_response.py">ProjectListResponse</a></code>
 - <code title="delete /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">delete</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_delete_params.py">params</a>) -> None</code>
 - <code title="post /applications/v1/projects/{id}/deployments">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create_deployment</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_create_deployment_params.py">params</a>) -> None</code>
 - <code title="post /applications/v1/projects/{id}/domains">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create_domain</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_create_domain_params.py">params</a>) -> None</code>
@@ -567,8 +567,8 @@ Methods:
 
 Methods:
 
-- <code title="post /vault/groups">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">create</a>() -> None</code>
-- <code title="patch /vault/groups/{groupId}">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">update</a>(group_id) -> None</code>
+- <code title="post /vault/groups">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">create</a>(\*\*<a href="src/casedev/types/vault/group_create_params.py">params</a>) -> None</code>
+- <code title="patch /vault/groups/{groupId}">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">update</a>(group_id, \*\*<a href="src/casedev/types/vault/group_update_params.py">params</a>) -> None</code>
 - <code title="get /vault/groups">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">list</a>() -> None</code>
 - <code title="delete /vault/groups/{groupId}">client.vault.groups.<a href="./src/casedev/resources/vault/groups.py">delete</a>(group_id) -> None</code>
 
@@ -627,6 +627,19 @@ from casedev.types.voice import StreamingGetURLResponse
 Methods:
 
 - <code title="get /voice/streaming/url">client.voice.streaming.<a href="./src/casedev/resources/voice/streaming.py">get_url</a>() -> <a href="./src/casedev/types/voice/streaming_get_url_response.py">StreamingGetURLResponse</a></code>
+
+## BoostList
+
+Types:
+
+```python
+from casedev.types.voice import BoostListExtractResponse, BoostListGenerateResponse
+```
+
+Methods:
+
+- <code title="post /voice/boost-list/extract">client.voice.boost_list.<a href="./src/casedev/resources/voice/boost_list.py">extract</a>(\*\*<a href="src/casedev/types/voice/boost_list_extract_params.py">params</a>) -> <a href="./src/casedev/types/voice/boost_list_extract_response.py">BoostListExtractResponse</a></code>
+- <code title="post /voice/boost-list/generate">client.voice.boost_list.<a href="./src/casedev/resources/voice/boost_list.py">generate</a>(\*\*<a href="src/casedev/types/voice/boost_list_generate_params.py">params</a>) -> <a href="./src/casedev/types/voice/boost_list_generate_response.py">BoostListGenerateResponse</a></code>
 
 ## Transcription
 
