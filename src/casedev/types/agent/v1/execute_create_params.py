@@ -16,10 +16,16 @@ class ExecuteCreateParams(TypedDict, total=False):
     """Task prompt for the agent"""
 
     disabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="disabledTools")]
-    """Denylist of tools the agent cannot use"""
+    """Denylist of tools the agent cannot use.
+
+    Mutually exclusive with enabledTools — set one or the other, not both.
+    """
 
     enabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="enabledTools")]
-    """Allowlist of tools the agent can use"""
+    """Allowlist of tools the agent can use.
+
+    Mutually exclusive with disabledTools — set one or the other, not both.
+    """
 
     guidance: Optional[str]
     """Additional context or constraints for this run"""

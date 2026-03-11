@@ -190,7 +190,20 @@ class TestChat:
     def test_method_respond(self, client: Casedev) -> None:
         chat_stream = client.agent.v1.chat.respond(
             id="id",
-            body={},
+        )
+        chat_stream.response.close()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    def test_method_respond_with_all_params(self, client: Casedev) -> None:
+        chat_stream = client.agent.v1.chat.respond(
+            id="id",
+            parts=[
+                {
+                    "text": "text",
+                    "type": "text",
+                }
+            ],
         )
         chat_stream.response.close()
 
@@ -199,7 +212,6 @@ class TestChat:
     def test_raw_response_respond(self, client: Casedev) -> None:
         response = client.agent.v1.chat.with_raw_response.respond(
             id="id",
-            body={},
         )
 
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -211,7 +223,6 @@ class TestChat:
     def test_streaming_response_respond(self, client: Casedev) -> None:
         with client.agent.v1.chat.with_streaming_response.respond(
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -227,14 +238,25 @@ class TestChat:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.agent.v1.chat.with_raw_response.respond(
                 id="",
-                body={},
             )
 
     @parametrize
     def test_method_send_message(self, client: Casedev) -> None:
         chat = client.agent.v1.chat.send_message(
             id="id",
-            body={},
+        )
+        assert chat is None
+
+    @parametrize
+    def test_method_send_message_with_all_params(self, client: Casedev) -> None:
+        chat = client.agent.v1.chat.send_message(
+            id="id",
+            parts=[
+                {
+                    "text": "text",
+                    "type": "text",
+                }
+            ],
         )
         assert chat is None
 
@@ -242,7 +264,6 @@ class TestChat:
     def test_raw_response_send_message(self, client: Casedev) -> None:
         response = client.agent.v1.chat.with_raw_response.send_message(
             id="id",
-            body={},
         )
 
         assert response.is_closed is True
@@ -254,7 +275,6 @@ class TestChat:
     def test_streaming_response_send_message(self, client: Casedev) -> None:
         with client.agent.v1.chat.with_streaming_response.send_message(
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -269,7 +289,6 @@ class TestChat:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.agent.v1.chat.with_raw_response.send_message(
                 id="",
-                body={},
             )
 
     @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
@@ -320,51 +339,6 @@ class TestChat:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.agent.v1.chat.with_raw_response.stream(
                 id="",
-            )
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    def test_method_ui_stream(self, client: Casedev) -> None:
-        chat_stream = client.agent.v1.chat.ui_stream(
-            id="id",
-            body={},
-        )
-        chat_stream.response.close()
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    def test_raw_response_ui_stream(self, client: Casedev) -> None:
-        response = client.agent.v1.chat.with_raw_response.ui_stream(
-            id="id",
-            body={},
-        )
-
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        stream = response.parse()
-        stream.close()
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    def test_streaming_response_ui_stream(self, client: Casedev) -> None:
-        with client.agent.v1.chat.with_streaming_response.ui_stream(
-            id="id",
-            body={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            stream = response.parse()
-            stream.close()
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    def test_path_params_ui_stream(self, client: Casedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.agent.v1.chat.with_raw_response.ui_stream(
-                id="",
-                body={},
             )
 
 
@@ -542,7 +516,20 @@ class TestAsyncChat:
     async def test_method_respond(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v1.chat.respond(
             id="id",
-            body={},
+        )
+        await chat_stream.response.aclose()
+
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @parametrize
+    async def test_method_respond_with_all_params(self, async_client: AsyncCasedev) -> None:
+        chat_stream = await async_client.agent.v1.chat.respond(
+            id="id",
+            parts=[
+                {
+                    "text": "text",
+                    "type": "text",
+                }
+            ],
         )
         await chat_stream.response.aclose()
 
@@ -551,7 +538,6 @@ class TestAsyncChat:
     async def test_raw_response_respond(self, async_client: AsyncCasedev) -> None:
         response = await async_client.agent.v1.chat.with_raw_response.respond(
             id="id",
-            body={},
         )
 
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -563,7 +549,6 @@ class TestAsyncChat:
     async def test_streaming_response_respond(self, async_client: AsyncCasedev) -> None:
         async with async_client.agent.v1.chat.with_streaming_response.respond(
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -579,14 +564,25 @@ class TestAsyncChat:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agent.v1.chat.with_raw_response.respond(
                 id="",
-                body={},
             )
 
     @parametrize
     async def test_method_send_message(self, async_client: AsyncCasedev) -> None:
         chat = await async_client.agent.v1.chat.send_message(
             id="id",
-            body={},
+        )
+        assert chat is None
+
+    @parametrize
+    async def test_method_send_message_with_all_params(self, async_client: AsyncCasedev) -> None:
+        chat = await async_client.agent.v1.chat.send_message(
+            id="id",
+            parts=[
+                {
+                    "text": "text",
+                    "type": "text",
+                }
+            ],
         )
         assert chat is None
 
@@ -594,7 +590,6 @@ class TestAsyncChat:
     async def test_raw_response_send_message(self, async_client: AsyncCasedev) -> None:
         response = await async_client.agent.v1.chat.with_raw_response.send_message(
             id="id",
-            body={},
         )
 
         assert response.is_closed is True
@@ -606,7 +601,6 @@ class TestAsyncChat:
     async def test_streaming_response_send_message(self, async_client: AsyncCasedev) -> None:
         async with async_client.agent.v1.chat.with_streaming_response.send_message(
             id="id",
-            body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -621,7 +615,6 @@ class TestAsyncChat:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agent.v1.chat.with_raw_response.send_message(
                 id="",
-                body={},
             )
 
     @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
@@ -672,49 +665,4 @@ class TestAsyncChat:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agent.v1.chat.with_raw_response.stream(
                 id="",
-            )
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    async def test_method_ui_stream(self, async_client: AsyncCasedev) -> None:
-        chat_stream = await async_client.agent.v1.chat.ui_stream(
-            id="id",
-            body={},
-        )
-        await chat_stream.response.aclose()
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    async def test_raw_response_ui_stream(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.agent.v1.chat.with_raw_response.ui_stream(
-            id="id",
-            body={},
-        )
-
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        stream = await response.parse()
-        await stream.close()
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    async def test_streaming_response_ui_stream(self, async_client: AsyncCasedev) -> None:
-        async with async_client.agent.v1.chat.with_streaming_response.ui_stream(
-            id="id",
-            body={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            stream = await response.parse()
-            await stream.close()
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
-    @parametrize
-    async def test_path_params_ui_stream(self, async_client: AsyncCasedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.agent.v1.chat.with_raw_response.ui_stream(
-                id="",
-                body={},
             )

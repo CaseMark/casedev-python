@@ -173,6 +173,14 @@ class TestAgents:
         assert_matches_type(AgentListResponse, agent, path=["response"])
 
     @parametrize
+    def test_method_list_with_all_params(self, client: Casedev) -> None:
+        agent = client.agent.v1.agents.list(
+            cursor="cursor",
+            limit=1,
+        )
+        assert_matches_type(AgentListResponse, agent, path=["response"])
+
+    @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.agent.v1.agents.with_raw_response.list()
 
@@ -383,6 +391,14 @@ class TestAsyncAgents:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         agent = await async_client.agent.v1.agents.list()
+        assert_matches_type(AgentListResponse, agent, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
+        agent = await async_client.agent.v1.agents.list(
+            cursor="cursor",
+            limit=1,
+        )
         assert_matches_type(AgentListResponse, agent, path=["response"])
 
     @parametrize

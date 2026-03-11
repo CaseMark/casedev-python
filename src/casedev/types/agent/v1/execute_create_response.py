@@ -12,7 +12,11 @@ __all__ = ["ExecuteCreateResponse"]
 
 class ExecuteCreateResponse(BaseModel):
     agent_id: Optional[str] = FieldInfo(alias="agentId", default=None)
-    """Ephemeral agent ID (auto-created)"""
+    """Ephemeral agent ID (auto-created).
+
+    This agent is soft-deleted when the run completes and should not be stored for
+    reuse.
+    """
 
     message: Optional[str] = None
 

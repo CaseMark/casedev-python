@@ -30,3 +30,8 @@ class Agent(BaseModel):
 
 class AgentListResponse(BaseModel):
     agents: Optional[List[Agent]] = None
+
+    has_more: Optional[bool] = FieldInfo(alias="hasMore", default=None)
+
+    next_cursor: Optional[str] = FieldInfo(alias="nextCursor", default=None)
+    """Pass as cursor to fetch the next page"""
