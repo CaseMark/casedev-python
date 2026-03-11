@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -18,8 +19,9 @@ from ...._response import (
 )
 from ...._streaming import Stream, AsyncStream
 from ...._base_client import make_request_options
-from ....types.agent.v1 import run_watch_params, run_create_params, run_events_params
+from ....types.agent.v1 import run_list_params, run_watch_params, run_create_params, run_events_params
 from ....types.agent.v1.run_exec_response import RunExecResponse
+from ....types.agent.v1.run_list_response import RunListResponse
 from ....types.agent.v1.run_watch_response import RunWatchResponse
 from ....types.agent.v1.run_cancel_response import RunCancelResponse
 from ....types.agent.v1.run_create_response import RunCreateResponse
@@ -31,6 +33,10 @@ __all__ = ["RunResource", "AsyncRunResource"]
 
 
 class RunResource(SyncAPIResource):
+    """
+    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+    """
+
     @cached_property
     def with_raw_response(self) -> RunResourceWithRawResponse:
         """
@@ -55,6 +61,7 @@ class RunResource(SyncAPIResource):
         *,
         agent_id: str,
         prompt: str,
+        callback_url: Optional[str] | Omit = omit,
         guidance: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         object_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -74,6 +81,10 @@ class RunResource(SyncAPIResource):
           agent_id: ID of the agent to run
 
           prompt: Task prompt for the agent
+
+          callback_url: HTTPS callback URL to receive a notification when the run completes. Registered
+              atomically with the run — eliminates the race condition of calling /watch after
+              /exec. Additional watchers can still be added via POST /run/:id/watch.
 
           guidance: Additional guidance for this run
 
@@ -96,6 +107,7 @@ class RunResource(SyncAPIResource):
                 {
                     "agent_id": agent_id,
                     "prompt": prompt,
+                    "callback_url": callback_url,
                     "guidance": guidance,
                     "model": model,
                     "object_ids": object_ids,
@@ -106,6 +118,63 @@ class RunResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=RunCreateResponse,
+        )
+
+    def list(
+        self,
+        *,
+        agent_id: str | Omit = omit,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
+        status: Literal["queued", "running", "completed", "failed", "cancelled"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RunListResponse:
+        """Lists agent runs for the authenticated organization.
+
+        Supports filtering by
+        agent, status, and cursor-based pagination.
+
+        Args:
+          agent_id: Filter by agent ID
+
+          cursor: Pagination cursor (run ID from previous page). Returns runs created before this
+              run.
+
+          limit: Maximum number of runs to return (default 50, max 250)
+
+          status: Filter by run status
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/agent/v1/run",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "agent_id": agent_id,
+                        "cursor": cursor,
+                        "limit": limit,
+                        "status": status,
+                    },
+                    run_list_params.RunListParams,
+                ),
+            ),
+            cast_to=RunListResponse,
         )
 
     def cancel(
@@ -332,6 +401,10 @@ class RunResource(SyncAPIResource):
 
 
 class AsyncRunResource(AsyncAPIResource):
+    """
+    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncRunResourceWithRawResponse:
         """
@@ -356,6 +429,7 @@ class AsyncRunResource(AsyncAPIResource):
         *,
         agent_id: str,
         prompt: str,
+        callback_url: Optional[str] | Omit = omit,
         guidance: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         object_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -375,6 +449,10 @@ class AsyncRunResource(AsyncAPIResource):
           agent_id: ID of the agent to run
 
           prompt: Task prompt for the agent
+
+          callback_url: HTTPS callback URL to receive a notification when the run completes. Registered
+              atomically with the run — eliminates the race condition of calling /watch after
+              /exec. Additional watchers can still be added via POST /run/:id/watch.
 
           guidance: Additional guidance for this run
 
@@ -397,6 +475,7 @@ class AsyncRunResource(AsyncAPIResource):
                 {
                     "agent_id": agent_id,
                     "prompt": prompt,
+                    "callback_url": callback_url,
                     "guidance": guidance,
                     "model": model,
                     "object_ids": object_ids,
@@ -407,6 +486,63 @@ class AsyncRunResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=RunCreateResponse,
+        )
+
+    async def list(
+        self,
+        *,
+        agent_id: str | Omit = omit,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
+        status: Literal["queued", "running", "completed", "failed", "cancelled"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RunListResponse:
+        """Lists agent runs for the authenticated organization.
+
+        Supports filtering by
+        agent, status, and cursor-based pagination.
+
+        Args:
+          agent_id: Filter by agent ID
+
+          cursor: Pagination cursor (run ID from previous page). Returns runs created before this
+              run.
+
+          limit: Maximum number of runs to return (default 50, max 250)
+
+          status: Filter by run status
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/agent/v1/run",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "agent_id": agent_id,
+                        "cursor": cursor,
+                        "limit": limit,
+                        "status": status,
+                    },
+                    run_list_params.RunListParams,
+                ),
+            ),
+            cast_to=RunListResponse,
         )
 
     async def cancel(
@@ -639,6 +775,9 @@ class RunResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             run.create,
         )
+        self.list = to_raw_response_wrapper(
+            run.list,
+        )
         self.cancel = to_raw_response_wrapper(
             run.cancel,
         )
@@ -665,6 +804,9 @@ class AsyncRunResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             run.create,
+        )
+        self.list = async_to_raw_response_wrapper(
+            run.list,
         )
         self.cancel = async_to_raw_response_wrapper(
             run.cancel,
@@ -693,6 +835,9 @@ class RunResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             run.create,
         )
+        self.list = to_streamed_response_wrapper(
+            run.list,
+        )
         self.cancel = to_streamed_response_wrapper(
             run.cancel,
         )
@@ -719,6 +864,9 @@ class AsyncRunResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             run.create,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            run.list,
         )
         self.cancel = async_to_streamed_response_wrapper(
             run.cancel,

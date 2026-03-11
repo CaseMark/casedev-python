@@ -15,8 +15,18 @@ class AgentUpdateParams(TypedDict, total=False):
     description: str
 
     disabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="disabledTools")]
+    """Denylist of tools the agent cannot use.
+
+    Mutually exclusive with enabledTools — set one or the other, not both. Pass null
+    to clear.
+    """
 
     enabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="enabledTools")]
+    """Allowlist of tools the agent can use.
+
+    Mutually exclusive with disabledTools — set one or the other, not both. Pass
+    null to clear.
+    """
 
     instructions: str
 

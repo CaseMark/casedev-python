@@ -24,6 +24,10 @@ __all__ = ["ExecuteResource", "AsyncExecuteResource"]
 
 
 class ExecuteResource(SyncAPIResource):
+    """
+    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+    """
+
     @cached_property
     def with_raw_response(self) -> ExecuteResourceWithRawResponse:
         """
@@ -68,12 +72,21 @@ class ExecuteResource(SyncAPIResource):
         for polling status and results. This is the fastest way to run an agent without
         managing agent lifecycle.
 
+        **Ephemeral agent lifecycle:** The agent created by this endpoint is
+        automatically soft-deleted and its scoped API key revoked when the run completes
+        (whether it succeeds, fails, or times out). Ephemeral agents do not appear in
+        GET /agent/v1/agents listings. The returned agentId is valid only for the
+        duration of the run — do not store it for reuse. For persistent, reusable
+        agents, use POST /agent/v1/agents instead.
+
         Args:
           prompt: Task prompt for the agent
 
-          disabled_tools: Denylist of tools the agent cannot use
+          disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+              set one or the other, not both.
 
-          enabled_tools: Allowlist of tools the agent can use
+          enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+              set one or the other, not both.
 
           guidance: Additional context or constraints for this run
 
@@ -121,6 +134,10 @@ class ExecuteResource(SyncAPIResource):
 
 
 class AsyncExecuteResource(AsyncAPIResource):
+    """
+    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncExecuteResourceWithRawResponse:
         """
@@ -165,12 +182,21 @@ class AsyncExecuteResource(AsyncAPIResource):
         for polling status and results. This is the fastest way to run an agent without
         managing agent lifecycle.
 
+        **Ephemeral agent lifecycle:** The agent created by this endpoint is
+        automatically soft-deleted and its scoped API key revoked when the run completes
+        (whether it succeeds, fails, or times out). Ephemeral agents do not appear in
+        GET /agent/v1/agents listings. The returned agentId is valid only for the
+        duration of the run — do not store it for reuse. For persistent, reusable
+        agents, use POST /agent/v1/agents instead.
+
         Args:
           prompt: Task prompt for the agent
 
-          disabled_tools: Denylist of tools the agent cannot use
+          disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+              set one or the other, not both.
 
-          enabled_tools: Allowlist of tools the agent can use
+          enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+              set one or the other, not both.
 
           guidance: Additional context or constraints for this run
 

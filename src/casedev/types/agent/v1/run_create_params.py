@@ -18,6 +18,14 @@ class RunCreateParams(TypedDict, total=False):
     prompt: Required[str]
     """Task prompt for the agent"""
 
+    callback_url: Annotated[Optional[str], PropertyInfo(alias="callbackUrl")]
+    """HTTPS callback URL to receive a notification when the run completes.
+
+    Registered atomically with the run — eliminates the race condition of calling
+    /watch after /exec. Additional watchers can still be added via POST
+    /run/:id/watch.
+    """
+
     guidance: Optional[str]
     """Additional guidance for this run"""
 

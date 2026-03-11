@@ -17,7 +17,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.agent.v1 import agent_create_params, agent_update_params
+from ....types.agent.v1 import agent_list_params, agent_create_params, agent_update_params
 from ....types.agent.v1.agent_list_response import AgentListResponse
 from ....types.agent.v1.agent_create_response import AgentCreateResponse
 from ....types.agent.v1.agent_delete_response import AgentDeleteResponse
@@ -28,6 +28,10 @@ __all__ = ["AgentsResource", "AsyncAgentsResource"]
 
 
 class AgentsResource(SyncAPIResource):
+    """
+    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+    """
+
     @cached_property
     def with_raw_response(self) -> AgentsResourceWithRawResponse:
         """
@@ -78,9 +82,11 @@ class AgentsResource(SyncAPIResource):
 
           description: Optional description of the agent
 
-          disabled_tools: Denylist of tools the agent cannot use
+          disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+              set one or the other, not both.
 
-          enabled_tools: Allowlist of tools the agent can use
+          enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+              set one or the other, not both.
 
           model: LLM model identifier (e.g. anthropic/claude-sonnet-4.6). Defaults to
               anthropic/claude-sonnet-4.6
@@ -179,6 +185,12 @@ class AgentsResource(SyncAPIResource):
         Only provided fields are changed.
 
         Args:
+          disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+              set one or the other, not both. Pass null to clear.
+
+          enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+              set one or the other, not both. Pass null to clear.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -214,6 +226,8 @@ class AgentsResource(SyncAPIResource):
     def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -221,11 +235,37 @@ class AgentsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentListResponse:
-        """Lists all active agents for the authenticated organization."""
+        """
+        Lists all active agents for the authenticated organization.
+
+        Args:
+          cursor: Pagination cursor (agent ID from previous page). Returns agents created before
+              this agent.
+
+          limit: Maximum number of agents to return (default 50, max 250)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return self._get(
             "/agent/v1/agents",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    agent_list_params.AgentListParams,
+                ),
             ),
             cast_to=AgentListResponse,
         )
@@ -265,6 +305,10 @@ class AgentsResource(SyncAPIResource):
 
 
 class AsyncAgentsResource(AsyncAPIResource):
+    """
+    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncAgentsResourceWithRawResponse:
         """
@@ -315,9 +359,11 @@ class AsyncAgentsResource(AsyncAPIResource):
 
           description: Optional description of the agent
 
-          disabled_tools: Denylist of tools the agent cannot use
+          disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+              set one or the other, not both.
 
-          enabled_tools: Allowlist of tools the agent can use
+          enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+              set one or the other, not both.
 
           model: LLM model identifier (e.g. anthropic/claude-sonnet-4.6). Defaults to
               anthropic/claude-sonnet-4.6
@@ -416,6 +462,12 @@ class AsyncAgentsResource(AsyncAPIResource):
         Only provided fields are changed.
 
         Args:
+          disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
+              set one or the other, not both. Pass null to clear.
+
+          enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
+              set one or the other, not both. Pass null to clear.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -451,6 +503,8 @@ class AsyncAgentsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -458,11 +512,37 @@ class AsyncAgentsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentListResponse:
-        """Lists all active agents for the authenticated organization."""
+        """
+        Lists all active agents for the authenticated organization.
+
+        Args:
+          cursor: Pagination cursor (agent ID from previous page). Returns agents created before
+              this agent.
+
+          limit: Maximum number of agents to return (default 50, max 250)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
         return await self._get(
             "/agent/v1/agents",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    agent_list_params.AgentListParams,
+                ),
             ),
             cast_to=AgentListResponse,
         )
