@@ -20,10 +20,10 @@ class EnvironmentVariable(TypedDict, total=False):
     """Environment variable name"""
 
     target: Required[List[Literal["production", "preview", "development"]]]
-    """Deployment targets for this variable"""
+    """Deployment targets that should receive this variable"""
 
     value: Required[str]
     """Environment variable value"""
 
     type: Literal["plain", "encrypted", "secret"]
-    """Variable type"""
+    """Storage mode for the environment variable value"""

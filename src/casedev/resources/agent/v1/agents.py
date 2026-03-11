@@ -164,7 +164,7 @@ class AgentsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        description: str | Omit = omit,
+        description: Optional[str] | Omit = omit,
         disabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         enabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         instructions: str | Omit = omit,
@@ -185,11 +185,25 @@ class AgentsResource(SyncAPIResource):
         Only provided fields are changed.
 
         Args:
+          description: Updated agent description. Pass null to clear if supported by the client.
+
           disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
               set one or the other, not both. Pass null to clear.
 
           enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
               set one or the other, not both. Pass null to clear.
+
+          instructions: Updated system instructions that guide agent behavior
+
+          model: Model identifier the agent should use for future runs
+
+          name: Updated agent display name
+
+          sandbox: Sandbox configuration override for future agent runs. Pass null to clear.
+
+          vault_groups: Vault group IDs the agent can access. Pass null to clear.
+
+          vault_ids: Vault IDs the agent can access directly. Pass null to clear.
 
           extra_headers: Send extra headers
 
@@ -441,7 +455,7 @@ class AsyncAgentsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        description: str | Omit = omit,
+        description: Optional[str] | Omit = omit,
         disabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         enabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         instructions: str | Omit = omit,
@@ -462,11 +476,25 @@ class AsyncAgentsResource(AsyncAPIResource):
         Only provided fields are changed.
 
         Args:
+          description: Updated agent description. Pass null to clear if supported by the client.
+
           disabled_tools: Denylist of tools the agent cannot use. Mutually exclusive with enabledTools —
               set one or the other, not both. Pass null to clear.
 
           enabled_tools: Allowlist of tools the agent can use. Mutually exclusive with disabledTools —
               set one or the other, not both. Pass null to clear.
+
+          instructions: Updated system instructions that guide agent behavior
+
+          model: Model identifier the agent should use for future runs
+
+          name: Updated agent display name
+
+          sandbox: Sandbox configuration override for future agent runs. Pass null to clear.
+
+          vault_groups: Vault group IDs the agent can access. Pass null to clear.
+
+          vault_ids: Vault IDs the agent can access directly. Pass null to clear.
 
           extra_headers: Send extra headers
 

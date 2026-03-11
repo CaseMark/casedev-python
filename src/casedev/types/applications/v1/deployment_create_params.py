@@ -11,10 +11,10 @@ __all__ = ["DeploymentCreateParams"]
 
 class DeploymentCreateParams(TypedDict, total=False):
     project_id: Required[Annotated[str, PropertyInfo(alias="projectId")]]
-    """Project ID"""
+    """Project ID to deploy"""
 
     ref: str
-    """Git ref (branch, tag, or commit) to deploy"""
+    """Git branch, tag, or commit to deploy. Defaults to the project branch."""
 
     target: Literal["production", "preview"]
-    """Deployment target"""
+    """Deployment target environment"""

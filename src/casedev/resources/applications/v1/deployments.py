@@ -65,14 +65,16 @@ class DeploymentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Trigger a new deployment for a project
+        Creates a deployment for an existing project by fetching repository files from
+        GitHub and uploading them to the hosting provider. Use ref to deploy a branch,
+        tag, or commit other than the project default branch.
 
         Args:
-          project_id: Project ID
+          project_id: Project ID to deploy
 
-          ref: Git ref (branch, tag, or commit) to deploy
+          ref: Git branch, tag, or commit to deploy. Defaults to the project branch.
 
-          target: Deployment target
+          target: Deployment target environment
 
           extra_headers: Send extra headers
 
@@ -113,12 +115,13 @@ class DeploymentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get details of a specific deployment including build logs
+        Returns deployment details for one project in the authenticated organization.
+        Set includeLogs=true to include recent build output in the response.
 
         Args:
-          project_id: Project ID (for authorization)
+          project_id: Project ID used to verify access to the deployment
 
-          include_logs: Include build logs
+          include_logs: Whether to include build logs in the response
 
           extra_headers: Send extra headers
 
@@ -163,17 +166,19 @@ class DeploymentsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        List deployments for a project
+        """Lists recent deployments for one project in the authenticated organization.
+
+        Use
+        the optional filters to narrow results by target or deployment state.
 
         Args:
-          project_id: Project ID
+          project_id: Project ID to list deployments for
 
           limit: Maximum number of deployments to return
 
-          state: Filter by deployment state
+          state: Deployment state to filter by
 
-          target: Filter by deployment target
+          target: Deployment target to filter by
 
           extra_headers: Send extra headers
 
@@ -217,10 +222,12 @@ class DeploymentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Cancel a running deployment
+        Cancels a running deployment after verifying that the referenced project belongs
+        to the authenticated organization. Use this when a build is stuck,
+        misconfigured, or no longer needed.
 
         Args:
-          project_id: Project ID (for authorization)
+          project_id: Project ID used to verify access to the deployment
 
           extra_headers: Send extra headers
 
@@ -275,10 +282,12 @@ class DeploymentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get build logs for a specific deployment
+        Returns build and runtime log events for a deployment after verifying access to
+        the owning project. Use this when you need detailed output for a failed or
+        in-progress build.
 
         Args:
-          project_id: Project ID (for authorization)
+          project_id: Project ID used to verify access to the deployment
 
           extra_headers: Send extra headers
 
@@ -314,8 +323,11 @@ class DeploymentsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Get the current status of a deployment
+        """Returns the current status of a deployment without fetching full build logs.
+
+        Use
+        this endpoint for lightweight polling while a deployment is building or waiting
+        to become ready.
 
         Args:
           extra_headers: Send extra headers
@@ -424,14 +436,16 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Trigger a new deployment for a project
+        Creates a deployment for an existing project by fetching repository files from
+        GitHub and uploading them to the hosting provider. Use ref to deploy a branch,
+        tag, or commit other than the project default branch.
 
         Args:
-          project_id: Project ID
+          project_id: Project ID to deploy
 
-          ref: Git ref (branch, tag, or commit) to deploy
+          ref: Git branch, tag, or commit to deploy. Defaults to the project branch.
 
-          target: Deployment target
+          target: Deployment target environment
 
           extra_headers: Send extra headers
 
@@ -472,12 +486,13 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get details of a specific deployment including build logs
+        Returns deployment details for one project in the authenticated organization.
+        Set includeLogs=true to include recent build output in the response.
 
         Args:
-          project_id: Project ID (for authorization)
+          project_id: Project ID used to verify access to the deployment
 
-          include_logs: Include build logs
+          include_logs: Whether to include build logs in the response
 
           extra_headers: Send extra headers
 
@@ -522,17 +537,19 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        List deployments for a project
+        """Lists recent deployments for one project in the authenticated organization.
+
+        Use
+        the optional filters to narrow results by target or deployment state.
 
         Args:
-          project_id: Project ID
+          project_id: Project ID to list deployments for
 
           limit: Maximum number of deployments to return
 
-          state: Filter by deployment state
+          state: Deployment state to filter by
 
-          target: Filter by deployment target
+          target: Deployment target to filter by
 
           extra_headers: Send extra headers
 
@@ -576,10 +593,12 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Cancel a running deployment
+        Cancels a running deployment after verifying that the referenced project belongs
+        to the authenticated organization. Use this when a build is stuck,
+        misconfigured, or no longer needed.
 
         Args:
-          project_id: Project ID (for authorization)
+          project_id: Project ID used to verify access to the deployment
 
           extra_headers: Send extra headers
 
@@ -636,10 +655,12 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Get build logs for a specific deployment
+        Returns build and runtime log events for a deployment after verifying access to
+        the owning project. Use this when you need detailed output for a failed or
+        in-progress build.
 
         Args:
-          project_id: Project ID (for authorization)
+          project_id: Project ID used to verify access to the deployment
 
           extra_headers: Send extra headers
 
@@ -677,8 +698,11 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Get the current status of a deployment
+        """Returns the current status of a deployment without fetching full build logs.
+
+        Use
+        this endpoint for lightweight polling while a deployment is building or waiting
+        to become ready.
 
         Args:
           extra_headers: Send extra headers
