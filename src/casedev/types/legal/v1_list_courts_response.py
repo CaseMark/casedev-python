@@ -11,7 +11,7 @@ __all__ = ["V1ListCourtsResponse", "Court"]
 
 class Court(BaseModel):
     id: Optional[str] = None
-    """CourtListener court slug"""
+    """Court slug (use as the court parameter in legal.docket())"""
 
     full_name: Optional[str] = FieldInfo(alias="fullName", default=None)
 

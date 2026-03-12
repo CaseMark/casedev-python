@@ -10,7 +10,7 @@ from ..._models import BaseModel
 from .docket_detail import DocketDetail
 from .docket_search_result import DocketSearchResult
 
-__all__ = ["V1DocketResponse", "Entry", "EntryDocument", "Pagination"]
+__all__ = ["V1DocketResponse", "Entry", "EntryDocument", "PacerFees", "Pagination"]
 
 
 class EntryDocument(BaseModel):
@@ -37,6 +37,21 @@ class Entry(BaseModel):
     documents: Optional[List[EntryDocument]] = None
 
     entry_number: Optional[int] = FieldInfo(alias="entryNumber", default=None)
+
+
+class PacerFees(BaseModel):
+    """PACER fee information (present when live: true)"""
+
+    currency: Optional[Literal["USD"]] = None
+
+    fetch_duration_ms: Optional[int] = FieldInfo(alias="fetchDurationMs", default=None)
+    """Time taken for PACER fetch in milliseconds"""
+
+    max_pacer_cost: Optional[float] = FieldInfo(alias="maxPacerCost", default=None)
+    """Maximum PACER charge per docket in USD"""
+
+    service_fee: Optional[float] = FieldInfo(alias="serviceFee", default=None)
+    """CaseMark service fee in USD"""
 
 
 class Pagination(BaseModel):
@@ -72,6 +87,12 @@ class V1DocketResponse(BaseModel):
 
     include_entries: Optional[bool] = FieldInfo(alias="includeEntries", default=None)
     """Whether entries were requested (lookup mode only)"""
+
+    live: Optional[bool] = None
+    """Whether this was a live PACER fetch (lookup mode only)"""
+
+    pacer_fees: Optional[PacerFees] = FieldInfo(alias="pacerFees", default=None)
+    """PACER fee information (present when live: true)"""
 
     pagination: Optional[Pagination] = None
     """Pagination info for entry list (lookup mode with includeEntries)"""
