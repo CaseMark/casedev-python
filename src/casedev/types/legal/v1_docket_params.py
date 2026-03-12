@@ -15,8 +15,18 @@ class V1DocketParams(TypedDict, total=False):
     type: Required[Literal["search", "lookup"]]
     """Search dockets or look up a docket by ID"""
 
+    acknowledge_pacer_fees: Annotated[bool, PropertyInfo(alias="acknowledgePacerFees")]
+    """Required when live: true.
+
+    Acknowledges that PACER fees (up to $3.00 per docket) plus a $0.05 service fee
+    will be charged to your account.
+    """
+
     court: str
-    """Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")"""
+    """Optional court slug for filtering (e.g.
+
+    "nysd", "ca9", "cafc"). Use legal.listCourts() to find slugs.
+    """
 
     date_filed_after: Annotated[Union[str, date], PropertyInfo(alias="dateFiledAfter", format="iso8601")]
     """Optional lower bound for filing date (YYYY-MM-DD)"""
@@ -25,10 +35,14 @@ class V1DocketParams(TypedDict, total=False):
     """Optional upper bound for filing date (YYYY-MM-DD)"""
 
     docket_id: Annotated[str, PropertyInfo(alias="docketId")]
-    """CourtListener docket ID (required for lookup)"""
+    """Docket ID (required for lookup)"""
 
     include_entries: Annotated[bool, PropertyInfo(alias="includeEntries")]
-    """Include docket entries/filings in lookup responses"""
+    """Include docket entries/filings in lookup responses.
+
+    Coming soon — currently returns 501. The parameter is accepted for forward
+    compatibility.
+    """
 
     limit: int
     """
@@ -37,9 +51,10 @@ class V1DocketParams(TypedDict, total=False):
     """
 
     live: bool
-    """Reserved for future PACER live fetch support.
+    """Trigger a live PACER fetch for dockets not yet in the RECAP archive.
 
-    Setting true currently returns 400.
+    Requires acknowledgePacerFees: true. PACER charges up to $3.00 per docket sheet
+    plus a $0.05 service fee. Only valid with type: "lookup".
     """
 
     offset: int
