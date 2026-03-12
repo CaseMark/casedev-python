@@ -11,10 +11,13 @@ __all__ = ["V1ListCourtsParams"]
 
 class V1ListCourtsParams(TypedDict, total=False):
     in_use_only: Annotated[bool, PropertyInfo(alias="inUseOnly")]
-    """Only return courts currently in use by CourtListener"""
+    """Only return courts with available docket data"""
 
     jurisdiction: str
-    """Optional CourtListener jurisdiction code filter (e.g. FD, F, S)"""
+    """Optional jurisdiction code filter (e.g.
+
+    FD for Federal District, F for all Federal, S for State)
+    """
 
     limit: int
     """Maximum number of courts to return"""

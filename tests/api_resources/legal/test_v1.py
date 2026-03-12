@@ -43,6 +43,7 @@ class TestV1:
     def test_method_docket_with_all_params(self, client: Casedev) -> None:
         v1 = client.legal.v1.docket(
             type="search",
+            acknowledge_pacer_fees=True,
             court="court",
             date_filed_after=parse_date("2019-12-27"),
             date_filed_before=parse_date("2019-12-27"),
@@ -555,6 +556,7 @@ class TestAsyncV1:
     async def test_method_docket_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.legal.v1.docket(
             type="search",
+            acknowledge_pacer_fees=True,
             court="court",
             date_filed_after=parse_date("2019-12-27"),
             date_filed_before=parse_date("2019-12-27"),

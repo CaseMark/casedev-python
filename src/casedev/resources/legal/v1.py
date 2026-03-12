@@ -77,6 +77,7 @@ class V1Resource(SyncAPIResource):
         self,
         *,
         type: Literal["search", "lookup"],
+        acknowledge_pacer_fees: bool | Omit = omit,
         court: str | Omit = omit,
         date_filed_after: Union[str, date] | Omit = omit,
         date_filed_before: Union[str, date] | Omit = omit,
@@ -95,26 +96,32 @@ class V1Resource(SyncAPIResource):
     ) -> V1DocketResponse:
         """
         Search federal court dockets or retrieve a specific docket with optional filing
-        entries via CourtListener RECAP data.
+        entries. Use legal.listCourts() to resolve court slugs for filtering.
 
         Args:
           type: Search dockets or look up a docket by ID
 
-          court: Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")
+          acknowledge_pacer_fees: Required when live: true. Acknowledges that PACER fees (up to $3.00 per docket)
+              plus a $0.05 service fee will be charged to your account.
+
+          court: Optional court slug for filtering (e.g. "nysd", "ca9", "cafc"). Use
+              legal.listCourts() to find slugs.
 
           date_filed_after: Optional lower bound for filing date (YYYY-MM-DD)
 
           date_filed_before: Optional upper bound for filing date (YYYY-MM-DD)
 
-          docket_id: CourtListener docket ID (required for lookup)
+          docket_id: Docket ID (required for lookup)
 
-          include_entries: Include docket entries/filings in lookup responses
+          include_entries: Include docket entries/filings in lookup responses. Coming soon — currently
+              returns 501. The parameter is accepted for forward compatibility.
 
           limit: Page size for search results or entry list (default 25 for search, 50 for
               lookup)
 
-          live: Reserved for future PACER live fetch support. Setting true currently
-              returns 400.
+          live: Trigger a live PACER fetch for dockets not yet in the RECAP archive. Requires
+              acknowledgePacerFees: true. PACER charges up to $3.00 per docket sheet plus a
+              $0.05 service fee. Only valid with type: "lookup".
 
           offset: Offset for search results or entry list
 
@@ -133,6 +140,7 @@ class V1Resource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "type": type,
+                    "acknowledge_pacer_fees": acknowledge_pacer_fees,
                     "court": court,
                     "date_filed_after": date_filed_after,
                     "date_filed_before": date_filed_before,
@@ -425,15 +433,16 @@ class V1Resource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1ListCourtsResponse:
-        """Returns CourtListener court IDs and names for docket filtering.
+        """Returns court IDs (slugs) and names for use with the docket search endpoint.
 
-        Use these IDs in
-        legal.docket() as the court parameter.
+        Use
+        the returned court ID as the `court` parameter in legal.docket().
 
         Args:
-          in_use_only: Only return courts currently in use by CourtListener
+          in_use_only: Only return courts with available docket data
 
-          jurisdiction: Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+          jurisdiction: Optional jurisdiction code filter (e.g. FD for Federal District, F for all
+              Federal, S for State)
 
           limit: Maximum number of courts to return
 
@@ -816,6 +825,7 @@ class AsyncV1Resource(AsyncAPIResource):
         self,
         *,
         type: Literal["search", "lookup"],
+        acknowledge_pacer_fees: bool | Omit = omit,
         court: str | Omit = omit,
         date_filed_after: Union[str, date] | Omit = omit,
         date_filed_before: Union[str, date] | Omit = omit,
@@ -834,26 +844,32 @@ class AsyncV1Resource(AsyncAPIResource):
     ) -> V1DocketResponse:
         """
         Search federal court dockets or retrieve a specific docket with optional filing
-        entries via CourtListener RECAP data.
+        entries. Use legal.listCourts() to resolve court slugs for filtering.
 
         Args:
           type: Search dockets or look up a docket by ID
 
-          court: Optional CourtListener court slug (e.g. "nysd", "ca9", "cafc")
+          acknowledge_pacer_fees: Required when live: true. Acknowledges that PACER fees (up to $3.00 per docket)
+              plus a $0.05 service fee will be charged to your account.
+
+          court: Optional court slug for filtering (e.g. "nysd", "ca9", "cafc"). Use
+              legal.listCourts() to find slugs.
 
           date_filed_after: Optional lower bound for filing date (YYYY-MM-DD)
 
           date_filed_before: Optional upper bound for filing date (YYYY-MM-DD)
 
-          docket_id: CourtListener docket ID (required for lookup)
+          docket_id: Docket ID (required for lookup)
 
-          include_entries: Include docket entries/filings in lookup responses
+          include_entries: Include docket entries/filings in lookup responses. Coming soon — currently
+              returns 501. The parameter is accepted for forward compatibility.
 
           limit: Page size for search results or entry list (default 25 for search, 50 for
               lookup)
 
-          live: Reserved for future PACER live fetch support. Setting true currently
-              returns 400.
+          live: Trigger a live PACER fetch for dockets not yet in the RECAP archive. Requires
+              acknowledgePacerFees: true. PACER charges up to $3.00 per docket sheet plus a
+              $0.05 service fee. Only valid with type: "lookup".
 
           offset: Offset for search results or entry list
 
@@ -872,6 +888,7 @@ class AsyncV1Resource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "type": type,
+                    "acknowledge_pacer_fees": acknowledge_pacer_fees,
                     "court": court,
                     "date_filed_after": date_filed_after,
                     "date_filed_before": date_filed_before,
@@ -1166,15 +1183,16 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1ListCourtsResponse:
-        """Returns CourtListener court IDs and names for docket filtering.
+        """Returns court IDs (slugs) and names for use with the docket search endpoint.
 
-        Use these IDs in
-        legal.docket() as the court parameter.
+        Use
+        the returned court ID as the `court` parameter in legal.docket().
 
         Args:
-          in_use_only: Only return courts currently in use by CourtListener
+          in_use_only: Only return courts with available docket data
 
-          jurisdiction: Optional CourtListener jurisdiction code filter (e.g. FD, F, S)
+          jurisdiction: Optional jurisdiction code filter (e.g. FD for Federal District, F for all
+              Federal, S for State)
 
           limit: Maximum number of courts to return
 
