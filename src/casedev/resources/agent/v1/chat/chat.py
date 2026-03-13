@@ -6,30 +6,38 @@ from typing import Iterable, Optional
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
-from ...._compat import cached_property
-from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
+from ....._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
+from ....._utils import maybe_transform, async_maybe_transform
+from ....._compat import cached_property
+from ....._resource import SyncAPIResource, AsyncAPIResource
+from ....._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._streaming import Stream, AsyncStream
-from ...._base_client import make_request_options
-from ....types.agent.v1 import (
+from ....._streaming import Stream, AsyncStream
+from ....._base_client import make_request_options
+from .....types.agent.v1 import (
     chat_create_params,
     chat_stream_params,
     chat_respond_params,
     chat_send_message_params,
     chat_reply_to_question_params,
 )
-from ....types.agent.v1.chat_cancel_response import ChatCancelResponse
-from ....types.agent.v1.chat_create_response import ChatCreateResponse
-from ....types.agent.v1.chat_delete_response import ChatDeleteResponse
-from ....types.agent.v1.chat_stream_response import ChatStreamResponse
-from ....types.agent.v1.chat_respond_response import ChatRespondResponse
+from .....types.agent.v1.chat_cancel_response import ChatCancelResponse
+from .....types.agent.v1.chat_create_response import ChatCreateResponse
+from .....types.agent.v1.chat_delete_response import ChatDeleteResponse
+from .....types.agent.v1.chat_stream_response import ChatStreamResponse
+from .....types.agent.v1.chat_respond_response import ChatRespondResponse
 
 __all__ = ["ChatResource", "AsyncChatResource"]
 
@@ -38,6 +46,13 @@ class ChatResource(SyncAPIResource):
     """
     Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
     """
+
+    @cached_property
+    def files(self) -> FilesResource:
+        """
+        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+        """
+        return FilesResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> ChatResourceWithRawResponse:
@@ -374,6 +389,13 @@ class AsyncChatResource(AsyncAPIResource):
     """
     Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
     """
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        """
+        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+        """
+        return AsyncFilesResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncChatResourceWithRawResponse:
@@ -736,6 +758,13 @@ class ChatResourceWithRawResponse:
             chat.stream,
         )
 
+    @cached_property
+    def files(self) -> FilesResourceWithRawResponse:
+        """
+        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+        """
+        return FilesResourceWithRawResponse(self._chat.files)
+
 
 class AsyncChatResourceWithRawResponse:
     def __init__(self, chat: AsyncChatResource) -> None:
@@ -762,6 +791,13 @@ class AsyncChatResourceWithRawResponse:
         self.stream = async_to_raw_response_wrapper(
             chat.stream,
         )
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithRawResponse:
+        """
+        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+        """
+        return AsyncFilesResourceWithRawResponse(self._chat.files)
 
 
 class ChatResourceWithStreamingResponse:
@@ -790,6 +826,13 @@ class ChatResourceWithStreamingResponse:
             chat.stream,
         )
 
+    @cached_property
+    def files(self) -> FilesResourceWithStreamingResponse:
+        """
+        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+        """
+        return FilesResourceWithStreamingResponse(self._chat.files)
+
 
 class AsyncChatResourceWithStreamingResponse:
     def __init__(self, chat: AsyncChatResource) -> None:
@@ -816,3 +859,10 @@ class AsyncChatResourceWithStreamingResponse:
         self.stream = async_to_streamed_response_wrapper(
             chat.stream,
         )
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithStreamingResponse:
+        """
+        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
+        """
+        return AsyncFilesResourceWithStreamingResponse(self._chat.files)

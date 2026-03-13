@@ -1,0 +1,228 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import os
+from typing import Any, cast
+
+import httpx
+import pytest
+from respx import MockRouter
+
+from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+)
+from casedev.types.agent.v1.chat import FileListResponse
+
+base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+
+
+class TestFiles:
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_list(self, client: Casedev) -> None:
+        file = client.agent.v1.chat.files.list(
+            "id",
+        )
+        assert_matches_type(FileListResponse, file, path=["response"])
+
+    @parametrize
+    def test_raw_response_list(self, client: Casedev) -> None:
+        response = client.agent.v1.chat.files.with_raw_response.list(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = response.parse()
+        assert_matches_type(FileListResponse, file, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list(self, client: Casedev) -> None:
+        with client.agent.v1.chat.files.with_streaming_response.list(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = response.parse()
+            assert_matches_type(FileListResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_list(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.agent.v1.chat.files.with_raw_response.list(
+                "",
+            )
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_download(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        file = client.agent.v1.chat.files.download(
+            path="path",
+            id="id",
+        )
+        assert file.is_closed
+        assert file.json() == {"foo": "bar"}
+        assert cast(Any, file.is_closed) is True
+        assert isinstance(file, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_raw_response_download(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        file = client.agent.v1.chat.files.with_raw_response.download(
+            path="path",
+            id="id",
+        )
+
+        assert file.is_closed is True
+        assert file.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert file.json() == {"foo": "bar"}
+        assert isinstance(file, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_streaming_response_download(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        with client.agent.v1.chat.files.with_streaming_response.download(
+            path="path",
+            id="id",
+        ) as file:
+            assert not file.is_closed
+            assert file.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            assert file.json() == {"foo": "bar"}
+            assert cast(Any, file.is_closed) is True
+            assert isinstance(file, StreamedBinaryAPIResponse)
+
+        assert cast(Any, file.is_closed) is True
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_path_params_download(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.agent.v1.chat.files.with_raw_response.download(
+                path="path",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path` but received ''"):
+            client.agent.v1.chat.files.with_raw_response.download(
+                path="",
+                id="id",
+            )
+
+
+class TestAsyncFiles:
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
+
+    @parametrize
+    async def test_method_list(self, async_client: AsyncCasedev) -> None:
+        file = await async_client.agent.v1.chat.files.list(
+            "id",
+        )
+        assert_matches_type(FileListResponse, file, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.agent.v1.chat.files.with_raw_response.list(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        file = await response.parse()
+        assert_matches_type(FileListResponse, file, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
+        async with async_client.agent.v1.chat.files.with_streaming_response.list(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            file = await response.parse()
+            assert_matches_type(FileListResponse, file, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_list(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.agent.v1.chat.files.with_raw_response.list(
+                "",
+            )
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        file = await async_client.agent.v1.chat.files.download(
+            path="path",
+            id="id",
+        )
+        assert file.is_closed
+        assert await file.json() == {"foo": "bar"}
+        assert cast(Any, file.is_closed) is True
+        assert isinstance(file, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_raw_response_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        file = await async_client.agent.v1.chat.files.with_raw_response.download(
+            path="path",
+            id="id",
+        )
+
+        assert file.is_closed is True
+        assert file.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert await file.json() == {"foo": "bar"}
+        assert isinstance(file, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_streaming_response_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        async with async_client.agent.v1.chat.files.with_streaming_response.download(
+            path="path",
+            id="id",
+        ) as file:
+            assert not file.is_closed
+            assert file.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            assert await file.json() == {"foo": "bar"}
+            assert cast(Any, file.is_closed) is True
+            assert isinstance(file, AsyncStreamedBinaryAPIResponse)
+
+        assert cast(Any, file.is_closed) is True
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_path_params_download(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.agent.v1.chat.files.with_raw_response.download(
+                path="path",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path` but received ''"):
+            await async_client.agent.v1.chat.files.with_raw_response.download(
+                path="",
+                id="id",
+            )
