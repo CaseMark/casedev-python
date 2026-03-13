@@ -99,7 +99,7 @@ from casedev.types.agent.v1.chat import FileListResponse
 Methods:
 
 - <code title="get /agent/v1/chat/{id}/files">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">list</a>(id) -> <a href="./src/casedev/types/agent/v1/chat/file_list_response.py">FileListResponse</a></code>
-- <code title="get /agent/v1/chat/{id}/files/{path}">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">download</a>(path, \*, id) -> BinaryAPIResponse</code>
+- <code title="get /agent/v1/chat/{id}/files/{filePath}">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">download</a>(file_path, \*, id) -> BinaryAPIResponse</code>
 
 # System
 
