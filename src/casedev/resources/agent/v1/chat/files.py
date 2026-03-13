@@ -88,7 +88,7 @@ class FilesResource(SyncAPIResource):
 
     def download(
         self,
-        path: str,
+        file_path: str,
         *,
         id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -114,11 +114,11 @@ class FilesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not path:
-            raise ValueError(f"Expected a non-empty value for `path` but received {path!r}")
+        if not file_path:
+            raise ValueError(f"Expected a non-empty value for `file_path` but received {file_path!r}")
         extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return self._get(
-            f"/agent/v1/chat/{id}/files/{path}",
+            f"/agent/v1/chat/{id}/files/{file_path}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -187,7 +187,7 @@ class AsyncFilesResource(AsyncAPIResource):
 
     async def download(
         self,
-        path: str,
+        file_path: str,
         *,
         id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -213,11 +213,11 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not path:
-            raise ValueError(f"Expected a non-empty value for `path` but received {path!r}")
+        if not file_path:
+            raise ValueError(f"Expected a non-empty value for `file_path` but received {file_path!r}")
         extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return await self._get(
-            f"/agent/v1/chat/{id}/files/{path}",
+            f"/agent/v1/chat/{id}/files/{file_path}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

@@ -66,9 +66,9 @@ class TestFiles:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_method_download(self, client: Casedev, respx_mock: MockRouter) -> None:
-        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/agent/v1/chat/id/files/filePath").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         file = client.agent.v1.chat.files.download(
-            path="path",
+            file_path="filePath",
             id="id",
         )
         assert file.is_closed
@@ -79,10 +79,10 @@ class TestFiles:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response_download(self, client: Casedev, respx_mock: MockRouter) -> None:
-        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/agent/v1/chat/id/files/filePath").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         file = client.agent.v1.chat.files.with_raw_response.download(
-            path="path",
+            file_path="filePath",
             id="id",
         )
 
@@ -94,9 +94,9 @@ class TestFiles:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_streaming_response_download(self, client: Casedev, respx_mock: MockRouter) -> None:
-        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/agent/v1/chat/id/files/filePath").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.agent.v1.chat.files.with_streaming_response.download(
-            path="path",
+            file_path="filePath",
             id="id",
         ) as file:
             assert not file.is_closed
@@ -113,13 +113,13 @@ class TestFiles:
     def test_path_params_download(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.agent.v1.chat.files.with_raw_response.download(
-                path="path",
+                file_path="filePath",
                 id="",
             )
 
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_path` but received ''"):
             client.agent.v1.chat.files.with_raw_response.download(
-                path="",
+                file_path="",
                 id="id",
             )
 
@@ -170,9 +170,9 @@ class TestAsyncFiles:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_method_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
-        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/agent/v1/chat/id/files/filePath").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         file = await async_client.agent.v1.chat.files.download(
-            path="path",
+            file_path="filePath",
             id="id",
         )
         assert file.is_closed
@@ -183,10 +183,10 @@ class TestAsyncFiles:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_raw_response_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
-        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/agent/v1/chat/id/files/filePath").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         file = await async_client.agent.v1.chat.files.with_raw_response.download(
-            path="path",
+            file_path="filePath",
             id="id",
         )
 
@@ -198,9 +198,9 @@ class TestAsyncFiles:
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_streaming_response_download(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
-        respx_mock.get("/agent/v1/chat/id/files/path").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        respx_mock.get("/agent/v1/chat/id/files/filePath").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.agent.v1.chat.files.with_streaming_response.download(
-            path="path",
+            file_path="filePath",
             id="id",
         ) as file:
             assert not file.is_closed
@@ -217,12 +217,12 @@ class TestAsyncFiles:
     async def test_path_params_download(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agent.v1.chat.files.with_raw_response.download(
-                path="path",
+                file_path="filePath",
                 id="",
             )
 
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_path` but received ''"):
             await async_client.agent.v1.chat.files.with_raw_response.download(
-                path="",
+                file_path="",
                 id="id",
             )
