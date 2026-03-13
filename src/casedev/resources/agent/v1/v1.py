@@ -10,14 +10,6 @@ from .run import (
     RunResourceWithStreamingResponse,
     AsyncRunResourceWithStreamingResponse,
 )
-from .chat import (
-    ChatResource,
-    AsyncChatResource,
-    ChatResourceWithRawResponse,
-    AsyncChatResourceWithRawResponse,
-    ChatResourceWithStreamingResponse,
-    AsyncChatResourceWithStreamingResponse,
-)
 from .agents import (
     AgentsResource,
     AsyncAgentsResource,
@@ -33,6 +25,14 @@ from .execute import (
     AsyncExecuteResourceWithRawResponse,
     ExecuteResourceWithStreamingResponse,
     AsyncExecuteResourceWithStreamingResponse,
+)
+from .chat.chat import (
+    ChatResource,
+    AsyncChatResource,
+    ChatResourceWithRawResponse,
+    AsyncChatResourceWithRawResponse,
+    ChatResourceWithStreamingResponse,
+    AsyncChatResourceWithStreamingResponse,
 )
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
