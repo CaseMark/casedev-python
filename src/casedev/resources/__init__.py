@@ -16,6 +16,14 @@ from .ocr import (
     OcrResourceWithStreamingResponse,
     AsyncOcrResourceWithStreamingResponse,
 )
+from .mail import (
+    MailResource,
+    AsyncMailResource,
+    MailResourceWithRawResponse,
+    AsyncMailResourceWithRawResponse,
+    MailResourceWithStreamingResponse,
+    AsyncMailResourceWithStreamingResponse,
+)
 from .agent import (
     AgentResource,
     AsyncAgentResource,
@@ -103,6 +111,14 @@ from .database import (
     AsyncDatabaseResourceWithRawResponse,
     DatabaseResourceWithStreamingResponse,
     AsyncDatabaseResourceWithStreamingResponse,
+)
+from .operator import (
+    OperatorResource,
+    AsyncOperatorResource,
+    OperatorResourceWithRawResponse,
+    AsyncOperatorResourceWithRawResponse,
+    OperatorResourceWithStreamingResponse,
+    AsyncOperatorResourceWithStreamingResponse,
 )
 from .superdoc import (
     SuperdocResource,
@@ -204,6 +220,18 @@ __all__ = [
     "AsyncPrivilegeResourceWithRawResponse",
     "PrivilegeResourceWithStreamingResponse",
     "AsyncPrivilegeResourceWithStreamingResponse",
+    "MailResource",
+    "AsyncMailResource",
+    "MailResourceWithRawResponse",
+    "AsyncMailResourceWithRawResponse",
+    "MailResourceWithStreamingResponse",
+    "AsyncMailResourceWithStreamingResponse",
+    "OperatorResource",
+    "AsyncOperatorResource",
+    "OperatorResourceWithRawResponse",
+    "AsyncOperatorResourceWithRawResponse",
+    "OperatorResourceWithStreamingResponse",
+    "AsyncOperatorResourceWithStreamingResponse",
     "SkillsResource",
     "AsyncSkillsResource",
     "SkillsResourceWithRawResponse",

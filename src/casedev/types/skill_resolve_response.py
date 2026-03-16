@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+from typing_extensions import Literal
 
 from .._models import BaseModel
 
@@ -16,6 +17,9 @@ class Result(BaseModel):
 
     slug: Optional[str] = None
     """Unique skill identifier"""
+
+    source: Optional[Literal["curated", "custom"]] = None
+    """Whether the skill is curated or org-custom"""
 
     summary: Optional[str] = None
     """Brief skill description"""
