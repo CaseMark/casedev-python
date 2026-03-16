@@ -452,18 +452,68 @@ Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/casedev/resources/privilege/v1.py">detect</a>(\*\*<a href="src/casedev/types/privilege/v1_detect_params.py">params</a>) -> <a href="./src/casedev/types/privilege/v1_detect_response.py">V1DetectResponse</a></code>
 
+# Mail
+
+## V1
+
+### Inboxes
+
+Methods:
+
+- <code title="post /mail/v1/inboxes">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">create</a>(\*\*<a href="src/casedev/types/mail/v1/inbox_create_params.py">params</a>) -> None</code>
+- <code title="get /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">retrieve</a>(inbox_id) -> None</code>
+- <code title="get /mail/v1/inboxes">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">list</a>() -> None</code>
+- <code title="delete /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">delete</a>(inbox_id) -> None</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}/attachments/{attachmentId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_attachment</a>(attachment_id, \*, inbox_id, message_id) -> None</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_message</a>(message_id, \*, inbox_id) -> None</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">list_messages</a>(inbox_id) -> None</code>
+- <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">reply</a>(message_id, \*, inbox_id) -> None</code>
+- <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">send</a>(inbox_id) -> None</code>
+
+# Operator
+
+## V1
+
+Methods:
+
+- <code title="post /operator/v1/create">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">create</a>(\*\*<a href="src/casedev/types/operator/v1_create_params.py">params</a>) -> None</code>
+- <code title="post /operator/v1/chat/completions">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">create_chat_completion</a>() -> None</code>
+- <code title="post /operator/v1/responses">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">create_response</a>() -> None</code>
+- <code title="get /operator/v1/status">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">get_status</a>() -> None</code>
+
 # Skills
 
 Types:
 
 ```python
-from casedev.types import SkillReadResponse, SkillResolveResponse
+from casedev.types import (
+    SkillCreateResponse,
+    SkillUpdateResponse,
+    SkillDeleteResponse,
+    SkillReadResponse,
+    SkillResolveResponse,
+)
 ```
 
 Methods:
 
-- <code title="get /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills.py">read</a>(slug) -> <a href="./src/casedev/types/skill_read_response.py">SkillReadResponse</a></code>
-- <code title="get /skills/resolve">client.skills.<a href="./src/casedev/resources/skills.py">resolve</a>(\*\*<a href="src/casedev/types/skill_resolve_params.py">params</a>) -> <a href="./src/casedev/types/skill_resolve_response.py">SkillResolveResponse</a></code>
+- <code title="post /skills">client.skills.<a href="./src/casedev/resources/skills/skills.py">create</a>(\*\*<a href="src/casedev/types/skill_create_params.py">params</a>) -> <a href="./src/casedev/types/skill_create_response.py">SkillCreateResponse</a></code>
+- <code title="put /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills/skills.py">update</a>(path_slug, \*\*<a href="src/casedev/types/skill_update_params.py">params</a>) -> <a href="./src/casedev/types/skill_update_response.py">SkillUpdateResponse</a></code>
+- <code title="delete /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills/skills.py">delete</a>(slug) -> <a href="./src/casedev/types/skill_delete_response.py">SkillDeleteResponse</a></code>
+- <code title="get /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills/skills.py">read</a>(slug) -> <a href="./src/casedev/types/skill_read_response.py">SkillReadResponse</a></code>
+- <code title="get /skills/resolve">client.skills.<a href="./src/casedev/resources/skills/skills.py">resolve</a>(\*\*<a href="src/casedev/types/skill_resolve_params.py">params</a>) -> <a href="./src/casedev/types/skill_resolve_response.py">SkillResolveResponse</a></code>
+
+## Custom
+
+Types:
+
+```python
+from casedev.types.skills import CustomListResponse
+```
+
+Methods:
+
+- <code title="get /skills/custom">client.skills.custom.<a href="./src/casedev/resources/skills/custom.py">list</a>(\*\*<a href="src/casedev/types/skills/custom_list_params.py">params</a>) -> <a href="./src/casedev/types/skills/custom_list_response.py">CustomListResponse</a></code>
 
 # Search
 
