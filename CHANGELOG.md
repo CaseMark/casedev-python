@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.3 (2026-03-17)
+
+Full Changelog: [v0.28.2...v0.28.3](https://github.com/CaseMark/casedev-python/compare/v0.28.2...v0.28.3)
+
+### Chores
+
+* **internal:** tweak CI branches ([cbe4126](https://github.com/CaseMark/casedev-python/commit/cbe4126732a0d975e1b4e5d02c0c599e0377e2c9))
+
 ## 0.28.2 (2026-03-17)
 
 Full Changelog: [v0.28.1...v0.28.2](https://github.com/CaseMark/casedev-python/compare/v0.28.1...v0.28.2)
