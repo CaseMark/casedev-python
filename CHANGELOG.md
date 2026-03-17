@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.2 (2026-03-17)
+
+Full Changelog: [v0.28.1...v0.28.2](https://github.com/CaseMark/casedev-python/compare/v0.28.1...v0.28.2)
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([6256dbc](https://github.com/CaseMark/casedev-python/commit/6256dbcb7233cc39f303c12c71cc0186046cb262))
+
 ## 0.28.1 (2026-03-17)
 
 Full Changelog: [v0.28.0...v0.28.1](https://github.com/CaseMark/casedev-python/compare/v0.28.0...v0.28.1)
