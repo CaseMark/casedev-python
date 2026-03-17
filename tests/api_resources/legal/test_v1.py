@@ -17,6 +17,7 @@ from casedev.types.legal import (
     V1VerifyResponse,
     V1SimilarResponse,
     V1ResearchResponse,
+    V1SecFilingResponse,
     V1ListCourtsResponse,
     V1GetFullTextResponse,
     V1GetCitationsResponse,
@@ -431,6 +432,53 @@ class TestV1:
 
             v1 = response.parse()
             assert_matches_type(V1ResearchResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_sec_filing(self, client: Casedev) -> None:
+        v1 = client.legal.v1.sec_filing(
+            type="search",
+        )
+        assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+    @parametrize
+    def test_method_sec_filing_with_all_params(self, client: Casedev) -> None:
+        v1 = client.legal.v1.sec_filing(
+            type="search",
+            cik="cik",
+            date_after=parse_date("2019-12-27"),
+            date_before=parse_date("2019-12-27"),
+            entity="entity",
+            form_types=["string"],
+            limit=1,
+            offset=0,
+            query="xx",
+            ticker="ticker",
+        )
+        assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+    @parametrize
+    def test_raw_response_sec_filing(self, client: Casedev) -> None:
+        response = client.legal.v1.with_raw_response.sec_filing(
+            type="search",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+    @parametrize
+    def test_streaming_response_sec_filing(self, client: Casedev) -> None:
+        with client.legal.v1.with_streaming_response.sec_filing(
+            type="search",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1SecFilingResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -944,6 +992,53 @@ class TestAsyncV1:
 
             v1 = await response.parse()
             assert_matches_type(V1ResearchResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_sec_filing(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.sec_filing(
+            type="search",
+        )
+        assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_method_sec_filing_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.sec_filing(
+            type="search",
+            cik="cik",
+            date_after=parse_date("2019-12-27"),
+            date_before=parse_date("2019-12-27"),
+            entity="entity",
+            form_types=["string"],
+            limit=1,
+            offset=0,
+            query="xx",
+            ticker="ticker",
+        )
+        assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_raw_response_sec_filing(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.legal.v1.with_raw_response.sec_filing(
+            type="search",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_sec_filing(self, async_client: AsyncCasedev) -> None:
+        async with async_client.legal.v1.with_streaming_response.sec_filing(
+            type="search",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1SecFilingResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

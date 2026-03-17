@@ -46,7 +46,6 @@ if TYPE_CHECKING:
         system,
         compute,
         database,
-        operator,
         superdoc,
         privilege,
         translate,
@@ -66,7 +65,6 @@ if TYPE_CHECKING:
     from .resources.skills.skills import SkillsResource, AsyncSkillsResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
     from .resources.database.database import DatabaseResource, AsyncDatabaseResource
-    from .resources.operator.operator import OperatorResource, AsyncOperatorResource
     from .resources.superdoc.superdoc import SuperdocResource, AsyncSuperdocResource
     from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
     from .resources.translate.translate import TranslateResource, AsyncTranslateResource
@@ -242,12 +240,6 @@ class Casedev(SyncAPIClient):
         from .resources.mail import MailResource
 
         return MailResource(self)
-
-    @cached_property
-    def operator(self) -> OperatorResource:
-        from .resources.operator import OperatorResource
-
-        return OperatorResource(self)
 
     @cached_property
     def skills(self) -> SkillsResource:
@@ -556,12 +548,6 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncMailResource(self)
 
     @cached_property
-    def operator(self) -> AsyncOperatorResource:
-        from .resources.operator import AsyncOperatorResource
-
-        return AsyncOperatorResource(self)
-
-    @cached_property
     def skills(self) -> AsyncSkillsResource:
         """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResource
@@ -795,12 +781,6 @@ class CasedevWithRawResponse:
         return MailResourceWithRawResponse(self._client.mail)
 
     @cached_property
-    def operator(self) -> operator.OperatorResourceWithRawResponse:
-        from .resources.operator import OperatorResourceWithRawResponse
-
-        return OperatorResourceWithRawResponse(self._client.operator)
-
-    @cached_property
     def skills(self) -> skills.SkillsResourceWithRawResponse:
         """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResourceWithRawResponse
@@ -918,12 +898,6 @@ class AsyncCasedevWithRawResponse:
         from .resources.mail import AsyncMailResourceWithRawResponse
 
         return AsyncMailResourceWithRawResponse(self._client.mail)
-
-    @cached_property
-    def operator(self) -> operator.AsyncOperatorResourceWithRawResponse:
-        from .resources.operator import AsyncOperatorResourceWithRawResponse
-
-        return AsyncOperatorResourceWithRawResponse(self._client.operator)
 
     @cached_property
     def skills(self) -> skills.AsyncSkillsResourceWithRawResponse:
@@ -1045,12 +1019,6 @@ class CasedevWithStreamedResponse:
         return MailResourceWithStreamingResponse(self._client.mail)
 
     @cached_property
-    def operator(self) -> operator.OperatorResourceWithStreamingResponse:
-        from .resources.operator import OperatorResourceWithStreamingResponse
-
-        return OperatorResourceWithStreamingResponse(self._client.operator)
-
-    @cached_property
     def skills(self) -> skills.SkillsResourceWithStreamingResponse:
         """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResourceWithStreamingResponse
@@ -1168,12 +1136,6 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.mail import AsyncMailResourceWithStreamingResponse
 
         return AsyncMailResourceWithStreamingResponse(self._client.mail)
-
-    @cached_property
-    def operator(self) -> operator.AsyncOperatorResourceWithStreamingResponse:
-        from .resources.operator import AsyncOperatorResourceWithStreamingResponse
-
-        return AsyncOperatorResourceWithStreamingResponse(self._client.operator)
 
     @cached_property
     def skills(self) -> skills.AsyncSkillsResourceWithStreamingResponse:
