@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.28.4 (2026-03-17)
+
+Full Changelog: [v0.28.3...v0.28.4](https://github.com/CaseMark/casedev-python/compare/v0.28.3...v0.28.4)
+
 ## 0.28.3 (2026-03-17)
 
 Full Changelog: [v0.28.2...v0.28.3](https://github.com/CaseMark/casedev-python/compare/v0.28.2...v0.28.3)
