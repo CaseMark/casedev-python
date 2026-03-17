@@ -25,6 +25,7 @@ from ...types.legal import (
     v1_verify_params,
     v1_similar_params,
     v1_research_params,
+    v1_sec_filing_params,
     v1_list_courts_params,
     v1_get_citations_params,
     v1_get_full_text_params,
@@ -40,6 +41,7 @@ from ...types.legal.v1_docket_response import V1DocketResponse
 from ...types.legal.v1_verify_response import V1VerifyResponse
 from ...types.legal.v1_similar_response import V1SimilarResponse
 from ...types.legal.v1_research_response import V1ResearchResponse
+from ...types.legal.v1_sec_filing_response import V1SecFilingResponse
 from ...types.legal.v1_list_courts_response import V1ListCourtsResponse
 from ...types.legal.v1_get_citations_response import V1GetCitationsResponse
 from ...types.legal.v1_get_full_text_response import V1GetFullTextResponse
@@ -657,6 +659,83 @@ class V1Resource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1ResearchResponse,
+        )
+
+    def sec_filing(
+        self,
+        *,
+        type: Literal["search", "entity"],
+        cik: str | Omit = omit,
+        date_after: Union[str, date] | Omit = omit,
+        date_before: Union[str, date] | Omit = omit,
+        entity: str | Omit = omit,
+        form_types: SequenceNotStr[str] | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
+        ticker: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1SecFilingResponse:
+        """
+        Search SEC EDGAR full-text filings via efts.sec.gov or fetch a filer's
+        structured filing history via data.sec.gov. Returns direct SEC archive URLs with
+        filing metadata and match snippets when available.
+
+        Args:
+          type: Run a full-text search or fetch a single entity filing history
+
+          cik: CIK for entity lookups. Accepts padded or unpadded digits.
+
+          date_after: Optional lower filing date bound (YYYY-MM-DD)
+
+          date_before: Optional upper filing date bound (YYYY-MM-DD)
+
+          entity: Optional entity filter passed through to EDGAR full-text search
+
+          form_types: Optional SEC form type filter such as 10-K, 10-Q, 8-K, or 4
+
+          limit: Maximum filings to return
+
+          offset: Result offset for pagination
+
+          query: Full-text SEC search query (required for type: search)
+
+          ticker: Optional company ticker. Valid for both search and entity lookups.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/sec-filing",
+            body=maybe_transform(
+                {
+                    "type": type,
+                    "cik": cik,
+                    "date_after": date_after,
+                    "date_before": date_before,
+                    "entity": entity,
+                    "form_types": form_types,
+                    "limit": limit,
+                    "offset": offset,
+                    "query": query,
+                    "ticker": ticker,
+                },
+                v1_sec_filing_params.V1SecFilingParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1SecFilingResponse,
         )
 
     def similar(
@@ -1409,6 +1488,83 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=V1ResearchResponse,
         )
 
+    async def sec_filing(
+        self,
+        *,
+        type: Literal["search", "entity"],
+        cik: str | Omit = omit,
+        date_after: Union[str, date] | Omit = omit,
+        date_before: Union[str, date] | Omit = omit,
+        entity: str | Omit = omit,
+        form_types: SequenceNotStr[str] | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
+        ticker: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1SecFilingResponse:
+        """
+        Search SEC EDGAR full-text filings via efts.sec.gov or fetch a filer's
+        structured filing history via data.sec.gov. Returns direct SEC archive URLs with
+        filing metadata and match snippets when available.
+
+        Args:
+          type: Run a full-text search or fetch a single entity filing history
+
+          cik: CIK for entity lookups. Accepts padded or unpadded digits.
+
+          date_after: Optional lower filing date bound (YYYY-MM-DD)
+
+          date_before: Optional upper filing date bound (YYYY-MM-DD)
+
+          entity: Optional entity filter passed through to EDGAR full-text search
+
+          form_types: Optional SEC form type filter such as 10-K, 10-Q, 8-K, or 4
+
+          limit: Maximum filings to return
+
+          offset: Result offset for pagination
+
+          query: Full-text SEC search query (required for type: search)
+
+          ticker: Optional company ticker. Valid for both search and entity lookups.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/sec-filing",
+            body=await async_maybe_transform(
+                {
+                    "type": type,
+                    "cik": cik,
+                    "date_after": date_after,
+                    "date_before": date_before,
+                    "entity": entity,
+                    "form_types": form_types,
+                    "limit": limit,
+                    "offset": offset,
+                    "query": query,
+                    "ticker": ticker,
+                },
+                v1_sec_filing_params.V1SecFilingParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1SecFilingResponse,
+        )
+
     async def similar(
         self,
         *,
@@ -1583,6 +1739,9 @@ class V1ResourceWithRawResponse:
         self.research = to_raw_response_wrapper(
             v1.research,
         )
+        self.sec_filing = to_raw_response_wrapper(
+            v1.sec_filing,
+        )
         self.similar = to_raw_response_wrapper(
             v1.similar,
         )
@@ -1627,6 +1786,9 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.research = async_to_raw_response_wrapper(
             v1.research,
+        )
+        self.sec_filing = async_to_raw_response_wrapper(
+            v1.sec_filing,
         )
         self.similar = async_to_raw_response_wrapper(
             v1.similar,
@@ -1673,6 +1835,9 @@ class V1ResourceWithStreamingResponse:
         self.research = to_streamed_response_wrapper(
             v1.research,
         )
+        self.sec_filing = to_streamed_response_wrapper(
+            v1.sec_filing,
+        )
         self.similar = to_streamed_response_wrapper(
             v1.similar,
         )
@@ -1717,6 +1882,9 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.research = async_to_streamed_response_wrapper(
             v1.research,
+        )
+        self.sec_filing = async_to_streamed_response_wrapper(
+            v1.sec_filing,
         )
         self.similar = async_to_streamed_response_wrapper(
             v1.similar,

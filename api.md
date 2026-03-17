@@ -337,6 +337,7 @@ from casedev.types.legal import (
     V1ListJurisdictionsResponse,
     V1PatentSearchResponse,
     V1ResearchResponse,
+    V1SecFilingResponse,
     V1SimilarResponse,
     V1TrademarkSearchResponse,
     V1VerifyResponse,
@@ -355,6 +356,7 @@ Methods:
 - <code title="post /legal/v1/jurisdictions">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">list_jurisdictions</a>(\*\*<a href="src/casedev/types/legal/v1_list_jurisdictions_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_list_jurisdictions_response.py">V1ListJurisdictionsResponse</a></code>
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">patent_search</a>(\*\*<a href="src/casedev/types/legal/v1_patent_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_patent_search_response.py">V1PatentSearchResponse</a></code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">research</a>(\*\*<a href="src/casedev/types/legal/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_research_response.py">V1ResearchResponse</a></code>
+- <code title="post /legal/v1/sec-filing">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">sec_filing</a>(\*\*<a href="src/casedev/types/legal/v1_sec_filing_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_sec_filing_response.py">V1SecFilingResponse</a></code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">similar</a>(\*\*<a href="src/casedev/types/legal/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_similar_response.py">V1SimilarResponse</a></code>
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">trademark_search</a>(\*\*<a href="src/casedev/types/legal/v1_trademark_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_trademark_search_response.py">V1TrademarkSearchResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>
@@ -469,17 +471,6 @@ Methods:
 - <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">list_messages</a>(inbox_id) -> None</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">reply</a>(message_id, \*, inbox_id) -> None</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">send</a>(inbox_id) -> None</code>
-
-# Operator
-
-## V1
-
-Methods:
-
-- <code title="post /operator/v1/create">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">create</a>(\*\*<a href="src/casedev/types/operator/v1_create_params.py">params</a>) -> None</code>
-- <code title="post /operator/v1/chat/completions">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">create_chat_completion</a>() -> None</code>
-- <code title="post /operator/v1/responses">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">create_response</a>() -> None</code>
-- <code title="get /operator/v1/status">client.operator.v1.<a href="./src/casedev/resources/operator/v1.py">get_status</a>() -> None</code>
 
 # Skills
 

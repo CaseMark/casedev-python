@@ -16,7 +16,9 @@ from .v1_verify_response import V1VerifyResponse as V1VerifyResponse
 from .v1_similar_response import V1SimilarResponse as V1SimilarResponse
 from .docket_search_result import DocketSearchResult as DocketSearchResult
 from .v1_research_response import V1ResearchResponse as V1ResearchResponse
+from .v1_sec_filing_params import V1SecFilingParams as V1SecFilingParams
 from .v1_list_courts_params import V1ListCourtsParams as V1ListCourtsParams
+from .v1_sec_filing_response import V1SecFilingResponse as V1SecFilingResponse
 from .v1_get_citations_params import V1GetCitationsParams as V1GetCitationsParams
 from .v1_get_full_text_params import V1GetFullTextParams as V1GetFullTextParams
 from .v1_list_courts_response import V1ListCourtsResponse as V1ListCourtsResponse

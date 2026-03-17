@@ -112,14 +112,6 @@ from .database import (
     DatabaseResourceWithStreamingResponse,
     AsyncDatabaseResourceWithStreamingResponse,
 )
-from .operator import (
-    OperatorResource,
-    AsyncOperatorResource,
-    OperatorResourceWithRawResponse,
-    AsyncOperatorResourceWithRawResponse,
-    OperatorResourceWithStreamingResponse,
-    AsyncOperatorResourceWithStreamingResponse,
-)
 from .superdoc import (
     SuperdocResource,
     AsyncSuperdocResource,
@@ -226,12 +218,6 @@ __all__ = [
     "AsyncMailResourceWithRawResponse",
     "MailResourceWithStreamingResponse",
     "AsyncMailResourceWithStreamingResponse",
-    "OperatorResource",
-    "AsyncOperatorResource",
-    "OperatorResourceWithRawResponse",
-    "AsyncOperatorResourceWithRawResponse",
-    "OperatorResourceWithStreamingResponse",
-    "AsyncOperatorResourceWithStreamingResponse",
     "SkillsResource",
     "AsyncSkillsResource",
     "SkillsResourceWithRawResponse",
