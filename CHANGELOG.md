@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.1 (2026-03-17)
+
+Full Changelog: [v0.28.0...v0.28.1](https://github.com/CaseMark/casedev-python/compare/v0.28.0...v0.28.1)
+
+### Bug Fixes
+
+* **pydantic:** do not pass `by_alias` unless set ([b633f75](https://github.com/CaseMark/casedev-python/commit/b633f753d30a73b0571be7af339bfec81e649087))
+
 ## 0.28.0 (2026-03-16)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/CaseMark/casedev-python/compare/v0.27.0...v0.28.0)
