@@ -3,3 +3,4 @@
 from __future__ import annotations
 
 from .inbox_create_params import InboxCreateParams as InboxCreateParams
+from .inbox_set_policy_params import InboxSetPolicyParams as InboxSetPolicyParams

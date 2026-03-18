@@ -258,6 +258,44 @@ class TestInboxes:
             )
 
     @parametrize
+    def test_method_get_policy(self, client: Casedev) -> None:
+        inbox = client.mail.v1.inboxes.get_policy(
+            "inboxId",
+        )
+        assert inbox is None
+
+    @parametrize
+    def test_raw_response_get_policy(self, client: Casedev) -> None:
+        response = client.mail.v1.inboxes.with_raw_response.get_policy(
+            "inboxId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        inbox = response.parse()
+        assert inbox is None
+
+    @parametrize
+    def test_streaming_response_get_policy(self, client: Casedev) -> None:
+        with client.mail.v1.inboxes.with_streaming_response.get_policy(
+            "inboxId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            inbox = response.parse()
+            assert inbox is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_policy(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `inbox_id` but received ''"):
+            client.mail.v1.inboxes.with_raw_response.get_policy(
+                "",
+            )
+
+    @parametrize
     def test_method_list_messages(self, client: Casedev) -> None:
         inbox = client.mail.v1.inboxes.list_messages(
             "inboxId",
@@ -379,6 +417,56 @@ class TestInboxes:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `inbox_id` but received ''"):
             client.mail.v1.inboxes.with_raw_response.send(
                 "",
+            )
+
+    @parametrize
+    def test_method_set_policy(self, client: Casedev) -> None:
+        inbox = client.mail.v1.inboxes.set_policy(
+            inbox_id="inboxId",
+        )
+        assert inbox is None
+
+    @parametrize
+    def test_method_set_policy_with_all_params(self, client: Casedev) -> None:
+        inbox = client.mail.v1.inboxes.set_policy(
+            inbox_id="inboxId",
+            allowed_sender_patterns=["string"],
+            enforce_sender_allowlist=True,
+            read_access_rules=["string"],
+            reply_access_rules=["string"],
+            send_access_rules=["string"],
+        )
+        assert inbox is None
+
+    @parametrize
+    def test_raw_response_set_policy(self, client: Casedev) -> None:
+        response = client.mail.v1.inboxes.with_raw_response.set_policy(
+            inbox_id="inboxId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        inbox = response.parse()
+        assert inbox is None
+
+    @parametrize
+    def test_streaming_response_set_policy(self, client: Casedev) -> None:
+        with client.mail.v1.inboxes.with_streaming_response.set_policy(
+            inbox_id="inboxId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            inbox = response.parse()
+            assert inbox is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_set_policy(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `inbox_id` but received ''"):
+            client.mail.v1.inboxes.with_raw_response.set_policy(
+                inbox_id="",
             )
 
 
@@ -630,6 +718,44 @@ class TestAsyncInboxes:
             )
 
     @parametrize
+    async def test_method_get_policy(self, async_client: AsyncCasedev) -> None:
+        inbox = await async_client.mail.v1.inboxes.get_policy(
+            "inboxId",
+        )
+        assert inbox is None
+
+    @parametrize
+    async def test_raw_response_get_policy(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.mail.v1.inboxes.with_raw_response.get_policy(
+            "inboxId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        inbox = await response.parse()
+        assert inbox is None
+
+    @parametrize
+    async def test_streaming_response_get_policy(self, async_client: AsyncCasedev) -> None:
+        async with async_client.mail.v1.inboxes.with_streaming_response.get_policy(
+            "inboxId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            inbox = await response.parse()
+            assert inbox is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_policy(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `inbox_id` but received ''"):
+            await async_client.mail.v1.inboxes.with_raw_response.get_policy(
+                "",
+            )
+
+    @parametrize
     async def test_method_list_messages(self, async_client: AsyncCasedev) -> None:
         inbox = await async_client.mail.v1.inboxes.list_messages(
             "inboxId",
@@ -751,4 +877,54 @@ class TestAsyncInboxes:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `inbox_id` but received ''"):
             await async_client.mail.v1.inboxes.with_raw_response.send(
                 "",
+            )
+
+    @parametrize
+    async def test_method_set_policy(self, async_client: AsyncCasedev) -> None:
+        inbox = await async_client.mail.v1.inboxes.set_policy(
+            inbox_id="inboxId",
+        )
+        assert inbox is None
+
+    @parametrize
+    async def test_method_set_policy_with_all_params(self, async_client: AsyncCasedev) -> None:
+        inbox = await async_client.mail.v1.inboxes.set_policy(
+            inbox_id="inboxId",
+            allowed_sender_patterns=["string"],
+            enforce_sender_allowlist=True,
+            read_access_rules=["string"],
+            reply_access_rules=["string"],
+            send_access_rules=["string"],
+        )
+        assert inbox is None
+
+    @parametrize
+    async def test_raw_response_set_policy(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.mail.v1.inboxes.with_raw_response.set_policy(
+            inbox_id="inboxId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        inbox = await response.parse()
+        assert inbox is None
+
+    @parametrize
+    async def test_streaming_response_set_policy(self, async_client: AsyncCasedev) -> None:
+        async with async_client.mail.v1.inboxes.with_streaming_response.set_policy(
+            inbox_id="inboxId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            inbox = await response.parse()
+            assert inbox is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_set_policy(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `inbox_id` but received ''"):
+            await async_client.mail.v1.inboxes.with_raw_response.set_policy(
+                inbox_id="",
             )
