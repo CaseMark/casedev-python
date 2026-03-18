@@ -468,9 +468,11 @@ Methods:
 - <code title="delete /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">delete</a>(inbox_id) -> None</code>
 - <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}/attachments/{attachmentId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_attachment</a>(attachment_id, \*, inbox_id, message_id) -> None</code>
 - <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_message</a>(message_id, \*, inbox_id) -> None</code>
+- <code title="get /mail/v1/inboxes/{inboxId}/policy">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_policy</a>(inbox_id) -> None</code>
 - <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">list_messages</a>(inbox_id) -> None</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">reply</a>(message_id, \*, inbox_id) -> None</code>
 - <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">send</a>(inbox_id) -> None</code>
+- <code title="put /mail/v1/inboxes/{inboxId}/policy">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">set_policy</a>(inbox_id, \*\*<a href="src/casedev/types/mail/v1/inbox_set_policy_params.py">params</a>) -> None</code>
 
 # Skills
 

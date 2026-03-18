@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -15,7 +15,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.mail.v1 import inbox_create_params
+from ....types.mail.v1 import inbox_create_params, inbox_set_policy_params
 
 __all__ = ["InboxesResource", "AsyncInboxesResource"]
 
@@ -250,6 +250,41 @@ class InboxesResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def get_policy(
+        self,
+        inbox_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Get the sender allowlist and send/reply/read access rules for an inbox owned by
+        the authenticated organization.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not inbox_id:
+            raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._get(
+            f"/mail/v1/inboxes/{inbox_id}/policy",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     def list_messages(
         self,
         inbox_id: str,
@@ -349,6 +384,66 @@ class InboxesResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             f"/mail/v1/inboxes/{inbox_id}/messages/send",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def set_policy(
+        self,
+        inbox_id: str,
+        *,
+        allowed_sender_patterns: SequenceNotStr[str] | Omit = omit,
+        enforce_sender_allowlist: bool | Omit = omit,
+        read_access_rules: SequenceNotStr[str] | Omit = omit,
+        reply_access_rules: SequenceNotStr[str] | Omit = omit,
+        send_access_rules: SequenceNotStr[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Set the sender allowlist and send/reply/read access rules for an inbox owned by
+        the authenticated organization.
+
+        Args:
+          allowed_sender_patterns: Exact emails, @domain rules, or \\**
+
+          read_access_rules: Rules like organization, operator, user:<id>, api_key, api_key:<id>,
+              clerk_session, or \\**
+
+          reply_access_rules: Rules like organization, operator, user:<id>, api_key, api_key:<id>,
+              clerk_session, or \\**
+
+          send_access_rules: Rules like organization, user:<id>, api_key, api_key:<id>, clerk_session, or \\**
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not inbox_id:
+            raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._put(
+            f"/mail/v1/inboxes/{inbox_id}/policy",
+            body=maybe_transform(
+                {
+                    "allowed_sender_patterns": allowed_sender_patterns,
+                    "enforce_sender_allowlist": enforce_sender_allowlist,
+                    "read_access_rules": read_access_rules,
+                    "reply_access_rules": reply_access_rules,
+                    "send_access_rules": send_access_rules,
+                },
+                inbox_set_policy_params.InboxSetPolicyParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -586,6 +681,41 @@ class AsyncInboxesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def get_policy(
+        self,
+        inbox_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Get the sender allowlist and send/reply/read access rules for an inbox owned by
+        the authenticated organization.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not inbox_id:
+            raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._get(
+            f"/mail/v1/inboxes/{inbox_id}/policy",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def list_messages(
         self,
         inbox_id: str,
@@ -691,6 +821,66 @@ class AsyncInboxesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def set_policy(
+        self,
+        inbox_id: str,
+        *,
+        allowed_sender_patterns: SequenceNotStr[str] | Omit = omit,
+        enforce_sender_allowlist: bool | Omit = omit,
+        read_access_rules: SequenceNotStr[str] | Omit = omit,
+        reply_access_rules: SequenceNotStr[str] | Omit = omit,
+        send_access_rules: SequenceNotStr[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Set the sender allowlist and send/reply/read access rules for an inbox owned by
+        the authenticated organization.
+
+        Args:
+          allowed_sender_patterns: Exact emails, @domain rules, or \\**
+
+          read_access_rules: Rules like organization, operator, user:<id>, api_key, api_key:<id>,
+              clerk_session, or \\**
+
+          reply_access_rules: Rules like organization, operator, user:<id>, api_key, api_key:<id>,
+              clerk_session, or \\**
+
+          send_access_rules: Rules like organization, user:<id>, api_key, api_key:<id>, clerk_session, or \\**
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not inbox_id:
+            raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._put(
+            f"/mail/v1/inboxes/{inbox_id}/policy",
+            body=await async_maybe_transform(
+                {
+                    "allowed_sender_patterns": allowed_sender_patterns,
+                    "enforce_sender_allowlist": enforce_sender_allowlist,
+                    "read_access_rules": read_access_rules,
+                    "reply_access_rules": reply_access_rules,
+                    "send_access_rules": send_access_rules,
+                },
+                inbox_set_policy_params.InboxSetPolicyParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
 
 class InboxesResourceWithRawResponse:
     def __init__(self, inboxes: InboxesResource) -> None:
@@ -714,6 +904,9 @@ class InboxesResourceWithRawResponse:
         self.get_message = to_raw_response_wrapper(
             inboxes.get_message,
         )
+        self.get_policy = to_raw_response_wrapper(
+            inboxes.get_policy,
+        )
         self.list_messages = to_raw_response_wrapper(
             inboxes.list_messages,
         )
@@ -722,6 +915,9 @@ class InboxesResourceWithRawResponse:
         )
         self.send = to_raw_response_wrapper(
             inboxes.send,
+        )
+        self.set_policy = to_raw_response_wrapper(
+            inboxes.set_policy,
         )
 
 
@@ -747,6 +943,9 @@ class AsyncInboxesResourceWithRawResponse:
         self.get_message = async_to_raw_response_wrapper(
             inboxes.get_message,
         )
+        self.get_policy = async_to_raw_response_wrapper(
+            inboxes.get_policy,
+        )
         self.list_messages = async_to_raw_response_wrapper(
             inboxes.list_messages,
         )
@@ -755,6 +954,9 @@ class AsyncInboxesResourceWithRawResponse:
         )
         self.send = async_to_raw_response_wrapper(
             inboxes.send,
+        )
+        self.set_policy = async_to_raw_response_wrapper(
+            inboxes.set_policy,
         )
 
 
@@ -780,6 +982,9 @@ class InboxesResourceWithStreamingResponse:
         self.get_message = to_streamed_response_wrapper(
             inboxes.get_message,
         )
+        self.get_policy = to_streamed_response_wrapper(
+            inboxes.get_policy,
+        )
         self.list_messages = to_streamed_response_wrapper(
             inboxes.list_messages,
         )
@@ -788,6 +993,9 @@ class InboxesResourceWithStreamingResponse:
         )
         self.send = to_streamed_response_wrapper(
             inboxes.send,
+        )
+        self.set_policy = to_streamed_response_wrapper(
+            inboxes.set_policy,
         )
 
 
@@ -813,6 +1021,9 @@ class AsyncInboxesResourceWithStreamingResponse:
         self.get_message = async_to_streamed_response_wrapper(
             inboxes.get_message,
         )
+        self.get_policy = async_to_streamed_response_wrapper(
+            inboxes.get_policy,
+        )
         self.list_messages = async_to_streamed_response_wrapper(
             inboxes.list_messages,
         )
@@ -821,4 +1032,7 @@ class AsyncInboxesResourceWithStreamingResponse:
         )
         self.send = async_to_streamed_response_wrapper(
             inboxes.send,
+        )
+        self.set_policy = async_to_streamed_response_wrapper(
+            inboxes.set_policy,
         )
