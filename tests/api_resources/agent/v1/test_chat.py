@@ -185,7 +185,6 @@ class TestChat:
                 answers=[["string"]],
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_respond(self, client: Casedev) -> None:
         chat_stream = client.agent.v1.chat.respond(
@@ -193,7 +192,6 @@ class TestChat:
         )
         chat_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_respond_with_all_params(self, client: Casedev) -> None:
         chat_stream = client.agent.v1.chat.respond(
@@ -207,7 +205,6 @@ class TestChat:
         )
         chat_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_respond(self, client: Casedev) -> None:
         response = client.agent.v1.chat.with_raw_response.respond(
@@ -218,7 +215,6 @@ class TestChat:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_respond(self, client: Casedev) -> None:
         with client.agent.v1.chat.with_streaming_response.respond(
@@ -232,7 +228,6 @@ class TestChat:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_respond(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -291,7 +286,6 @@ class TestChat:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_stream(self, client: Casedev) -> None:
         chat_stream = client.agent.v1.chat.stream(
@@ -299,7 +293,6 @@ class TestChat:
         )
         chat_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_stream_with_all_params(self, client: Casedev) -> None:
         chat_stream = client.agent.v1.chat.stream(
@@ -308,7 +301,6 @@ class TestChat:
         )
         chat_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_stream(self, client: Casedev) -> None:
         response = client.agent.v1.chat.with_raw_response.stream(
@@ -319,7 +311,6 @@ class TestChat:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_stream(self, client: Casedev) -> None:
         with client.agent.v1.chat.with_streaming_response.stream(
@@ -333,7 +324,6 @@ class TestChat:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_stream(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -511,7 +501,6 @@ class TestAsyncChat:
                 answers=[["string"]],
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_respond(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v1.chat.respond(
@@ -519,7 +508,6 @@ class TestAsyncChat:
         )
         await chat_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_respond_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v1.chat.respond(
@@ -533,7 +521,6 @@ class TestAsyncChat:
         )
         await chat_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_respond(self, async_client: AsyncCasedev) -> None:
         response = await async_client.agent.v1.chat.with_raw_response.respond(
@@ -544,7 +531,6 @@ class TestAsyncChat:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_respond(self, async_client: AsyncCasedev) -> None:
         async with async_client.agent.v1.chat.with_streaming_response.respond(
@@ -558,7 +544,6 @@ class TestAsyncChat:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_respond(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -617,7 +602,6 @@ class TestAsyncChat:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_stream(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v1.chat.stream(
@@ -625,7 +609,6 @@ class TestAsyncChat:
         )
         await chat_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_stream_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v1.chat.stream(
@@ -634,7 +617,6 @@ class TestAsyncChat:
         )
         await chat_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_stream(self, async_client: AsyncCasedev) -> None:
         response = await async_client.agent.v1.chat.with_raw_response.stream(
@@ -645,7 +627,6 @@ class TestAsyncChat:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_stream(self, async_client: AsyncCasedev) -> None:
         async with async_client.agent.v1.chat.with_streaming_response.stream(
@@ -659,7 +640,6 @@ class TestAsyncChat:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_stream(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

@@ -7,7 +7,7 @@ from typing import Iterable
 import httpx
 
 from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -78,7 +78,7 @@ class MultipartResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/vault/{id}/multipart/abort",
+            path_template("/vault/{id}/multipart/abort", id=id),
             body=maybe_transform(
                 {
                     "object_id": object_id,
@@ -127,7 +127,7 @@ class MultipartResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/vault/{id}/multipart/part-urls",
+            path_template("/vault/{id}/multipart/part-urls", id=id),
             body=maybe_transform(
                 {
                     "object_id": object_id,
@@ -198,7 +198,7 @@ class AsyncMultipartResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/vault/{id}/multipart/abort",
+            path_template("/vault/{id}/multipart/abort", id=id),
             body=await async_maybe_transform(
                 {
                     "object_id": object_id,
@@ -247,7 +247,7 @@ class AsyncMultipartResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/vault/{id}/multipart/part-urls",
+            path_template("/vault/{id}/multipart/part-urls", id=id),
             body=await async_maybe_transform(
                 {
                     "object_id": object_id,

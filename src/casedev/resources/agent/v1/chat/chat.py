@@ -15,7 +15,7 @@ from .files import (
     AsyncFilesResourceWithStreamingResponse,
 )
 from ....._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ....._utils import maybe_transform, async_maybe_transform
+from ....._utils import path_template, maybe_transform, async_maybe_transform
 from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
 from ....._response import (
@@ -154,7 +154,7 @@ class ChatResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
-            f"/agent/v1/chat/{id}",
+            path_template("/agent/v1/chat/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -187,7 +187,7 @@ class ChatResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/agent/v1/chat/{id}/cancel",
+            path_template("/agent/v1/chat/{id}/cancel", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -228,7 +228,7 @@ class ChatResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/agent/v1/chat/{id}/question/{request_id}/reply",
+            path_template("/agent/v1/chat/{id}/question/{request_id}/reply", id=id, request_id=request_id),
             body=maybe_transform({"answers": answers}, chat_reply_to_question_params.ChatReplyToQuestionParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -279,7 +279,7 @@ class ChatResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._post(
-            f"/agent/v1/chat/{id}/respond",
+            path_template("/agent/v1/chat/{id}/respond", id=id),
             body=maybe_transform({"parts": parts}, chat_respond_params.ChatRespondParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -331,7 +331,7 @@ class ChatResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/agent/v1/chat/{id}/message",
+            path_template("/agent/v1/chat/{id}/message", id=id),
             body=maybe_transform({"parts": parts}, chat_send_message_params.ChatSendMessageParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -371,7 +371,7 @@ class ChatResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._get(
-            f"/agent/v1/chat/{id}/stream",
+            path_template("/agent/v1/chat/{id}/stream", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -497,7 +497,7 @@ class AsyncChatResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
-            f"/agent/v1/chat/{id}",
+            path_template("/agent/v1/chat/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -530,7 +530,7 @@ class AsyncChatResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/agent/v1/chat/{id}/cancel",
+            path_template("/agent/v1/chat/{id}/cancel", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -571,7 +571,7 @@ class AsyncChatResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/agent/v1/chat/{id}/question/{request_id}/reply",
+            path_template("/agent/v1/chat/{id}/question/{request_id}/reply", id=id, request_id=request_id),
             body=await async_maybe_transform(
                 {"answers": answers}, chat_reply_to_question_params.ChatReplyToQuestionParams
             ),
@@ -624,7 +624,7 @@ class AsyncChatResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._post(
-            f"/agent/v1/chat/{id}/respond",
+            path_template("/agent/v1/chat/{id}/respond", id=id),
             body=await async_maybe_transform({"parts": parts}, chat_respond_params.ChatRespondParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -676,7 +676,7 @@ class AsyncChatResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/agent/v1/chat/{id}/message",
+            path_template("/agent/v1/chat/{id}/message", id=id),
             body=await async_maybe_transform({"parts": parts}, chat_send_message_params.ChatSendMessageParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -716,7 +716,7 @@ class AsyncChatResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._get(
-            f"/agent/v1/chat/{id}/stream",
+            path_template("/agent/v1/chat/{id}/stream", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

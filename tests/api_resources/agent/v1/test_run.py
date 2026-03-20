@@ -144,7 +144,6 @@ class TestRun:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events(self, client: Casedev) -> None:
         run_stream = client.agent.v1.run.events(
@@ -152,7 +151,6 @@ class TestRun:
         )
         run_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events_with_all_params(self, client: Casedev) -> None:
         run_stream = client.agent.v1.run.events(
@@ -161,7 +159,6 @@ class TestRun:
         )
         run_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_events(self, client: Casedev) -> None:
         response = client.agent.v1.run.with_raw_response.events(
@@ -172,7 +169,6 @@ class TestRun:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_events(self, client: Casedev) -> None:
         with client.agent.v1.run.with_streaming_response.events(
@@ -186,7 +182,6 @@ class TestRun:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_events(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -475,7 +470,6 @@ class TestAsyncRun:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events(self, async_client: AsyncCasedev) -> None:
         run_stream = await async_client.agent.v1.run.events(
@@ -483,7 +477,6 @@ class TestAsyncRun:
         )
         await run_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events_with_all_params(self, async_client: AsyncCasedev) -> None:
         run_stream = await async_client.agent.v1.run.events(
@@ -492,7 +485,6 @@ class TestAsyncRun:
         )
         await run_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_events(self, async_client: AsyncCasedev) -> None:
         response = await async_client.agent.v1.run.with_raw_response.events(
@@ -503,7 +495,6 @@ class TestAsyncRun:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_events(self, async_client: AsyncCasedev) -> None:
         async with async_client.agent.v1.run.with_streaming_response.events(
@@ -517,7 +508,6 @@ class TestAsyncRun:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_events(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
