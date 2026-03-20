@@ -32,7 +32,7 @@ from .objects import (
     AsyncObjectsResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import required_args, maybe_transform, async_maybe_transform
+from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from .graphrag import (
     GraphragResource,
     AsyncGraphragResource,
@@ -219,7 +219,7 @@ class VaultResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/vault/{id}",
+            path_template("/vault/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -268,7 +268,7 @@ class VaultResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            f"/vault/{id}",
+            path_template("/vault/{id}", id=id),
             body=maybe_transform(
                 {
                     "description": description,
@@ -339,7 +339,7 @@ class VaultResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
-            f"/vault/{id}",
+            path_template("/vault/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -451,7 +451,7 @@ class VaultResource(SyncAPIResource):
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return self._post(
-            f"/vault/{id}/upload/{object_id}/confirm",
+            path_template("/vault/{id}/upload/{object_id}/confirm", id=id, object_id=object_id),
             body=maybe_transform(
                 {
                     "size_bytes": size_bytes,
@@ -504,7 +504,7 @@ class VaultResource(SyncAPIResource):
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return self._post(
-            f"/vault/{id}/ingest/{object_id}",
+            path_template("/vault/{id}/ingest/{object_id}", id=id, object_id=object_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -553,7 +553,7 @@ class VaultResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/vault/{id}/search",
+            path_template("/vault/{id}/search", id=id),
             body=maybe_transform(
                 {
                     "query": query,
@@ -618,7 +618,7 @@ class VaultResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/vault/{id}/upload",
+            path_template("/vault/{id}/upload", id=id),
             body=maybe_transform(
                 {
                     "content_type": content_type,
@@ -777,7 +777,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/vault/{id}",
+            path_template("/vault/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -826,7 +826,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            f"/vault/{id}",
+            path_template("/vault/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "description": description,
@@ -897,7 +897,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
-            f"/vault/{id}",
+            path_template("/vault/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1009,7 +1009,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return await self._post(
-            f"/vault/{id}/upload/{object_id}/confirm",
+            path_template("/vault/{id}/upload/{object_id}/confirm", id=id, object_id=object_id),
             body=await async_maybe_transform(
                 {
                     "size_bytes": size_bytes,
@@ -1062,7 +1062,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return await self._post(
-            f"/vault/{id}/ingest/{object_id}",
+            path_template("/vault/{id}/ingest/{object_id}", id=id, object_id=object_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1111,7 +1111,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/vault/{id}/search",
+            path_template("/vault/{id}/search", id=id),
             body=await async_maybe_transform(
                 {
                     "query": query,
@@ -1176,7 +1176,7 @@ class AsyncVaultResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/vault/{id}/upload",
+            path_template("/vault/{id}/upload", id=id),
             body=await async_maybe_transform(
                 {
                     "content_type": content_type,

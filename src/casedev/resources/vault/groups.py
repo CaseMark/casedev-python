@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -124,7 +124,7 @@ class GroupsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `group_id` but received {group_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._patch(
-            f"/vault/groups/{group_id}",
+            path_template("/vault/groups/{group_id}", group_id=group_id),
             body=maybe_transform(
                 {
                     "description": description,
@@ -191,7 +191,7 @@ class GroupsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `group_id` but received {group_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/vault/groups/{group_id}",
+            path_template("/vault/groups/{group_id}", group_id=group_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -301,7 +301,7 @@ class AsyncGroupsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `group_id` but received {group_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._patch(
-            f"/vault/groups/{group_id}",
+            path_template("/vault/groups/{group_id}", group_id=group_id),
             body=await async_maybe_transform(
                 {
                     "description": description,
@@ -368,7 +368,7 @@ class AsyncGroupsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `group_id` but received {group_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/vault/groups/{group_id}",
+            path_template("/vault/groups/{group_id}", group_id=group_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

@@ -7,7 +7,7 @@ from typing_extensions import Literal
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -135,7 +135,7 @@ class DeploymentsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/applications/v1/deployments/{id}",
+            path_template("/applications/v1/deployments/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -241,7 +241,7 @@ class DeploymentsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/applications/v1/deployments/{id}/cancel",
+            path_template("/applications/v1/deployments/{id}/cancel", id=id),
             body=maybe_transform({"project_id": project_id}, deployment_cancel_params.DeploymentCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -301,7 +301,7 @@ class DeploymentsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/applications/v1/deployments/{id}/logs",
+            path_template("/applications/v1/deployments/{id}/logs", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -342,7 +342,7 @@ class DeploymentsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/applications/v1/deployments/{id}/status",
+            path_template("/applications/v1/deployments/{id}/status", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -382,7 +382,7 @@ class DeploymentsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/applications/v1/deployments/{id}/stream",
+            path_template("/applications/v1/deployments/{id}/stream", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -506,7 +506,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/applications/v1/deployments/{id}",
+            path_template("/applications/v1/deployments/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -612,7 +612,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/applications/v1/deployments/{id}/cancel",
+            path_template("/applications/v1/deployments/{id}/cancel", id=id),
             body=await async_maybe_transform(
                 {"project_id": project_id}, deployment_cancel_params.DeploymentCancelParams
             ),
@@ -674,7 +674,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/applications/v1/deployments/{id}/logs",
+            path_template("/applications/v1/deployments/{id}/logs", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -717,7 +717,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/applications/v1/deployments/{id}/status",
+            path_template("/applications/v1/deployments/{id}/status", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -757,7 +757,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/applications/v1/deployments/{id}/stream",
+            path_template("/applications/v1/deployments/{id}/stream", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

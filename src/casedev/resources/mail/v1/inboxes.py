@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -111,7 +111,7 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/mail/v1/inboxes/{inbox_id}",
+            path_template("/mail/v1/inboxes/{inbox_id}", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -165,7 +165,7 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/mail/v1/inboxes/{inbox_id}",
+            path_template("/mail/v1/inboxes/{inbox_id}", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -206,7 +206,12 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `attachment_id` but received {attachment_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/mail/v1/inboxes/{inbox_id}/messages/{message_id}/attachments/{attachment_id}",
+            path_template(
+                "/mail/v1/inboxes/{inbox_id}/messages/{message_id}/attachments/{attachment_id}",
+                inbox_id=inbox_id,
+                message_id=message_id,
+                attachment_id=attachment_id,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -243,7 +248,9 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `message_id` but received {message_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/mail/v1/inboxes/{inbox_id}/messages/{message_id}",
+            path_template(
+                "/mail/v1/inboxes/{inbox_id}/messages/{message_id}", inbox_id=inbox_id, message_id=message_id
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -278,7 +285,7 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/mail/v1/inboxes/{inbox_id}/policy",
+            path_template("/mail/v1/inboxes/{inbox_id}/policy", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -312,7 +319,7 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
-            f"/mail/v1/inboxes/{inbox_id}/messages",
+            path_template("/mail/v1/inboxes/{inbox_id}/messages", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -349,7 +356,9 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `message_id` but received {message_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/mail/v1/inboxes/{inbox_id}/messages/{message_id}/reply",
+            path_template(
+                "/mail/v1/inboxes/{inbox_id}/messages/{message_id}/reply", inbox_id=inbox_id, message_id=message_id
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -383,7 +392,7 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/mail/v1/inboxes/{inbox_id}/messages/send",
+            path_template("/mail/v1/inboxes/{inbox_id}/messages/send", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -433,7 +442,7 @@ class InboxesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
-            f"/mail/v1/inboxes/{inbox_id}/policy",
+            path_template("/mail/v1/inboxes/{inbox_id}/policy", inbox_id=inbox_id),
             body=maybe_transform(
                 {
                     "allowed_sender_patterns": allowed_sender_patterns,
@@ -542,7 +551,7 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/mail/v1/inboxes/{inbox_id}",
+            path_template("/mail/v1/inboxes/{inbox_id}", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -596,7 +605,7 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/mail/v1/inboxes/{inbox_id}",
+            path_template("/mail/v1/inboxes/{inbox_id}", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -637,7 +646,12 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `attachment_id` but received {attachment_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/mail/v1/inboxes/{inbox_id}/messages/{message_id}/attachments/{attachment_id}",
+            path_template(
+                "/mail/v1/inboxes/{inbox_id}/messages/{message_id}/attachments/{attachment_id}",
+                inbox_id=inbox_id,
+                message_id=message_id,
+                attachment_id=attachment_id,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -674,7 +688,9 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `message_id` but received {message_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/mail/v1/inboxes/{inbox_id}/messages/{message_id}",
+            path_template(
+                "/mail/v1/inboxes/{inbox_id}/messages/{message_id}", inbox_id=inbox_id, message_id=message_id
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -709,7 +725,7 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/mail/v1/inboxes/{inbox_id}/policy",
+            path_template("/mail/v1/inboxes/{inbox_id}/policy", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -743,7 +759,7 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
-            f"/mail/v1/inboxes/{inbox_id}/messages",
+            path_template("/mail/v1/inboxes/{inbox_id}/messages", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -780,7 +796,9 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `message_id` but received {message_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/mail/v1/inboxes/{inbox_id}/messages/{message_id}/reply",
+            path_template(
+                "/mail/v1/inboxes/{inbox_id}/messages/{message_id}/reply", inbox_id=inbox_id, message_id=message_id
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -814,7 +832,7 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/mail/v1/inboxes/{inbox_id}/messages/send",
+            path_template("/mail/v1/inboxes/{inbox_id}/messages/send", inbox_id=inbox_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -864,7 +882,7 @@ class AsyncInboxesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `inbox_id` but received {inbox_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
-            f"/mail/v1/inboxes/{inbox_id}/policy",
+            path_template("/mail/v1/inboxes/{inbox_id}/policy", inbox_id=inbox_id),
             body=await async_maybe_transform(
                 {
                     "allowed_sender_patterns": allowed_sender_patterns,

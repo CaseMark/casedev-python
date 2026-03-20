@@ -7,7 +7,7 @@ from typing import Dict
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -192,7 +192,7 @@ class SecretsResource(SyncAPIResource):
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
         return self._delete(
-            f"/compute/v1/secrets/{group}",
+            path_template("/compute/v1/secrets/{group}", group=group),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -240,7 +240,7 @@ class SecretsResource(SyncAPIResource):
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
         return self._get(
-            f"/compute/v1/secrets/{group}",
+            path_template("/compute/v1/secrets/{group}", group=group),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -286,7 +286,7 @@ class SecretsResource(SyncAPIResource):
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
         return self._put(
-            f"/compute/v1/secrets/{group}",
+            path_template("/compute/v1/secrets/{group}", group=group),
             body=maybe_transform(
                 {
                     "secrets": secrets,
@@ -460,7 +460,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
         return await self._delete(
-            f"/compute/v1/secrets/{group}",
+            path_template("/compute/v1/secrets/{group}", group=group),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -508,7 +508,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
         return await self._get(
-            f"/compute/v1/secrets/{group}",
+            path_template("/compute/v1/secrets/{group}", group=group),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -554,7 +554,7 @@ class AsyncSecretsResource(AsyncAPIResource):
         if not group:
             raise ValueError(f"Expected a non-empty value for `group` but received {group!r}")
         return await self._put(
-            f"/compute/v1/secrets/{group}",
+            path_template("/compute/v1/secrets/{group}", group=group),
             body=await async_maybe_transform(
                 {
                     "secrets": secrets,
