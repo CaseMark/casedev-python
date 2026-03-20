@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.31.1 (2026-03-20)
+
+Full Changelog: [v0.31.0...v0.31.1](https://github.com/CaseMark/casedev-python/compare/v0.31.0...v0.31.1)
+
+### Bug Fixes
+
+* sanitize endpoint path params ([937d2a8](https://github.com/CaseMark/casedev-python/commit/937d2a837a60646e18e6658ff4b45de4ce3309a9))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([d29c049](https://github.com/CaseMark/casedev-python/commit/d29c04986bdc46b611748786baa534739425e612))
+
 ## 0.31.0 (2026-03-18)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/CaseMark/casedev-python/compare/v0.30.0...v0.31.0)
