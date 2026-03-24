@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.4 (2026-03-24)
+
+Full Changelog: [v0.31.3...v0.31.4](https://github.com/CaseMark/casedev-python/compare/v0.31.3...v0.31.4)
+
+### Chores
+
+* **internal:** update gitignore ([9cf68da](https://github.com/CaseMark/casedev-python/commit/9cf68dafcb82c3d1227af09deb8ccfe2ca1d4cc1))
+
 ## 0.31.3 (2026-03-21)
 
 Full Changelog: [v0.31.2...v0.31.3](https://github.com/CaseMark/casedev-python/compare/v0.31.2...v0.31.3)
