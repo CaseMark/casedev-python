@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.31.6 (2026-03-25)
+
+Full Changelog: [v0.31.5...v0.31.6](https://github.com/CaseMark/casedev-python/compare/v0.31.5...v0.31.6)
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([4589ef7](https://github.com/CaseMark/casedev-python/commit/4589ef73f23e643936968ead8d9c38eda4380543))
+* **tests:** bump steady to v0.19.7 ([8f641c8](https://github.com/CaseMark/casedev-python/commit/8f641c8173561f40afe5ae161835398a49fad36a))
+
 ## 0.31.5 (2026-03-24)
 
 Full Changelog: [v0.31.4...v0.31.5](https://github.com/CaseMark/casedev-python/compare/v0.31.4...v0.31.5)
