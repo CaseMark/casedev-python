@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.32.0 (2026-03-27)
+
+Full Changelog: [v0.31.6...v0.32.0](https://github.com/CaseMark/casedev-python/compare/v0.31.6...v0.32.0)
+
+### Features
+
+* **internal:** implement indices array format for query and form serialization ([a34a2e6](https://github.com/CaseMark/casedev-python/commit/a34a2e69e7254d9a83fe951210171d9e92cc5345))
+
 ## 0.31.6 (2026-03-25)
 
 Full Changelog: [v0.31.5...v0.31.6](https://github.com/CaseMark/casedev-python/compare/v0.31.5...v0.31.6)
