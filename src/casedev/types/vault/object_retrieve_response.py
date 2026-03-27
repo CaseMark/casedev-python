@@ -38,6 +38,9 @@ class ObjectRetrieveResponse(BaseModel):
     chunk_count: Optional[int] = FieldInfo(alias="chunkCount", default=None)
     """Number of text chunks created"""
 
+    ingestion_error: Optional[str] = FieldInfo(alias="ingestionError", default=None)
+    """Error details when ingestion fails"""
+
     metadata: Optional[object] = None
     """Additional metadata"""
 
