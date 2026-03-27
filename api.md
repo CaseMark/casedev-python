@@ -101,6 +101,78 @@ Methods:
 - <code title="get /agent/v1/chat/{id}/files">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">list</a>(id) -> <a href="./src/casedev/types/agent/v1/chat/file_list_response.py">FileListResponse</a></code>
 - <code title="get /agent/v1/chat/{id}/files/{filePath}">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">download</a>(file_path, \*, id) -> BinaryAPIResponse</code>
 
+## V2
+
+### Run
+
+Types:
+
+```python
+from casedev.types.agent.v2 import (
+    RunCreateResponse,
+    RunEventsResponse,
+    RunExecResponse,
+    RunGetStatusResponse,
+)
+```
+
+Methods:
+
+- <code title="post /agent/v2/run">client.agent.v2.run.<a href="./src/casedev/resources/agent/v2/run.py">create</a>(\*\*<a href="src/casedev/types/agent/v2/run_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v2/run_create_response.py">RunCreateResponse</a></code>
+- <code title="get /agent/v2/run/{id}/events">client.agent.v2.run.<a href="./src/casedev/resources/agent/v2/run.py">events</a>(id, \*\*<a href="src/casedev/types/agent/v2/run_events_params.py">params</a>) -> str</code>
+- <code title="post /agent/v2/run/{id}/exec">client.agent.v2.run.<a href="./src/casedev/resources/agent/v2/run.py">exec</a>(id) -> <a href="./src/casedev/types/agent/v2/run_exec_response.py">RunExecResponse</a></code>
+- <code title="get /agent/v2/run/{id}/details">client.agent.v2.run.<a href="./src/casedev/resources/agent/v2/run.py">get_details</a>(id) -> object</code>
+- <code title="get /agent/v2/run/{id}/status">client.agent.v2.run.<a href="./src/casedev/resources/agent/v2/run.py">get_status</a>(id) -> <a href="./src/casedev/types/agent/v2/run_get_status_response.py">RunGetStatusResponse</a></code>
+
+### Execute
+
+Types:
+
+```python
+from casedev.types.agent.v2 import ExecuteCreateResponse
+```
+
+Methods:
+
+- <code title="post /agent/v2/execute">client.agent.v2.execute.<a href="./src/casedev/resources/agent/v2/execute.py">create</a>(\*\*<a href="src/casedev/types/agent/v2/execute_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v2/execute_create_response.py">ExecuteCreateResponse</a></code>
+
+### Chat
+
+Types:
+
+```python
+from casedev.types.agent.v2 import (
+    ChatCreateResponse,
+    ChatDeleteResponse,
+    ChatCancelResponse,
+    ChatRespondResponse,
+    ChatStreamResponse,
+)
+```
+
+Methods:
+
+- <code title="post /agent/v2/chat">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">create</a>(\*\*<a href="src/casedev/types/agent/v2/chat_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v2/chat_create_response.py">ChatCreateResponse</a></code>
+- <code title="delete /agent/v2/chat/{id}">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">delete</a>(id) -> <a href="./src/casedev/types/agent/v2/chat_delete_response.py">ChatDeleteResponse</a></code>
+- <code title="post /agent/v2/chat/{id}/cancel">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v2/chat_cancel_response.py">ChatCancelResponse</a></code>
+- <code title="post /agent/v2/chat/{id}/question/{requestID}/reply">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">reply_to_question</a>(request_id, \*, id, \*\*<a href="src/casedev/types/agent/v2/chat_reply_to_question_params.py">params</a>) -> None</code>
+- <code title="post /agent/v2/chat/{id}/respond">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">respond</a>(id, \*\*<a href="src/casedev/types/agent/v2/chat_respond_params.py">params</a>) -> str</code>
+- <code title="post /agent/v2/chat/{id}/message">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">send_message</a>(id, \*\*<a href="src/casedev/types/agent/v2/chat_send_message_params.py">params</a>) -> None</code>
+- <code title="get /agent/v2/chat/{id}/stream">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">stream</a>(id, \*\*<a href="src/casedev/types/agent/v2/chat_stream_params.py">params</a>) -> str</code>
+
+#### Files
+
+Types:
+
+```python
+from casedev.types.agent.v2.chat import FileListResponse
+```
+
+Methods:
+
+- <code title="get /agent/v2/chat/{id}/files">client.agent.v2.chat.files.<a href="./src/casedev/resources/agent/v2/chat/files.py">list</a>(id) -> <a href="./src/casedev/types/agent/v2/chat/file_list_response.py">FileListResponse</a></code>
+- <code title="get /agent/v2/chat/{id}/files/{filePath}">client.agent.v2.chat.files.<a href="./src/casedev/resources/agent/v2/chat/files.py">download</a>(file_path, \*, id) -> BinaryAPIResponse</code>
+
 # System
 
 Types:
