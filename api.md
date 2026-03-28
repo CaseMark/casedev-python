@@ -433,6 +433,92 @@ Methods:
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">trademark_search</a>(\*\*<a href="src/casedev/types/legal/v1_trademark_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_trademark_search_response.py">V1TrademarkSearchResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>
 
+# Matters
+
+## V1
+
+Methods:
+
+- <code title="post /matters/v1">client.matters.v1.<a href="./src/casedev/resources/matters/v1/v1.py">create</a>(\*\*<a href="src/casedev/types/matters/v1_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}">client.matters.v1.<a href="./src/casedev/resources/matters/v1/v1.py">retrieve</a>(id) -> None</code>
+- <code title="patch /matters/v1/{id}">client.matters.v1.<a href="./src/casedev/resources/matters/v1/v1.py">update</a>(id, \*\*<a href="src/casedev/types/matters/v1_update_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1">client.matters.v1.<a href="./src/casedev/resources/matters/v1/v1.py">list</a>(\*\*<a href="src/casedev/types/matters/v1_list_params.py">params</a>) -> None</code>
+
+### AgentTypes
+
+Methods:
+
+- <code title="post /matters/v1/agent-types">client.matters.v1.agent_types.<a href="./src/casedev/resources/matters/v1/agent_types.py">create</a>(\*\*<a href="src/casedev/types/matters/v1/agent_type_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/agent-types">client.matters.v1.agent_types.<a href="./src/casedev/resources/matters/v1/agent_types.py">list</a>(\*\*<a href="src/casedev/types/matters/v1/agent_type_list_params.py">params</a>) -> None</code>
+
+### Parties
+
+Methods:
+
+- <code title="post /matters/v1/parties">client.matters.v1.parties.<a href="./src/casedev/resources/matters/v1/parties.py">create</a>(\*\*<a href="src/casedev/types/matters/v1/party_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/parties/{partyId}">client.matters.v1.parties.<a href="./src/casedev/resources/matters/v1/parties.py">retrieve</a>(party_id) -> None</code>
+- <code title="patch /matters/v1/parties/{partyId}">client.matters.v1.parties.<a href="./src/casedev/resources/matters/v1/parties.py">update</a>(party_id) -> None</code>
+- <code title="get /matters/v1/parties">client.matters.v1.parties.<a href="./src/casedev/resources/matters/v1/parties.py">list</a>(\*\*<a href="src/casedev/types/matters/v1/party_list_params.py">params</a>) -> None</code>
+
+### Types
+
+Methods:
+
+- <code title="post /matters/v1/types">client.matters.v1.types.<a href="./src/casedev/resources/matters/v1/types.py">create</a>(\*\*<a href="src/casedev/types/matters/v1/type_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/types/{id}">client.matters.v1.types.<a href="./src/casedev/resources/matters/v1/types.py">retrieve</a>(id) -> None</code>
+- <code title="patch /matters/v1/types/{id}">client.matters.v1.types.<a href="./src/casedev/resources/matters/v1/types.py">update</a>(id, \*\*<a href="src/casedev/types/matters/v1/type_update_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/types">client.matters.v1.types.<a href="./src/casedev/resources/matters/v1/types.py">list</a>(\*\*<a href="src/casedev/types/matters/v1/type_list_params.py">params</a>) -> None</code>
+
+### Events
+
+#### Subscriptions
+
+Methods:
+
+- <code title="post /matters/v1/{id}/events/subscriptions">client.matters.v1.events.subscriptions.<a href="./src/casedev/resources/matters/v1/events/subscriptions.py">create</a>(id, \*\*<a href="src/casedev/types/matters/v1/events/subscription_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/events/subscriptions">client.matters.v1.events.subscriptions.<a href="./src/casedev/resources/matters/v1/events/subscriptions.py">list</a>(id) -> None</code>
+- <code title="delete /matters/v1/{id}/events/subscriptions/{subscriptionId}">client.matters.v1.events.subscriptions.<a href="./src/casedev/resources/matters/v1/events/subscriptions.py">delete</a>(subscription_id, \*, id) -> None</code>
+
+### Log
+
+Types:
+
+```python
+from casedev.types.matters.v1 import LogExportResponse
+```
+
+Methods:
+
+- <code title="post /matters/v1/{id}/log">client.matters.v1.log.<a href="./src/casedev/resources/matters/v1/log.py">create</a>(id, \*\*<a href="src/casedev/types/matters/v1/log_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/log">client.matters.v1.log.<a href="./src/casedev/resources/matters/v1/log.py">list</a>(id, \*\*<a href="src/casedev/types/matters/v1/log_list_params.py">params</a>) -> None</code>
+- <code title="post /matters/v1/{id}/log/export">client.matters.v1.log.<a href="./src/casedev/resources/matters/v1/log.py">export</a>(id, \*\*<a href="src/casedev/types/matters/v1/log_export_params.py">params</a>) -> <a href="./src/casedev/types/matters/v1/log_export_response.py">LogExportResponse</a></code>
+
+### MatterParties
+
+Methods:
+
+- <code title="post /matters/v1/{id}/parties">client.matters.v1.matter_parties.<a href="./src/casedev/resources/matters/v1/matter_parties.py">create</a>(id, \*\*<a href="src/casedev/types/matters/v1/matter_party_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/parties">client.matters.v1.matter_parties.<a href="./src/casedev/resources/matters/v1/matter_parties.py">list</a>(id) -> None</code>
+
+### Shares
+
+Methods:
+
+- <code title="post /matters/v1/{id}/shares">client.matters.v1.shares.<a href="./src/casedev/resources/matters/v1/shares.py">create</a>(id, \*\*<a href="src/casedev/types/matters/v1/share_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/shares">client.matters.v1.shares.<a href="./src/casedev/resources/matters/v1/shares.py">list</a>(id) -> None</code>
+- <code title="delete /matters/v1/{id}/shares/{shareId}">client.matters.v1.shares.<a href="./src/casedev/resources/matters/v1/shares.py">delete</a>(share_id, \*, id) -> None</code>
+
+### WorkItems
+
+Methods:
+
+- <code title="post /matters/v1/{id}/work-items">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">create</a>(id, \*\*<a href="src/casedev/types/matters/v1/work_item_create_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">retrieve</a>(work_item_id, \*, id) -> None</code>
+- <code title="patch /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">update</a>(work_item_id, \*, id, \*\*<a href="src/casedev/types/matters/v1/work_item_update_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/work-items">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">list</a>(id, \*\*<a href="src/casedev/types/matters/v1/work_item_list_params.py">params</a>) -> None</code>
+- <code title="post /matters/v1/{id}/work-items/{workItemId}/decision">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">decide</a>(work_item_id, \*, id, \*\*<a href="src/casedev/types/matters/v1/work_item_decide_params.py">params</a>) -> None</code>
+- <code title="get /matters/v1/{id}/work-items/{workItemId}/executions">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">list_executions</a>(work_item_id, \*, id) -> None</code>
+
 # Llm
 
 Types:

@@ -104,6 +104,14 @@ from .compute import (
     ComputeResourceWithStreamingResponse,
     AsyncComputeResourceWithStreamingResponse,
 )
+from .matters import (
+    MattersResource,
+    AsyncMattersResource,
+    MattersResourceWithRawResponse,
+    AsyncMattersResourceWithRawResponse,
+    MattersResourceWithStreamingResponse,
+    AsyncMattersResourceWithStreamingResponse,
+)
 from .database import (
     DatabaseResource,
     AsyncDatabaseResource,
@@ -188,6 +196,12 @@ __all__ = [
     "AsyncLegalResourceWithRawResponse",
     "LegalResourceWithStreamingResponse",
     "AsyncLegalResourceWithStreamingResponse",
+    "MattersResource",
+    "AsyncMattersResource",
+    "MattersResourceWithRawResponse",
+    "AsyncMattersResourceWithRawResponse",
+    "MattersResourceWithStreamingResponse",
+    "AsyncMattersResourceWithStreamingResponse",
     "LlmResource",
     "AsyncLlmResource",
     "LlmResourceWithRawResponse",
