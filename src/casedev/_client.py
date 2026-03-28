@@ -45,6 +45,7 @@ if TYPE_CHECKING:
         skills,
         system,
         compute,
+        matters,
         database,
         superdoc,
         privilege,
@@ -64,6 +65,7 @@ if TYPE_CHECKING:
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.skills.skills import SkillsResource, AsyncSkillsResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
+    from .resources.matters.matters import MattersResource, AsyncMattersResource
     from .resources.database.database import DatabaseResource, AsyncDatabaseResource
     from .resources.superdoc.superdoc import SuperdocResource, AsyncSuperdocResource
     from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
@@ -209,6 +211,12 @@ class Casedev(SyncAPIClient):
         from .resources.legal import LegalResource
 
         return LegalResource(self)
+
+    @cached_property
+    def matters(self) -> MattersResource:
+        from .resources.matters import MattersResource
+
+        return MattersResource(self)
 
     @cached_property
     def llm(self) -> LlmResource:
@@ -517,6 +525,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncLegalResource(self)
 
     @cached_property
+    def matters(self) -> AsyncMattersResource:
+        from .resources.matters import AsyncMattersResource
+
+        return AsyncMattersResource(self)
+
+    @cached_property
     def llm(self) -> AsyncLlmResource:
         """Access 40+ language models through a unified API"""
         from .resources.llm import AsyncLlmResource
@@ -750,6 +764,12 @@ class CasedevWithRawResponse:
         return LegalResourceWithRawResponse(self._client.legal)
 
     @cached_property
+    def matters(self) -> matters.MattersResourceWithRawResponse:
+        from .resources.matters import MattersResourceWithRawResponse
+
+        return MattersResourceWithRawResponse(self._client.matters)
+
+    @cached_property
     def llm(self) -> llm.LlmResourceWithRawResponse:
         """Access 40+ language models through a unified API"""
         from .resources.llm import LlmResourceWithRawResponse
@@ -867,6 +887,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.legal import AsyncLegalResourceWithRawResponse
 
         return AsyncLegalResourceWithRawResponse(self._client.legal)
+
+    @cached_property
+    def matters(self) -> matters.AsyncMattersResourceWithRawResponse:
+        from .resources.matters import AsyncMattersResourceWithRawResponse
+
+        return AsyncMattersResourceWithRawResponse(self._client.matters)
 
     @cached_property
     def llm(self) -> llm.AsyncLlmResourceWithRawResponse:
@@ -988,6 +1014,12 @@ class CasedevWithStreamedResponse:
         return LegalResourceWithStreamingResponse(self._client.legal)
 
     @cached_property
+    def matters(self) -> matters.MattersResourceWithStreamingResponse:
+        from .resources.matters import MattersResourceWithStreamingResponse
+
+        return MattersResourceWithStreamingResponse(self._client.matters)
+
+    @cached_property
     def llm(self) -> llm.LlmResourceWithStreamingResponse:
         """Access 40+ language models through a unified API"""
         from .resources.llm import LlmResourceWithStreamingResponse
@@ -1105,6 +1137,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.legal import AsyncLegalResourceWithStreamingResponse
 
         return AsyncLegalResourceWithStreamingResponse(self._client.legal)
+
+    @cached_property
+    def matters(self) -> matters.AsyncMattersResourceWithStreamingResponse:
+        from .resources.matters import AsyncMattersResourceWithStreamingResponse
+
+        return AsyncMattersResourceWithStreamingResponse(self._client.matters)
 
     @cached_property
     def llm(self) -> llm.AsyncLlmResourceWithStreamingResponse:
