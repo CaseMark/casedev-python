@@ -47,6 +47,7 @@ class TestV1:
                 "enable_indexing": True,
                 "metadata": {"foo": "bar"},
             },
+            vault_id="vault_id",
         )
         assert v1 is None
 
@@ -245,6 +246,7 @@ class TestAsyncV1:
                 "enable_indexing": True,
                 "metadata": {"foo": "bar"},
             },
+            vault_id="vault_id",
         )
         assert v1 is None
 
