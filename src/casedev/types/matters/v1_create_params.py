@@ -43,6 +43,8 @@ class V1CreateParams(TypedDict, total=False):
 
     vault: Vault
 
+    vault_id: str
+
 
 class Vault(TypedDict, total=False):
     description: str
