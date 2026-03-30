@@ -168,6 +168,7 @@ class V1Resource(SyncAPIResource):
         status: Literal["intake", "open", "pending", "closed", "archived"] | Omit = omit,
         subtype: str | Omit = omit,
         vault: v1_create_params.Vault | Omit = omit,
+        vault_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -176,7 +177,7 @@ class V1Resource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Create a new legal matter and provision its primary vault.
+        Create a new legal matter and optionally link an existing primary vault.
 
         Args:
           extra_headers: Send extra headers
@@ -208,6 +209,7 @@ class V1Resource(SyncAPIResource):
                     "status": status,
                     "subtype": subtype,
                     "vault": vault,
+                    "vault_id": vault_id,
                 },
                 v1_create_params.V1CreateParams,
             ),
@@ -450,6 +452,7 @@ class AsyncV1Resource(AsyncAPIResource):
         status: Literal["intake", "open", "pending", "closed", "archived"] | Omit = omit,
         subtype: str | Omit = omit,
         vault: v1_create_params.Vault | Omit = omit,
+        vault_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -458,7 +461,7 @@ class AsyncV1Resource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Create a new legal matter and provision its primary vault.
+        Create a new legal matter and optionally link an existing primary vault.
 
         Args:
           extra_headers: Send extra headers
@@ -490,6 +493,7 @@ class AsyncV1Resource(AsyncAPIResource):
                     "status": status,
                     "subtype": subtype,
                     "vault": vault,
+                    "vault_id": vault_id,
                 },
                 v1_create_params.V1CreateParams,
             ),
