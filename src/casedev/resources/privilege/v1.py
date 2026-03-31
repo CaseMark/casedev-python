@@ -49,8 +49,7 @@ class V1Resource(SyncAPIResource):
     def detect(
         self,
         *,
-        categories: List[Literal["attorney_client", "work_product", "common_interest", "litigation_hold"]]
-        | Omit = omit,
+        categories: List[Literal["attorney_client", "work_product", "common_interest"]] | Omit = omit,
         content: str | Omit = omit,
         document_id: str | Omit = omit,
         include_rationale: bool | Omit = omit,
@@ -64,14 +63,14 @@ class V1Resource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1DetectResponse:
-        """Analyzes text or vault documents for legal privilege.
+        """Analyzes text or vault documents for legal privilege review.
 
-        Detects attorney-client
-        privilege, work product doctrine, common interest privilege, and litigation hold
-        materials.
+        Detects
+        attorney-client privilege, work product doctrine, and common interest privilege.
 
-        Returns structured privilege flags with confidence scores and policy-friendly
-        rationale suitable for discovery workflows and privilege logs.
+        Returns structured review flags with confidence scores and policy-friendly
+        rationale suitable for discovery workflows and privilege logs. This endpoint is
+        an AI-assisted triage tool and does not replace attorney judgment.
 
         **Size Limit:** Maximum 200,000 characters (larger documents rejected).
 
@@ -83,7 +82,7 @@ class V1Resource(SyncAPIResource):
 
         Args:
           categories: Privilege categories to check. Defaults to all: attorney_client, work_product,
-              common_interest, litigation_hold
+              common_interest
 
           content: Text content to analyze (required if document_id not provided)
 
@@ -151,8 +150,7 @@ class AsyncV1Resource(AsyncAPIResource):
     async def detect(
         self,
         *,
-        categories: List[Literal["attorney_client", "work_product", "common_interest", "litigation_hold"]]
-        | Omit = omit,
+        categories: List[Literal["attorney_client", "work_product", "common_interest"]] | Omit = omit,
         content: str | Omit = omit,
         document_id: str | Omit = omit,
         include_rationale: bool | Omit = omit,
@@ -166,14 +164,14 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1DetectResponse:
-        """Analyzes text or vault documents for legal privilege.
+        """Analyzes text or vault documents for legal privilege review.
 
-        Detects attorney-client
-        privilege, work product doctrine, common interest privilege, and litigation hold
-        materials.
+        Detects
+        attorney-client privilege, work product doctrine, and common interest privilege.
 
-        Returns structured privilege flags with confidence scores and policy-friendly
-        rationale suitable for discovery workflows and privilege logs.
+        Returns structured review flags with confidence scores and policy-friendly
+        rationale suitable for discovery workflows and privilege logs. This endpoint is
+        an AI-assisted triage tool and does not replace attorney judgment.
 
         **Size Limit:** Maximum 200,000 characters (larger documents rejected).
 
@@ -185,7 +183,7 @@ class AsyncV1Resource(AsyncAPIResource):
 
         Args:
           categories: Privilege categories to check. Defaults to all: attorney_client, work_product,
-              common_interest, litigation_hold
+              common_interest
 
           content: Text content to analyze (required if document_id not provided)
 
