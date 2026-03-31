@@ -14,6 +14,9 @@ __all__ = ["ExecuteCreateParams", "Sandbox"]
 class ExecuteCreateParams(TypedDict, total=False):
     prompt: Required[str]
 
+    agent_runtime: Annotated[Optional[bool], PropertyInfo(alias="agentRuntime")]
+    """Set to true to opt into the legacy Daytona-backed agent runtime."""
+
     disabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="disabledTools")]
 
     enabled_tools: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="enabledTools")]
