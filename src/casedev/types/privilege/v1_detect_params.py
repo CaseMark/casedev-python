@@ -9,10 +9,10 @@ __all__ = ["V1DetectParams"]
 
 
 class V1DetectParams(TypedDict, total=False):
-    categories: List[Literal["attorney_client", "work_product", "common_interest", "litigation_hold"]]
+    categories: List[Literal["attorney_client", "work_product", "common_interest"]]
     """Privilege categories to check.
 
-    Defaults to all: attorney_client, work_product, common_interest, litigation_hold
+    Defaults to all: attorney_client, work_product, common_interest
     """
 
     content: str

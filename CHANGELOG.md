@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.0 (2026-03-31)
+
+Full Changelog: [v0.35.0...v0.36.0](https://github.com/CaseMark/casedev-python/compare/v0.35.0...v0.36.0)
+
+### Features
+
+* **api:** api update ([b89e823](https://github.com/CaseMark/casedev-python/commit/b89e82384cb54fc9ad2111e34112166947f60595))
+
 ## 0.35.0 (2026-03-30)
 
 Full Changelog: [v0.34.0...v0.35.0](https://github.com/CaseMark/casedev-python/compare/v0.34.0...v0.35.0)
