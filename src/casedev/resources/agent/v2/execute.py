@@ -51,6 +51,7 @@ class ExecuteResource(SyncAPIResource):
         self,
         *,
         prompt: str,
+        agent_runtime: Optional[bool] | Omit = omit,
         disabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         enabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         guidance: Optional[str] | Omit = omit,
@@ -66,11 +67,15 @@ class ExecuteResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecuteCreateResponse:
-        """
-        Creates an ephemeral agent and immediately executes a v2 run on the Daytona
-        runtime.
+        """Creates an ephemeral agent and executes it immediately.
+
+        By default this uses the
+        lightweight synchronous linc runtime on Vercel Sandbox. Set `agentRuntime: true`
+        to opt into the legacy Daytona-backed agent runtime.
 
         Args:
+          agent_runtime: Set to true to opt into the legacy Daytona-backed agent runtime.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -84,6 +89,7 @@ class ExecuteResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "prompt": prompt,
+                    "agent_runtime": agent_runtime,
                     "disabled_tools": disabled_tools,
                     "enabled_tools": enabled_tools,
                     "guidance": guidance,
@@ -130,6 +136,7 @@ class AsyncExecuteResource(AsyncAPIResource):
         self,
         *,
         prompt: str,
+        agent_runtime: Optional[bool] | Omit = omit,
         disabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         enabled_tools: Optional[SequenceNotStr[str]] | Omit = omit,
         guidance: Optional[str] | Omit = omit,
@@ -145,11 +152,15 @@ class AsyncExecuteResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ExecuteCreateResponse:
-        """
-        Creates an ephemeral agent and immediately executes a v2 run on the Daytona
-        runtime.
+        """Creates an ephemeral agent and executes it immediately.
+
+        By default this uses the
+        lightweight synchronous linc runtime on Vercel Sandbox. Set `agentRuntime: true`
+        to opt into the legacy Daytona-backed agent runtime.
 
         Args:
+          agent_runtime: Set to true to opt into the legacy Daytona-backed agent runtime.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -163,6 +174,7 @@ class AsyncExecuteResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "prompt": prompt,
+                    "agent_runtime": agent_runtime,
                     "disabled_tools": disabled_tools,
                     "enabled_tools": enabled_tools,
                     "guidance": guidance,

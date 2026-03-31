@@ -28,6 +28,7 @@ class TestExecute:
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         execute = client.agent.v2.execute.create(
             prompt="prompt",
+            agent_runtime=True,
             disabled_tools=["string"],
             enabled_tools=["string"],
             guidance="guidance",
@@ -83,6 +84,7 @@ class TestAsyncExecute:
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         execute = await async_client.agent.v2.execute.create(
             prompt="prompt",
+            agent_runtime=True,
             disabled_tools=["string"],
             enabled_tools=["string"],
             guidance="guidance",
