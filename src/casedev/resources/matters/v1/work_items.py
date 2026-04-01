@@ -280,8 +280,10 @@ class WorkItemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Allow a human to act as the orchestrator for a work item.
+        """Approve, revise, block, or reassign a work item.
+
+        Used by humans or agents to
+        move work items through their lifecycle.
 
         Args:
           extra_headers: Send extra headers
@@ -603,8 +605,10 @@ class AsyncWorkItemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Allow a human to act as the orchestrator for a work item.
+        """Approve, revise, block, or reassign a work item.
+
+        Used by humans or agents to
+        move work items through their lifecycle.
 
         Args:
           extra_headers: Send extra headers
