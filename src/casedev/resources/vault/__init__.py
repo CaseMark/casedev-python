@@ -24,6 +24,14 @@ from .groups import (
     GroupsResourceWithStreamingResponse,
     AsyncGroupsResourceWithStreamingResponse,
 )
+from .memory import (
+    MemoryResource,
+    AsyncMemoryResource,
+    MemoryResourceWithRawResponse,
+    AsyncMemoryResourceWithRawResponse,
+    MemoryResourceWithStreamingResponse,
+    AsyncMemoryResourceWithStreamingResponse,
+)
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -80,6 +88,12 @@ __all__ = [
     "AsyncObjectsResourceWithRawResponse",
     "ObjectsResourceWithStreamingResponse",
     "AsyncObjectsResourceWithStreamingResponse",
+    "MemoryResource",
+    "AsyncMemoryResource",
+    "MemoryResourceWithRawResponse",
+    "AsyncMemoryResourceWithRawResponse",
+    "MemoryResourceWithStreamingResponse",
+    "AsyncMemoryResourceWithStreamingResponse",
     "VaultResource",
     "AsyncVaultResource",
     "VaultResourceWithRawResponse",
