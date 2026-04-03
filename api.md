@@ -828,6 +828,22 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_summarize_job</a>(job_id, \*, id, object_id) -> <a href="./src/casedev/types/vault/object_get_summarize_job_response.py">ObjectGetSummarizeJobResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_text</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/object_get_text_response.py">ObjectGetTextResponse</a></code>
 
+## Memory
+
+Types:
+
+```python
+from casedev.types.vault import MemoryCreateResponse, MemoryListResponse, MemorySearchResponse
+```
+
+Methods:
+
+- <code title="post /vault/{id}/memory">client.vault.memory.<a href="./src/casedev/resources/vault/memory.py">create</a>(id, \*\*<a href="src/casedev/types/vault/memory_create_params.py">params</a>) -> <a href="./src/casedev/types/vault/memory_create_response.py">MemoryCreateResponse</a></code>
+- <code title="patch /vault/{id}/memory/{entryId}">client.vault.memory.<a href="./src/casedev/resources/vault/memory.py">update</a>(entry_id, \*, id, \*\*<a href="src/casedev/types/vault/memory_update_params.py">params</a>) -> None</code>
+- <code title="get /vault/{id}/memory">client.vault.memory.<a href="./src/casedev/resources/vault/memory.py">list</a>(id) -> <a href="./src/casedev/types/vault/memory_list_response.py">MemoryListResponse</a></code>
+- <code title="delete /vault/{id}/memory/{entryId}">client.vault.memory.<a href="./src/casedev/resources/vault/memory.py">delete</a>(entry_id, \*, id) -> None</code>
+- <code title="post /vault/{id}/memory/search">client.vault.memory.<a href="./src/casedev/resources/vault/memory.py">search</a>(id, \*\*<a href="src/casedev/types/vault/memory_search_params.py">params</a>) -> <a href="./src/casedev/types/vault/memory_search_response.py">MemorySearchResponse</a></code>
+
 # Voice
 
 ## Streaming

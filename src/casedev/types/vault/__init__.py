@@ -4,10 +4,16 @@ from __future__ import annotations
 
 from .group_create_params import GroupCreateParams as GroupCreateParams
 from .group_update_params import GroupUpdateParams as GroupUpdateParams
+from .memory_create_params import MemoryCreateParams as MemoryCreateParams
+from .memory_list_response import MemoryListResponse as MemoryListResponse
+from .memory_search_params import MemorySearchParams as MemorySearchParams
+from .memory_update_params import MemoryUpdateParams as MemoryUpdateParams
 from .object_delete_params import ObjectDeleteParams as ObjectDeleteParams
 from .object_list_response import ObjectListResponse as ObjectListResponse
 from .object_update_params import ObjectUpdateParams as ObjectUpdateParams
 from .graphrag_init_response import GraphragInitResponse as GraphragInitResponse
+from .memory_create_response import MemoryCreateResponse as MemoryCreateResponse
+from .memory_search_response import MemorySearchResponse as MemorySearchResponse
 from .multipart_abort_params import MultipartAbortParams as MultipartAbortParams
 from .object_delete_response import ObjectDeleteResponse as ObjectDeleteResponse
 from .object_update_response import ObjectUpdateResponse as ObjectUpdateResponse
