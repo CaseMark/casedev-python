@@ -15,6 +15,14 @@ from .groups import (
     GroupsResourceWithStreamingResponse,
     AsyncGroupsResourceWithStreamingResponse,
 )
+from .memory import (
+    MemoryResource,
+    AsyncMemoryResource,
+    MemoryResourceWithRawResponse,
+    AsyncMemoryResourceWithRawResponse,
+    MemoryResourceWithStreamingResponse,
+    AsyncMemoryResourceWithStreamingResponse,
+)
 from ...types import (
     vault_create_params,
     vault_delete_params,
@@ -105,6 +113,11 @@ class VaultResource(SyncAPIResource):
     def objects(self) -> ObjectsResource:
         """Secure document storage with semantic search and GraphRAG"""
         return ObjectsResource(self._client)
+
+    @cached_property
+    def memory(self) -> MemoryResource:
+        """Secure document storage with semantic search and GraphRAG"""
+        return MemoryResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> VaultResourceWithRawResponse:
@@ -663,6 +676,11 @@ class AsyncVaultResource(AsyncAPIResource):
     def objects(self) -> AsyncObjectsResource:
         """Secure document storage with semantic search and GraphRAG"""
         return AsyncObjectsResource(self._client)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResource:
+        """Secure document storage with semantic search and GraphRAG"""
+        return AsyncMemoryResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncVaultResourceWithRawResponse:
@@ -1251,6 +1269,11 @@ class VaultResourceWithRawResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return ObjectsResourceWithRawResponse(self._vault.objects)
 
+    @cached_property
+    def memory(self) -> MemoryResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
+        return MemoryResourceWithRawResponse(self._vault.memory)
+
 
 class AsyncVaultResourceWithRawResponse:
     def __init__(self, vault: AsyncVaultResource) -> None:
@@ -1307,6 +1330,11 @@ class AsyncVaultResourceWithRawResponse:
     def objects(self) -> AsyncObjectsResourceWithRawResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return AsyncObjectsResourceWithRawResponse(self._vault.objects)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResourceWithRawResponse:
+        """Secure document storage with semantic search and GraphRAG"""
+        return AsyncMemoryResourceWithRawResponse(self._vault.memory)
 
 
 class VaultResourceWithStreamingResponse:
@@ -1365,6 +1393,11 @@ class VaultResourceWithStreamingResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return ObjectsResourceWithStreamingResponse(self._vault.objects)
 
+    @cached_property
+    def memory(self) -> MemoryResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
+        return MemoryResourceWithStreamingResponse(self._vault.memory)
+
 
 class AsyncVaultResourceWithStreamingResponse:
     def __init__(self, vault: AsyncVaultResource) -> None:
@@ -1421,3 +1454,8 @@ class AsyncVaultResourceWithStreamingResponse:
     def objects(self) -> AsyncObjectsResourceWithStreamingResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return AsyncObjectsResourceWithStreamingResponse(self._vault.objects)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResourceWithStreamingResponse:
+        """Secure document storage with semantic search and GraphRAG"""
+        return AsyncMemoryResourceWithStreamingResponse(self._vault.memory)
