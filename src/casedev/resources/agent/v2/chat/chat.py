@@ -238,6 +238,7 @@ class ChatResource(SyncAPIResource):
         self,
         id: str,
         *,
+        model: Optional[str] | Omit = omit,
         parts: Iterable[chat_respond_params.Part] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -262,6 +263,9 @@ class ChatResource(SyncAPIResource):
           (best for server-to-server)
 
         Args:
+          model: Optional model override. When provided, the runtime bootstrap config is updated
+              so subsequent turns use this model. Conversation history is preserved.
+
           parts: Message content parts. Currently only "text" type is supported. Additional types
               (e.g. file, image) may be added in future versions.
 
@@ -278,7 +282,13 @@ class ChatResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._post(
             path_template("/agent/v2/chat/{id}/respond", id=id),
-            body=maybe_transform({"parts": parts}, chat_respond_params.ChatRespondParams),
+            body=maybe_transform(
+                {
+                    "model": model,
+                    "parts": parts,
+                },
+                chat_respond_params.ChatRespondParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -291,6 +301,7 @@ class ChatResource(SyncAPIResource):
         self,
         id: str,
         *,
+        model: Optional[str] | Omit = omit,
         parts: Iterable[chat_send_message_params.Part] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -313,6 +324,9 @@ class ChatResource(SyncAPIResource):
           for custom chat UIs)
 
         Args:
+          model: Optional model override. When provided, the runtime bootstrap config is updated
+              so subsequent turns use this model. Conversation history is preserved.
+
           parts: Message content parts. Currently only "text" type is supported. Additional types
               (e.g. file, image) may be added in future versions.
 
@@ -329,7 +343,13 @@ class ChatResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             path_template("/agent/v2/chat/{id}/message", id=id),
-            body=maybe_transform({"parts": parts}, chat_send_message_params.ChatSendMessageParams),
+            body=maybe_transform(
+                {
+                    "model": model,
+                    "parts": parts,
+                },
+                chat_send_message_params.ChatSendMessageParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -581,6 +601,7 @@ class AsyncChatResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        model: Optional[str] | Omit = omit,
         parts: Iterable[chat_respond_params.Part] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -605,6 +626,9 @@ class AsyncChatResource(AsyncAPIResource):
           (best for server-to-server)
 
         Args:
+          model: Optional model override. When provided, the runtime bootstrap config is updated
+              so subsequent turns use this model. Conversation history is preserved.
+
           parts: Message content parts. Currently only "text" type is supported. Additional types
               (e.g. file, image) may be added in future versions.
 
@@ -621,7 +645,13 @@ class AsyncChatResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._post(
             path_template("/agent/v2/chat/{id}/respond", id=id),
-            body=await async_maybe_transform({"parts": parts}, chat_respond_params.ChatRespondParams),
+            body=await async_maybe_transform(
+                {
+                    "model": model,
+                    "parts": parts,
+                },
+                chat_respond_params.ChatRespondParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -634,6 +664,7 @@ class AsyncChatResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        model: Optional[str] | Omit = omit,
         parts: Iterable[chat_send_message_params.Part] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -656,6 +687,9 @@ class AsyncChatResource(AsyncAPIResource):
           for custom chat UIs)
 
         Args:
+          model: Optional model override. When provided, the runtime bootstrap config is updated
+              so subsequent turns use this model. Conversation history is preserved.
+
           parts: Message content parts. Currently only "text" type is supported. Additional types
               (e.g. file, image) may be added in future versions.
 
@@ -672,7 +706,13 @@ class AsyncChatResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             path_template("/agent/v2/chat/{id}/message", id=id),
-            body=await async_maybe_transform({"parts": parts}, chat_send_message_params.ChatSendMessageParams),
+            body=await async_maybe_transform(
+                {
+                    "model": model,
+                    "parts": parts,
+                },
+                chat_send_message_params.ChatSendMessageParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
