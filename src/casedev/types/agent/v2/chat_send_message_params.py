@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["ChatSendMessageParams", "Part"]
 
 
 class ChatSendMessageParams(TypedDict, total=False):
+    model: Optional[str]
+    """Optional model override.
+
+    When provided, the runtime bootstrap config is updated so subsequent turns use
+    this model. Conversation history is preserved.
+    """
+
     parts: Iterable[Part]
     """Message content parts.
 

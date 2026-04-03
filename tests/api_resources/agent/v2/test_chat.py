@@ -196,6 +196,7 @@ class TestChat:
     def test_method_respond_with_all_params(self, client: Casedev) -> None:
         chat_stream = client.agent.v2.chat.respond(
             id="id",
+            model="model",
             parts=[
                 {
                     "text": "text",
@@ -246,6 +247,7 @@ class TestChat:
     def test_method_send_message_with_all_params(self, client: Casedev) -> None:
         chat = client.agent.v2.chat.send_message(
             id="id",
+            model="model",
             parts=[
                 {
                     "text": "text",
@@ -512,6 +514,7 @@ class TestAsyncChat:
     async def test_method_respond_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v2.chat.respond(
             id="id",
+            model="model",
             parts=[
                 {
                     "text": "text",
@@ -562,6 +565,7 @@ class TestAsyncChat:
     async def test_method_send_message_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat = await async_client.agent.v2.chat.send_message(
             id="id",
+            model="model",
             parts=[
                 {
                     "text": "text",
