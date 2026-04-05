@@ -9,7 +9,10 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.voice import TranscriptionCreateResponse, TranscriptionRetrieveResponse
+from casedev.types.voice import (
+    TranscriptionCreateResponse,
+    TranscriptionRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -66,14 +69,22 @@ class TestTranscription:
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         transcription = client.voice.transcription.retrieve(
-            "tr_abc123def456",
+            id="tr_abc123def456",
+        )
+        assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Casedev) -> None:
+        transcription = client.voice.transcription.retrieve(
+            id="tr_abc123def456",
+            include_text="true",
         )
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.voice.transcription.with_raw_response.retrieve(
-            "tr_abc123def456",
+            id="tr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -84,7 +95,7 @@ class TestTranscription:
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.voice.transcription.with_streaming_response.retrieve(
-            "tr_abc123def456",
+            id="tr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -98,7 +109,7 @@ class TestTranscription:
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.voice.transcription.with_raw_response.retrieve(
-                "",
+                id="",
             )
 
     @parametrize
@@ -194,14 +205,22 @@ class TestAsyncTranscription:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         transcription = await async_client.voice.transcription.retrieve(
-            "tr_abc123def456",
+            id="tr_abc123def456",
+        )
+        assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncCasedev) -> None:
+        transcription = await async_client.voice.transcription.retrieve(
+            id="tr_abc123def456",
+            include_text="true",
         )
         assert_matches_type(TranscriptionRetrieveResponse, transcription, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.voice.transcription.with_raw_response.retrieve(
-            "tr_abc123def456",
+            id="tr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -212,7 +231,7 @@ class TestAsyncTranscription:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.voice.transcription.with_streaming_response.retrieve(
-            "tr_abc123def456",
+            id="tr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -226,7 +245,7 @@ class TestAsyncTranscription:
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.voice.transcription.with_raw_response.retrieve(
-                "",
+                id="",
             )
 
     @parametrize
