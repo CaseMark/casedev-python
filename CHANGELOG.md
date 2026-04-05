@@ -1,5 +1,127 @@
 # Changelog
 
+## 0.42.0 (2026-04-05)
+
+Full Changelog: [v0.41.0...v0.42.0](https://github.com/CaseMark/casedev-python/compare/v0.41.0...v0.42.0)
+
+### Features
+
+* **api:** api update ([6fd0a54](https://github.com/CaseMark/casedev-python/commit/6fd0a5476222676f4108ac1331be6493ebf10c2b))
+* **api:** api update ([55f3bb8](https://github.com/CaseMark/casedev-python/commit/55f3bb8453bed2293662a1597c3d7838d11e8e74))
+* **api:** api update ([f6621cd](https://github.com/CaseMark/casedev-python/commit/f6621cdfe2e6fd6e57530067fff798350146913b))
+* **api:** api update ([d861ea7](https://github.com/CaseMark/casedev-python/commit/d861ea7dc9616d28470efaaffb7e71454f5c184f))
+* **api:** api update ([17472a1](https://github.com/CaseMark/casedev-python/commit/17472a12bdc779ef8636cde07845a271c5afdf51))
+* **api:** api update ([b89e823](https://github.com/CaseMark/casedev-python/commit/b89e82384cb54fc9ad2111e34112166947f60595))
+* **api:** api update ([a7325fc](https://github.com/CaseMark/casedev-python/commit/a7325fcde36bd2f33f7ced3256c974b29673120e))
+* **api:** api update ([10771a0](https://github.com/CaseMark/casedev-python/commit/10771a0be0d077177b1eee10789d03c1d8ef89f4))
+* **api:** api update ([7b40630](https://github.com/CaseMark/casedev-python/commit/7b406308b1dc209df2ff3b4b999430d40e492ee5))
+* **api:** api update ([4b9411e](https://github.com/CaseMark/casedev-python/commit/4b9411e297ef213db42962874c2b0b5b847838a6))
+* **api:** api update ([072cedf](https://github.com/CaseMark/casedev-python/commit/072cedf9d774cba52e19e4b2275a388d1cd5a7d2))
+* **api:** api update ([8c08695](https://github.com/CaseMark/casedev-python/commit/8c08695f4b0c98f06f0a08ee139a2be78cc8d770))
+* **api:** api update ([f4ede36](https://github.com/CaseMark/casedev-python/commit/f4ede36689cbbb4fbf7af3d6ea17cbf1bbfd0b61))
+* **api:** api update ([bbc1958](https://github.com/CaseMark/casedev-python/commit/bbc19583a48d689f36d3b73331df31100a6bff51))
+* **api:** api update ([79d80eb](https://github.com/CaseMark/casedev-python/commit/79d80ebe4fe7c24aefac21b3952b7c453a9c0fdc))
+* **api:** api update ([87a0fa7](https://github.com/CaseMark/casedev-python/commit/87a0fa7a1d964d12ff95e28d5680d42459f505a9))
+* **api:** api update ([ae40ade](https://github.com/CaseMark/casedev-python/commit/ae40ade8c0759de6f9089fd86d220aa7453f0895))
+* **api:** api update ([188c163](https://github.com/CaseMark/casedev-python/commit/188c1634025666242ae5998e99bc7776afa05b1e))
+* **api:** api update ([c5a54e6](https://github.com/CaseMark/casedev-python/commit/c5a54e6759c5392c49fb7b8100a7971058c98900))
+* **api:** api update ([6f27ae6](https://github.com/CaseMark/casedev-python/commit/6f27ae6f5665f97b489b886acf992bf8d1db3f61))
+* **api:** api update ([77b06ab](https://github.com/CaseMark/casedev-python/commit/77b06abdb2d7d0ab0098a2e822c6ca7e073664f7))
+* **api:** api update ([77aa31b](https://github.com/CaseMark/casedev-python/commit/77aa31b8549d5d578149ec04cf93f6dee72b7ec4))
+* **api:** api update ([05fb516](https://github.com/CaseMark/casedev-python/commit/05fb5164d0e7dd5984663fed45330fe080af86fc))
+* **api:** api update ([2960b73](https://github.com/CaseMark/casedev-python/commit/2960b736a990d35a0c4aecf89c7318946619fe30))
+* **api:** api update ([485daaa](https://github.com/CaseMark/casedev-python/commit/485daaa2873139395ac554a40b0fa29e974642cd))
+* **api:** api update ([3e84faf](https://github.com/CaseMark/casedev-python/commit/3e84fafb3536ed4097d29cf6b691198e4729c3b4))
+* **api:** api update ([9e34f8a](https://github.com/CaseMark/casedev-python/commit/9e34f8a5dccba5cdb95c1f95208606a6a4a2f440))
+* **api:** api update ([135dc3c](https://github.com/CaseMark/casedev-python/commit/135dc3cd51e46fe958d0065821432194c4879beb))
+* **api:** api update ([77773aa](https://github.com/CaseMark/casedev-python/commit/77773aa58e7a5b7296404f1a0cece53c7cbb4d92))
+* **api:** api update ([40e0ea7](https://github.com/CaseMark/casedev-python/commit/40e0ea76d287d25604d7f38fb9bea42e6bd6ed30))
+* **api:** api update ([c78983e](https://github.com/CaseMark/casedev-python/commit/c78983ef3cca3346dbfd600bd3587fced8ac3104))
+* **api:** api update ([02f2b6c](https://github.com/CaseMark/casedev-python/commit/02f2b6c264aa9c775e629951e2048a8690619223))
+* **api:** api update ([d972fb9](https://github.com/CaseMark/casedev-python/commit/d972fb973d9472dcd6836294bb7fbc4cabc5885c))
+* **api:** api update ([e7ff6af](https://github.com/CaseMark/casedev-python/commit/e7ff6af489dece42b6798c8df1f68f26062882cf))
+* **api:** api update ([dac2fef](https://github.com/CaseMark/casedev-python/commit/dac2fef17bc0cea70d0a6e0448091416df778816))
+* **api:** api update ([001c8e9](https://github.com/CaseMark/casedev-python/commit/001c8e905cb208739022b59a32757120542e74bc))
+* **api:** api update ([a38391d](https://github.com/CaseMark/casedev-python/commit/a38391d62d18cec8a24b36f645e5c520bfa83c48))
+* **api:** api update ([bf7f3a0](https://github.com/CaseMark/casedev-python/commit/bf7f3a04d0ebbcfba9be0e2dbafa66523f6ffe4e))
+* **api:** api update ([31394a2](https://github.com/CaseMark/casedev-python/commit/31394a2dddf5681cf21881b6647f9d5c767fe681))
+* **api:** api update ([42adc10](https://github.com/CaseMark/casedev-python/commit/42adc108a7fbdb8bb08822a95270d4bcd0647ac8))
+* **api:** api update ([7680735](https://github.com/CaseMark/casedev-python/commit/768073544334f388580595059eb36392caa5de63))
+* **api:** api update ([2d83c1e](https://github.com/CaseMark/casedev-python/commit/2d83c1e1737b17e38589ae70d199026066dd7fb5))
+* **api:** api update ([687dbe1](https://github.com/CaseMark/casedev-python/commit/687dbe1cf0c63fc9085265254015dc064087f7d7))
+* **api:** api update ([9552466](https://github.com/CaseMark/casedev-python/commit/95524660fc8d6bc6b4afbd3e881bf15e7378cfe0))
+* **api:** api update ([e3f5b6b](https://github.com/CaseMark/casedev-python/commit/e3f5b6bcc11924a87716cbb6e99d39e0c0603f74))
+* **api:** api update ([ab9ad93](https://github.com/CaseMark/casedev-python/commit/ab9ad9365e44ec36f5ba3cb5c47436bcdcba095e))
+* **api:** api update ([92d6d3e](https://github.com/CaseMark/casedev-python/commit/92d6d3e780ef1f21b3d5fb1839be1bb1973bdec9))
+* **api:** api update ([c1ae1f0](https://github.com/CaseMark/casedev-python/commit/c1ae1f0f67d01c6131cea0a3cdfdd7b62430e57a))
+* **api:** api update ([3da66e8](https://github.com/CaseMark/casedev-python/commit/3da66e8087429a2464cde0e7ccf9f00816c9253f))
+* **api:** api update ([daeeb24](https://github.com/CaseMark/casedev-python/commit/daeeb24466300096491bed4ebce78563880364b5))
+* **api:** api update ([0809936](https://github.com/CaseMark/casedev-python/commit/0809936b454b3b9c5f7e5c743a8c830f7aa071bb))
+* **api:** api update ([7292310](https://github.com/CaseMark/casedev-python/commit/729231070af873c8a63a9a4ecaddf7785e774456))
+* **api:** api update ([684d926](https://github.com/CaseMark/casedev-python/commit/684d92629f3c3a202cebfc45f5dd21f7c17b5877))
+* **api:** api update ([17fc13d](https://github.com/CaseMark/casedev-python/commit/17fc13d0818e3770b2c786b6fd9c7c06c3b9d25d))
+* **api:** api update ([737d1c8](https://github.com/CaseMark/casedev-python/commit/737d1c897994e3a7bbfab340db4c358e4d13d5ca))
+* **api:** api update ([3e3e1e1](https://github.com/CaseMark/casedev-python/commit/3e3e1e1ce03245a91567ef6682aa9e0bf4d1aa00))
+* **api:** api update ([6071351](https://github.com/CaseMark/casedev-python/commit/60713515ebe6c2fb3c545243e4865ae8b2aa96f4))
+* **api:** api update ([8d1fc91](https://github.com/CaseMark/casedev-python/commit/8d1fc919b184800cf5c27b3cb447ea6a6f61dbb2))
+* **api:** api update ([1cb2be4](https://github.com/CaseMark/casedev-python/commit/1cb2be4e85317ac44b253093db82e4006e2133e3))
+* **api:** api update ([c8f0f13](https://github.com/CaseMark/casedev-python/commit/c8f0f134473037efbfd902d41b4405a40dac28cb))
+* **client:** add custom JSON encoder for extended type support ([34a252e](https://github.com/CaseMark/casedev-python/commit/34a252ea9464e00bd27f8b12fcb027e283c095bd))
+* **client:** add support for binary request streaming ([b425d21](https://github.com/CaseMark/casedev-python/commit/b425d2114285d843565d6a0d907e0b3b4817bb91))
+* **internal:** implement indices array format for query and form serialization ([a34a2e6](https://github.com/CaseMark/casedev-python/commit/a34a2e69e7254d9a83fe951210171d9e92cc5345))
+
+
+### Bug Fixes
+
+* deduplicate CI Slack alerts at workflow level, not PR level ([#41](https://github.com/CaseMark/casedev-python/issues/41)) ([3b5a07b](https://github.com/CaseMark/casedev-python/commit/3b5a07b58dc107b49c5c7581ed8327cbeee8d20b))
+* **deps:** bump minimum typing-extensions version ([6256dbc](https://github.com/CaseMark/casedev-python/commit/6256dbcb7233cc39f303c12c71cc0186046cb262))
+* only alert on CI failure for PRs targeting main ([7ad6c4b](https://github.com/CaseMark/casedev-python/commit/7ad6c4b62772ab94d3ca060d27f587eb7e5f8672))
+* only alert Slack on CI failure for main branch ([0941a51](https://github.com/CaseMark/casedev-python/commit/0941a5150ba78f3661915378cfd10f7d2dd059b4))
+* prevent duplicate Slack alerts from release-please branches ([5baa9ee](https://github.com/CaseMark/casedev-python/commit/5baa9ee4572bed65b873e4a0e5d7c1e5c0f694f9))
+* **pydantic:** do not pass `by_alias` unless set ([b633f75](https://github.com/CaseMark/casedev-python/commit/b633f753d30a73b0571be7af339bfec81e649087))
+* resolve CI failures in smoke test integration ([9f166ff](https://github.com/CaseMark/casedev-python/commit/9f166ffdbdbe73ac5092a212070e11350ba3d9ff))
+* sanitize endpoint path params ([937d2a8](https://github.com/CaseMark/casedev-python/commit/937d2a837a60646e18e6658ff4b45de4ce3309a9))
+
+
+### Chores
+
+* **ci:** bump uv version ([e739162](https://github.com/CaseMark/casedev-python/commit/e73916268b1604b6b96e894fa0df2da41608ce57))
+* **ci:** skip lint on metadata-only changes ([4589ef7](https://github.com/CaseMark/casedev-python/commit/4589ef73f23e643936968ead8d9c38eda4380543))
+* **ci:** skip uploading artifacts on stainless-internal branches ([e1c51bd](https://github.com/CaseMark/casedev-python/commit/e1c51bd809ab2cd38ba613c32f049f3d620c3802))
+* **ci:** upgrade `actions/github-script` ([170f959](https://github.com/CaseMark/casedev-python/commit/170f959ccbb0ec0cd16e7d2e8f393825de517b7b))
+* format all `api.md` files ([9b7d49d](https://github.com/CaseMark/casedev-python/commit/9b7d49d466da0c24711a93762a5f2e206f29279c))
+* **internal:** add request options to SSE classes ([c06aa38](https://github.com/CaseMark/casedev-python/commit/c06aa386cdaa7d2aa51eaa088525c61e959844c4))
+* **internal:** bump dependencies ([7e338b2](https://github.com/CaseMark/casedev-python/commit/7e338b2495daac85e7c0a0205000e19f0b81a875))
+* **internal:** codegen related update ([4fccd08](https://github.com/CaseMark/casedev-python/commit/4fccd0875f8f5a90b640f536548200c6c22f66eb))
+* **internal:** fix lint error on Python 3.14 ([3b5d6dc](https://github.com/CaseMark/casedev-python/commit/3b5d6dc771f8933dcbdd7cc7645139b5c224c547))
+* **internal:** make `test_proxy_environment_variables` more resilient ([926dcd4](https://github.com/CaseMark/casedev-python/commit/926dcd48c22e1cf94f3894ed365df6898cb27c59))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([574334a](https://github.com/CaseMark/casedev-python/commit/574334a89b19baa8fcbb72100c2fc033f2a3c80c))
+* **internal:** remove mock server code ([084425e](https://github.com/CaseMark/casedev-python/commit/084425e59cb125778ca0a37194c49a10124eb98c))
+* **internal:** tweak CI branches ([cbe4126](https://github.com/CaseMark/casedev-python/commit/cbe4126732a0d975e1b4e5d02c0c599e0377e2c9))
+* **internal:** update `actions/checkout` version ([79aaafc](https://github.com/CaseMark/casedev-python/commit/79aaafcc099c50403f9f2390919d7c52a990d1d3))
+* **internal:** update gitignore ([9cf68da](https://github.com/CaseMark/casedev-python/commit/9cf68dafcb82c3d1227af09deb8ccfe2ca1d4cc1))
+* replace PR open Slack alert with CI failure alert ([ddb4311](https://github.com/CaseMark/casedev-python/commit/ddb4311f3e9dbd837e147278e74360c53edfc39f))
+* **test:** do not count install time for mock server timeout ([8bdc678](https://github.com/CaseMark/casedev-python/commit/8bdc67826e5fcff5d67eaa3a493b2be405a58fdb))
+* **tests:** bump steady to v0.19.4 ([d547989](https://github.com/CaseMark/casedev-python/commit/d5479891676c6cf0fe90a35d37e663fd3d6ce487))
+* **tests:** bump steady to v0.19.5 ([c0fc1ac](https://github.com/CaseMark/casedev-python/commit/c0fc1acfb1798937a85bef243f7cc4ed7b9b702d))
+* **tests:** bump steady to v0.19.6 ([0a5b615](https://github.com/CaseMark/casedev-python/commit/0a5b615b397db25ccce8a8f5737d25fa61fd77ab))
+* **tests:** bump steady to v0.19.7 ([8f641c8](https://github.com/CaseMark/casedev-python/commit/8f641c8173561f40afe5ae161835398a49fad36a))
+* **tests:** bump steady to v0.20.1 ([9c29b5a](https://github.com/CaseMark/casedev-python/commit/9c29b5aa992d0e41cbd3f9469755351870796e7d))
+* **tests:** bump steady to v0.20.2 ([069ff69](https://github.com/CaseMark/casedev-python/commit/069ff69df2dbd87853a7629c0cd0774794fd2ecf))
+* update mock server docs ([619f816](https://github.com/CaseMark/casedev-python/commit/619f8166b5b650a4ac561276577de12ced62daeb))
+* update SDK settings ([ced48fc](https://github.com/CaseMark/casedev-python/commit/ced48fc84cb98d79e3eeed74802f473dcfecb0da))
+
+
+### Styles
+
+* fix ruff isort import formatting in smoke tests ([e80a3f3](https://github.com/CaseMark/casedev-python/commit/e80a3f35b28539a307ccf6be344e862cfb18679e))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([d29c049](https://github.com/CaseMark/casedev-python/commit/d29c04986bdc46b611748786baa534739425e612))
+* **types:** use `extra_items` from PEP 728 ([4c16824](https://github.com/CaseMark/casedev-python/commit/4c168248947f9b55e2017d86cc4cadd95e9b1519))
+
 ## 0.41.0 (2026-04-05)
 
 Full Changelog: [v0.40.0...v0.41.0](https://github.com/CaseMark/casedev-python/compare/v0.40.0...v0.41.0)
