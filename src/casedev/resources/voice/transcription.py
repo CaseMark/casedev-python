@@ -16,7 +16,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.voice import transcription_create_params
+from ...types.voice import transcription_create_params, transcription_retrieve_params
 from ..._base_client import make_request_options
 from ...types.voice.transcription_create_response import TranscriptionCreateResponse
 from ...types.voice.transcription_retrieve_response import TranscriptionRetrieveResponse
@@ -154,6 +154,7 @@ class TranscriptionResource(SyncAPIResource):
         self,
         id: str,
         *,
+        include_text: Literal["true", "false"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -168,6 +169,8 @@ class TranscriptionResource(SyncAPIResource):
         jobs, returns the full transcription data.
 
         Args:
+          include_text: Include full transcript text in response for vault-based jobs (default: false)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -181,7 +184,13 @@ class TranscriptionResource(SyncAPIResource):
         return self._get(
             path_template("/voice/transcription/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"include_text": include_text}, transcription_retrieve_params.TranscriptionRetrieveParams
+                ),
             ),
             cast_to=TranscriptionRetrieveResponse,
         )
@@ -354,6 +363,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        include_text: Literal["true", "false"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -368,6 +378,8 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         jobs, returns the full transcription data.
 
         Args:
+          include_text: Include full transcript text in response for vault-based jobs (default: false)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -381,7 +393,13 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         return await self._get(
             path_template("/voice/transcription/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"include_text": include_text}, transcription_retrieve_params.TranscriptionRetrieveParams
+                ),
             ),
             cast_to=TranscriptionRetrieveResponse,
         )
