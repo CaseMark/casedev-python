@@ -37,6 +37,7 @@ if TYPE_CHECKING:
         mail,
         agent,
         legal,
+        usage,
         vault,
         voice,
         format,
@@ -58,6 +59,7 @@ if TYPE_CHECKING:
     from .resources.mail.mail import MailResource, AsyncMailResource
     from .resources.agent.agent import AgentResource, AsyncAgentResource
     from .resources.legal.legal import LegalResource, AsyncLegalResource
+    from .resources.usage.usage import UsageResource, AsyncUsageResource
     from .resources.vault.vault import VaultResource, AsyncVaultResource
     from .resources.voice.voice import VoiceResource, AsyncVoiceResource
     from .resources.format.format import FormatResource, AsyncFormatResource
@@ -273,6 +275,12 @@ class Casedev(SyncAPIClient):
         from .resources.translate import TranslateResource
 
         return TranslateResource(self)
+
+    @cached_property
+    def usage(self) -> UsageResource:
+        from .resources.usage import UsageResource
+
+        return UsageResource(self)
 
     @cached_property
     def vault(self) -> VaultResource:
@@ -587,6 +595,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncTranslateResource(self)
 
     @cached_property
+    def usage(self) -> AsyncUsageResource:
+        from .resources.usage import AsyncUsageResource
+
+        return AsyncUsageResource(self)
+
+    @cached_property
     def vault(self) -> AsyncVaultResource:
         """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import AsyncVaultResource
@@ -826,6 +840,12 @@ class CasedevWithRawResponse:
         return TranslateResourceWithRawResponse(self._client.translate)
 
     @cached_property
+    def usage(self) -> usage.UsageResourceWithRawResponse:
+        from .resources.usage import UsageResourceWithRawResponse
+
+        return UsageResourceWithRawResponse(self._client.usage)
+
+    @cached_property
     def vault(self) -> vault.VaultResourceWithRawResponse:
         """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import VaultResourceWithRawResponse
@@ -949,6 +969,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.translate import AsyncTranslateResourceWithRawResponse
 
         return AsyncTranslateResourceWithRawResponse(self._client.translate)
+
+    @cached_property
+    def usage(self) -> usage.AsyncUsageResourceWithRawResponse:
+        from .resources.usage import AsyncUsageResourceWithRawResponse
+
+        return AsyncUsageResourceWithRawResponse(self._client.usage)
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithRawResponse:
@@ -1076,6 +1102,12 @@ class CasedevWithStreamedResponse:
         return TranslateResourceWithStreamingResponse(self._client.translate)
 
     @cached_property
+    def usage(self) -> usage.UsageResourceWithStreamingResponse:
+        from .resources.usage import UsageResourceWithStreamingResponse
+
+        return UsageResourceWithStreamingResponse(self._client.usage)
+
+    @cached_property
     def vault(self) -> vault.VaultResourceWithStreamingResponse:
         """Secure document storage with semantic search and GraphRAG"""
         from .resources.vault import VaultResourceWithStreamingResponse
@@ -1199,6 +1231,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.translate import AsyncTranslateResourceWithStreamingResponse
 
         return AsyncTranslateResourceWithStreamingResponse(self._client.translate)
+
+    @cached_property
+    def usage(self) -> usage.AsyncUsageResourceWithStreamingResponse:
+        from .resources.usage import AsyncUsageResourceWithStreamingResponse
+
+        return AsyncUsageResourceWithStreamingResponse(self._client.usage)
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithStreamingResponse:
