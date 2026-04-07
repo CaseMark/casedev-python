@@ -19,7 +19,7 @@ class TranscriptionCreateParams(TypedDict, total=False):
     boost_param: Literal["low", "default", "high"]
     """How much to boost custom vocabulary"""
 
-    content_safety_labels: bool
+    content_safety: bool
     """Enable content moderation and safety labeling"""
 
     format: Literal["json", "text"]
