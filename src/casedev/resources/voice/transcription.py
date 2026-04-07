@@ -52,7 +52,7 @@ class TranscriptionResource(SyncAPIResource):
         audio_url: str | Omit = omit,
         auto_highlights: bool | Omit = omit,
         boost_param: Literal["low", "default", "high"] | Omit = omit,
-        content_safety_labels: bool | Omit = omit,
+        content_safety: bool | Omit = omit,
         format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
         language_code: str | Omit = omit,
@@ -89,7 +89,7 @@ class TranscriptionResource(SyncAPIResource):
 
           boost_param: How much to boost custom vocabulary
 
-          content_safety_labels: Enable content moderation and safety labeling
+          content_safety: Enable content moderation and safety labeling
 
           format: Output format for the transcript when using vault mode
 
@@ -129,7 +129,7 @@ class TranscriptionResource(SyncAPIResource):
                     "audio_url": audio_url,
                     "auto_highlights": auto_highlights,
                     "boost_param": boost_param,
-                    "content_safety_labels": content_safety_labels,
+                    "content_safety": content_safety,
                     "format": format,
                     "format_text": format_text,
                     "language_code": language_code,
@@ -261,7 +261,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         audio_url: str | Omit = omit,
         auto_highlights: bool | Omit = omit,
         boost_param: Literal["low", "default", "high"] | Omit = omit,
-        content_safety_labels: bool | Omit = omit,
+        content_safety: bool | Omit = omit,
         format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
         language_code: str | Omit = omit,
@@ -298,7 +298,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           boost_param: How much to boost custom vocabulary
 
-          content_safety_labels: Enable content moderation and safety labeling
+          content_safety: Enable content moderation and safety labeling
 
           format: Output format for the transcript when using vault mode
 
@@ -338,7 +338,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
                     "audio_url": audio_url,
                     "auto_highlights": auto_highlights,
                     "boost_param": boost_param,
-                    "content_safety_labels": content_safety_labels,
+                    "content_safety": content_safety,
                     "format": format,
                     "format_text": format_text,
                     "language_code": language_code,
