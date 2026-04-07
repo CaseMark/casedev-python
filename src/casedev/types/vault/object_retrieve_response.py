@@ -56,5 +56,8 @@ class ObjectRetrieveResponse(BaseModel):
     text_length: Optional[int] = FieldInfo(alias="textLength", default=None)
     """Length of extracted text"""
 
+    transcript_object_id: Optional[str] = None
+    """Object ID of the completed transcript (if available)"""
+
     vector_count: Optional[int] = FieldInfo(alias="vectorCount", default=None)
     """Number of embedding vectors generated"""
