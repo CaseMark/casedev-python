@@ -40,6 +40,14 @@ from .legal import (
     LegalResourceWithStreamingResponse,
     AsyncLegalResourceWithStreamingResponse,
 )
+from .usage import (
+    UsageResource,
+    AsyncUsageResource,
+    UsageResourceWithRawResponse,
+    AsyncUsageResourceWithRawResponse,
+    UsageResourceWithStreamingResponse,
+    AsyncUsageResourceWithStreamingResponse,
+)
 from .vault import (
     VaultResource,
     AsyncVaultResource,
@@ -256,6 +264,12 @@ __all__ = [
     "AsyncTranslateResourceWithRawResponse",
     "TranslateResourceWithStreamingResponse",
     "AsyncTranslateResourceWithStreamingResponse",
+    "UsageResource",
+    "AsyncUsageResource",
+    "UsageResourceWithRawResponse",
+    "AsyncUsageResourceWithRawResponse",
+    "UsageResourceWithStreamingResponse",
+    "AsyncUsageResourceWithStreamingResponse",
     "VaultResource",
     "AsyncVaultResource",
     "VaultResourceWithRawResponse",

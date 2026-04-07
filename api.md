@@ -717,6 +717,24 @@ Methods:
 - <code title="get /translate/v1/languages">client.translate.v1.<a href="./src/casedev/resources/translate/v1.py">list_languages</a>(\*\*<a href="src/casedev/types/translate/v1_list_languages_params.py">params</a>) -> <a href="./src/casedev/types/translate/v1_list_languages_response.py">V1ListLanguagesResponse</a></code>
 - <code title="post /translate/v1/translate">client.translate.v1.<a href="./src/casedev/resources/translate/v1.py">translate</a>(\*\*<a href="src/casedev/types/translate/v1_translate_params.py">params</a>) -> <a href="./src/casedev/types/translate/v1_translate_response.py">V1TranslateResponse</a></code>
 
+# Usage
+
+## V1
+
+Methods:
+
+- <code title="get /usage/v1">client.usage.v1.<a href="./src/casedev/resources/usage/v1/v1.py">retrieve</a>(\*\*<a href="src/casedev/types/usage/v1_retrieve_params.py">params</a>) -> None</code>
+
+### Subscriptions
+
+Methods:
+
+- <code title="post /usage/v1/subscriptions">client.usage.v1.subscriptions.<a href="./src/casedev/resources/usage/v1/subscriptions.py">create</a>(\*\*<a href="src/casedev/types/usage/v1/subscription_create_params.py">params</a>) -> None</code>
+- <code title="patch /usage/v1/subscriptions/{subscriptionId}">client.usage.v1.subscriptions.<a href="./src/casedev/resources/usage/v1/subscriptions.py">update</a>(subscription_id, \*\*<a href="src/casedev/types/usage/v1/subscription_update_params.py">params</a>) -> None</code>
+- <code title="get /usage/v1/subscriptions">client.usage.v1.subscriptions.<a href="./src/casedev/resources/usage/v1/subscriptions.py">list</a>() -> None</code>
+- <code title="delete /usage/v1/subscriptions/{subscriptionId}">client.usage.v1.subscriptions.<a href="./src/casedev/resources/usage/v1/subscriptions.py">delete</a>(subscription_id) -> None</code>
+- <code title="post /usage/v1/subscriptions/{subscriptionId}/test">client.usage.v1.subscriptions.<a href="./src/casedev/resources/usage/v1/subscriptions.py">test</a>(subscription_id, \*\*<a href="src/casedev/types/usage/v1/subscription_test_params.py">params</a>) -> None</code>
+
 # Vault
 
 Types:
