@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.45.1 (2026-04-08)
+
+Full Changelog: [v0.45.0...v0.45.1](https://github.com/CaseMark/casedev-python/compare/v0.45.0...v0.45.1)
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([e92621b](https://github.com/CaseMark/casedev-python/commit/e92621b26261b519b66eb5ffa9ceb5e119ae8be9))
+
 ## 0.45.0 (2026-04-07)
 
 Full Changelog: [v0.44.0...v0.45.0](https://github.com/CaseMark/casedev-python/compare/v0.44.0...v0.45.0)
