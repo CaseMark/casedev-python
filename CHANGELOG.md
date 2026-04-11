@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.45.2 (2026-04-11)
+
+Full Changelog: [v0.45.1...v0.45.2](https://github.com/CaseMark/casedev-python/compare/v0.45.1...v0.45.2)
+
+### Bug Fixes
+
+* ensure file data are only sent as 1 parameter ([f6b0b7f](https://github.com/CaseMark/casedev-python/commit/f6b0b7f7a0b35f777630ebabff1906a267bcf2db))
+
 ## 0.45.1 (2026-04-08)
 
 Full Changelog: [v0.45.0...v0.45.1](https://github.com/CaseMark/casedev-python/compare/v0.45.0...v0.45.1)
