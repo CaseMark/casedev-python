@@ -145,6 +145,7 @@ from casedev.types.agent.v2 import (
     ChatCreateResponse,
     ChatDeleteResponse,
     ChatCancelResponse,
+    ChatCreateStreamTokenResponse,
     ChatRespondResponse,
     ChatStreamResponse,
 )
@@ -155,6 +156,7 @@ Methods:
 - <code title="post /agent/v2/chat">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">create</a>(\*\*<a href="src/casedev/types/agent/v2/chat_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v2/chat_create_response.py">ChatCreateResponse</a></code>
 - <code title="delete /agent/v2/chat/{id}">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">delete</a>(id) -> <a href="./src/casedev/types/agent/v2/chat_delete_response.py">ChatDeleteResponse</a></code>
 - <code title="post /agent/v2/chat/{id}/cancel">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v2/chat_cancel_response.py">ChatCancelResponse</a></code>
+- <code title="post /agent/v2/chat/{id}/stream-token">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">create_stream_token</a>(id) -> <a href="./src/casedev/types/agent/v2/chat_create_stream_token_response.py">ChatCreateStreamTokenResponse</a></code>
 - <code title="post /agent/v2/chat/{id}/question/{requestID}/reply">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">reply_to_question</a>(request_id, \*, id, \*\*<a href="src/casedev/types/agent/v2/chat_reply_to_question_params.py">params</a>) -> None</code>
 - <code title="post /agent/v2/chat/{id}/respond">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">respond</a>(id, \*\*<a href="src/casedev/types/agent/v2/chat_respond_params.py">params</a>) -> str</code>
 - <code title="post /agent/v2/chat/{id}/message">client.agent.v2.chat.<a href="./src/casedev/resources/agent/v2/chat/chat.py">send_message</a>(id, \*\*<a href="src/casedev/types/agent/v2/chat_send_message_params.py">params</a>) -> None</code>

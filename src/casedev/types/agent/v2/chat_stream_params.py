@@ -10,5 +10,11 @@ __all__ = ["ChatStreamParams"]
 
 
 class ChatStreamParams(TypedDict, total=False):
+    token: str
+    """Short-lived stream token from POST /agent/v2/chat/:id/stream-token.
+
+    If provided, Bearer auth is not required.
+    """
+
     last_event_id: Annotated[int, PropertyInfo(alias="lastEventId")]
     """Replay events after this sequence number"""
