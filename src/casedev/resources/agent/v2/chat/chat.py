@@ -38,6 +38,7 @@ from .....types.agent.v2.chat_create_response import ChatCreateResponse
 from .....types.agent.v2.chat_delete_response import ChatDeleteResponse
 from .....types.agent.v2.chat_stream_response import ChatStreamResponse
 from .....types.agent.v2.chat_respond_response import ChatRespondResponse
+from .....types.agent.v2.chat_create_stream_token_response import ChatCreateStreamTokenResponse
 
 __all__ = ["ChatResource", "AsyncChatResource"]
 
@@ -190,6 +191,40 @@ class ChatResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ChatCancelResponse,
+        )
+
+    def create_stream_token(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ChatCreateStreamTokenResponse:
+        """
+        Returns a short-lived token that allows browser clients to connect directly to
+        the agent chat SSE stream without exposing the underlying org API key.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/agent/v2/chat/{id}/stream-token", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ChatCreateStreamTokenResponse,
         )
 
     def reply_to_question(
@@ -360,6 +395,7 @@ class ChatResource(SyncAPIResource):
         self,
         id: str,
         *,
+        token: str | Omit = omit,
         last_event_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -372,9 +408,13 @@ class ChatResource(SyncAPIResource):
 
         Supports replay
         from buffered events using Last-Event-ID and transparently reconnects stopped or
-        archived runtimes.
+        archived runtimes. Accepts either Bearer token auth or a short-lived stream
+        token via query parameter. When both are provided, Bearer auth takes precedence.
 
         Args:
+          token: Short-lived stream token from POST /agent/v2/chat/:id/stream-token. If provided,
+              Bearer auth is not required.
+
           last_event_id: Replay events after this sequence number
 
           extra_headers: Send extra headers
@@ -395,7 +435,13 @@ class ChatResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"last_event_id": last_event_id}, chat_stream_params.ChatStreamParams),
+                query=maybe_transform(
+                    {
+                        "token": token,
+                        "last_event_id": last_event_id,
+                    },
+                    chat_stream_params.ChatStreamParams,
+                ),
             ),
             cast_to=str,
             stream=True,
@@ -551,6 +597,40 @@ class AsyncChatResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=ChatCancelResponse,
+        )
+
+    async def create_stream_token(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ChatCreateStreamTokenResponse:
+        """
+        Returns a short-lived token that allows browser clients to connect directly to
+        the agent chat SSE stream without exposing the underlying org API key.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/agent/v2/chat/{id}/stream-token", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ChatCreateStreamTokenResponse,
         )
 
     async def reply_to_question(
@@ -723,6 +803,7 @@ class AsyncChatResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        token: str | Omit = omit,
         last_event_id: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -735,9 +816,13 @@ class AsyncChatResource(AsyncAPIResource):
 
         Supports replay
         from buffered events using Last-Event-ID and transparently reconnects stopped or
-        archived runtimes.
+        archived runtimes. Accepts either Bearer token auth or a short-lived stream
+        token via query parameter. When both are provided, Bearer auth takes precedence.
 
         Args:
+          token: Short-lived stream token from POST /agent/v2/chat/:id/stream-token. If provided,
+              Bearer auth is not required.
+
           last_event_id: Replay events after this sequence number
 
           extra_headers: Send extra headers
@@ -759,7 +844,11 @@ class AsyncChatResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"last_event_id": last_event_id}, chat_stream_params.ChatStreamParams
+                    {
+                        "token": token,
+                        "last_event_id": last_event_id,
+                    },
+                    chat_stream_params.ChatStreamParams,
                 ),
             ),
             cast_to=str,
@@ -780,6 +869,9 @@ class ChatResourceWithRawResponse:
         )
         self.cancel = to_raw_response_wrapper(
             chat.cancel,
+        )
+        self.create_stream_token = to_raw_response_wrapper(
+            chat.create_stream_token,
         )
         self.reply_to_question = to_raw_response_wrapper(
             chat.reply_to_question,
@@ -815,6 +907,9 @@ class AsyncChatResourceWithRawResponse:
         self.cancel = async_to_raw_response_wrapper(
             chat.cancel,
         )
+        self.create_stream_token = async_to_raw_response_wrapper(
+            chat.create_stream_token,
+        )
         self.reply_to_question = async_to_raw_response_wrapper(
             chat.reply_to_question,
         )
@@ -849,6 +944,9 @@ class ChatResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             chat.cancel,
         )
+        self.create_stream_token = to_streamed_response_wrapper(
+            chat.create_stream_token,
+        )
         self.reply_to_question = to_streamed_response_wrapper(
             chat.reply_to_question,
         )
@@ -882,6 +980,9 @@ class AsyncChatResourceWithStreamingResponse:
         )
         self.cancel = async_to_streamed_response_wrapper(
             chat.cancel,
+        )
+        self.create_stream_token = async_to_streamed_response_wrapper(
+            chat.create_stream_token,
         )
         self.reply_to_question = async_to_streamed_response_wrapper(
             chat.reply_to_question,

@@ -13,6 +13,7 @@ from casedev.types.agent.v2 import (
     ChatCancelResponse,
     ChatCreateResponse,
     ChatDeleteResponse,
+    ChatCreateStreamTokenResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -129,6 +130,44 @@ class TestChat:
     def test_path_params_cancel(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.agent.v2.chat.with_raw_response.cancel(
+                "",
+            )
+
+    @parametrize
+    def test_method_create_stream_token(self, client: Casedev) -> None:
+        chat = client.agent.v2.chat.create_stream_token(
+            "id",
+        )
+        assert_matches_type(ChatCreateStreamTokenResponse, chat, path=["response"])
+
+    @parametrize
+    def test_raw_response_create_stream_token(self, client: Casedev) -> None:
+        response = client.agent.v2.chat.with_raw_response.create_stream_token(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        chat = response.parse()
+        assert_matches_type(ChatCreateStreamTokenResponse, chat, path=["response"])
+
+    @parametrize
+    def test_streaming_response_create_stream_token(self, client: Casedev) -> None:
+        with client.agent.v2.chat.with_streaming_response.create_stream_token(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            chat = response.parse()
+            assert_matches_type(ChatCreateStreamTokenResponse, chat, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_create_stream_token(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.agent.v2.chat.with_raw_response.create_stream_token(
                 "",
             )
 
@@ -299,6 +338,7 @@ class TestChat:
     def test_method_stream_with_all_params(self, client: Casedev) -> None:
         chat_stream = client.agent.v2.chat.stream(
             id="id",
+            token="token",
             last_event_id=0,
         )
         chat_stream.response.close()
@@ -447,6 +487,44 @@ class TestAsyncChat:
     async def test_path_params_cancel(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agent.v2.chat.with_raw_response.cancel(
+                "",
+            )
+
+    @parametrize
+    async def test_method_create_stream_token(self, async_client: AsyncCasedev) -> None:
+        chat = await async_client.agent.v2.chat.create_stream_token(
+            "id",
+        )
+        assert_matches_type(ChatCreateStreamTokenResponse, chat, path=["response"])
+
+    @parametrize
+    async def test_raw_response_create_stream_token(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.agent.v2.chat.with_raw_response.create_stream_token(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        chat = await response.parse()
+        assert_matches_type(ChatCreateStreamTokenResponse, chat, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_create_stream_token(self, async_client: AsyncCasedev) -> None:
+        async with async_client.agent.v2.chat.with_streaming_response.create_stream_token(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            chat = await response.parse()
+            assert_matches_type(ChatCreateStreamTokenResponse, chat, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_create_stream_token(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.agent.v2.chat.with_raw_response.create_stream_token(
                 "",
             )
 
@@ -617,6 +695,7 @@ class TestAsyncChat:
     async def test_method_stream_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat_stream = await async_client.agent.v2.chat.stream(
             id="id",
+            token="token",
             last_event_id=0,
         )
         await chat_stream.response.aclose()
