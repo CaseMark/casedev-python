@@ -160,8 +160,8 @@ class ProjectsResource(SyncAPIResource):
     ) -> ProjectListResponse:
         """
         Retrieves all serverless Postgres database projects for the authenticated
-        organization. Includes storage and compute metrics, plus linked deployments from
-        Thurgood apps and Compute instances.
+        organization. Includes storage and compute metrics, plus linked application
+        deployments and Compute instances.
         """
         return self._get(
             "/database/v1/projects",
@@ -479,8 +479,8 @@ class AsyncProjectsResource(AsyncAPIResource):
     ) -> ProjectListResponse:
         """
         Retrieves all serverless Postgres database projects for the authenticated
-        organization. Includes storage and compute metrics, plus linked deployments from
-        Thurgood apps and Compute instances.
+        organization. Includes storage and compute metrics, plus linked application
+        deployments and Compute instances.
         """
         return await self._get(
             "/database/v1/projects",

@@ -49,7 +49,7 @@ class LinkedDeployment(BaseModel):
     name: Optional[str] = None
     """Deployment name"""
 
-    type: Optional[Literal["thurgood", "compute"]] = None
+    type: Optional[Literal["compute"]] = None
     """Deployment type"""
 
     url: Optional[str] = None
