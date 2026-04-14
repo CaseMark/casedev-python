@@ -78,6 +78,7 @@ class ChatResource(SyncAPIResource):
         self,
         *,
         idle_timeout_ms: Optional[int] | Omit = omit,
+        instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -95,6 +96,9 @@ class ChatResource(SyncAPIResource):
 
         Args:
           idle_timeout_ms: Idle timeout before the runtime is eligible to stop. Defaults to 15 minutes.
+
+          instructions: Optional hidden app instructions merged into the chat runtime bootstrap and
+              never exposed as a user message. Only accepted for privileged C3 system keys.
 
           model: Optional model override for the OpenCode session
 
@@ -115,6 +119,7 @@ class ChatResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "idle_timeout_ms": idle_timeout_ms,
+                    "instructions": instructions,
                     "model": model,
                     "title": title,
                     "vault_ids": vault_ids,
@@ -484,6 +489,7 @@ class AsyncChatResource(AsyncAPIResource):
         self,
         *,
         idle_timeout_ms: Optional[int] | Omit = omit,
+        instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -501,6 +507,9 @@ class AsyncChatResource(AsyncAPIResource):
 
         Args:
           idle_timeout_ms: Idle timeout before the runtime is eligible to stop. Defaults to 15 minutes.
+
+          instructions: Optional hidden app instructions merged into the chat runtime bootstrap and
+              never exposed as a user message. Only accepted for privileged C3 system keys.
 
           model: Optional model override for the OpenCode session
 
@@ -521,6 +530,7 @@ class AsyncChatResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "idle_timeout_ms": idle_timeout_ms,
+                    "instructions": instructions,
                     "model": model,
                     "title": title,
                     "vault_ids": vault_ids,

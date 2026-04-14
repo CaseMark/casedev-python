@@ -31,6 +31,7 @@ class TestChat:
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         chat = client.agent.v2.chat.create(
             idle_timeout_ms=0,
+            instructions="instructions",
             model="model",
             title="title",
             vault_ids=["string"],
@@ -388,6 +389,7 @@ class TestAsyncChat:
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         chat = await async_client.agent.v2.chat.create(
             idle_timeout_ms=0,
+            instructions="instructions",
             model="model",
             title="title",
             vault_ids=["string"],
