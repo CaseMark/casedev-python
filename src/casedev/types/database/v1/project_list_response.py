@@ -18,11 +18,11 @@ class ProjectLinkedDeployment(BaseModel):
     name: Optional[str] = None
     """Deployment name"""
 
-    type: Optional[Literal["thurgood", "compute"]] = None
+    type: Optional[Literal["compute"]] = None
     """Type of deployment"""
 
     url: Optional[str] = None
-    """Deployment URL (for Thurgood apps)"""
+    """Deployment URL"""
 
 
 class Project(BaseModel):
