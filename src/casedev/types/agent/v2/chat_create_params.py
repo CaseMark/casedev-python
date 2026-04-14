@@ -15,6 +15,12 @@ class ChatCreateParams(TypedDict, total=False):
     idle_timeout_ms: Annotated[Optional[int], PropertyInfo(alias="idleTimeoutMs")]
     """Idle timeout before the runtime is eligible to stop. Defaults to 15 minutes."""
 
+    instructions: Optional[str]
+    """
+    Optional hidden app instructions merged into the chat runtime bootstrap and
+    never exposed as a user message. Only accepted for privileged C3 system keys.
+    """
+
     model: Optional[str]
     """Optional model override for the OpenCode session"""
 
