@@ -259,7 +259,7 @@ class DeploymentsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Create a deployment from raw file contents (for Thurgood sandbox deployments)"""
+        """Create a deployment from raw file contents for application deployments"""
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/applications/v1/deployments/from-files",
@@ -632,7 +632,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Create a deployment from raw file contents (for Thurgood sandbox deployments)"""
+        """Create a deployment from raw file contents for application deployments"""
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/applications/v1/deployments/from-files",
