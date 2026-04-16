@@ -596,7 +596,7 @@ from casedev.types.ocr import V1RetrieveResponse, V1ProcessResponse
 
 Methods:
 
-- <code title="get /ocr/v1/{id}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">retrieve</a>(id) -> <a href="./src/casedev/types/ocr/v1_retrieve_response.py">V1RetrieveResponse</a></code>
+- <code title="get /ocr/v1/{id}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">retrieve</a>(id, \*\*<a href="src/casedev/types/ocr/v1_retrieve_params.py">params</a>) -> <a href="./src/casedev/types/ocr/v1_retrieve_response.py">V1RetrieveResponse</a></code>
 - <code title="get /ocr/v1/{id}/download/{type}">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">download</a>(type, \*, id) -> BinaryAPIResponse</code>
 - <code title="post /ocr/v1/process">client.ocr.v1.<a href="./src/casedev/resources/ocr/v1.py">process</a>(\*\*<a href="src/casedev/types/ocr/v1_process_params.py">params</a>) -> <a href="./src/casedev/types/ocr/v1_process_response.py">V1ProcessResponse</a></code>
 

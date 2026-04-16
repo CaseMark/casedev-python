@@ -140,14 +140,25 @@ class RunGetDetailsResponse(BaseModel):
     guidance: Optional[str] = None
 
     modal_sandbox_id: Optional[str] = FieldInfo(alias="modalSandboxId", default=None)
-    """Modal sandbox ID (available once sandbox is created)"""
+    """Deprecated legacy Modal sandbox ID. Prefer `provider` and `runtimeId`."""
 
     model: Optional[str] = None
 
     prompt: Optional[str] = None
 
+    provider: Optional[Literal["daytona", "vercel"]] = None
+    """Runtime provider for this run"""
+
     result: Optional[Result] = None
     """Final output from the agent"""
+
+    runtime_id: Optional[str] = FieldInfo(alias="runtimeId", default=None)
+    """Provider-specific runtime identifier"""
+
+    runtime_state: Optional[Literal["running", "stopped", "archived", "ended", "error"]] = FieldInfo(
+        alias="runtimeState", default=None
+    )
+    """Current runtime state, when available"""
 
     started_at: Optional[datetime] = FieldInfo(alias="startedAt", default=None)
 
