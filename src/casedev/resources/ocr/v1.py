@@ -24,7 +24,7 @@ from ..._response import (
     async_to_custom_raw_response_wrapper,
     async_to_custom_streamed_response_wrapper,
 )
-from ...types.ocr import v1_process_params
+from ...types.ocr import v1_process_params, v1_retrieve_params
 from ..._base_client import make_request_options
 from ...types.ocr.v1_process_response import V1ProcessResponse
 from ...types.ocr.v1_retrieve_response import V1RetrieveResponse
@@ -58,6 +58,7 @@ class V1Resource(SyncAPIResource):
         self,
         id: str,
         *,
+        include_text: Literal["true", "false"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -71,6 +72,8 @@ class V1Resource(SyncAPIResource):
         text, and metadata when processing is complete.
 
         Args:
+          include_text: Include full OCR text in completed responses (default: true)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -84,7 +87,11 @@ class V1Resource(SyncAPIResource):
         return self._get(
             path_template("/ocr/v1/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"include_text": include_text}, v1_retrieve_params.V1RetrieveParams),
             ),
             cast_to=V1RetrieveResponse,
         )
@@ -221,6 +228,7 @@ class AsyncV1Resource(AsyncAPIResource):
         self,
         id: str,
         *,
+        include_text: Literal["true", "false"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -234,6 +242,8 @@ class AsyncV1Resource(AsyncAPIResource):
         text, and metadata when processing is complete.
 
         Args:
+          include_text: Include full OCR text in completed responses (default: true)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -247,7 +257,11 @@ class AsyncV1Resource(AsyncAPIResource):
         return await self._get(
             path_template("/ocr/v1/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"include_text": include_text}, v1_retrieve_params.V1RetrieveParams),
             ),
             cast_to=V1RetrieveResponse,
         )

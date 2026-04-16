@@ -28,14 +28,22 @@ class TestV1:
     @parametrize
     def test_method_retrieve(self, client: Casedev) -> None:
         v1 = client.ocr.v1.retrieve(
-            "id",
+            id="id",
+        )
+        assert_matches_type(V1RetrieveResponse, v1, path=["response"])
+
+    @parametrize
+    def test_method_retrieve_with_all_params(self, client: Casedev) -> None:
+        v1 = client.ocr.v1.retrieve(
+            id="id",
+            include_text="true",
         )
         assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Casedev) -> None:
         response = client.ocr.v1.with_raw_response.retrieve(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -46,7 +54,7 @@ class TestV1:
     @parametrize
     def test_streaming_response_retrieve(self, client: Casedev) -> None:
         with client.ocr.v1.with_streaming_response.retrieve(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,7 +68,7 @@ class TestV1:
     def test_path_params_retrieve(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.ocr.v1.with_raw_response.retrieve(
-                "",
+                id="",
             )
 
     @parametrize
@@ -174,14 +182,22 @@ class TestAsyncV1:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.ocr.v1.retrieve(
-            "id",
+            id="id",
+        )
+        assert_matches_type(V1RetrieveResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.ocr.v1.retrieve(
+            id="id",
+            include_text="true",
         )
         assert_matches_type(V1RetrieveResponse, v1, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncCasedev) -> None:
         response = await async_client.ocr.v1.with_raw_response.retrieve(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -192,7 +208,7 @@ class TestAsyncV1:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncCasedev) -> None:
         async with async_client.ocr.v1.with_streaming_response.retrieve(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -206,7 +222,7 @@ class TestAsyncV1:
     async def test_path_params_retrieve(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.ocr.v1.with_raw_response.retrieve(
-                "",
+                id="",
             )
 
     @parametrize
