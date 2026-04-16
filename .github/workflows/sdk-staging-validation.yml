@@ -136,5 +136,4 @@ jobs:
             tests/custom/ \
             -m smoke \
             --tb=short \
-            --timeout=30 \
             -v
