@@ -87,10 +87,11 @@ class ChatResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChatCreateResponse:
-        """Creates a persistent OpenCode chat session in a Modal sandbox.
+        """Creates a persistent OpenCode chat session backed by a Daytona or Vercel
+        runtime.
 
-        Session state is
-        retained and can be resumed across requests.
+        Session state is retained and can be resumed or recovered across
+        requests.
 
         Args:
           idle_timeout_ms: Idle timeout before session is eligible for snapshot/termination. Defaults to 15
@@ -430,10 +431,11 @@ class AsyncChatResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChatCreateResponse:
-        """Creates a persistent OpenCode chat session in a Modal sandbox.
+        """Creates a persistent OpenCode chat session backed by a Daytona or Vercel
+        runtime.
 
-        Session state is
-        retained and can be resumed across requests.
+        Session state is retained and can be resumed or recovered across
+        requests.
 
         Args:
           idle_timeout_ms: Idle timeout before session is eligible for snapshot/termination. Defaults to 15
