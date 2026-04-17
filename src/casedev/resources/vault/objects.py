@@ -28,6 +28,7 @@ from ..._response import (
 from ...types.vault import (
     object_delete_params,
     object_update_params,
+    object_get_chunks_params,
     object_get_ocr_words_params,
     object_create_presigned_url_params,
 )
@@ -37,6 +38,7 @@ from ...types.vault.object_delete_response import ObjectDeleteResponse
 from ...types.vault.object_update_response import ObjectUpdateResponse
 from ...types.vault.object_get_text_response import ObjectGetTextResponse
 from ...types.vault.object_retrieve_response import ObjectRetrieveResponse
+from ...types.vault.object_get_chunks_response import ObjectGetChunksResponse
 from ...types.vault.object_get_ocr_words_response import ObjectGetOcrWordsResponse
 from ...types.vault.object_get_summarize_job_response import ObjectGetSummarizeJobResponse
 from ...types.vault.object_create_presigned_url_response import ObjectCreatePresignedURLResponse
@@ -340,6 +342,63 @@ class ObjectsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=BinaryAPIResponse,
+        )
+
+    def get_chunks(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        end: int | Omit = omit,
+        start: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectGetChunksResponse:
+        """Retrieves full extracted chunk text for a processed vault object.
+
+        Use this after
+        search when a truncated preview is not enough and you need the exact chunk text
+        or adjacent chunks for surrounding context such as tables, exhibit lists, or
+        multi-part passages.
+
+        Args:
+          end: The last chunk index to return (inclusive). If omitted, only the `start` chunk
+              is returned. Ranges are limited to 10 chunks.
+
+          start: The first chunk index to return (0-based). Defaults to 0.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return self._get(
+            path_template("/vault/{id}/objects/{object_id}/chunks", id=id, object_id=object_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "end": end,
+                        "start": start,
+                    },
+                    object_get_chunks_params.ObjectGetChunksParams,
+                ),
+            ),
+            cast_to=ObjectGetChunksResponse,
         )
 
     def get_ocr_words(
@@ -783,6 +842,63 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=AsyncBinaryAPIResponse,
         )
 
+    async def get_chunks(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        end: int | Omit = omit,
+        start: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectGetChunksResponse:
+        """Retrieves full extracted chunk text for a processed vault object.
+
+        Use this after
+        search when a truncated preview is not enough and you need the exact chunk text
+        or adjacent chunks for surrounding context such as tables, exhibit lists, or
+        multi-part passages.
+
+        Args:
+          end: The last chunk index to return (inclusive). If omitted, only the `start` chunk
+              is returned. Ranges are limited to 10 chunks.
+
+          start: The first chunk index to return (0-based). Defaults to 0.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return await self._get(
+            path_template("/vault/{id}/objects/{object_id}/chunks", id=id, object_id=object_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "end": end,
+                        "start": start,
+                    },
+                    object_get_chunks_params.ObjectGetChunksParams,
+                ),
+            ),
+            cast_to=ObjectGetChunksResponse,
+        )
+
     async def get_ocr_words(
         self,
         object_id: str,
@@ -949,6 +1065,9 @@ class ObjectsResourceWithRawResponse:
             objects.download,
             BinaryAPIResponse,
         )
+        self.get_chunks = to_raw_response_wrapper(
+            objects.get_chunks,
+        )
         self.get_ocr_words = to_raw_response_wrapper(
             objects.get_ocr_words,
         )
@@ -982,6 +1101,9 @@ class AsyncObjectsResourceWithRawResponse:
         self.download = async_to_custom_raw_response_wrapper(
             objects.download,
             AsyncBinaryAPIResponse,
+        )
+        self.get_chunks = async_to_raw_response_wrapper(
+            objects.get_chunks,
         )
         self.get_ocr_words = async_to_raw_response_wrapper(
             objects.get_ocr_words,
@@ -1017,6 +1139,9 @@ class ObjectsResourceWithStreamingResponse:
             objects.download,
             StreamedBinaryAPIResponse,
         )
+        self.get_chunks = to_streamed_response_wrapper(
+            objects.get_chunks,
+        )
         self.get_ocr_words = to_streamed_response_wrapper(
             objects.get_ocr_words,
         )
@@ -1050,6 +1175,9 @@ class AsyncObjectsResourceWithStreamingResponse:
         self.download = async_to_custom_streamed_response_wrapper(
             objects.download,
             AsyncStreamedBinaryAPIResponse,
+        )
+        self.get_chunks = async_to_streamed_response_wrapper(
+            objects.get_chunks,
         )
         self.get_ocr_words = async_to_streamed_response_wrapper(
             objects.get_ocr_words,
