@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.50.1 (2026-04-18)
+
+Full Changelog: [v0.50.0...v0.50.1](https://github.com/CaseMark/casedev-python/compare/v0.50.0...v0.50.1)
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([df8162a](https://github.com/CaseMark/casedev-python/commit/df8162adb733fe3908df1038bdf889764374a54f))
+
 ## 0.50.0 (2026-04-17)
 
 Full Changelog: [v0.49.0...v0.50.0](https://github.com/CaseMark/casedev-python/compare/v0.49.0...v0.50.0)

@@ -7,8 +7,9 @@ from typing_extensions import Literal
 
 import httpx
 
+from ..._files import deepcopy_with_paths
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ..._utils import extract_files, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -137,13 +138,14 @@ class V1Resource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "application/pdf", **(extra_headers or {})}
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "from_": from_,
                 "document_base64": document_base64,
                 "document_url": document_url,
                 "to": to,
-            }
+            },
+            [["file"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         if files:
@@ -272,13 +274,14 @@ class AsyncV1Resource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "application/pdf", **(extra_headers or {})}
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "from_": from_,
                 "document_base64": document_base64,
                 "document_url": document_url,
                 "to": to,
-            }
+            },
+            [["file"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
         if files:
