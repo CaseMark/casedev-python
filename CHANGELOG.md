@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.50.2 (2026-04-18)
+
+Full Changelog: [v0.50.1...v0.50.2](https://github.com/CaseMark/casedev-python/compare/v0.50.1...v0.50.2)
+
+### Chores
+
+* **tests:** bump steady to v0.22.1 ([5cc3364](https://github.com/CaseMark/casedev-python/commit/5cc3364d78f06c64d61d31a7280e8977de22e854))
+
 ## 0.50.1 (2026-04-18)
 
 Full Changelog: [v0.50.0...v0.50.1](https://github.com/CaseMark/casedev-python/compare/v0.50.0...v0.50.1)
