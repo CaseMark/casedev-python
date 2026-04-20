@@ -81,8 +81,7 @@ class ChatResource(SyncAPIResource):
 
           max_tokens: Maximum number of tokens to generate
 
-          model: Model to use for completion. Defaults to casemark/casemark-core-6 if not
-              specified
+          model: Model to use for completion. Defaults to casemark/core-large if not specified
 
           presence_penalty: Presence penalty parameter
 
@@ -181,8 +180,7 @@ class AsyncChatResource(AsyncAPIResource):
 
           max_tokens: Maximum number of tokens to generate
 
-          model: Model to use for completion. Defaults to casemark/casemark-core-6 if not
-              specified
+          model: Model to use for completion. Defaults to casemark/core-large if not specified
 
           presence_penalty: Presence penalty parameter
 
