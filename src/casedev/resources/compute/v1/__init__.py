@@ -16,14 +16,6 @@ from .secrets import (
     SecretsResourceWithStreamingResponse,
     AsyncSecretsResourceWithStreamingResponse,
 )
-from .instances import (
-    InstancesResource,
-    AsyncInstancesResource,
-    InstancesResourceWithRawResponse,
-    AsyncInstancesResourceWithRawResponse,
-    InstancesResourceWithStreamingResponse,
-    AsyncInstancesResourceWithStreamingResponse,
-)
 from .environments import (
     EnvironmentsResource,
     AsyncEnvironmentsResource,
@@ -31,14 +23,6 @@ from .environments import (
     AsyncEnvironmentsResourceWithRawResponse,
     EnvironmentsResourceWithStreamingResponse,
     AsyncEnvironmentsResourceWithStreamingResponse,
-)
-from .instance_types import (
-    InstanceTypesResource,
-    AsyncInstanceTypesResource,
-    InstanceTypesResourceWithRawResponse,
-    AsyncInstanceTypesResourceWithRawResponse,
-    InstanceTypesResourceWithStreamingResponse,
-    AsyncInstanceTypesResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -48,18 +32,6 @@ __all__ = [
     "AsyncEnvironmentsResourceWithRawResponse",
     "EnvironmentsResourceWithStreamingResponse",
     "AsyncEnvironmentsResourceWithStreamingResponse",
-    "InstanceTypesResource",
-    "AsyncInstanceTypesResource",
-    "InstanceTypesResourceWithRawResponse",
-    "AsyncInstanceTypesResourceWithRawResponse",
-    "InstanceTypesResourceWithStreamingResponse",
-    "AsyncInstanceTypesResourceWithStreamingResponse",
-    "InstancesResource",
-    "AsyncInstancesResource",
-    "InstancesResourceWithRawResponse",
-    "AsyncInstancesResourceWithRawResponse",
-    "InstancesResourceWithStreamingResponse",
-    "AsyncInstancesResourceWithStreamingResponse",
     "SecretsResource",
     "AsyncSecretsResource",
     "SecretsResourceWithRawResponse",
