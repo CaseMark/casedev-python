@@ -39,6 +39,7 @@ class TestVault:
         vault = client.vault.create(
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
+            embedding_model="casemark/llama-nemotron-embed-vl-1b-v2",
             enable_graph=True,
             enable_indexing=True,
             group_id="grp_abc123",
@@ -541,6 +542,7 @@ class TestAsyncVault:
         vault = await async_client.vault.create(
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
+            embedding_model="casemark/llama-nemotron-embed-vl-1b-v2",
             enable_graph=True,
             enable_indexing=True,
             group_id="grp_abc123",

@@ -7,7 +7,20 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["VaultCreateResponse"]
+__all__ = ["VaultCreateResponse", "EmbeddingProfile"]
+
+
+class EmbeddingProfile(BaseModel):
+    """The resolved embedding profile for this vault. Null for storage-only vaults."""
+
+    dimensions: Optional[int] = None
+    """Vector dimension used by this vault"""
+
+    model: Optional[str] = None
+    """Embedding model catalog key"""
+
+    provider: Optional[str] = None
+    """Embedding provider"""
 
 
 class VaultCreateResponse(BaseModel):
@@ -19,6 +32,9 @@ class VaultCreateResponse(BaseModel):
 
     description: Optional[str] = None
     """Vault description"""
+
+    embedding_profile: Optional[EmbeddingProfile] = FieldInfo(alias="embeddingProfile", default=None)
+    """The resolved embedding profile for this vault. Null for storage-only vaults."""
 
     enable_indexing: Optional[bool] = FieldInfo(alias="enableIndexing", default=None)
     """Whether vector indexing is enabled for this vault"""
