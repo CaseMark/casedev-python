@@ -143,6 +143,16 @@ class VaultResource(SyncAPIResource):
         *,
         name: str,
         description: str | Omit = omit,
+        embedding_model: Literal[
+            "openai/text-embedding-3-small",
+            "openai/text-embedding-3-large",
+            "voyage/voyage-3.5",
+            "voyage/voyage-law-2",
+            "cohere/embed-v4.0",
+            "google/gemini-embedding-2",
+            "casemark/llama-nemotron-embed-vl-1b-v2",
+        ]
+        | Omit = omit,
         enable_graph: bool | Omit = omit,
         enable_indexing: bool | Omit = omit,
         group_id: str | Omit = omit,
@@ -164,6 +174,12 @@ class VaultResource(SyncAPIResource):
           name: Display name for the vault
 
           description: Optional description of the vault's purpose
+
+          embedding_model: Optional embedding model for this vault. Defaults to
+              openai/text-embedding-3-small. Determines the S3 Vectors index dimension and
+              which model is used at both ingest and search time. The vault is locked to this
+              model after creation — use a re-embed flow to change later. Ignored when
+              enableIndexing is false.
 
           enable_graph: Enable knowledge graph for entity relationship mapping. Only applies when
               enableIndexing is true.
@@ -191,6 +207,7 @@ class VaultResource(SyncAPIResource):
                 {
                     "name": name,
                     "description": description,
+                    "embedding_model": embedding_model,
                     "enable_graph": enable_graph,
                     "enable_indexing": enable_indexing,
                     "group_id": group_id,
@@ -706,6 +723,16 @@ class AsyncVaultResource(AsyncAPIResource):
         *,
         name: str,
         description: str | Omit = omit,
+        embedding_model: Literal[
+            "openai/text-embedding-3-small",
+            "openai/text-embedding-3-large",
+            "voyage/voyage-3.5",
+            "voyage/voyage-law-2",
+            "cohere/embed-v4.0",
+            "google/gemini-embedding-2",
+            "casemark/llama-nemotron-embed-vl-1b-v2",
+        ]
+        | Omit = omit,
         enable_graph: bool | Omit = omit,
         enable_indexing: bool | Omit = omit,
         group_id: str | Omit = omit,
@@ -727,6 +754,12 @@ class AsyncVaultResource(AsyncAPIResource):
           name: Display name for the vault
 
           description: Optional description of the vault's purpose
+
+          embedding_model: Optional embedding model for this vault. Defaults to
+              openai/text-embedding-3-small. Determines the S3 Vectors index dimension and
+              which model is used at both ingest and search time. The vault is locked to this
+              model after creation — use a re-embed flow to change later. Ignored when
+              enableIndexing is false.
 
           enable_graph: Enable knowledge graph for entity relationship mapping. Only applies when
               enableIndexing is true.
@@ -754,6 +787,7 @@ class AsyncVaultResource(AsyncAPIResource):
                 {
                     "name": name,
                     "description": description,
+                    "embedding_model": embedding_model,
                     "enable_graph": enable_graph,
                     "enable_indexing": enable_indexing,
                     "group_id": group_id,

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
@@ -15,6 +15,26 @@ class VaultCreateParams(TypedDict, total=False):
 
     description: str
     """Optional description of the vault's purpose"""
+
+    embedding_model: Annotated[
+        Literal[
+            "openai/text-embedding-3-small",
+            "openai/text-embedding-3-large",
+            "voyage/voyage-3.5",
+            "voyage/voyage-law-2",
+            "cohere/embed-v4.0",
+            "google/gemini-embedding-2",
+            "casemark/llama-nemotron-embed-vl-1b-v2",
+        ],
+        PropertyInfo(alias="embeddingModel"),
+    ]
+    """Optional embedding model for this vault.
+
+    Defaults to openai/text-embedding-3-small. Determines the S3 Vectors index
+    dimension and which model is used at both ingest and search time. The vault is
+    locked to this model after creation — use a re-embed flow to change later.
+    Ignored when enableIndexing is false.
+    """
 
     enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
     """Enable knowledge graph for entity relationship mapping.
