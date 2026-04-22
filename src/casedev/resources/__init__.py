@@ -152,14 +152,6 @@ from .translate import (
     TranslateResourceWithStreamingResponse,
     AsyncTranslateResourceWithStreamingResponse,
 )
-from .applications import (
-    ApplicationsResource,
-    AsyncApplicationsResource,
-    ApplicationsResourceWithRawResponse,
-    AsyncApplicationsResourceWithRawResponse,
-    ApplicationsResourceWithStreamingResponse,
-    AsyncApplicationsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "AgentResource",
@@ -174,12 +166,6 @@ __all__ = [
     "AsyncSystemResourceWithRawResponse",
     "SystemResourceWithStreamingResponse",
     "AsyncSystemResourceWithStreamingResponse",
-    "ApplicationsResource",
-    "AsyncApplicationsResource",
-    "ApplicationsResourceWithRawResponse",
-    "AsyncApplicationsResourceWithRawResponse",
-    "ApplicationsResourceWithStreamingResponse",
-    "AsyncApplicationsResourceWithStreamingResponse",
     "ComputeResource",
     "AsyncComputeResource",
     "ComputeResourceWithRawResponse",
