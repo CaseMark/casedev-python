@@ -187,53 +187,6 @@ Methods:
 
 - <code title="get /services">client.system.<a href="./src/casedev/resources/system.py">list_services</a>() -> <a href="./src/casedev/types/system_list_services_response.py">SystemListServicesResponse</a></code>
 
-# Applications
-
-## V1
-
-### Deployments
-
-Methods:
-
-- <code title="post /applications/v1/deployments">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">create</a>(\*\*<a href="src/casedev/types/applications/v1/deployment_create_params.py">params</a>) -> None</code>
-- <code title="get /applications/v1/deployments/{id}">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">retrieve</a>(id, \*\*<a href="src/casedev/types/applications/v1/deployment_retrieve_params.py">params</a>) -> None</code>
-- <code title="get /applications/v1/deployments">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">list</a>(\*\*<a href="src/casedev/types/applications/v1/deployment_list_params.py">params</a>) -> None</code>
-- <code title="post /applications/v1/deployments/{id}/cancel">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">cancel</a>(id, \*\*<a href="src/casedev/types/applications/v1/deployment_cancel_params.py">params</a>) -> None</code>
-- <code title="post /applications/v1/deployments/from-files">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">create_from_files</a>() -> None</code>
-- <code title="get /applications/v1/deployments/{id}/logs">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">get_logs</a>(id, \*\*<a href="src/casedev/types/applications/v1/deployment_get_logs_params.py">params</a>) -> None</code>
-- <code title="get /applications/v1/deployments/{id}/status">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">get_status</a>(id) -> None</code>
-- <code title="get /applications/v1/deployments/{id}/stream">client.applications.v1.deployments.<a href="./src/casedev/resources/applications/v1/deployments.py">stream</a>(id, \*\*<a href="src/casedev/types/applications/v1/deployment_stream_params.py">params</a>) -> None</code>
-
-### Projects
-
-Types:
-
-```python
-from casedev.types.applications.v1 import ProjectListResponse
-```
-
-Methods:
-
-- <code title="post /applications/v1/projects">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create</a>(\*\*<a href="src/casedev/types/applications/v1/project_create_params.py">params</a>) -> None</code>
-- <code title="get /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">retrieve</a>(id) -> None</code>
-- <code title="get /applications/v1/projects">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">list</a>(\*\*<a href="src/casedev/types/applications/v1/project_list_params.py">params</a>) -> <a href="./src/casedev/types/applications/v1/project_list_response.py">ProjectListResponse</a></code>
-- <code title="delete /applications/v1/projects/{id}">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">delete</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_delete_params.py">params</a>) -> None</code>
-- <code title="post /applications/v1/projects/{id}/deployments">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create_deployment</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_create_deployment_params.py">params</a>) -> None</code>
-- <code title="post /applications/v1/projects/{id}/domains">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create_domain</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_create_domain_params.py">params</a>) -> None</code>
-- <code title="post /applications/v1/projects/{id}/env">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">create_env</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_create_env_params.py">params</a>) -> None</code>
-- <code title="delete /applications/v1/projects/{id}/domains/{domain}">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">delete_domain</a>(domain, \*, id) -> None</code>
-- <code title="delete /applications/v1/projects/{id}/env/{envId}">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">delete_env</a>(env_id, \*, id) -> None</code>
-- <code title="get /applications/v1/projects/{id}/runtime-logs">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">get_runtime_logs</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_get_runtime_logs_params.py">params</a>) -> None</code>
-- <code title="get /applications/v1/projects/{id}/deployments">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">list_deployments</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_list_deployments_params.py">params</a>) -> None</code>
-- <code title="get /applications/v1/projects/{id}/domains">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">list_domains</a>(id) -> None</code>
-- <code title="get /applications/v1/projects/{id}/env">client.applications.v1.projects.<a href="./src/casedev/resources/applications/v1/projects.py">list_env</a>(id, \*\*<a href="src/casedev/types/applications/v1/project_list_env_params.py">params</a>) -> None</code>
-
-### Workflows
-
-Methods:
-
-- <code title="get /applications/v1/workflows/{id}/status">client.applications.v1.workflows.<a href="./src/casedev/resources/applications/v1/workflows.py">get_status</a>(id, \*\*<a href="src/casedev/types/applications/v1/workflow_get_status_params.py">params</a>) -> None</code>
-
 # Compute
 
 ## V1
