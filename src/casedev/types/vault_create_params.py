@@ -24,6 +24,7 @@ class VaultCreateParams(TypedDict, total=False):
             "voyage/voyage-law-2",
             "cohere/embed-v4.0",
             "google/gemini-embedding-2",
+            "casemark/embed-v1",
             "casemark/llama-nemotron-embed-vl-1b-v2",
         ],
         PropertyInfo(alias="embeddingModel"),
@@ -33,7 +34,10 @@ class VaultCreateParams(TypedDict, total=False):
     Defaults to openai/text-embedding-3-small. Determines the S3 Vectors index
     dimension and which model is used at both ingest and search time. The vault is
     locked to this model after creation — use a re-embed flow to change later.
-    Ignored when enableIndexing is false.
+    Ignored when enableIndexing is false. Note:
+    `casemark/llama-nemotron-embed-vl-1b-v2` is a deprecated alias for
+    `casemark/embed-v1` (retained for SDK backward compatibility); new integrations
+    should use `casemark/embed-v1` directly.
     """
 
     enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
