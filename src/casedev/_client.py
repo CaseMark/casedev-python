@@ -49,6 +49,7 @@ if TYPE_CHECKING:
         matters,
         database,
         superdoc,
+        webhooks,
         privilege,
         translate,
     )
@@ -69,6 +70,7 @@ if TYPE_CHECKING:
     from .resources.matters.matters import MattersResource, AsyncMattersResource
     from .resources.database.database import DatabaseResource, AsyncDatabaseResource
     from .resources.superdoc.superdoc import SuperdocResource, AsyncSuperdocResource
+    from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
     from .resources.translate.translate import TranslateResource, AsyncTranslateResource
 
@@ -286,6 +288,12 @@ class Casedev(SyncAPIClient):
         from .resources.voice import VoiceResource
 
         return VoiceResource(self)
+
+    @cached_property
+    def webhooks(self) -> WebhooksResource:
+        from .resources.webhooks import WebhooksResource
+
+        return WebhooksResource(self)
 
     @cached_property
     def with_raw_response(self) -> CasedevWithRawResponse:
@@ -600,6 +608,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncVoiceResource(self)
 
     @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        from .resources.webhooks import AsyncWebhooksResource
+
+        return AsyncWebhooksResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncCasedevWithRawResponse:
         return AsyncCasedevWithRawResponse(self)
 
@@ -838,6 +852,12 @@ class CasedevWithRawResponse:
 
         return VoiceResourceWithRawResponse(self._client.voice)
 
+    @cached_property
+    def webhooks(self) -> webhooks.WebhooksResourceWithRawResponse:
+        from .resources.webhooks import WebhooksResourceWithRawResponse
+
+        return WebhooksResourceWithRawResponse(self._client.webhooks)
+
 
 class AsyncCasedevWithRawResponse:
     _client: AsyncCasedev
@@ -962,6 +982,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.voice import AsyncVoiceResourceWithRawResponse
 
         return AsyncVoiceResourceWithRawResponse(self._client.voice)
+
+    @cached_property
+    def webhooks(self) -> webhooks.AsyncWebhooksResourceWithRawResponse:
+        from .resources.webhooks import AsyncWebhooksResourceWithRawResponse
+
+        return AsyncWebhooksResourceWithRawResponse(self._client.webhooks)
 
 
 class CasedevWithStreamedResponse:
@@ -1088,6 +1114,12 @@ class CasedevWithStreamedResponse:
 
         return VoiceResourceWithStreamingResponse(self._client.voice)
 
+    @cached_property
+    def webhooks(self) -> webhooks.WebhooksResourceWithStreamingResponse:
+        from .resources.webhooks import WebhooksResourceWithStreamingResponse
+
+        return WebhooksResourceWithStreamingResponse(self._client.webhooks)
+
 
 class AsyncCasedevWithStreamedResponse:
     _client: AsyncCasedev
@@ -1212,6 +1244,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.voice import AsyncVoiceResourceWithStreamingResponse
 
         return AsyncVoiceResourceWithStreamingResponse(self._client.voice)
+
+    @cached_property
+    def webhooks(self) -> webhooks.AsyncWebhooksResourceWithStreamingResponse:
+        from .resources.webhooks import AsyncWebhooksResourceWithStreamingResponse
+
+        return AsyncWebhooksResourceWithStreamingResponse(self._client.webhooks)
 
 
 Client = Casedev
