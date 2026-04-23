@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.54.1 (2026-04-23)
+
+Full Changelog: [v0.54.0...v0.54.1](https://github.com/CaseMark/casedev-python/compare/v0.54.0...v0.54.1)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([4cff247](https://github.com/CaseMark/casedev-python/commit/4cff2477cc7a0e1663466084d970b4524fb7443f))
+
 ## 0.54.0 (2026-04-22)
 
 Full Changelog: [v0.53.0...v0.54.0](https://github.com/CaseMark/casedev-python/compare/v0.53.0...v0.54.0)
