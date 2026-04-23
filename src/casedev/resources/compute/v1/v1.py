@@ -12,8 +12,16 @@ from .secrets import (
     SecretsResourceWithStreamingResponse,
     AsyncSecretsResourceWithStreamingResponse,
 )
-from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
+from .instances import (
+    InstancesResource,
+    AsyncInstancesResource,
+    InstancesResourceWithRawResponse,
+    AsyncInstancesResourceWithRawResponse,
+    InstancesResourceWithStreamingResponse,
+    AsyncInstancesResourceWithStreamingResponse,
+)
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -30,6 +38,14 @@ from .environments import (
     EnvironmentsResourceWithStreamingResponse,
     AsyncEnvironmentsResourceWithStreamingResponse,
 )
+from .instance_types import (
+    InstanceTypesResource,
+    AsyncInstanceTypesResource,
+    InstanceTypesResourceWithRawResponse,
+    AsyncInstanceTypesResourceWithRawResponse,
+    InstanceTypesResourceWithStreamingResponse,
+    AsyncInstanceTypesResourceWithStreamingResponse,
+)
 from ...._base_client import make_request_options
 from ....types.compute import v1_get_usage_params
 from ....types.compute.v1_get_usage_response import V1GetUsageResponse
@@ -44,6 +60,16 @@ class V1Resource(SyncAPIResource):
     def environments(self) -> EnvironmentsResource:
         """Serverless GPU and CPU infrastructure"""
         return EnvironmentsResource(self._client)
+
+    @cached_property
+    def instance_types(self) -> InstanceTypesResource:
+        """Serverless GPU and CPU infrastructure"""
+        return InstanceTypesResource(self._client)
+
+    @cached_property
+    def instances(self) -> InstancesResource:
+        """Serverless GPU and CPU infrastructure"""
+        return InstancesResource(self._client)
 
     @cached_property
     def secrets(self) -> SecretsResource:
@@ -68,6 +94,31 @@ class V1Resource(SyncAPIResource):
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
         return V1ResourceWithStreamingResponse(self)
+
+    def get_pricing(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Returns current pricing for GPU instances.
+
+        Prices are fetched in real-time and
+        include a 20% platform fee. For detailed instance types and availability, use
+        GET /compute/v1/instance-types.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._get(
+            "/compute/v1/pricing",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
 
     def get_usage(
         self,
@@ -127,6 +178,16 @@ class AsyncV1Resource(AsyncAPIResource):
         return AsyncEnvironmentsResource(self._client)
 
     @cached_property
+    def instance_types(self) -> AsyncInstanceTypesResource:
+        """Serverless GPU and CPU infrastructure"""
+        return AsyncInstanceTypesResource(self._client)
+
+    @cached_property
+    def instances(self) -> AsyncInstancesResource:
+        """Serverless GPU and CPU infrastructure"""
+        return AsyncInstancesResource(self._client)
+
+    @cached_property
     def secrets(self) -> AsyncSecretsResource:
         """Serverless GPU and CPU infrastructure"""
         return AsyncSecretsResource(self._client)
@@ -149,6 +210,31 @@ class AsyncV1Resource(AsyncAPIResource):
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
         return AsyncV1ResourceWithStreamingResponse(self)
+
+    async def get_pricing(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Returns current pricing for GPU instances.
+
+        Prices are fetched in real-time and
+        include a 20% platform fee. For detailed instance types and availability, use
+        GET /compute/v1/instance-types.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._get(
+            "/compute/v1/pricing",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
 
     async def get_usage(
         self,
@@ -203,6 +289,9 @@ class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
+        self.get_pricing = to_raw_response_wrapper(
+            v1.get_pricing,
+        )
         self.get_usage = to_raw_response_wrapper(
             v1.get_usage,
         )
@@ -211,6 +300,16 @@ class V1ResourceWithRawResponse:
     def environments(self) -> EnvironmentsResourceWithRawResponse:
         """Serverless GPU and CPU infrastructure"""
         return EnvironmentsResourceWithRawResponse(self._v1.environments)
+
+    @cached_property
+    def instance_types(self) -> InstanceTypesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return InstanceTypesResourceWithRawResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> InstancesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return InstancesResourceWithRawResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> SecretsResourceWithRawResponse:
@@ -222,6 +321,9 @@ class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
+        self.get_pricing = async_to_raw_response_wrapper(
+            v1.get_pricing,
+        )
         self.get_usage = async_to_raw_response_wrapper(
             v1.get_usage,
         )
@@ -230,6 +332,16 @@ class AsyncV1ResourceWithRawResponse:
     def environments(self) -> AsyncEnvironmentsResourceWithRawResponse:
         """Serverless GPU and CPU infrastructure"""
         return AsyncEnvironmentsResourceWithRawResponse(self._v1.environments)
+
+    @cached_property
+    def instance_types(self) -> AsyncInstanceTypesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return AsyncInstanceTypesResourceWithRawResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> AsyncInstancesResourceWithRawResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return AsyncInstancesResourceWithRawResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithRawResponse:
@@ -241,6 +353,9 @@ class V1ResourceWithStreamingResponse:
     def __init__(self, v1: V1Resource) -> None:
         self._v1 = v1
 
+        self.get_pricing = to_streamed_response_wrapper(
+            v1.get_pricing,
+        )
         self.get_usage = to_streamed_response_wrapper(
             v1.get_usage,
         )
@@ -249,6 +364,16 @@ class V1ResourceWithStreamingResponse:
     def environments(self) -> EnvironmentsResourceWithStreamingResponse:
         """Serverless GPU and CPU infrastructure"""
         return EnvironmentsResourceWithStreamingResponse(self._v1.environments)
+
+    @cached_property
+    def instance_types(self) -> InstanceTypesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return InstanceTypesResourceWithStreamingResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> InstancesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return InstancesResourceWithStreamingResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> SecretsResourceWithStreamingResponse:
@@ -260,6 +385,9 @@ class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
         self._v1 = v1
 
+        self.get_pricing = async_to_streamed_response_wrapper(
+            v1.get_pricing,
+        )
         self.get_usage = async_to_streamed_response_wrapper(
             v1.get_usage,
         )
@@ -268,6 +396,16 @@ class AsyncV1ResourceWithStreamingResponse:
     def environments(self) -> AsyncEnvironmentsResourceWithStreamingResponse:
         """Serverless GPU and CPU infrastructure"""
         return AsyncEnvironmentsResourceWithStreamingResponse(self._v1.environments)
+
+    @cached_property
+    def instance_types(self) -> AsyncInstanceTypesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return AsyncInstanceTypesResourceWithStreamingResponse(self._v1.instance_types)
+
+    @cached_property
+    def instances(self) -> AsyncInstancesResourceWithStreamingResponse:
+        """Serverless GPU and CPU infrastructure"""
+        return AsyncInstancesResourceWithStreamingResponse(self._v1.instances)
 
     @cached_property
     def secrets(self) -> AsyncSecretsResourceWithStreamingResponse:
