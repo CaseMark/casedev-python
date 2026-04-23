@@ -199,6 +199,7 @@ from casedev.types.compute import V1GetUsageResponse
 
 Methods:
 
+- <code title="get /compute/v1/pricing">client.compute.v1.<a href="./src/casedev/resources/compute/v1/v1.py">get_pricing</a>() -> None</code>
 - <code title="get /compute/v1/usage">client.compute.v1.<a href="./src/casedev/resources/compute/v1/v1.py">get_usage</a>(\*\*<a href="src/casedev/types/compute/v1_get_usage_params.py">params</a>) -> <a href="./src/casedev/types/compute/v1_get_usage_response.py">V1GetUsageResponse</a></code>
 
 ### Environments
@@ -222,6 +223,38 @@ Methods:
 - <code title="get /compute/v1/environments">client.compute.v1.environments.<a href="./src/casedev/resources/compute/v1/environments.py">list</a>() -> <a href="./src/casedev/types/compute/v1/environment_list_response.py">EnvironmentListResponse</a></code>
 - <code title="delete /compute/v1/environments/{name}">client.compute.v1.environments.<a href="./src/casedev/resources/compute/v1/environments.py">delete</a>(name) -> <a href="./src/casedev/types/compute/v1/environment_delete_response.py">EnvironmentDeleteResponse</a></code>
 - <code title="post /compute/v1/environments/{name}/default">client.compute.v1.environments.<a href="./src/casedev/resources/compute/v1/environments.py">set_default</a>(name) -> <a href="./src/casedev/types/compute/v1/environment_set_default_response.py">EnvironmentSetDefaultResponse</a></code>
+
+### InstanceTypes
+
+Types:
+
+```python
+from casedev.types.compute.v1 import InstanceTypeListResponse
+```
+
+Methods:
+
+- <code title="get /compute/v1/instance-types">client.compute.v1.instance_types.<a href="./src/casedev/resources/compute/v1/instance_types.py">list</a>() -> <a href="./src/casedev/types/compute/v1/instance_type_list_response.py">InstanceTypeListResponse</a></code>
+
+### Instances
+
+Types:
+
+```python
+from casedev.types.compute.v1 import (
+    InstanceCreateResponse,
+    InstanceRetrieveResponse,
+    InstanceListResponse,
+    InstanceDeleteResponse,
+)
+```
+
+Methods:
+
+- <code title="post /compute/v1/instances">client.compute.v1.instances.<a href="./src/casedev/resources/compute/v1/instances.py">create</a>(\*\*<a href="src/casedev/types/compute/v1/instance_create_params.py">params</a>) -> <a href="./src/casedev/types/compute/v1/instance_create_response.py">InstanceCreateResponse</a></code>
+- <code title="get /compute/v1/instances/{id}">client.compute.v1.instances.<a href="./src/casedev/resources/compute/v1/instances.py">retrieve</a>(id) -> <a href="./src/casedev/types/compute/v1/instance_retrieve_response.py">InstanceRetrieveResponse</a></code>
+- <code title="get /compute/v1/instances">client.compute.v1.instances.<a href="./src/casedev/resources/compute/v1/instances.py">list</a>() -> <a href="./src/casedev/types/compute/v1/instance_list_response.py">InstanceListResponse</a></code>
+- <code title="delete /compute/v1/instances/{id}">client.compute.v1.instances.<a href="./src/casedev/resources/compute/v1/instances.py">delete</a>(id) -> <a href="./src/casedev/types/compute/v1/instance_delete_response.py">InstanceDeleteResponse</a></code>
 
 ### Secrets
 
