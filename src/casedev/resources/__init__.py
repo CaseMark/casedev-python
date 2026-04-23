@@ -136,6 +136,14 @@ from .superdoc import (
     SuperdocResourceWithStreamingResponse,
     AsyncSuperdocResourceWithStreamingResponse,
 )
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
+)
 from .privilege import (
     PrivilegeResource,
     AsyncPrivilegeResource,
@@ -268,4 +276,10 @@ __all__ = [
     "AsyncVoiceResourceWithRawResponse",
     "VoiceResourceWithStreamingResponse",
     "AsyncVoiceResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
+    "WebhooksResourceWithRawResponse",
+    "AsyncWebhooksResourceWithRawResponse",
+    "WebhooksResourceWithStreamingResponse",
+    "AsyncWebhooksResourceWithStreamingResponse",
 ]

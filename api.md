@@ -877,3 +877,33 @@ Methods:
 Methods:
 
 - <code title="post /voice/v1/speak">client.voice.v1.speak.<a href="./src/casedev/resources/voice/v1/speak.py">create</a>(\*\*<a href="src/casedev/types/voice/v1/speak_create_params.py">params</a>) -> BinaryAPIResponse</code>
+
+# Webhooks
+
+## V1
+
+### Endpoints
+
+Methods:
+
+- <code title="post /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">create</a>(\*\*<a href="src/casedev/types/webhooks/v1/endpoint_create_params.py">params</a>) -> None</code>
+- <code title="get /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">retrieve</a>(id) -> None</code>
+- <code title="patch /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">update</a>(id, \*\*<a href="src/casedev/types/webhooks/v1/endpoint_update_params.py">params</a>) -> None</code>
+- <code title="get /webhooks/v1/endpoints">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">list</a>(\*\*<a href="src/casedev/types/webhooks/v1/endpoint_list_params.py">params</a>) -> None</code>
+- <code title="delete /webhooks/v1/endpoints/{id}">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">delete</a>(id) -> None</code>
+- <code title="post /webhooks/v1/endpoints/{id}/rotate_secret">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">rotate_secret</a>(id, \*\*<a href="src/casedev/types/webhooks/v1/endpoint_rotate_secret_params.py">params</a>) -> None</code>
+- <code title="post /webhooks/v1/endpoints/{id}/test">client.webhooks.v1.endpoints.<a href="./src/casedev/resources/webhooks/v1/endpoints.py">test</a>(id, \*\*<a href="src/casedev/types/webhooks/v1/endpoint_test_params.py">params</a>) -> None</code>
+
+### Deliveries
+
+Methods:
+
+- <code title="get /webhooks/v1/deliveries/{id}">client.webhooks.v1.deliveries.<a href="./src/casedev/resources/webhooks/v1/deliveries.py">retrieve</a>(id) -> None</code>
+- <code title="get /webhooks/v1/deliveries">client.webhooks.v1.deliveries.<a href="./src/casedev/resources/webhooks/v1/deliveries.py">list</a>(\*\*<a href="src/casedev/types/webhooks/v1/delivery_list_params.py">params</a>) -> None</code>
+- <code title="post /webhooks/v1/deliveries/{id}/replay">client.webhooks.v1.deliveries.<a href="./src/casedev/resources/webhooks/v1/deliveries.py">replay</a>(id, \*\*<a href="src/casedev/types/webhooks/v1/delivery_replay_params.py">params</a>) -> None</code>
+
+### EventTypes
+
+Methods:
+
+- <code title="get /webhooks/v1/event_types">client.webhooks.v1.event_types.<a href="./src/casedev/resources/webhooks/v1/event_types.py">list</a>() -> None</code>
