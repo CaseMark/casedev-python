@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.59.0 (2026-04-28)
+
+Full Changelog: [v0.58.0...v0.59.0](https://github.com/CaseMark/casedev-python/compare/v0.58.0...v0.59.0)
+
+### Features
+
+* support setting headers via env ([ac51a56](https://github.com/CaseMark/casedev-python/commit/ac51a569ccf9b53b7d4a07662bd64b2033393234))
+
+
+### Bug Fixes
+
+* use correct field name format for multipart file arrays ([882a4c8](https://github.com/CaseMark/casedev-python/commit/882a4c82777de42926ac3b07b9c227f245182f6a))
+
 ## 0.58.0 (2026-04-24)
 
 Full Changelog: [v0.57.0...v0.58.0](https://github.com/CaseMark/casedev-python/compare/v0.57.0...v0.58.0)
