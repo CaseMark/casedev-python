@@ -19,7 +19,7 @@ class ChatCreateParams(TypedDict, total=False):
     """
 
     model: Optional[str]
-    """Optional model override for the OpenCode session"""
+    """Optional model override for the chat runtime session"""
 
     title: str
     """Optional human-readable session title"""

@@ -49,6 +49,7 @@ if TYPE_CHECKING:
         search,
         skills,
         system,
+        worker,
         compute,
         matters,
         database,
@@ -70,6 +71,7 @@ if TYPE_CHECKING:
     from .resources.memory.memory import MemoryResource, AsyncMemoryResource
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.skills.skills import SkillsResource, AsyncSkillsResource
+    from .resources.worker.worker import WorkerResource, AsyncWorkerResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
     from .resources.matters.matters import MattersResource, AsyncMattersResource
     from .resources.database.database import DatabaseResource, AsyncDatabaseResource
@@ -196,6 +198,12 @@ class Casedev(SyncAPIClient):
         from .resources.system import SystemResource
 
         return SystemResource(self)
+
+    @cached_property
+    def worker(self) -> WorkerResource:
+        from .resources.worker import WorkerResource
+
+        return WorkerResource(self)
 
     @cached_property
     def compute(self) -> ComputeResource:
@@ -525,6 +533,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncSystemResource(self)
 
     @cached_property
+    def worker(self) -> AsyncWorkerResource:
+        from .resources.worker import AsyncWorkerResource
+
+        return AsyncWorkerResource(self)
+
+    @cached_property
     def compute(self) -> AsyncComputeResource:
         from .resources.compute import AsyncComputeResource
 
@@ -770,6 +784,12 @@ class CasedevWithRawResponse:
         return SystemResourceWithRawResponse(self._client.system)
 
     @cached_property
+    def worker(self) -> worker.WorkerResourceWithRawResponse:
+        from .resources.worker import WorkerResourceWithRawResponse
+
+        return WorkerResourceWithRawResponse(self._client.worker)
+
+    @cached_property
     def compute(self) -> compute.ComputeResourceWithRawResponse:
         from .resources.compute import ComputeResourceWithRawResponse
 
@@ -899,6 +919,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.system import AsyncSystemResourceWithRawResponse
 
         return AsyncSystemResourceWithRawResponse(self._client.system)
+
+    @cached_property
+    def worker(self) -> worker.AsyncWorkerResourceWithRawResponse:
+        from .resources.worker import AsyncWorkerResourceWithRawResponse
+
+        return AsyncWorkerResourceWithRawResponse(self._client.worker)
 
     @cached_property
     def compute(self) -> compute.AsyncComputeResourceWithRawResponse:
@@ -1032,6 +1058,12 @@ class CasedevWithStreamedResponse:
         return SystemResourceWithStreamingResponse(self._client.system)
 
     @cached_property
+    def worker(self) -> worker.WorkerResourceWithStreamingResponse:
+        from .resources.worker import WorkerResourceWithStreamingResponse
+
+        return WorkerResourceWithStreamingResponse(self._client.worker)
+
+    @cached_property
     def compute(self) -> compute.ComputeResourceWithStreamingResponse:
         from .resources.compute import ComputeResourceWithStreamingResponse
 
@@ -1161,6 +1193,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.system import AsyncSystemResourceWithStreamingResponse
 
         return AsyncSystemResourceWithStreamingResponse(self._client.system)
+
+    @cached_property
+    def worker(self) -> worker.AsyncWorkerResourceWithStreamingResponse:
+        from .resources.worker import AsyncWorkerResourceWithStreamingResponse
+
+        return AsyncWorkerResourceWithStreamingResponse(self._client.worker)
 
     @cached_property
     def compute(self) -> compute.AsyncComputeResourceWithStreamingResponse:
