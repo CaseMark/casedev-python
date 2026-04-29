@@ -31,13 +31,16 @@ class ResultFinalResponse(BaseModel):
 
 
 class ResultLogs(BaseModel):
-    """Sandbox execution logs (OpenCode server + runner script)"""
+    """Sandbox execution logs (runtime server + runner script)"""
 
     opencode: Optional[str] = None
-    """OpenCode server stdout/stderr"""
+    """Legacy runtime server stdout/stderr"""
 
     runner: Optional[str] = None
     """Runner script stdout/stderr"""
+
+    runtime: Optional[str] = None
+    """Runtime server stdout/stderr"""
 
 
 class Result(BaseModel):
@@ -47,7 +50,7 @@ class Result(BaseModel):
     """Compact agent-facing result summary and execution issues"""
 
     logs: Optional[ResultLogs] = None
-    """Sandbox execution logs (OpenCode server + runner script)"""
+    """Sandbox execution logs (runtime server + runner script)"""
 
     output: Optional[str] = None
 
