@@ -117,6 +117,44 @@ class TestV1:
             )
 
     @parametrize
+    def test_method_boot(self, client: Casedev) -> None:
+        v1 = client.worker.v1.boot(
+            "id",
+        )
+        assert v1 is None
+
+    @parametrize
+    def test_raw_response_boot(self, client: Casedev) -> None:
+        response = client.worker.v1.with_raw_response.boot(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert v1 is None
+
+    @parametrize
+    def test_streaming_response_boot(self, client: Casedev) -> None:
+        with client.worker.v1.with_streaming_response.boot(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert v1 is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_boot(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.worker.v1.with_raw_response.boot(
+                "",
+            )
+
+    @parametrize
     def test_method_proxy_delete(self, client: Casedev) -> None:
         v1 = client.worker.v1.proxy_delete(
             worker_path="workerPath",
@@ -460,6 +498,44 @@ class TestAsyncV1:
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.worker.v1.with_raw_response.delete(
+                "",
+            )
+
+    @parametrize
+    async def test_method_boot(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.worker.v1.boot(
+            "id",
+        )
+        assert v1 is None
+
+    @parametrize
+    async def test_raw_response_boot(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.worker.v1.with_raw_response.boot(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert v1 is None
+
+    @parametrize
+    async def test_streaming_response_boot(self, async_client: AsyncCasedev) -> None:
+        async with async_client.worker.v1.with_streaming_response.boot(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert v1 is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_boot(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.worker.v1.with_raw_response.boot(
                 "",
             )
 

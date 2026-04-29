@@ -131,6 +131,43 @@ class V1Resource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def boot(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Starts or resumes the worker sandbox and OpenCode server.
+
+        Native
+        /worker/v1/:id/\\** proxy routes require this lifecycle primitive to have
+        completed first.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/worker/v1/{id}/boot", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     def proxy_delete(
         self,
         worker_path: str,
@@ -434,6 +471,43 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def boot(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """Starts or resumes the worker sandbox and OpenCode server.
+
+        Native
+        /worker/v1/:id/\\** proxy routes require this lifecycle primitive to have
+        completed first.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/worker/v1/{id}/boot", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def proxy_delete(
         self,
         worker_path: str,
@@ -638,6 +712,9 @@ class V1ResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             v1.delete,
         )
+        self.boot = to_raw_response_wrapper(
+            v1.boot,
+        )
         self.proxy_delete = to_raw_response_wrapper(
             v1.proxy_delete,
         )
@@ -667,6 +744,9 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             v1.delete,
+        )
+        self.boot = async_to_raw_response_wrapper(
+            v1.boot,
         )
         self.proxy_delete = async_to_raw_response_wrapper(
             v1.proxy_delete,
@@ -698,6 +778,9 @@ class V1ResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             v1.delete,
         )
+        self.boot = to_streamed_response_wrapper(
+            v1.boot,
+        )
         self.proxy_delete = to_streamed_response_wrapper(
             v1.proxy_delete,
         )
@@ -727,6 +810,9 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             v1.delete,
+        )
+        self.boot = async_to_streamed_response_wrapper(
+            v1.boot,
         )
         self.proxy_delete = async_to_streamed_response_wrapper(
             v1.proxy_delete,
