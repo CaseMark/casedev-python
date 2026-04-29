@@ -2,106 +2,82 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
-
 import httpx
 
-from .files import (
-    FilesResource,
-    AsyncFilesResource,
-    FilesResourceWithRawResponse,
-    AsyncFilesResourceWithRawResponse,
-    FilesResourceWithStreamingResponse,
-    AsyncFilesResourceWithStreamingResponse,
-)
-from ....._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ....._utils import path_template, maybe_transform, async_maybe_transform
-from ....._compat import cached_property
-from ....._resource import SyncAPIResource, AsyncAPIResource
-from ....._response import (
+from ..._types import Body, Query, Headers, NoneType, NotGiven, not_given
+from ..._utils import path_template
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ....._streaming import Stream, AsyncStream
-from ....._base_client import make_request_options
-from .....types.agent.v1 import (
-    chat_create_params,
-    chat_stream_params,
-    chat_respond_params,
-    chat_send_message_params,
-    chat_reply_to_question_params,
-)
-from .....types.agent.v1.chat_cancel_response import ChatCancelResponse
-from .....types.agent.v1.chat_create_response import ChatCreateResponse
-from .....types.agent.v1.chat_delete_response import ChatDeleteResponse
-from .....types.agent.v1.chat_stream_response import ChatStreamResponse
-from .....types.agent.v1.chat_respond_response import ChatRespondResponse
+from ..._base_client import make_request_options
 
-__all__ = ["ChatResource", "AsyncChatResource"]
+__all__ = ["V1Resource", "AsyncV1Resource"]
 
 
-class ChatResource(SyncAPIResource):
-    """
-    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-    """
-
+class V1Resource(SyncAPIResource):
     @cached_property
-    def files(self) -> FilesResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return FilesResource(self._client)
-
-    @cached_property
-    def with_raw_response(self) -> ChatResourceWithRawResponse:
+    def with_raw_response(self) -> V1ResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#accessing-raw-response-data-eg-headers
         """
-        return ChatResourceWithRawResponse(self)
+        return V1ResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> ChatResourceWithStreamingResponse:
+    def with_streaming_response(self) -> V1ResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
-        return ChatResourceWithStreamingResponse(self)
+        return V1ResourceWithStreamingResponse(self)
 
     def create(
         self,
         *,
-        idle_timeout_ms: Optional[int] | Omit = omit,
-        model: Optional[str] | Omit = omit,
-        title: str | Omit = omit,
-        vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatCreateResponse:
-        """Creates a persistent chat session backed by a Daytona or Vercel runtime.
+    ) -> None:
+        """Creates a Daytona-backed worker runtime.
 
-        Session
-        state is retained and can be resumed or recovered across requests.
+        The worker exposes its native runtime
+        API through /worker/v1/:id/\\** without reshaping payloads or events.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            "/worker/v1",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def retrieve(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Get worker
 
         Args:
-          idle_timeout_ms: Idle timeout before session is eligible for snapshot/termination. Defaults to 15
-              minutes.
-
-          model: Optional model override for the chat runtime session
-
-          title: Optional human-readable session title
-
-          vault_ids: Restrict the chat session to specific vault IDs
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -110,21 +86,15 @@ class ChatResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._post(
-            "/agent/v1/chat",
-            body=maybe_transform(
-                {
-                    "idle_timeout_ms": idle_timeout_ms,
-                    "model": model,
-                    "title": title,
-                    "vault_ids": vault_ids,
-                },
-                chat_create_params.ChatCreateParams,
-            ),
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._get(
+            path_template("/worker/v1/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ChatCreateResponse,
+            cast_to=NoneType,
         )
 
     def delete(
@@ -137,10 +107,9 @@ class ChatResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatDeleteResponse:
+    ) -> None:
         """
-        Snapshots and terminates the active sandbox (if any), then marks the chat as
-        ended.
+        End worker
 
         Args:
           extra_headers: Send extra headers
@@ -153,53 +122,20 @@ class ChatResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            path_template("/agent/v1/chat/{id}", id=id),
+            path_template("/worker/v1/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ChatDeleteResponse,
+            cast_to=NoneType,
         )
 
-    def cancel(
+    def proxy_delete(
         self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatCancelResponse:
-        """
-        Aborts the active generation for this chat session.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._post(
-            path_template("/agent/v1/chat/{id}/cancel", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ChatCancelResponse,
-        )
-
-    def reply_to_question(
-        self,
-        request_id: str,
+        worker_path: str,
         *,
         id: str,
-        answers: Iterable[SequenceNotStr[str]],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -208,12 +144,10 @@ class ChatResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Answers a pending runtime question for the chat session bound to this agent
-        chat.
+        Forwards a DELETE request to the worker runtime without translating response
+        shapes.
 
         Args:
-          answers: Answer selections for each prompt element in the pending question
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -224,76 +158,22 @@ class ChatResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not request_id:
-            raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._post(
-            path_template("/agent/v1/chat/{id}/question/{request_id}/reply", id=id, request_id=request_id),
-            body=maybe_transform({"answers": answers}, chat_reply_to_question_params.ChatReplyToQuestionParams),
+        return self._delete(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    def respond(
+    def proxy_get(
         self,
-        id: str,
+        worker_path: str,
         *,
-        parts: Iterable[chat_respond_params.Part] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Stream[ChatRespondResponse]:
-        """
-        Streams a single assistant turn as normalized SSE events with stable turn,
-        message, and part IDs. Emits events: `turn.started`, `turn.status`,
-        `message.created`, `message.part.updated`, `message.completed`, `session.usage`,
-        `turn.completed`.
-
-        **When to use this endpoint:** Recommended for building custom chat UIs that
-        need real-time streaming progress. This is the primary streaming endpoint for
-        new integrations.
-
-        **Alternatives:**
-
-        - `POST /chat/:id/message` — synchronous, returns complete response as JSON
-          (best for server-to-server)
-
-        Args:
-          parts: Message content parts. Currently only "text" type is supported. Additional types
-              (e.g. file, image) may be added in future versions.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return self._post(
-            path_template("/agent/v1/chat/{id}/respond", id=id),
-            body=maybe_transform({"parts": parts}, chat_respond_params.ChatRespondParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-            stream=True,
-            stream_cls=Stream[ChatRespondResponse],
-        )
-
-    def send_message(
-        self,
         id: str,
-        *,
-        parts: Iterable[chat_send_message_params.Part] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -301,24 +181,11 @@ class ChatResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Sends a message and returns the complete response as a single JSON body.
-
-        Blocks
-        until the agent turn completes.
-
-        **When to use this endpoint:** Best for server-to-server integrations,
-        background processing, or any context where you want the full response in one
-        call without managing an SSE stream.
-
-        **Alternatives:**
-
-        - `POST /chat/:id/respond` — streaming SSE with normalized events (recommended
-          for custom chat UIs)
+        """
+        Forwards a GET request to the worker runtime without translating response or SSE
+        event shapes.
 
         Args:
-          parts: Message content parts. Currently only "text" type is supported. Additional types
-              (e.g. file, image) may be added in future versions.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -329,122 +196,191 @@ class ChatResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._post(
-            path_template("/agent/v1/chat/{id}/message", id=id),
-            body=maybe_transform({"parts": parts}, chat_send_message_params.ChatSendMessageParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    def stream(
-        self,
-        id: str,
-        *,
-        last_event_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Stream[ChatStreamResponse]:
-        """Relays runtime SSE events for this chat.
-
-        Supports replay from buffered events
-        using Last-Event-ID.
-
-        Args:
-          last_event_id: Replay events after this sequence number
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._get(
-            path_template("/agent/v1/chat/{id}/stream", id=id),
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"last_event_id": last_event_id}, chat_stream_params.ChatStreamParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=str,
-            stream=True,
-            stream_cls=Stream[ChatStreamResponse],
+            cast_to=NoneType,
+        )
+
+    def proxy_patch(
+        self,
+        worker_path: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Forwards a PATCH request to the worker runtime without translating request or
+        response shapes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._patch(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def proxy_post(
+        self,
+        worker_path: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Forwards a POST request to the worker runtime without translating request,
+        response, or SSE event shapes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def proxy_put(
+        self,
+        worker_path: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Forwards a PUT request to the worker runtime without translating request or
+        response shapes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._put(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
         )
 
 
-class AsyncChatResource(AsyncAPIResource):
-    """
-    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-    """
-
+class AsyncV1Resource(AsyncAPIResource):
     @cached_property
-    def files(self) -> AsyncFilesResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return AsyncFilesResource(self._client)
-
-    @cached_property
-    def with_raw_response(self) -> AsyncChatResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncChatResourceWithRawResponse(self)
+        return AsyncV1ResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncChatResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncV1ResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/CaseMark/casedev-python#with_streaming_response
         """
-        return AsyncChatResourceWithStreamingResponse(self)
+        return AsyncV1ResourceWithStreamingResponse(self)
 
     async def create(
         self,
         *,
-        idle_timeout_ms: Optional[int] | Omit = omit,
-        model: Optional[str] | Omit = omit,
-        title: str | Omit = omit,
-        vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatCreateResponse:
-        """Creates a persistent chat session backed by a Daytona or Vercel runtime.
+    ) -> None:
+        """Creates a Daytona-backed worker runtime.
 
-        Session
-        state is retained and can be resumed or recovered across requests.
+        The worker exposes its native runtime
+        API through /worker/v1/:id/\\** without reshaping payloads or events.
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            "/worker/v1",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def retrieve(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Get worker
 
         Args:
-          idle_timeout_ms: Idle timeout before session is eligible for snapshot/termination. Defaults to 15
-              minutes.
-
-          model: Optional model override for the chat runtime session
-
-          title: Optional human-readable session title
-
-          vault_ids: Restrict the chat session to specific vault IDs
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -453,21 +389,15 @@ class AsyncChatResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._post(
-            "/agent/v1/chat",
-            body=await async_maybe_transform(
-                {
-                    "idle_timeout_ms": idle_timeout_ms,
-                    "model": model,
-                    "title": title,
-                    "vault_ids": vault_ids,
-                },
-                chat_create_params.ChatCreateParams,
-            ),
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._get(
+            path_template("/worker/v1/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ChatCreateResponse,
+            cast_to=NoneType,
         )
 
     async def delete(
@@ -480,10 +410,9 @@ class AsyncChatResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatDeleteResponse:
+    ) -> None:
         """
-        Snapshots and terminates the active sandbox (if any), then marks the chat as
-        ended.
+        End worker
 
         Args:
           extra_headers: Send extra headers
@@ -496,53 +425,20 @@ class AsyncChatResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            path_template("/agent/v1/chat/{id}", id=id),
+            path_template("/worker/v1/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ChatDeleteResponse,
+            cast_to=NoneType,
         )
 
-    async def cancel(
+    async def proxy_delete(
         self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ChatCancelResponse:
-        """
-        Aborts the active generation for this chat session.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._post(
-            path_template("/agent/v1/chat/{id}/cancel", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ChatCancelResponse,
-        )
-
-    async def reply_to_question(
-        self,
-        request_id: str,
+        worker_path: str,
         *,
         id: str,
-        answers: Iterable[SequenceNotStr[str]],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -551,12 +447,10 @@ class AsyncChatResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Answers a pending runtime question for the chat session bound to this agent
-        chat.
+        Forwards a DELETE request to the worker runtime without translating response
+        shapes.
 
         Args:
-          answers: Answer selections for each prompt element in the pending question
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -567,78 +461,22 @@ class AsyncChatResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not request_id:
-            raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._post(
-            path_template("/agent/v1/chat/{id}/question/{request_id}/reply", id=id, request_id=request_id),
-            body=await async_maybe_transform(
-                {"answers": answers}, chat_reply_to_question_params.ChatReplyToQuestionParams
-            ),
+        return await self._delete(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
         )
 
-    async def respond(
+    async def proxy_get(
         self,
-        id: str,
+        worker_path: str,
         *,
-        parts: Iterable[chat_respond_params.Part] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncStream[ChatRespondResponse]:
-        """
-        Streams a single assistant turn as normalized SSE events with stable turn,
-        message, and part IDs. Emits events: `turn.started`, `turn.status`,
-        `message.created`, `message.part.updated`, `message.completed`, `session.usage`,
-        `turn.completed`.
-
-        **When to use this endpoint:** Recommended for building custom chat UIs that
-        need real-time streaming progress. This is the primary streaming endpoint for
-        new integrations.
-
-        **Alternatives:**
-
-        - `POST /chat/:id/message` — synchronous, returns complete response as JSON
-          (best for server-to-server)
-
-        Args:
-          parts: Message content parts. Currently only "text" type is supported. Additional types
-              (e.g. file, image) may be added in future versions.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
-        return await self._post(
-            path_template("/agent/v1/chat/{id}/respond", id=id),
-            body=await async_maybe_transform({"parts": parts}, chat_respond_params.ChatRespondParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-            stream=True,
-            stream_cls=AsyncStream[ChatRespondResponse],
-        )
-
-    async def send_message(
-        self,
         id: str,
-        *,
-        parts: Iterable[chat_send_message_params.Part] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -646,24 +484,11 @@ class AsyncChatResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Sends a message and returns the complete response as a single JSON body.
-
-        Blocks
-        until the agent turn completes.
-
-        **When to use this endpoint:** Best for server-to-server integrations,
-        background processing, or any context where you want the full response in one
-        call without managing an SSE stream.
-
-        **Alternatives:**
-
-        - `POST /chat/:id/respond` — streaming SSE with normalized events (recommended
-          for custom chat UIs)
+        """
+        Forwards a GET request to the worker runtime without translating response or SSE
+        event shapes.
 
         Args:
-          parts: Message content parts. Currently only "text" type is supported. Additional types
-              (e.g. file, image) may be added in future versions.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -674,195 +499,247 @@ class AsyncChatResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._post(
-            path_template("/agent/v1/chat/{id}/message", id=id),
-            body=await async_maybe_transform({"parts": parts}, chat_send_message_params.ChatSendMessageParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    async def stream(
-        self,
-        id: str,
-        *,
-        last_event_id: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncStream[ChatStreamResponse]:
-        """Relays runtime SSE events for this chat.
-
-        Supports replay from buffered events
-        using Last-Event-ID.
-
-        Args:
-          last_event_id: Replay events after this sequence number
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._get(
-            path_template("/agent/v1/chat/{id}/stream", id=id),
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"last_event_id": last_event_id}, chat_stream_params.ChatStreamParams
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=str,
-            stream=True,
-            stream_cls=AsyncStream[ChatStreamResponse],
+            cast_to=NoneType,
+        )
+
+    async def proxy_patch(
+        self,
+        worker_path: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Forwards a PATCH request to the worker runtime without translating request or
+        response shapes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._patch(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def proxy_post(
+        self,
+        worker_path: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Forwards a POST request to the worker runtime without translating request,
+        response, or SSE event shapes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def proxy_put(
+        self,
+        worker_path: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Forwards a PUT request to the worker runtime without translating request or
+        response shapes.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not worker_path:
+            raise ValueError(f"Expected a non-empty value for `worker_path` but received {worker_path!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._put(
+            path_template("/worker/v1/{id}/{worker_path}", id=id, worker_path=worker_path),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
         )
 
 
-class ChatResourceWithRawResponse:
-    def __init__(self, chat: ChatResource) -> None:
-        self._chat = chat
+class V1ResourceWithRawResponse:
+    def __init__(self, v1: V1Resource) -> None:
+        self._v1 = v1
 
         self.create = to_raw_response_wrapper(
-            chat.create,
+            v1.create,
+        )
+        self.retrieve = to_raw_response_wrapper(
+            v1.retrieve,
         )
         self.delete = to_raw_response_wrapper(
-            chat.delete,
+            v1.delete,
         )
-        self.cancel = to_raw_response_wrapper(
-            chat.cancel,
+        self.proxy_delete = to_raw_response_wrapper(
+            v1.proxy_delete,
         )
-        self.reply_to_question = to_raw_response_wrapper(
-            chat.reply_to_question,
+        self.proxy_get = to_raw_response_wrapper(
+            v1.proxy_get,
         )
-        self.respond = to_raw_response_wrapper(
-            chat.respond,
+        self.proxy_patch = to_raw_response_wrapper(
+            v1.proxy_patch,
         )
-        self.send_message = to_raw_response_wrapper(
-            chat.send_message,
+        self.proxy_post = to_raw_response_wrapper(
+            v1.proxy_post,
         )
-        self.stream = to_raw_response_wrapper(
-            chat.stream,
+        self.proxy_put = to_raw_response_wrapper(
+            v1.proxy_put,
         )
 
-    @cached_property
-    def files(self) -> FilesResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return FilesResourceWithRawResponse(self._chat.files)
 
-
-class AsyncChatResourceWithRawResponse:
-    def __init__(self, chat: AsyncChatResource) -> None:
-        self._chat = chat
+class AsyncV1ResourceWithRawResponse:
+    def __init__(self, v1: AsyncV1Resource) -> None:
+        self._v1 = v1
 
         self.create = async_to_raw_response_wrapper(
-            chat.create,
+            v1.create,
+        )
+        self.retrieve = async_to_raw_response_wrapper(
+            v1.retrieve,
         )
         self.delete = async_to_raw_response_wrapper(
-            chat.delete,
+            v1.delete,
         )
-        self.cancel = async_to_raw_response_wrapper(
-            chat.cancel,
+        self.proxy_delete = async_to_raw_response_wrapper(
+            v1.proxy_delete,
         )
-        self.reply_to_question = async_to_raw_response_wrapper(
-            chat.reply_to_question,
+        self.proxy_get = async_to_raw_response_wrapper(
+            v1.proxy_get,
         )
-        self.respond = async_to_raw_response_wrapper(
-            chat.respond,
+        self.proxy_patch = async_to_raw_response_wrapper(
+            v1.proxy_patch,
         )
-        self.send_message = async_to_raw_response_wrapper(
-            chat.send_message,
+        self.proxy_post = async_to_raw_response_wrapper(
+            v1.proxy_post,
         )
-        self.stream = async_to_raw_response_wrapper(
-            chat.stream,
+        self.proxy_put = async_to_raw_response_wrapper(
+            v1.proxy_put,
         )
 
-    @cached_property
-    def files(self) -> AsyncFilesResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return AsyncFilesResourceWithRawResponse(self._chat.files)
 
-
-class ChatResourceWithStreamingResponse:
-    def __init__(self, chat: ChatResource) -> None:
-        self._chat = chat
+class V1ResourceWithStreamingResponse:
+    def __init__(self, v1: V1Resource) -> None:
+        self._v1 = v1
 
         self.create = to_streamed_response_wrapper(
-            chat.create,
+            v1.create,
+        )
+        self.retrieve = to_streamed_response_wrapper(
+            v1.retrieve,
         )
         self.delete = to_streamed_response_wrapper(
-            chat.delete,
+            v1.delete,
         )
-        self.cancel = to_streamed_response_wrapper(
-            chat.cancel,
+        self.proxy_delete = to_streamed_response_wrapper(
+            v1.proxy_delete,
         )
-        self.reply_to_question = to_streamed_response_wrapper(
-            chat.reply_to_question,
+        self.proxy_get = to_streamed_response_wrapper(
+            v1.proxy_get,
         )
-        self.respond = to_streamed_response_wrapper(
-            chat.respond,
+        self.proxy_patch = to_streamed_response_wrapper(
+            v1.proxy_patch,
         )
-        self.send_message = to_streamed_response_wrapper(
-            chat.send_message,
+        self.proxy_post = to_streamed_response_wrapper(
+            v1.proxy_post,
         )
-        self.stream = to_streamed_response_wrapper(
-            chat.stream,
+        self.proxy_put = to_streamed_response_wrapper(
+            v1.proxy_put,
         )
 
-    @cached_property
-    def files(self) -> FilesResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return FilesResourceWithStreamingResponse(self._chat.files)
 
-
-class AsyncChatResourceWithStreamingResponse:
-    def __init__(self, chat: AsyncChatResource) -> None:
-        self._chat = chat
+class AsyncV1ResourceWithStreamingResponse:
+    def __init__(self, v1: AsyncV1Resource) -> None:
+        self._v1 = v1
 
         self.create = async_to_streamed_response_wrapper(
-            chat.create,
+            v1.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            v1.retrieve,
         )
         self.delete = async_to_streamed_response_wrapper(
-            chat.delete,
+            v1.delete,
         )
-        self.cancel = async_to_streamed_response_wrapper(
-            chat.cancel,
+        self.proxy_delete = async_to_streamed_response_wrapper(
+            v1.proxy_delete,
         )
-        self.reply_to_question = async_to_streamed_response_wrapper(
-            chat.reply_to_question,
+        self.proxy_get = async_to_streamed_response_wrapper(
+            v1.proxy_get,
         )
-        self.respond = async_to_streamed_response_wrapper(
-            chat.respond,
+        self.proxy_patch = async_to_streamed_response_wrapper(
+            v1.proxy_patch,
         )
-        self.send_message = async_to_streamed_response_wrapper(
-            chat.send_message,
+        self.proxy_post = async_to_streamed_response_wrapper(
+            v1.proxy_post,
         )
-        self.stream = async_to_streamed_response_wrapper(
-            chat.stream,
+        self.proxy_put = async_to_streamed_response_wrapper(
+            v1.proxy_put,
         )
-
-    @cached_property
-    def files(self) -> AsyncFilesResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return AsyncFilesResourceWithStreamingResponse(self._chat.files)

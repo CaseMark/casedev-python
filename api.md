@@ -113,6 +113,21 @@ Methods:
 
 - <code title="get /services">client.system.<a href="./src/casedev/resources/system.py">list_services</a>() -> <a href="./src/casedev/types/system_list_services_response.py">SystemListServicesResponse</a></code>
 
+# Worker
+
+## V1
+
+Methods:
+
+- <code title="post /worker/v1">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">create</a>() -> None</code>
+- <code title="get /worker/v1/{id}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">retrieve</a>(id) -> None</code>
+- <code title="delete /worker/v1/{id}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">delete</a>(id) -> None</code>
+- <code title="delete /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_delete</a>(worker_path, \*, id) -> None</code>
+- <code title="get /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_get</a>(worker_path, \*, id) -> None</code>
+- <code title="patch /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_patch</a>(worker_path, \*, id) -> None</code>
+- <code title="post /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_post</a>(worker_path, \*, id) -> None</code>
+- <code title="put /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_put</a>(worker_path, \*, id) -> None</code>
+
 # Compute
 
 ## V1

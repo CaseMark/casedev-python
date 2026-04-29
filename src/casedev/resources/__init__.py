@@ -104,6 +104,14 @@ from .system import (
     SystemResourceWithStreamingResponse,
     AsyncSystemResourceWithStreamingResponse,
 )
+from .worker import (
+    WorkerResource,
+    AsyncWorkerResource,
+    WorkerResourceWithRawResponse,
+    AsyncWorkerResourceWithRawResponse,
+    WorkerResourceWithStreamingResponse,
+    AsyncWorkerResourceWithStreamingResponse,
+)
 from .compute import (
     ComputeResource,
     AsyncComputeResource,
@@ -174,6 +182,12 @@ __all__ = [
     "AsyncSystemResourceWithRawResponse",
     "SystemResourceWithStreamingResponse",
     "AsyncSystemResourceWithStreamingResponse",
+    "WorkerResource",
+    "AsyncWorkerResource",
+    "WorkerResourceWithRawResponse",
+    "AsyncWorkerResourceWithRawResponse",
+    "WorkerResourceWithStreamingResponse",
+    "AsyncWorkerResourceWithStreamingResponse",
     "ComputeResource",
     "AsyncComputeResource",
     "ComputeResourceWithRawResponse",
