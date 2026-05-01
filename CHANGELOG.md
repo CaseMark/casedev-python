@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.62.1 (2026-05-01)
+
+Full Changelog: [v0.62.0...v0.62.1](https://github.com/CaseMark/casedev-python/compare/v0.62.0...v0.62.1)
+
+### Chores
+
+* **internal:** reformat pyproject.toml ([dd51984](https://github.com/CaseMark/casedev-python/commit/dd5198428ed573d25d6a0d8b86a739078da916dc))
+
 ## 0.62.0 (2026-04-29)
 
 Full Changelog: [v0.61.0...v0.62.0](https://github.com/CaseMark/casedev-python/compare/v0.61.0...v0.62.0)
