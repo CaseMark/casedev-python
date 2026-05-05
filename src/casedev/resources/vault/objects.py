@@ -28,6 +28,7 @@ from ..._response import (
 from ...types.vault import (
     object_delete_params,
     object_update_params,
+    object_get_pages_params,
     object_get_chunks_params,
     object_get_ocr_words_params,
     object_create_presigned_url_params,
@@ -38,6 +39,7 @@ from ...types.vault.object_delete_response import ObjectDeleteResponse
 from ...types.vault.object_update_response import ObjectUpdateResponse
 from ...types.vault.object_get_text_response import ObjectGetTextResponse
 from ...types.vault.object_retrieve_response import ObjectRetrieveResponse
+from ...types.vault.object_get_pages_response import ObjectGetPagesResponse
 from ...types.vault.object_get_chunks_response import ObjectGetChunksResponse
 from ...types.vault.object_get_ocr_words_response import ObjectGetOcrWordsResponse
 from ...types.vault.object_get_summarize_job_response import ObjectGetSummarizeJobResponse
@@ -461,6 +463,72 @@ class ObjectsResource(SyncAPIResource):
                 ),
             ),
             cast_to=ObjectGetOcrWordsResponse,
+        )
+
+    def get_pages(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        end: int | Omit = omit,
+        start: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectGetPagesResponse:
+        """Retrieves the raw text of a processed vault object split by page.
+
+        The object
+        must have completed ingestion before pages can be retrieved — for PDFs this
+        requires the OCR pipeline to have finished writing the per-page sidecar, so
+        freshly uploaded PDFs return 400 with the current `ingestionStatus` until
+        processing completes. For PDFs this returns the per-page OCR text. For plain
+        text files (txt, md, source code, court reporter transcripts) the text is split
+        using right-aligned page-number markers when present (preserving the original
+        document numbering, including continuations like Volume 2 starting at page 234),
+        falling back to form-feed (\f) page-break characters, and finally a single page
+        if neither signal is present. Use the optional `start` and `end` query
+        parameters to fetch a specific inclusive page range. Pages with no text are
+        omitted.
+
+        Args:
+          end: Last page to return (inclusive, 1-indexed). If omitted, returns through the last
+              page with text.
+
+          start: First page to return (inclusive, 1-indexed). If omitted, starts at the first
+              page with text.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return self._get(
+            path_template("/vault/{id}/objects/{object_id}/pages", id=id, object_id=object_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "end": end,
+                        "start": start,
+                    },
+                    object_get_pages_params.ObjectGetPagesParams,
+                ),
+            ),
+            cast_to=ObjectGetPagesResponse,
         )
 
     def get_summarize_job(
@@ -961,6 +1029,72 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=ObjectGetOcrWordsResponse,
         )
 
+    async def get_pages(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        end: int | Omit = omit,
+        start: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectGetPagesResponse:
+        """Retrieves the raw text of a processed vault object split by page.
+
+        The object
+        must have completed ingestion before pages can be retrieved — for PDFs this
+        requires the OCR pipeline to have finished writing the per-page sidecar, so
+        freshly uploaded PDFs return 400 with the current `ingestionStatus` until
+        processing completes. For PDFs this returns the per-page OCR text. For plain
+        text files (txt, md, source code, court reporter transcripts) the text is split
+        using right-aligned page-number markers when present (preserving the original
+        document numbering, including continuations like Volume 2 starting at page 234),
+        falling back to form-feed (\f) page-break characters, and finally a single page
+        if neither signal is present. Use the optional `start` and `end` query
+        parameters to fetch a specific inclusive page range. Pages with no text are
+        omitted.
+
+        Args:
+          end: Last page to return (inclusive, 1-indexed). If omitted, returns through the last
+              page with text.
+
+          start: First page to return (inclusive, 1-indexed). If omitted, starts at the first
+              page with text.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return await self._get(
+            path_template("/vault/{id}/objects/{object_id}/pages", id=id, object_id=object_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "end": end,
+                        "start": start,
+                    },
+                    object_get_pages_params.ObjectGetPagesParams,
+                ),
+            ),
+            cast_to=ObjectGetPagesResponse,
+        )
+
     async def get_summarize_job(
         self,
         job_id: str,
@@ -1071,6 +1205,9 @@ class ObjectsResourceWithRawResponse:
         self.get_ocr_words = to_raw_response_wrapper(
             objects.get_ocr_words,
         )
+        self.get_pages = to_raw_response_wrapper(
+            objects.get_pages,
+        )
         self.get_summarize_job = to_raw_response_wrapper(
             objects.get_summarize_job,
         )
@@ -1107,6 +1244,9 @@ class AsyncObjectsResourceWithRawResponse:
         )
         self.get_ocr_words = async_to_raw_response_wrapper(
             objects.get_ocr_words,
+        )
+        self.get_pages = async_to_raw_response_wrapper(
+            objects.get_pages,
         )
         self.get_summarize_job = async_to_raw_response_wrapper(
             objects.get_summarize_job,
@@ -1145,6 +1285,9 @@ class ObjectsResourceWithStreamingResponse:
         self.get_ocr_words = to_streamed_response_wrapper(
             objects.get_ocr_words,
         )
+        self.get_pages = to_streamed_response_wrapper(
+            objects.get_pages,
+        )
         self.get_summarize_job = to_streamed_response_wrapper(
             objects.get_summarize_job,
         )
@@ -1181,6 +1324,9 @@ class AsyncObjectsResourceWithStreamingResponse:
         )
         self.get_ocr_words = async_to_streamed_response_wrapper(
             objects.get_ocr_words,
+        )
+        self.get_pages = async_to_streamed_response_wrapper(
+            objects.get_pages,
         )
         self.get_summarize_job = async_to_streamed_response_wrapper(
             objects.get_summarize_job,
