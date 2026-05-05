@@ -17,9 +17,11 @@ from .memory_search_response import MemorySearchResponse as MemorySearchResponse
 from .multipart_abort_params import MultipartAbortParams as MultipartAbortParams
 from .object_delete_response import ObjectDeleteResponse as ObjectDeleteResponse
 from .object_update_response import ObjectUpdateResponse as ObjectUpdateResponse
+from .object_get_pages_params import ObjectGetPagesParams as ObjectGetPagesParams
 from .object_get_chunks_params import ObjectGetChunksParams as ObjectGetChunksParams
 from .object_get_text_response import ObjectGetTextResponse as ObjectGetTextResponse
 from .object_retrieve_response import ObjectRetrieveResponse as ObjectRetrieveResponse
+from .object_get_pages_response import ObjectGetPagesResponse as ObjectGetPagesResponse
 from .object_get_chunks_response import ObjectGetChunksResponse as ObjectGetChunksResponse
 from .graphrag_get_stats_response import GraphragGetStatsResponse as GraphragGetStatsResponse
 from .object_get_ocr_words_params import ObjectGetOcrWordsParams as ObjectGetOcrWordsParams

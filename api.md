@@ -727,6 +727,7 @@ from casedev.types.vault import (
     ObjectCreatePresignedURLResponse,
     ObjectGetChunksResponse,
     ObjectGetOcrWordsResponse,
+    ObjectGetPagesResponse,
     ObjectGetSummarizeJobResponse,
     ObjectGetTextResponse,
 )
@@ -742,6 +743,7 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">download</a>(object_id, \*, id) -> BinaryAPIResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/chunks">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_chunks</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_chunks_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_chunks_response.py">ObjectGetChunksResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/ocr-words">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_ocr_words</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_ocr_words_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_ocr_words_response.py">ObjectGetOcrWordsResponse</a></code>
+- <code title="get /vault/{id}/objects/{objectId}/pages">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_pages</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_pages_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_pages_response.py">ObjectGetPagesResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_summarize_job</a>(job_id, \*, id, object_id) -> <a href="./src/casedev/types/vault/object_get_summarize_job_response.py">ObjectGetSummarizeJobResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_text</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/object_get_text_response.py">ObjectGetTextResponse</a></code>
 
