@@ -22,6 +22,7 @@ from casedev.types.vault import (
     ObjectDeleteResponse,
     ObjectUpdateResponse,
     ObjectGetTextResponse,
+    ObjectGetPagesResponse,
     ObjectRetrieveResponse,
     ObjectGetChunksResponse,
     ObjectGetOcrWordsResponse,
@@ -476,6 +477,64 @@ class TestObjects:
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             client.vault.objects.with_raw_response.get_ocr_words(
+                object_id="",
+                id="id",
+            )
+
+    @parametrize
+    def test_method_get_pages(self, client: Casedev) -> None:
+        object_ = client.vault.objects.get_pages(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+    @parametrize
+    def test_method_get_pages_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.get_pages(
+            object_id="objectId",
+            id="id",
+            end=0,
+            start=0,
+        )
+        assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+    @parametrize
+    def test_raw_response_get_pages(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.get_pages(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get_pages(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.get_pages(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get_pages(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.get_pages(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.get_pages(
                 object_id="",
                 id="id",
             )
@@ -1035,6 +1094,64 @@ class TestAsyncObjects:
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             await async_client.vault.objects.with_raw_response.get_ocr_words(
+                object_id="",
+                id="id",
+            )
+
+    @parametrize
+    async def test_method_get_pages(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.get_pages(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_method_get_pages_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.get_pages(
+            object_id="objectId",
+            id="id",
+            end=0,
+            start=0,
+        )
+        assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get_pages(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.get_pages(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get_pages(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.get_pages(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectGetPagesResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get_pages(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_pages(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.get_pages(
                 object_id="",
                 id="id",
             )
