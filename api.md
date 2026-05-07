@@ -535,8 +535,6 @@ Types:
 
 ```python
 from casedev.types import (
-    ReadResponseFileBundle,
-    ReadResponseRootBundle,
     SkillCreateResponse,
     SkillUpdateResponse,
     SkillDeleteResponse,
