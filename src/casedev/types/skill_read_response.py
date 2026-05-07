@@ -4,37 +4,12 @@ from typing import List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
+from .read_response_file_bundle import ReadResponseFileBundle
+from .read_response_root_bundle import ReadResponseRootBundle
 
-__all__ = ["SkillReadResponse", "Bundle", "BundleUnionMember0", "BundleUnionMember0File", "BundleUnionMember1"]
+__all__ = ["SkillReadResponse", "Bundle"]
 
-
-class BundleUnionMember0File(BaseModel):
-    path: str
-
-    slug: str
-
-    content_type: Optional[str] = None
-
-    name: Optional[str] = None
-
-
-class BundleUnionMember0(BaseModel):
-    files: List[BundleUnionMember0File]
-
-    role: Literal["root"]
-
-
-class BundleUnionMember1(BaseModel):
-    path: str
-
-    role: Literal["file"]
-
-    root_slug: str
-
-    content_type: Optional[str] = None
-
-
-Bundle: TypeAlias = Union[BundleUnionMember0, BundleUnionMember1, None]
+Bundle: TypeAlias = Union[ReadResponseRootBundle, ReadResponseFileBundle, None]
 
 
 class SkillReadResponse(BaseModel):
