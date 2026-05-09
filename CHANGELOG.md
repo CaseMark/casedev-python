@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.66.1 (2026-05-09)
+
+Full Changelog: [v0.66.0...v0.66.1](https://github.com/CaseMark/casedev-python/compare/v0.66.0...v0.66.1)
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([a03366d](https://github.com/CaseMark/casedev-python/commit/a03366df295f1ada38a0b7a9a3bcf1d1ac7dbc74))
+
 ## 0.66.0 (2026-05-07)
 
 Full Changelog: [v0.65.0...v0.66.0](https://github.com/CaseMark/casedev-python/compare/v0.65.0...v0.66.0)
