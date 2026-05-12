@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.67.0 (2026-05-12)
+
+Full Changelog: [v0.66.1...v0.67.0](https://github.com/CaseMark/casedev-python/compare/v0.66.1...v0.67.0)
+
+### Features
+
+* **internal/types:** support eagerly validating pydantic iterators ([060396a](https://github.com/CaseMark/casedev-python/commit/060396aba150d5d70dc81332d3a9fa2894ba8521))
+
 ## 0.66.1 (2026-05-09)
 
 Full Changelog: [v0.66.0...v0.66.1](https://github.com/CaseMark/casedev-python/compare/v0.66.0...v0.66.1)
