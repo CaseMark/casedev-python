@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.67.1 (2026-05-13)
+
+Full Changelog: [v0.67.0...v0.67.1](https://github.com/CaseMark/casedev-python/compare/v0.67.0...v0.67.1)
+
 ## 0.67.0 (2026-05-12)
 
 Full Changelog: [v0.66.1...v0.67.0](https://github.com/CaseMark/casedev-python/compare/v0.66.1...v0.67.0)
