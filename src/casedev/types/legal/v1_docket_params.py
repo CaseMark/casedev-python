@@ -38,11 +38,7 @@ class V1DocketParams(TypedDict, total=False):
     """Docket ID (required for lookup)"""
 
     include_entries: Annotated[bool, PropertyInfo(alias="includeEntries")]
-    """Include docket entries/filings in lookup responses.
-
-    Coming soon — currently returns 501. The parameter is accepted for forward
-    compatibility.
-    """
+    """Include docket entries/filings in lookup responses."""
 
     limit: int
     """

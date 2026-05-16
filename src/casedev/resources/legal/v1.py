@@ -115,8 +115,7 @@ class V1Resource(SyncAPIResource):
 
           docket_id: Docket ID (required for lookup)
 
-          include_entries: Include docket entries/filings in lookup responses. Coming soon — currently
-              returns 501. The parameter is accepted for forward compatibility.
+          include_entries: Include docket entries/filings in lookup responses.
 
           limit: Page size for search results or entry list (default 25 for search, 50 for
               lookup)
@@ -940,8 +939,7 @@ class AsyncV1Resource(AsyncAPIResource):
 
           docket_id: Docket ID (required for lookup)
 
-          include_entries: Include docket entries/filings in lookup responses. Coming soon — currently
-              returns 501. The parameter is accepted for forward compatibility.
+          include_entries: Include docket entries/filings in lookup responses.
 
           limit: Page size for search results or entry list (default 25 for search, 50 for
               lookup)
