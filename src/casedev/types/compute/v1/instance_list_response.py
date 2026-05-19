@@ -14,8 +14,6 @@ __all__ = ["InstanceListResponse", "Instance"]
 class Instance(BaseModel):
     id: Optional[str] = None
 
-    auto_shutdown_minutes: Optional[int] = FieldInfo(alias="autoShutdownMinutes", default=None)
-
     created_at: Optional[datetime] = FieldInfo(alias="createdAt", default=None)
 
     gpu: Optional[str] = None

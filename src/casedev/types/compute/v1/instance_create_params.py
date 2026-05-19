@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Required, Annotated, TypedDict
 
 from ...._types import SequenceNotStr
@@ -20,9 +19,6 @@ class InstanceCreateParams(TypedDict, total=False):
 
     region: Required[str]
     """Region (e.g., 'us-west-1')"""
-
-    auto_shutdown_minutes: Annotated[Optional[int], PropertyInfo(alias="autoShutdownMinutes")]
-    """Auto-shutdown timer (null = never)"""
 
     vault_ids: Annotated[SequenceNotStr[str], PropertyInfo(alias="vaultIds")]
     """Vault IDs to mount"""

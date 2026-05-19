@@ -24,8 +24,6 @@ class SSH(BaseModel):
 class InstanceRetrieveResponse(BaseModel):
     id: Optional[str] = None
 
-    auto_shutdown_minutes: Optional[int] = FieldInfo(alias="autoShutdownMinutes", default=None)
-
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
 
     current_cost: Optional[str] = FieldInfo(alias="currentCost", default=None)
