@@ -16,8 +16,22 @@ from .agent import (
     AgentResourceWithStreamingResponse,
     AsyncAgentResourceWithStreamingResponse,
 )
+from .skills import (
+    SkillsResource,
+    AsyncSkillsResource,
+    SkillsResourceWithRawResponse,
+    AsyncSkillsResourceWithRawResponse,
+    SkillsResourceWithStreamingResponse,
+    AsyncSkillsResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "SkillsResource",
+    "AsyncSkillsResource",
+    "SkillsResourceWithRawResponse",
+    "AsyncSkillsResourceWithRawResponse",
+    "SkillsResourceWithStreamingResponse",
+    "AsyncSkillsResourceWithStreamingResponse",
     "V1Resource",
     "AsyncV1Resource",
     "V1ResourceWithRawResponse",

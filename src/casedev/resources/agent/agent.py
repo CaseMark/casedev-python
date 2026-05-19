@@ -12,11 +12,23 @@ from .v1.v1 import (
 )
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
+from .skills.skills import (
+    SkillsResource,
+    AsyncSkillsResource,
+    SkillsResourceWithRawResponse,
+    AsyncSkillsResourceWithRawResponse,
+    SkillsResourceWithStreamingResponse,
+    AsyncSkillsResourceWithStreamingResponse,
+)
 
 __all__ = ["AgentResource", "AsyncAgentResource"]
 
 
 class AgentResource(SyncAPIResource):
+    @cached_property
+    def skills(self) -> SkillsResource:
+        return SkillsResource(self._client)
+
     @cached_property
     def v1(self) -> V1Resource:
         return V1Resource(self._client)
@@ -42,6 +54,10 @@ class AgentResource(SyncAPIResource):
 
 
 class AsyncAgentResource(AsyncAPIResource):
+    @cached_property
+    def skills(self) -> AsyncSkillsResource:
+        return AsyncSkillsResource(self._client)
+
     @cached_property
     def v1(self) -> AsyncV1Resource:
         return AsyncV1Resource(self._client)
@@ -71,6 +87,10 @@ class AgentResourceWithRawResponse:
         self._agent = agent
 
     @cached_property
+    def skills(self) -> SkillsResourceWithRawResponse:
+        return SkillsResourceWithRawResponse(self._agent.skills)
+
+    @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
         return V1ResourceWithRawResponse(self._agent.v1)
 
@@ -78,6 +98,10 @@ class AgentResourceWithRawResponse:
 class AsyncAgentResourceWithRawResponse:
     def __init__(self, agent: AsyncAgentResource) -> None:
         self._agent = agent
+
+    @cached_property
+    def skills(self) -> AsyncSkillsResourceWithRawResponse:
+        return AsyncSkillsResourceWithRawResponse(self._agent.skills)
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
@@ -89,6 +113,10 @@ class AgentResourceWithStreamingResponse:
         self._agent = agent
 
     @cached_property
+    def skills(self) -> SkillsResourceWithStreamingResponse:
+        return SkillsResourceWithStreamingResponse(self._agent.skills)
+
+    @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
         return V1ResourceWithStreamingResponse(self._agent.v1)
 
@@ -96,6 +124,10 @@ class AgentResourceWithStreamingResponse:
 class AsyncAgentResourceWithStreamingResponse:
     def __init__(self, agent: AsyncAgentResource) -> None:
         self._agent = agent
+
+    @cached_property
+    def skills(self) -> AsyncSkillsResourceWithStreamingResponse:
+        return AsyncSkillsResourceWithStreamingResponse(self._agent.skills)
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
