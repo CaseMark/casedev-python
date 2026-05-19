@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
@@ -54,7 +52,6 @@ class InstancesResource(SyncAPIResource):
         instance_type: str,
         name: str,
         region: str,
-        auto_shutdown_minutes: Optional[int] | Omit = omit,
         vault_ids: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -66,9 +63,9 @@ class InstancesResource(SyncAPIResource):
         """Launches a new GPU compute instance with automatic SSH key generation.
 
         Supports
-        mounting Case.dev Vaults as filesystems and configurable auto-shutdown. Instance
-        boots in ~2-5 minutes. Perfect for batch OCR processing, AI model training, and
-        intensive document analysis workloads.
+        mounting Case.dev Vaults as filesystems. Instance boots in ~2-5 minutes. Perfect
+        for batch OCR processing, AI model training, and intensive document analysis
+        workloads.
 
         Args:
           instance_type: GPU type (e.g., 'gpu_1x_h100_sxm5')
@@ -76,8 +73,6 @@ class InstancesResource(SyncAPIResource):
           name: Instance name
 
           region: Region (e.g., 'us-west-1')
-
-          auto_shutdown_minutes: Auto-shutdown timer (null = never)
 
           vault_ids: Vault IDs to mount
 
@@ -96,7 +91,6 @@ class InstancesResource(SyncAPIResource):
                     "instance_type": instance_type,
                     "name": name,
                     "region": region,
-                    "auto_shutdown_minutes": auto_shutdown_minutes,
                     "vault_ids": vault_ids,
                 },
                 instance_create_params.InstanceCreateParams,
@@ -154,9 +148,8 @@ class InstancesResource(SyncAPIResource):
     ) -> InstanceListResponse:
         """
         Retrieves all GPU compute instances for your organization with real-time status
-        updates from Lambda Labs. Includes pricing, runtime metrics, and auto-shutdown
-        configuration. Perfect for monitoring AI workloads, document processing jobs,
-        and cost tracking.
+        updates from Lambda Labs. Includes pricing and runtime metrics. Perfect for
+        monitoring AI workloads, document processing jobs, and cost tracking.
         """
         return self._get(
             "/compute/v1/instances",
@@ -231,7 +224,6 @@ class AsyncInstancesResource(AsyncAPIResource):
         instance_type: str,
         name: str,
         region: str,
-        auto_shutdown_minutes: Optional[int] | Omit = omit,
         vault_ids: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -243,9 +235,9 @@ class AsyncInstancesResource(AsyncAPIResource):
         """Launches a new GPU compute instance with automatic SSH key generation.
 
         Supports
-        mounting Case.dev Vaults as filesystems and configurable auto-shutdown. Instance
-        boots in ~2-5 minutes. Perfect for batch OCR processing, AI model training, and
-        intensive document analysis workloads.
+        mounting Case.dev Vaults as filesystems. Instance boots in ~2-5 minutes. Perfect
+        for batch OCR processing, AI model training, and intensive document analysis
+        workloads.
 
         Args:
           instance_type: GPU type (e.g., 'gpu_1x_h100_sxm5')
@@ -253,8 +245,6 @@ class AsyncInstancesResource(AsyncAPIResource):
           name: Instance name
 
           region: Region (e.g., 'us-west-1')
-
-          auto_shutdown_minutes: Auto-shutdown timer (null = never)
 
           vault_ids: Vault IDs to mount
 
@@ -273,7 +263,6 @@ class AsyncInstancesResource(AsyncAPIResource):
                     "instance_type": instance_type,
                     "name": name,
                     "region": region,
-                    "auto_shutdown_minutes": auto_shutdown_minutes,
                     "vault_ids": vault_ids,
                 },
                 instance_create_params.InstanceCreateParams,
@@ -331,9 +320,8 @@ class AsyncInstancesResource(AsyncAPIResource):
     ) -> InstanceListResponse:
         """
         Retrieves all GPU compute instances for your organization with real-time status
-        updates from Lambda Labs. Includes pricing, runtime metrics, and auto-shutdown
-        configuration. Perfect for monitoring AI workloads, document processing jobs,
-        and cost tracking.
+        updates from Lambda Labs. Includes pricing and runtime metrics. Perfect for
+        monitoring AI workloads, document processing jobs, and cost tracking.
         """
         return await self._get(
             "/compute/v1/instances",

@@ -37,7 +37,6 @@ class TestInstances:
             instance_type="gpu_1x_a10",
             name="ocr-batch-job",
             region="us-west-1",
-            auto_shutdown_minutes=120,
             vault_ids=["vault_abc123"],
         )
         assert_matches_type(InstanceCreateResponse, instance, path=["response"])
@@ -192,7 +191,6 @@ class TestAsyncInstances:
             instance_type="gpu_1x_a10",
             name="ocr-batch-job",
             region="us-west-1",
-            auto_shutdown_minutes=120,
             vault_ids=["vault_abc123"],
         )
         assert_matches_type(InstanceCreateResponse, instance, path=["response"])

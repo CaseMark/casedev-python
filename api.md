@@ -1,5 +1,19 @@
 # Agent
 
+## Skills
+
+### Namespaces
+
+Methods:
+
+- <code title="post /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">create</a>(\*\*<a href="src/casedev/types/agent/skills/namespace_create_params.py">params</a>) -> None</code>
+- <code title="get /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">retrieve</a>(id) -> None</code>
+- <code title="get /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">list</a>() -> None</code>
+- <code title="delete /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">delete</a>(id) -> None</code>
+- <code title="post /agent/skills/namespaces/{id}/publish">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">publish</a>(id, \*\*<a href="src/casedev/types/agent/skills/namespace_publish_params.py">params</a>) -> None</code>
+- <code title="get /agent/skills/namespaces/{id}/pull">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">pull</a>(id) -> None</code>
+- <code title="post /agent/skills/namespaces/{id}/rotate-token">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">rotate_token</a>(id) -> None</code>
+
 ## V1
 
 ### Agents
@@ -112,22 +126,6 @@ from casedev.types import SystemListServicesResponse
 Methods:
 
 - <code title="get /services">client.system.<a href="./src/casedev/resources/system.py">list_services</a>() -> <a href="./src/casedev/types/system_list_services_response.py">SystemListServicesResponse</a></code>
-
-# Worker
-
-## V1
-
-Methods:
-
-- <code title="post /worker/v1">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">create</a>() -> None</code>
-- <code title="get /worker/v1/{id}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">retrieve</a>(id) -> None</code>
-- <code title="delete /worker/v1/{id}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">delete</a>(id) -> None</code>
-- <code title="post /worker/v1/{id}/boot">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">boot</a>(id) -> None</code>
-- <code title="delete /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_delete</a>(worker_path, \*, id) -> None</code>
-- <code title="get /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_get</a>(worker_path, \*, id) -> None</code>
-- <code title="patch /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_patch</a>(worker_path, \*, id) -> None</code>
-- <code title="post /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_post</a>(worker_path, \*, id) -> None</code>
-- <code title="put /worker/v1/{id}/{workerPath}">client.worker.v1.<a href="./src/casedev/resources/worker/v1.py">proxy_put</a>(worker_path, \*, id) -> None</code>
 
 # Compute
 
