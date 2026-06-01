@@ -41,6 +41,7 @@ if TYPE_CHECKING:
         mail,
         agent,
         legal,
+        media,
         usage,
         vault,
         voice,
@@ -63,6 +64,7 @@ if TYPE_CHECKING:
     from .resources.mail.mail import MailResource, AsyncMailResource
     from .resources.agent.agent import AgentResource, AsyncAgentResource
     from .resources.legal.legal import LegalResource, AsyncLegalResource
+    from .resources.media.media import MediaResource, AsyncMediaResource
     from .resources.usage.usage import UsageResource, AsyncUsageResource
     from .resources.vault.vault import VaultResource, AsyncVaultResource
     from .resources.voice.voice import VoiceResource, AsyncVoiceResource
@@ -239,6 +241,12 @@ class Casedev(SyncAPIClient):
         from .resources.memory import MemoryResource
 
         return MemoryResource(self)
+
+    @cached_property
+    def media(self) -> MediaResource:
+        from .resources.media import MediaResource
+
+        return MediaResource(self)
 
     @cached_property
     def ocr(self) -> OcrResource:
@@ -568,6 +576,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncMemoryResource(self)
 
     @cached_property
+    def media(self) -> AsyncMediaResource:
+        from .resources.media import AsyncMediaResource
+
+        return AsyncMediaResource(self)
+
+    @cached_property
     def ocr(self) -> AsyncOcrResource:
         from .resources.ocr import AsyncOcrResource
 
@@ -813,6 +827,12 @@ class CasedevWithRawResponse:
         return MemoryResourceWithRawResponse(self._client.memory)
 
     @cached_property
+    def media(self) -> media.MediaResourceWithRawResponse:
+        from .resources.media import MediaResourceWithRawResponse
+
+        return MediaResourceWithRawResponse(self._client.media)
+
+    @cached_property
     def ocr(self) -> ocr.OcrResourceWithRawResponse:
         from .resources.ocr import OcrResourceWithRawResponse
 
@@ -942,6 +962,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.memory import AsyncMemoryResourceWithRawResponse
 
         return AsyncMemoryResourceWithRawResponse(self._client.memory)
+
+    @cached_property
+    def media(self) -> media.AsyncMediaResourceWithRawResponse:
+        from .resources.media import AsyncMediaResourceWithRawResponse
+
+        return AsyncMediaResourceWithRawResponse(self._client.media)
 
     @cached_property
     def ocr(self) -> ocr.AsyncOcrResourceWithRawResponse:
@@ -1075,6 +1101,12 @@ class CasedevWithStreamedResponse:
         return MemoryResourceWithStreamingResponse(self._client.memory)
 
     @cached_property
+    def media(self) -> media.MediaResourceWithStreamingResponse:
+        from .resources.media import MediaResourceWithStreamingResponse
+
+        return MediaResourceWithStreamingResponse(self._client.media)
+
+    @cached_property
     def ocr(self) -> ocr.OcrResourceWithStreamingResponse:
         from .resources.ocr import OcrResourceWithStreamingResponse
 
@@ -1204,6 +1236,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.memory import AsyncMemoryResourceWithStreamingResponse
 
         return AsyncMemoryResourceWithStreamingResponse(self._client.memory)
+
+    @cached_property
+    def media(self) -> media.AsyncMediaResourceWithStreamingResponse:
+        from .resources.media import AsyncMediaResourceWithStreamingResponse
+
+        return AsyncMediaResourceWithStreamingResponse(self._client.media)
 
     @cached_property
     def ocr(self) -> ocr.AsyncOcrResourceWithStreamingResponse:

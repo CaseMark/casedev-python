@@ -108,11 +108,9 @@ class V1Resource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
-        """Download OCR processing results in various formats.
-
-        Returns the processed
-        document as text extraction, structured JSON with coordinates, searchable PDF
-        with text layer, or the original uploaded document.
+        """
+        Download OCR processing results in various formats by redirecting to the OCR
+        service download URL.
 
         Args:
           extra_headers: Send extra headers
@@ -278,11 +276,9 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
-        """Download OCR processing results in various formats.
-
-        Returns the processed
-        document as text extraction, structured JSON with coordinates, searchable PDF
-        with text layer, or the original uploaded document.
+        """
+        Download OCR processing results in various formats by redirecting to the OCR
+        service download URL.
 
         Args:
           extra_headers: Send extra headers

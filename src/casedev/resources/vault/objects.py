@@ -317,12 +317,10 @@ class ObjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
-        """Downloads a file from a vault.
-
-        Returns the actual file content as a binary
-        stream with appropriate headers for file download. Useful for retrieving
-        contracts, depositions, case files, and other legal documents stored in your
-        vault.
+        """
+        Downloads a file from a vault by redirecting to a short-lived presigned S3 URL.
+        Useful for retrieving contracts, depositions, case files, and other legal
+        documents stored in your vault.
 
         Args:
           extra_headers: Send extra headers
@@ -881,12 +879,10 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
-        """Downloads a file from a vault.
-
-        Returns the actual file content as a binary
-        stream with appropriate headers for file download. Useful for retrieving
-        contracts, depositions, case files, and other legal documents stored in your
-        vault.
+        """
+        Downloads a file from a vault by redirecting to a short-lived presigned S3 URL.
+        Useful for retrieving contracts, depositions, case files, and other legal
+        documents stored in your vault.
 
         Args:
           extra_headers: Send extra headers
