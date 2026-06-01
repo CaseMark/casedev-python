@@ -25,7 +25,10 @@ class VaultSearchParams(TypedDict, total=False):
     """
 
     top_k: Annotated[int, PropertyInfo(alias="topK")]
-    """Maximum number of results to return"""
+    """Maximum number of results to return.
+
+    Hybrid search supports 1 to 50; other methods may support up to 100.
+    """
 
 
 class Filters(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]

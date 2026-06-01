@@ -40,6 +40,14 @@ from .legal import (
     LegalResourceWithStreamingResponse,
     AsyncLegalResourceWithStreamingResponse,
 )
+from .media import (
+    MediaResource,
+    AsyncMediaResource,
+    MediaResourceWithRawResponse,
+    AsyncMediaResourceWithRawResponse,
+    MediaResourceWithStreamingResponse,
+    AsyncMediaResourceWithStreamingResponse,
+)
 from .usage import (
     UsageResource,
     AsyncUsageResource,
@@ -216,6 +224,12 @@ __all__ = [
     "AsyncMemoryResourceWithRawResponse",
     "MemoryResourceWithStreamingResponse",
     "AsyncMemoryResourceWithStreamingResponse",
+    "MediaResource",
+    "AsyncMediaResource",
+    "MediaResourceWithRawResponse",
+    "AsyncMediaResourceWithRawResponse",
+    "MediaResourceWithStreamingResponse",
+    "AsyncMediaResourceWithStreamingResponse",
     "OcrResource",
     "AsyncOcrResource",
     "OcrResourceWithRawResponse",

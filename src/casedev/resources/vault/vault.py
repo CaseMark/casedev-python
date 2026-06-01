@@ -574,7 +574,8 @@ class VaultResource(SyncAPIResource):
           method: Search method: 'global' for comprehensive questions, 'entity' for specific
               entities, 'fast' for quick similarity search, 'hybrid' for combined approach
 
-          top_k: Maximum number of results to return
+          top_k: Maximum number of results to return. Hybrid search supports 1 to 50; other
+              methods may support up to 100.
 
           extra_headers: Send extra headers
 
@@ -1158,7 +1159,8 @@ class AsyncVaultResource(AsyncAPIResource):
           method: Search method: 'global' for comprehensive questions, 'entity' for specific
               entities, 'fast' for quick similarity search, 'hybrid' for combined approach
 
-          top_k: Maximum number of results to return
+          top_k: Maximum number of results to return. Hybrid search supports 1 to 50; other
+              methods may support up to 100.
 
           extra_headers: Send extra headers
 

@@ -477,6 +477,25 @@ Methods:
 - <code title="delete /memory/v1">client.memory.v1.<a href="./src/casedev/resources/memory/v1.py">delete_all</a>(\*\*<a href="src/casedev/types/memory/v1_delete_all_params.py">params</a>) -> <a href="./src/casedev/types/memory/v1_delete_all_response.py">V1DeleteAllResponse</a></code>
 - <code title="post /memory/v1/search">client.memory.v1.<a href="./src/casedev/resources/memory/v1.py">search</a>(\*\*<a href="src/casedev/types/memory/v1_search_params.py">params</a>) -> <a href="./src/casedev/types/memory/v1_search_response.py">V1SearchResponse</a></code>
 
+# Media
+
+## V1
+
+### Clips
+
+Methods:
+
+- <code title="post /media/v1/clips">client.media.v1.clips.<a href="./src/casedev/resources/media/v1/clips.py">create</a>() -> None</code>
+- <code title="get /media/v1/clips/{id}">client.media.v1.clips.<a href="./src/casedev/resources/media/v1/clips.py">retrieve</a>(id) -> None</code>
+
+### Transcripts
+
+#### Search
+
+Methods:
+
+- <code title="post /media/v1/transcripts/search">client.media.v1.transcripts.search.<a href="./src/casedev/resources/media/v1/transcripts/search.py">create</a>() -> None</code>
+
 # Ocr
 
 ## V1
