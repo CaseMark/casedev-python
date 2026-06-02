@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.70.1 (2026-06-02)
+
+Full Changelog: [v0.70.0...v0.70.1](https://github.com/CaseMark/casedev-python/compare/v0.70.0...v0.70.1)
+
+### Chores
+
+* use stable release metadata ([#128](https://github.com/CaseMark/casedev-python/issues/128)) ([785ef13](https://github.com/CaseMark/casedev-python/commit/785ef13227f6f59715596ea2fdb80a0cb8c3570a))
+
 ## [0.70.0](https://github.com/CaseMark/casedev-python/compare/v0.69.0...v0.70.0) (2026-06-01)
 
 
