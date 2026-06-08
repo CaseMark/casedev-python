@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Iterable, Optional
 
 import httpx
 
@@ -14,7 +14,7 @@ from .custom import (
     CustomResourceWithStreamingResponse,
     AsyncCustomResourceWithStreamingResponse,
 )
-from ...types import skill_create_params, skill_update_params, skill_resolve_params
+from ...types import skill_create_params, skill_export_params, skill_update_params, skill_resolve_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -29,6 +29,7 @@ from ..._base_client import make_request_options
 from ...types.skill_read_response import SkillReadResponse
 from ...types.skill_create_response import SkillCreateResponse
 from ...types.skill_delete_response import SkillDeleteResponse
+from ...types.skill_export_response import SkillExportResponse
 from ...types.skill_update_response import SkillUpdateResponse
 from ...types.skill_resolve_response import SkillResolveResponse
 
@@ -67,6 +68,7 @@ class SkillsResource(SyncAPIResource):
         *,
         content: str,
         name: str,
+        files: Iterable[skill_create_params.File] | Omit = omit,
         metadata: object | Omit = omit,
         slug: str | Omit = omit,
         summary: str | Omit = omit,
@@ -87,6 +89,9 @@ class SkillsResource(SyncAPIResource):
           content: Full skill content in markdown
 
           name: Skill name
+
+          files: Optional bundled companion files installed alongside the skill as <slug>/<path>
+              in sandbox skill directories.
 
           metadata: Arbitrary metadata (author, license, etc.)
 
@@ -110,6 +115,7 @@ class SkillsResource(SyncAPIResource):
                 {
                     "content": content,
                     "name": name,
+                    "files": files,
                     "metadata": metadata,
                     "slug": slug,
                     "summary": summary,
@@ -128,6 +134,7 @@ class SkillsResource(SyncAPIResource):
         path_slug: str,
         *,
         content: str | Omit = omit,
+        files: Optional[Iterable[skill_update_params.File]] | Omit = omit,
         metadata: object | Omit = omit,
         name: str | Omit = omit,
         body_slug: str | Omit = omit,
@@ -146,6 +153,9 @@ class SkillsResource(SyncAPIResource):
         Version is auto-incremented.
 
         Args:
+          files: Optional replacement companion file tree. Omit to leave existing bundled files
+              unchanged; send [] to remove bundled files.
+
           body_slug: New slug (renames the skill)
 
           extra_headers: Send extra headers
@@ -163,6 +173,7 @@ class SkillsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "content": content,
+                    "files": files,
                     "metadata": metadata,
                     "name": name,
                     "body_slug": body_slug,
@@ -210,6 +221,48 @@ class SkillsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SkillDeleteResponse,
+        )
+
+    def export(
+        self,
+        slug: str,
+        *,
+        target: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SkillExportResponse:
+        """
+        Export a skill as an installable filesystem tree for sandbox runtimes.
+        Authenticated org-scoped custom skills are resolved before curated skills.
+
+        Args:
+          target: Agent runtime skill directory convention to export for. Most callers should omit
+              this and pass skillSlugs when creating a runtime.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not slug:
+            raise ValueError(f"Expected a non-empty value for `slug` but received {slug!r}")
+        return self._get(
+            path_template("/skills/{slug}/export", slug=slug),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"target": target}, skill_export_params.SkillExportParams),
+            ),
+            cast_to=SkillExportResponse,
         )
 
     def read(
@@ -327,6 +380,7 @@ class AsyncSkillsResource(AsyncAPIResource):
         *,
         content: str,
         name: str,
+        files: Iterable[skill_create_params.File] | Omit = omit,
         metadata: object | Omit = omit,
         slug: str | Omit = omit,
         summary: str | Omit = omit,
@@ -347,6 +401,9 @@ class AsyncSkillsResource(AsyncAPIResource):
           content: Full skill content in markdown
 
           name: Skill name
+
+          files: Optional bundled companion files installed alongside the skill as <slug>/<path>
+              in sandbox skill directories.
 
           metadata: Arbitrary metadata (author, license, etc.)
 
@@ -370,6 +427,7 @@ class AsyncSkillsResource(AsyncAPIResource):
                 {
                     "content": content,
                     "name": name,
+                    "files": files,
                     "metadata": metadata,
                     "slug": slug,
                     "summary": summary,
@@ -388,6 +446,7 @@ class AsyncSkillsResource(AsyncAPIResource):
         path_slug: str,
         *,
         content: str | Omit = omit,
+        files: Optional[Iterable[skill_update_params.File]] | Omit = omit,
         metadata: object | Omit = omit,
         name: str | Omit = omit,
         body_slug: str | Omit = omit,
@@ -406,6 +465,9 @@ class AsyncSkillsResource(AsyncAPIResource):
         Version is auto-incremented.
 
         Args:
+          files: Optional replacement companion file tree. Omit to leave existing bundled files
+              unchanged; send [] to remove bundled files.
+
           body_slug: New slug (renames the skill)
 
           extra_headers: Send extra headers
@@ -423,6 +485,7 @@ class AsyncSkillsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "content": content,
+                    "files": files,
                     "metadata": metadata,
                     "name": name,
                     "body_slug": body_slug,
@@ -470,6 +533,48 @@ class AsyncSkillsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SkillDeleteResponse,
+        )
+
+    async def export(
+        self,
+        slug: str,
+        *,
+        target: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SkillExportResponse:
+        """
+        Export a skill as an installable filesystem tree for sandbox runtimes.
+        Authenticated org-scoped custom skills are resolved before curated skills.
+
+        Args:
+          target: Agent runtime skill directory convention to export for. Most callers should omit
+              this and pass skillSlugs when creating a runtime.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not slug:
+            raise ValueError(f"Expected a non-empty value for `slug` but received {slug!r}")
+        return await self._get(
+            path_template("/skills/{slug}/export", slug=slug),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"target": target}, skill_export_params.SkillExportParams),
+            ),
+            cast_to=SkillExportResponse,
         )
 
     async def read(
@@ -568,6 +673,9 @@ class SkillsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             skills.delete,
         )
+        self.export = to_raw_response_wrapper(
+            skills.export,
+        )
         self.read = to_raw_response_wrapper(
             skills.read,
         )
@@ -593,6 +701,9 @@ class AsyncSkillsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             skills.delete,
+        )
+        self.export = async_to_raw_response_wrapper(
+            skills.export,
         )
         self.read = async_to_raw_response_wrapper(
             skills.read,
@@ -620,6 +731,9 @@ class SkillsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             skills.delete,
         )
+        self.export = to_streamed_response_wrapper(
+            skills.export,
+        )
         self.read = to_streamed_response_wrapper(
             skills.read,
         )
@@ -645,6 +759,9 @@ class AsyncSkillsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             skills.delete,
+        )
+        self.export = async_to_streamed_response_wrapper(
+            skills.export,
         )
         self.read = async_to_streamed_response_wrapper(
             skills.read,

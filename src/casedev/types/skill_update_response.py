@@ -9,6 +9,8 @@ __all__ = ["SkillUpdateResponse"]
 
 
 class SkillUpdateResponse(BaseModel):
+    bundle: Optional[object] = None
+
     content: Optional[str] = None
 
     metadata: Optional[object] = None

@@ -17,6 +17,12 @@ class Chunk(BaseModel):
     distance: Optional[float] = None
     """Vector similarity distance (lower is more similar)"""
 
+    end_ms: Optional[int] = None
+    """Source media timestamp for the last word in the chunk.
+
+    Present only for media-backed transcripts with real word timing.
+    """
+
     object_id: Optional[str] = None
     """ID of the source document"""
 
@@ -37,6 +43,12 @@ class Chunk(BaseModel):
 
     source: Optional[str] = None
     """Source identifier (deprecated, use object_id)"""
+
+    start_ms: Optional[int] = None
+    """Source media timestamp for the first word in the chunk.
+
+    Present only for media-backed transcripts with real word timing.
+    """
 
     text: Optional[str] = None
     """Preview of the chunk text (up to 500 characters)"""

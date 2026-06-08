@@ -1,19 +1,5 @@
 # Agent
 
-## Skills
-
-### Namespaces
-
-Methods:
-
-- <code title="post /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">create</a>(\*\*<a href="src/casedev/types/agent/skills/namespace_create_params.py">params</a>) -> None</code>
-- <code title="get /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">retrieve</a>(id) -> None</code>
-- <code title="get /agent/skills/namespaces">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">list</a>() -> None</code>
-- <code title="delete /agent/skills/namespaces/{id}">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">delete</a>(id) -> None</code>
-- <code title="post /agent/skills/namespaces/{id}/publish">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">publish</a>(id, \*\*<a href="src/casedev/types/agent/skills/namespace_publish_params.py">params</a>) -> None</code>
-- <code title="get /agent/skills/namespaces/{id}/pull">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">pull</a>(id) -> None</code>
-- <code title="post /agent/skills/namespaces/{id}/rotate-token">client.agent.skills.namespaces.<a href="./src/casedev/resources/agent/skills/namespaces.py">rotate_token</a>(id) -> None</code>
-
 ## V1
 
 ### Agents
@@ -77,43 +63,6 @@ from casedev.types.agent.v1 import ExecuteCreateResponse
 Methods:
 
 - <code title="post /agent/v1/execute">client.agent.v1.execute.<a href="./src/casedev/resources/agent/v1/execute.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/execute_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/execute_create_response.py">ExecuteCreateResponse</a></code>
-
-### Chat
-
-Types:
-
-```python
-from casedev.types.agent.v1 import (
-    ChatCreateResponse,
-    ChatDeleteResponse,
-    ChatCancelResponse,
-    ChatRespondResponse,
-    ChatStreamResponse,
-)
-```
-
-Methods:
-
-- <code title="post /agent/v1/chat">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/chat_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/chat_create_response.py">ChatCreateResponse</a></code>
-- <code title="delete /agent/v1/chat/{id}">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">delete</a>(id) -> <a href="./src/casedev/types/agent/v1/chat_delete_response.py">ChatDeleteResponse</a></code>
-- <code title="post /agent/v1/chat/{id}/cancel">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v1/chat_cancel_response.py">ChatCancelResponse</a></code>
-- <code title="post /agent/v1/chat/{id}/question/{requestID}/reply">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">reply_to_question</a>(request_id, \*, id, \*\*<a href="src/casedev/types/agent/v1/chat_reply_to_question_params.py">params</a>) -> None</code>
-- <code title="post /agent/v1/chat/{id}/respond">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">respond</a>(id, \*\*<a href="src/casedev/types/agent/v1/chat_respond_params.py">params</a>) -> str</code>
-- <code title="post /agent/v1/chat/{id}/message">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">send_message</a>(id, \*\*<a href="src/casedev/types/agent/v1/chat_send_message_params.py">params</a>) -> None</code>
-- <code title="get /agent/v1/chat/{id}/stream">client.agent.v1.chat.<a href="./src/casedev/resources/agent/v1/chat/chat.py">stream</a>(id, \*\*<a href="src/casedev/types/agent/v1/chat_stream_params.py">params</a>) -> str</code>
-
-#### Files
-
-Types:
-
-```python
-from casedev.types.agent.v1.chat import FileListResponse
-```
-
-Methods:
-
-- <code title="get /agent/v1/chat/{id}/files">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">list</a>(id) -> <a href="./src/casedev/types/agent/v1/chat/file_list_response.py">FileListResponse</a></code>
-- <code title="get /agent/v1/chat/{id}/files/{filePath}">client.agent.v1.chat.files.<a href="./src/casedev/resources/agent/v1/chat/files.py">download</a>(file_path, \*, id) -> BinaryAPIResponse</code>
 
 # System
 
@@ -557,6 +506,7 @@ from casedev.types import (
     SkillCreateResponse,
     SkillUpdateResponse,
     SkillDeleteResponse,
+    SkillExportResponse,
     SkillReadResponse,
     SkillResolveResponse,
 )
@@ -567,6 +517,7 @@ Methods:
 - <code title="post /skills">client.skills.<a href="./src/casedev/resources/skills/skills.py">create</a>(\*\*<a href="src/casedev/types/skill_create_params.py">params</a>) -> <a href="./src/casedev/types/skill_create_response.py">SkillCreateResponse</a></code>
 - <code title="put /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills/skills.py">update</a>(path_slug, \*\*<a href="src/casedev/types/skill_update_params.py">params</a>) -> <a href="./src/casedev/types/skill_update_response.py">SkillUpdateResponse</a></code>
 - <code title="delete /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills/skills.py">delete</a>(slug) -> <a href="./src/casedev/types/skill_delete_response.py">SkillDeleteResponse</a></code>
+- <code title="get /skills/{slug}/export">client.skills.<a href="./src/casedev/resources/skills/skills.py">export</a>(slug, \*\*<a href="src/casedev/types/skill_export_params.py">params</a>) -> <a href="./src/casedev/types/skill_export_response.py">SkillExportResponse</a></code>
 - <code title="get /skills/{slug}">client.skills.<a href="./src/casedev/resources/skills/skills.py">read</a>(slug) -> <a href="./src/casedev/types/skill_read_response.py">SkillReadResponse</a></code>
 - <code title="get /skills/resolve">client.skills.<a href="./src/casedev/resources/skills/skills.py">resolve</a>(\*\*<a href="src/casedev/types/skill_resolve_params.py">params</a>) -> <a href="./src/casedev/types/skill_resolve_response.py">SkillResolveResponse</a></code>
 
