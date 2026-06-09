@@ -16,14 +16,6 @@ from .run import (
     RunResourceWithStreamingResponse,
     AsyncRunResourceWithStreamingResponse,
 )
-from .chat import (
-    ChatResource,
-    AsyncChatResource,
-    ChatResourceWithRawResponse,
-    AsyncChatResourceWithRawResponse,
-    ChatResourceWithStreamingResponse,
-    AsyncChatResourceWithStreamingResponse,
-)
 from .agents import (
     AgentsResource,
     AsyncAgentsResource,
@@ -60,12 +52,6 @@ __all__ = [
     "AsyncExecuteResourceWithRawResponse",
     "ExecuteResourceWithStreamingResponse",
     "AsyncExecuteResourceWithStreamingResponse",
-    "ChatResource",
-    "AsyncChatResource",
-    "ChatResourceWithRawResponse",
-    "AsyncChatResourceWithRawResponse",
-    "ChatResourceWithStreamingResponse",
-    "AsyncChatResourceWithStreamingResponse",
     "V1Resource",
     "AsyncV1Resource",
     "V1ResourceWithRawResponse",

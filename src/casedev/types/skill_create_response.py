@@ -9,6 +9,8 @@ __all__ = ["SkillCreateResponse"]
 
 
 class SkillCreateResponse(BaseModel):
+    bundle: Optional[object] = None
+
     content: Optional[str] = None
 
     created_at: Optional[datetime] = None

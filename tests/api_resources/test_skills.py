@@ -13,6 +13,7 @@ from casedev.types import (
     SkillReadResponse,
     SkillCreateResponse,
     SkillDeleteResponse,
+    SkillExportResponse,
     SkillUpdateResponse,
     SkillResolveResponse,
 )
@@ -36,6 +37,17 @@ class TestSkills:
         skill = client.skills.create(
             content="x",
             name="x",
+            files=[
+                {
+                    "content": "content",
+                    "path": "path",
+                    "content_type": "contentType",
+                    "metadata": {},
+                    "name": "name",
+                    "summary": "summary",
+                    "tags": ["string"],
+                }
+            ],
             metadata={},
             slug="slug",
             summary="summary",
@@ -81,6 +93,17 @@ class TestSkills:
         skill = client.skills.update(
             path_slug="slug",
             content="content",
+            files=[
+                {
+                    "content": "content",
+                    "path": "path",
+                    "content_type": "contentType",
+                    "metadata": {},
+                    "name": "name",
+                    "summary": "summary",
+                    "tags": ["string"],
+                }
+            ],
             metadata={},
             name="name",
             body_slug="slug",
@@ -156,6 +179,52 @@ class TestSkills:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `slug` but received ''"):
             client.skills.with_raw_response.delete(
                 "",
+            )
+
+    @parametrize
+    def test_method_export(self, client: Casedev) -> None:
+        skill = client.skills.export(
+            slug="slug",
+        )
+        assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+    @parametrize
+    def test_method_export_with_all_params(self, client: Casedev) -> None:
+        skill = client.skills.export(
+            slug="slug",
+            target="target",
+        )
+        assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+    @parametrize
+    def test_raw_response_export(self, client: Casedev) -> None:
+        response = client.skills.with_raw_response.export(
+            slug="slug",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        skill = response.parse()
+        assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+    @parametrize
+    def test_streaming_response_export(self, client: Casedev) -> None:
+        with client.skills.with_streaming_response.export(
+            slug="slug",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            skill = response.parse()
+            assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_export(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `slug` but received ''"):
+            client.skills.with_raw_response.export(
+                slug="",
             )
 
     @parametrize
@@ -254,6 +323,17 @@ class TestAsyncSkills:
         skill = await async_client.skills.create(
             content="x",
             name="x",
+            files=[
+                {
+                    "content": "content",
+                    "path": "path",
+                    "content_type": "contentType",
+                    "metadata": {},
+                    "name": "name",
+                    "summary": "summary",
+                    "tags": ["string"],
+                }
+            ],
             metadata={},
             slug="slug",
             summary="summary",
@@ -299,6 +379,17 @@ class TestAsyncSkills:
         skill = await async_client.skills.update(
             path_slug="slug",
             content="content",
+            files=[
+                {
+                    "content": "content",
+                    "path": "path",
+                    "content_type": "contentType",
+                    "metadata": {},
+                    "name": "name",
+                    "summary": "summary",
+                    "tags": ["string"],
+                }
+            ],
             metadata={},
             name="name",
             body_slug="slug",
@@ -374,6 +465,52 @@ class TestAsyncSkills:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `slug` but received ''"):
             await async_client.skills.with_raw_response.delete(
                 "",
+            )
+
+    @parametrize
+    async def test_method_export(self, async_client: AsyncCasedev) -> None:
+        skill = await async_client.skills.export(
+            slug="slug",
+        )
+        assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+    @parametrize
+    async def test_method_export_with_all_params(self, async_client: AsyncCasedev) -> None:
+        skill = await async_client.skills.export(
+            slug="slug",
+            target="target",
+        )
+        assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+    @parametrize
+    async def test_raw_response_export(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.skills.with_raw_response.export(
+            slug="slug",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        skill = await response.parse()
+        assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_export(self, async_client: AsyncCasedev) -> None:
+        async with async_client.skills.with_streaming_response.export(
+            slug="slug",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            skill = await response.parse()
+            assert_matches_type(SkillExportResponse, skill, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_export(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `slug` but received ''"):
+            await async_client.skills.with_raw_response.export(
+                slug="",
             )
 
     @parametrize

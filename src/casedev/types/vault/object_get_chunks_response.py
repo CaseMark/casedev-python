@@ -26,6 +26,18 @@ class Chunk(BaseModel):
     word_start_index: Optional[int] = None
     """First OCR word index covered by the chunk, if available"""
 
+    end_ms: Optional[int] = None
+    """Source media timestamp for the last word in the chunk.
+
+    Present only for media-backed transcripts with real word timing.
+    """
+
+    start_ms: Optional[int] = None
+    """Source media timestamp for the first word in the chunk.
+
+    Present only for media-backed transcripts with real word timing.
+    """
+
 
 class ObjectGetChunksResponse(BaseModel):
     chunks: List[Chunk]

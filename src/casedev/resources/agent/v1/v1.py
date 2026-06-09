@@ -26,14 +26,6 @@ from .execute import (
     ExecuteResourceWithStreamingResponse,
     AsyncExecuteResourceWithStreamingResponse,
 )
-from .chat.chat import (
-    ChatResource,
-    AsyncChatResource,
-    ChatResourceWithRawResponse,
-    AsyncChatResourceWithRawResponse,
-    ChatResourceWithStreamingResponse,
-    AsyncChatResourceWithStreamingResponse,
-)
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 
@@ -61,13 +53,6 @@ class V1Resource(SyncAPIResource):
         Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
         """
         return ExecuteResource(self._client)
-
-    @cached_property
-    def chat(self) -> ChatResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return ChatResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
@@ -110,13 +95,6 @@ class AsyncV1Resource(AsyncAPIResource):
         Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
         """
         return AsyncExecuteResource(self._client)
-
-    @cached_property
-    def chat(self) -> AsyncChatResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return AsyncChatResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
@@ -163,13 +141,6 @@ class V1ResourceWithRawResponse:
         """
         return ExecuteResourceWithRawResponse(self._v1.execute)
 
-    @cached_property
-    def chat(self) -> ChatResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return ChatResourceWithRawResponse(self._v1.chat)
-
 
 class AsyncV1ResourceWithRawResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
@@ -195,13 +166,6 @@ class AsyncV1ResourceWithRawResponse:
         Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
         """
         return AsyncExecuteResourceWithRawResponse(self._v1.execute)
-
-    @cached_property
-    def chat(self) -> AsyncChatResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return AsyncChatResourceWithRawResponse(self._v1.chat)
 
 
 class V1ResourceWithStreamingResponse:
@@ -229,13 +193,6 @@ class V1ResourceWithStreamingResponse:
         """
         return ExecuteResourceWithStreamingResponse(self._v1.execute)
 
-    @cached_property
-    def chat(self) -> ChatResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return ChatResourceWithStreamingResponse(self._v1.chat)
-
 
 class AsyncV1ResourceWithStreamingResponse:
     def __init__(self, v1: AsyncV1Resource) -> None:
@@ -261,10 +218,3 @@ class AsyncV1ResourceWithStreamingResponse:
         Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
         """
         return AsyncExecuteResourceWithStreamingResponse(self._v1.execute)
-
-    @cached_property
-    def chat(self) -> AsyncChatResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
-        return AsyncChatResourceWithStreamingResponse(self._v1.chat)
