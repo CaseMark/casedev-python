@@ -391,6 +391,7 @@ class VaultResource(SyncAPIResource):
         id: str,
         size_bytes: int,
         success: Literal[True],
+        auto_ingest: bool | Omit = omit,
         etag: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -409,6 +410,11 @@ class VaultResource(SyncAPIResource):
           size_bytes: Uploaded file size in bytes
 
           success: Whether the upload succeeded
+
+          auto_ingest: When true and the object was uploaded with auto_index, trigger ingestion
+              immediately after a successful confirmation (no separate ingest call needed).
+              The ingest outcome is reported in the `ingest` response field; an ingest failure
+              does not fail the confirmation.
 
           etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
 
@@ -469,6 +475,7 @@ class VaultResource(SyncAPIResource):
         id: str,
         size_bytes: int | Omit = omit,
         success: Literal[True] | Literal[False],
+        auto_ingest: bool | Omit = omit,
         etag: str | Omit = omit,
         error_code: str | Omit = omit,
         error_message: str | Omit = omit,
@@ -489,6 +496,7 @@ class VaultResource(SyncAPIResource):
                 {
                     "size_bytes": size_bytes,
                     "success": success,
+                    "auto_ingest": auto_ingest,
                     "etag": etag,
                     "error_code": error_code,
                     "error_message": error_message,
@@ -515,13 +523,13 @@ class VaultResource(SyncAPIResource):
     ) -> VaultIngestResponse:
         """
         Triggers ingestion workflow for a vault object to extract text, generate chunks,
-        and create embeddings. For supported file types (PDF, DOCX, PPTX, TXT, RTF, XML,
-        HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files, ZIP, audio,
-        video), processing happens asynchronously. ZIP archives are unpacked recursively
-        up to 5 levels, and each extracted file is created as an independent vault
-        object and ingested via the normal pipeline. For unsupported types (images,
-        etc.), the file is marked as completed immediately without text extraction.
-        GraphRAG indexing must be triggered separately via POST
+        and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
+        RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
+        ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
+        recursively up to 5 levels, and each extracted file is created as an independent
+        vault object and ingested via the normal pipeline. For unsupported types
+        (images, etc.), the file is marked as completed immediately without text
+        extraction. GraphRAG indexing must be triggered separately via POST
         /vault/:id/graphrag/:objectId.
 
         Args:
@@ -611,6 +619,7 @@ class VaultResource(SyncAPIResource):
         content_type: str,
         filename: str,
         auto_index: bool | Omit = omit,
+        is_ai_generated: bool | Omit = omit,
         metadata: object | Omit = omit,
         path: str | Omit = omit,
         size_bytes: int | Omit = omit,
@@ -632,6 +641,10 @@ class VaultResource(SyncAPIResource):
           filename: Name of the file to upload
 
           auto_index: Whether to automatically process and index the file for search
+
+          is_ai_generated: Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
+              than a user-provided source document. Persisted on the object and returned by
+              object listings so clients can distinguish provenance.
 
           metadata: Additional metadata to associate with the file
 
@@ -659,6 +672,7 @@ class VaultResource(SyncAPIResource):
                     "content_type": content_type,
                     "filename": filename,
                     "auto_index": auto_index,
+                    "is_ai_generated": is_ai_generated,
                     "metadata": metadata,
                     "path": path,
                     "size_bytes": size_bytes,
@@ -976,6 +990,7 @@ class AsyncVaultResource(AsyncAPIResource):
         id: str,
         size_bytes: int,
         success: Literal[True],
+        auto_ingest: bool | Omit = omit,
         etag: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -994,6 +1009,11 @@ class AsyncVaultResource(AsyncAPIResource):
           size_bytes: Uploaded file size in bytes
 
           success: Whether the upload succeeded
+
+          auto_ingest: When true and the object was uploaded with auto_index, trigger ingestion
+              immediately after a successful confirmation (no separate ingest call needed).
+              The ingest outcome is reported in the `ingest` response field; an ingest failure
+              does not fail the confirmation.
 
           etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
 
@@ -1054,6 +1074,7 @@ class AsyncVaultResource(AsyncAPIResource):
         id: str,
         size_bytes: int | Omit = omit,
         success: Literal[True] | Literal[False],
+        auto_ingest: bool | Omit = omit,
         etag: str | Omit = omit,
         error_code: str | Omit = omit,
         error_message: str | Omit = omit,
@@ -1074,6 +1095,7 @@ class AsyncVaultResource(AsyncAPIResource):
                 {
                     "size_bytes": size_bytes,
                     "success": success,
+                    "auto_ingest": auto_ingest,
                     "etag": etag,
                     "error_code": error_code,
                     "error_message": error_message,
@@ -1100,13 +1122,13 @@ class AsyncVaultResource(AsyncAPIResource):
     ) -> VaultIngestResponse:
         """
         Triggers ingestion workflow for a vault object to extract text, generate chunks,
-        and create embeddings. For supported file types (PDF, DOCX, PPTX, TXT, RTF, XML,
-        HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files, ZIP, audio,
-        video), processing happens asynchronously. ZIP archives are unpacked recursively
-        up to 5 levels, and each extracted file is created as an independent vault
-        object and ingested via the normal pipeline. For unsupported types (images,
-        etc.), the file is marked as completed immediately without text extraction.
-        GraphRAG indexing must be triggered separately via POST
+        and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
+        RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
+        ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
+        recursively up to 5 levels, and each extracted file is created as an independent
+        vault object and ingested via the normal pipeline. For unsupported types
+        (images, etc.), the file is marked as completed immediately without text
+        extraction. GraphRAG indexing must be triggered separately via POST
         /vault/:id/graphrag/:objectId.
 
         Args:
@@ -1196,6 +1218,7 @@ class AsyncVaultResource(AsyncAPIResource):
         content_type: str,
         filename: str,
         auto_index: bool | Omit = omit,
+        is_ai_generated: bool | Omit = omit,
         metadata: object | Omit = omit,
         path: str | Omit = omit,
         size_bytes: int | Omit = omit,
@@ -1217,6 +1240,10 @@ class AsyncVaultResource(AsyncAPIResource):
           filename: Name of the file to upload
 
           auto_index: Whether to automatically process and index the file for search
+
+          is_ai_generated: Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
+              than a user-provided source document. Persisted on the object and returned by
+              object listings so clients can distinguish provenance.
 
           metadata: Additional metadata to associate with the file
 
@@ -1244,6 +1271,7 @@ class AsyncVaultResource(AsyncAPIResource):
                     "content_type": content_type,
                     "filename": filename,
                     "auto_index": auto_index,
+                    "is_ai_generated": is_ai_generated,
                     "metadata": metadata,
                     "path": path,
                     "size_bytes": size_bytes,

@@ -19,9 +19,7 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 class V1Resource(SyncAPIResource):
     @cached_property
     def inboxes(self) -> InboxesResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Managed inboxes for agent email workflows"""
         return InboxesResource(self._client)
 
     @cached_property
@@ -47,9 +45,7 @@ class V1Resource(SyncAPIResource):
 class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def inboxes(self) -> AsyncInboxesResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Managed inboxes for agent email workflows"""
         return AsyncInboxesResource(self._client)
 
     @cached_property
@@ -78,9 +74,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def inboxes(self) -> InboxesResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Managed inboxes for agent email workflows"""
         return InboxesResourceWithRawResponse(self._v1.inboxes)
 
 
@@ -90,9 +84,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def inboxes(self) -> AsyncInboxesResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Managed inboxes for agent email workflows"""
         return AsyncInboxesResourceWithRawResponse(self._v1.inboxes)
 
 
@@ -102,9 +94,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def inboxes(self) -> InboxesResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Managed inboxes for agent email workflows"""
         return InboxesResourceWithStreamingResponse(self._v1.inboxes)
 
 
@@ -114,7 +104,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def inboxes(self) -> AsyncInboxesResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Managed inboxes for agent email workflows"""
         return AsyncInboxesResourceWithStreamingResponse(self._v1.inboxes)

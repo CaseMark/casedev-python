@@ -10,6 +10,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .retrieve import (
+    RetrieveResource,
+    AsyncRetrieveResource,
+    RetrieveResourceWithRawResponse,
+    AsyncRetrieveResourceWithRawResponse,
+    RetrieveResourceWithStreamingResponse,
+    AsyncRetrieveResourceWithStreamingResponse,
+)
 from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
 
@@ -20,6 +28,10 @@ class TranscriptsResource(SyncAPIResource):
     @cached_property
     def search(self) -> SearchResource:
         return SearchResource(self._client)
+
+    @cached_property
+    def retrieve(self) -> RetrieveResource:
+        return RetrieveResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> TranscriptsResourceWithRawResponse:
@@ -45,6 +57,10 @@ class AsyncTranscriptsResource(AsyncAPIResource):
     @cached_property
     def search(self) -> AsyncSearchResource:
         return AsyncSearchResource(self._client)
+
+    @cached_property
+    def retrieve(self) -> AsyncRetrieveResource:
+        return AsyncRetrieveResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncTranscriptsResourceWithRawResponse:
@@ -74,6 +90,10 @@ class TranscriptsResourceWithRawResponse:
     def search(self) -> SearchResourceWithRawResponse:
         return SearchResourceWithRawResponse(self._transcripts.search)
 
+    @cached_property
+    def retrieve(self) -> RetrieveResourceWithRawResponse:
+        return RetrieveResourceWithRawResponse(self._transcripts.retrieve)
+
 
 class AsyncTranscriptsResourceWithRawResponse:
     def __init__(self, transcripts: AsyncTranscriptsResource) -> None:
@@ -82,6 +102,10 @@ class AsyncTranscriptsResourceWithRawResponse:
     @cached_property
     def search(self) -> AsyncSearchResourceWithRawResponse:
         return AsyncSearchResourceWithRawResponse(self._transcripts.search)
+
+    @cached_property
+    def retrieve(self) -> AsyncRetrieveResourceWithRawResponse:
+        return AsyncRetrieveResourceWithRawResponse(self._transcripts.retrieve)
 
 
 class TranscriptsResourceWithStreamingResponse:
@@ -92,6 +116,10 @@ class TranscriptsResourceWithStreamingResponse:
     def search(self) -> SearchResourceWithStreamingResponse:
         return SearchResourceWithStreamingResponse(self._transcripts.search)
 
+    @cached_property
+    def retrieve(self) -> RetrieveResourceWithStreamingResponse:
+        return RetrieveResourceWithStreamingResponse(self._transcripts.retrieve)
+
 
 class AsyncTranscriptsResourceWithStreamingResponse:
     def __init__(self, transcripts: AsyncTranscriptsResource) -> None:
@@ -100,3 +128,7 @@ class AsyncTranscriptsResourceWithStreamingResponse:
     @cached_property
     def search(self) -> AsyncSearchResourceWithStreamingResponse:
         return AsyncSearchResourceWithStreamingResponse(self._transcripts.search)
+
+    @cached_property
+    def retrieve(self) -> AsyncRetrieveResourceWithStreamingResponse:
+        return AsyncRetrieveResourceWithStreamingResponse(self._transcripts.retrieve)

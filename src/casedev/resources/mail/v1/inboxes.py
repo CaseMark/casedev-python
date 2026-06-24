@@ -21,9 +21,7 @@ __all__ = ["InboxesResource", "AsyncInboxesResource"]
 
 
 class InboxesResource(SyncAPIResource):
-    """
-    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-    """
+    """Managed inboxes for agent email workflows"""
 
     @cached_property
     def with_raw_response(self) -> InboxesResourceWithRawResponse:
@@ -461,9 +459,7 @@ class InboxesResource(SyncAPIResource):
 
 
 class AsyncInboxesResource(AsyncAPIResource):
-    """
-    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-    """
+    """Managed inboxes for agent email workflows"""
 
     @cached_property
     def with_raw_response(self) -> AsyncInboxesResourceWithRawResponse:

@@ -29,6 +29,9 @@ class VaultUploadResponse(BaseModel):
 
     instructions: Optional[Instructions] = None
 
+    is_ai_generated: Optional[bool] = None
+    """Whether the file is marked as AI-generated work product"""
+
     next_step: Optional[str] = None
     """Next API endpoint to call for processing"""
 

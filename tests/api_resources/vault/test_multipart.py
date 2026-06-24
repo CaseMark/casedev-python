@@ -9,7 +9,10 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.vault import MultipartGetPartURLsResponse
+from casedev.types.vault import (
+    MultipartInitResponse,
+    MultipartGetPartURLsResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -60,6 +63,80 @@ class TestMultipart:
             client.vault.multipart.with_raw_response.abort(
                 id="",
                 object_id="objectId",
+                upload_id="uploadId",
+            )
+
+    @parametrize
+    def test_method_complete(self, client: Casedev) -> None:
+        multipart = client.vault.multipart.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+        )
+        assert multipart is None
+
+    @parametrize
+    def test_raw_response_complete(self, client: Casedev) -> None:
+        response = client.vault.multipart.with_raw_response.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        multipart = response.parse()
+        assert multipart is None
+
+    @parametrize
+    def test_streaming_response_complete(self, client: Casedev) -> None:
+        with client.vault.multipart.with_streaming_response.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            multipart = response.parse()
+            assert multipart is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_complete(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.multipart.with_raw_response.complete(
+                id="",
+                object_id="objectId",
+                parts=[
+                    {
+                        "etag": "etag",
+                        "part_number": 1,
+                    }
+                ],
+                size_bytes=1,
                 upload_id="uploadId",
             )
 
@@ -133,6 +210,71 @@ class TestMultipart:
                 upload_id="uploadId",
             )
 
+    @parametrize
+    def test_method_init(self, client: Casedev) -> None:
+        multipart = client.vault.multipart.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+        )
+        assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+    @parametrize
+    def test_method_init_with_all_params(self, client: Casedev) -> None:
+        multipart = client.vault.multipart.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+            auto_index=True,
+            is_ai_generated=True,
+            metadata={},
+            part_size_bytes=5242880,
+            path="path",
+        )
+        assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+    @parametrize
+    def test_raw_response_init(self, client: Casedev) -> None:
+        response = client.vault.multipart.with_raw_response.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        multipart = response.parse()
+        assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+    @parametrize
+    def test_streaming_response_init(self, client: Casedev) -> None:
+        with client.vault.multipart.with_streaming_response.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            multipart = response.parse()
+            assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_init(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.multipart.with_raw_response.init(
+                id="",
+                content_type="contentType",
+                filename="filename",
+                size_bytes=1,
+            )
+
 
 class TestAsyncMultipart:
     parametrize = pytest.mark.parametrize(
@@ -182,6 +324,80 @@ class TestAsyncMultipart:
             await async_client.vault.multipart.with_raw_response.abort(
                 id="",
                 object_id="objectId",
+                upload_id="uploadId",
+            )
+
+    @parametrize
+    async def test_method_complete(self, async_client: AsyncCasedev) -> None:
+        multipart = await async_client.vault.multipart.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+        )
+        assert multipart is None
+
+    @parametrize
+    async def test_raw_response_complete(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.multipart.with_raw_response.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        multipart = await response.parse()
+        assert multipart is None
+
+    @parametrize
+    async def test_streaming_response_complete(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.multipart.with_streaming_response.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            multipart = await response.parse()
+            assert multipart is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_complete(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.multipart.with_raw_response.complete(
+                id="",
+                object_id="objectId",
+                parts=[
+                    {
+                        "etag": "etag",
+                        "part_number": 1,
+                    }
+                ],
+                size_bytes=1,
                 upload_id="uploadId",
             )
 
@@ -253,4 +469,69 @@ class TestAsyncMultipart:
                     }
                 ],
                 upload_id="uploadId",
+            )
+
+    @parametrize
+    async def test_method_init(self, async_client: AsyncCasedev) -> None:
+        multipart = await async_client.vault.multipart.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+        )
+        assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+    @parametrize
+    async def test_method_init_with_all_params(self, async_client: AsyncCasedev) -> None:
+        multipart = await async_client.vault.multipart.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+            auto_index=True,
+            is_ai_generated=True,
+            metadata={},
+            part_size_bytes=5242880,
+            path="path",
+        )
+        assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+    @parametrize
+    async def test_raw_response_init(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.multipart.with_raw_response.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        multipart = await response.parse()
+        assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_init(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.multipart.with_streaming_response.init(
+            id="id",
+            content_type="contentType",
+            filename="filename",
+            size_bytes=1,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            multipart = await response.parse()
+            assert_matches_type(MultipartInitResponse, multipart, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_init(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.multipart.with_raw_response.init(
+                id="",
+                content_type="contentType",
+                filename="filename",
+                size_bytes=1,
             )

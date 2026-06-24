@@ -19,12 +19,14 @@ from casedev._response import (
 )
 from casedev.types.vault import (
     ObjectListResponse,
+    ObjectAppendResponse,
     ObjectDeleteResponse,
     ObjectUpdateResponse,
     ObjectGetTextResponse,
     ObjectGetPagesResponse,
     ObjectRetrieveResponse,
     ObjectGetChunksResponse,
+    ObjectSummarizeResponse,
     ObjectGetOcrWordsResponse,
     ObjectGetSummarizeJobResponse,
     ObjectCreatePresignedURLResponse,
@@ -146,14 +148,22 @@ class TestObjects:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         object_ = client.vault.objects.list(
-            "id",
+            id="id",
+        )
+        assert_matches_type(ObjectListResponse, object_, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.list(
+            id="id",
+            include_unconfirmed=True,
         )
         assert_matches_type(ObjectListResponse, object_, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
         response = client.vault.objects.with_raw_response.list(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -164,7 +174,7 @@ class TestObjects:
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
         with client.vault.objects.with_streaming_response.list(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -178,7 +188,7 @@ class TestObjects:
     def test_path_params_list(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.objects.with_raw_response.list(
-                "",
+                id="",
             )
 
     @parametrize
@@ -236,6 +246,71 @@ class TestObjects:
             client.vault.objects.with_raw_response.delete(
                 object_id="",
                 id="id",
+            )
+
+    @parametrize
+    def test_method_append(self, client: Casedev) -> None:
+        object_ = client.vault.objects.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+        )
+        assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+    @parametrize
+    def test_method_append_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+            back_links=True,
+            back_links_text="backLinksText",
+            rewrite_links=True,
+        )
+        assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+    @parametrize
+    def test_raw_response_append(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+    @parametrize
+    def test_streaming_response_append(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_append(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.append(
+                object_id="objectId",
+                id="",
+                append_object_ids=["string"],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.append(
+                object_id="",
+                id="id",
+                append_object_ids=["string"],
             )
 
     @parametrize
@@ -647,6 +722,64 @@ class TestObjects:
                 id="id",
             )
 
+    @parametrize
+    def test_method_summarize(self, client: Casedev) -> None:
+        object_ = client.vault.objects.summarize(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_method_summarize_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.summarize(
+            object_id="objectId",
+            id="id",
+            output_format="PDF",
+            workflow_type="workflowType",
+        )
+        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_raw_response_summarize(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.summarize(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_streaming_response_summarize(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.summarize(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_summarize(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.summarize(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.summarize(
+                object_id="",
+                id="id",
+            )
+
 
 class TestAsyncObjects:
     parametrize = pytest.mark.parametrize(
@@ -763,14 +896,22 @@ class TestAsyncObjects:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         object_ = await async_client.vault.objects.list(
-            "id",
+            id="id",
+        )
+        assert_matches_type(ObjectListResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.list(
+            id="id",
+            include_unconfirmed=True,
         )
         assert_matches_type(ObjectListResponse, object_, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.objects.with_raw_response.list(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -781,7 +922,7 @@ class TestAsyncObjects:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.objects.with_streaming_response.list(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -795,7 +936,7 @@ class TestAsyncObjects:
     async def test_path_params_list(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.objects.with_raw_response.list(
-                "",
+                id="",
             )
 
     @parametrize
@@ -853,6 +994,71 @@ class TestAsyncObjects:
             await async_client.vault.objects.with_raw_response.delete(
                 object_id="",
                 id="id",
+            )
+
+    @parametrize
+    async def test_method_append(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+        )
+        assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_method_append_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+            back_links=True,
+            back_links_text="backLinksText",
+            rewrite_links=True,
+        )
+        assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_raw_response_append(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_append(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.append(
+            object_id="objectId",
+            id="id",
+            append_object_ids=["string"],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectAppendResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_append(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.append(
+                object_id="objectId",
+                id="",
+                append_object_ids=["string"],
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.append(
+                object_id="",
+                id="id",
+                append_object_ids=["string"],
             )
 
     @parametrize
@@ -1260,6 +1466,64 @@ class TestAsyncObjects:
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
             await async_client.vault.objects.with_raw_response.get_text(
+                object_id="",
+                id="id",
+            )
+
+    @parametrize
+    async def test_method_summarize(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.summarize(
+            object_id="objectId",
+            id="id",
+        )
+        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_method_summarize_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.summarize(
+            object_id="objectId",
+            id="id",
+            output_format="PDF",
+            workflow_type="workflowType",
+        )
+        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_raw_response_summarize(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.summarize(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_summarize(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.summarize(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_summarize(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.summarize(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.summarize(
                 object_id="",
                 id="id",
             )

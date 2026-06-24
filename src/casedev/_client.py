@@ -38,6 +38,7 @@ if TYPE_CHECKING:
     from .resources import (
         llm,
         ocr,
+        linc,
         mail,
         agent,
         legal,
@@ -57,10 +58,12 @@ if TYPE_CHECKING:
         webhooks,
         privilege,
         translate,
+        document_templates,
     )
     from .resources.system import SystemResource, AsyncSystemResource
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
+    from .resources.linc.linc import LincResource, AsyncLincResource
     from .resources.mail.mail import MailResource, AsyncMailResource
     from .resources.agent.agent import AgentResource, AsyncAgentResource
     from .resources.legal.legal import LegalResource, AsyncLegalResource
@@ -79,6 +82,10 @@ if TYPE_CHECKING:
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
     from .resources.translate.translate import TranslateResource, AsyncTranslateResource
+    from .resources.document_templates.document_templates import (
+        DocumentTemplatesResource,
+        AsyncDocumentTemplatesResource,
+    )
 
 __all__ = [
     "ENVIRONMENTS",
@@ -212,6 +219,12 @@ class Casedev(SyncAPIClient):
         return DatabaseResource(self)
 
     @cached_property
+    def document_templates(self) -> DocumentTemplatesResource:
+        from .resources.document_templates import DocumentTemplatesResource
+
+        return DocumentTemplatesResource(self)
+
+    @cached_property
     def format(self) -> FormatResource:
         from .resources.format import FormatResource
 
@@ -222,6 +235,12 @@ class Casedev(SyncAPIClient):
         from .resources.legal import LegalResource
 
         return LegalResource(self)
+
+    @cached_property
+    def linc(self) -> LincResource:
+        from .resources.linc import LincResource
+
+        return LincResource(self)
 
     @cached_property
     def matters(self) -> MattersResource:
@@ -545,6 +564,12 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncDatabaseResource(self)
 
     @cached_property
+    def document_templates(self) -> AsyncDocumentTemplatesResource:
+        from .resources.document_templates import AsyncDocumentTemplatesResource
+
+        return AsyncDocumentTemplatesResource(self)
+
+    @cached_property
     def format(self) -> AsyncFormatResource:
         from .resources.format import AsyncFormatResource
 
@@ -555,6 +580,12 @@ class AsyncCasedev(AsyncAPIClient):
         from .resources.legal import AsyncLegalResource
 
         return AsyncLegalResource(self)
+
+    @cached_property
+    def linc(self) -> AsyncLincResource:
+        from .resources.linc import AsyncLincResource
+
+        return AsyncLincResource(self)
 
     @cached_property
     def matters(self) -> AsyncMattersResource:
@@ -796,6 +827,12 @@ class CasedevWithRawResponse:
         return DatabaseResourceWithRawResponse(self._client.database)
 
     @cached_property
+    def document_templates(self) -> document_templates.DocumentTemplatesResourceWithRawResponse:
+        from .resources.document_templates import DocumentTemplatesResourceWithRawResponse
+
+        return DocumentTemplatesResourceWithRawResponse(self._client.document_templates)
+
+    @cached_property
     def format(self) -> format.FormatResourceWithRawResponse:
         from .resources.format import FormatResourceWithRawResponse
 
@@ -806,6 +843,12 @@ class CasedevWithRawResponse:
         from .resources.legal import LegalResourceWithRawResponse
 
         return LegalResourceWithRawResponse(self._client.legal)
+
+    @cached_property
+    def linc(self) -> linc.LincResourceWithRawResponse:
+        from .resources.linc import LincResourceWithRawResponse
+
+        return LincResourceWithRawResponse(self._client.linc)
 
     @cached_property
     def matters(self) -> matters.MattersResourceWithRawResponse:
@@ -933,6 +976,12 @@ class AsyncCasedevWithRawResponse:
         return AsyncDatabaseResourceWithRawResponse(self._client.database)
 
     @cached_property
+    def document_templates(self) -> document_templates.AsyncDocumentTemplatesResourceWithRawResponse:
+        from .resources.document_templates import AsyncDocumentTemplatesResourceWithRawResponse
+
+        return AsyncDocumentTemplatesResourceWithRawResponse(self._client.document_templates)
+
+    @cached_property
     def format(self) -> format.AsyncFormatResourceWithRawResponse:
         from .resources.format import AsyncFormatResourceWithRawResponse
 
@@ -943,6 +992,12 @@ class AsyncCasedevWithRawResponse:
         from .resources.legal import AsyncLegalResourceWithRawResponse
 
         return AsyncLegalResourceWithRawResponse(self._client.legal)
+
+    @cached_property
+    def linc(self) -> linc.AsyncLincResourceWithRawResponse:
+        from .resources.linc import AsyncLincResourceWithRawResponse
+
+        return AsyncLincResourceWithRawResponse(self._client.linc)
 
     @cached_property
     def matters(self) -> matters.AsyncMattersResourceWithRawResponse:
@@ -1070,6 +1125,12 @@ class CasedevWithStreamedResponse:
         return DatabaseResourceWithStreamingResponse(self._client.database)
 
     @cached_property
+    def document_templates(self) -> document_templates.DocumentTemplatesResourceWithStreamingResponse:
+        from .resources.document_templates import DocumentTemplatesResourceWithStreamingResponse
+
+        return DocumentTemplatesResourceWithStreamingResponse(self._client.document_templates)
+
+    @cached_property
     def format(self) -> format.FormatResourceWithStreamingResponse:
         from .resources.format import FormatResourceWithStreamingResponse
 
@@ -1080,6 +1141,12 @@ class CasedevWithStreamedResponse:
         from .resources.legal import LegalResourceWithStreamingResponse
 
         return LegalResourceWithStreamingResponse(self._client.legal)
+
+    @cached_property
+    def linc(self) -> linc.LincResourceWithStreamingResponse:
+        from .resources.linc import LincResourceWithStreamingResponse
+
+        return LincResourceWithStreamingResponse(self._client.linc)
 
     @cached_property
     def matters(self) -> matters.MattersResourceWithStreamingResponse:
@@ -1207,6 +1274,12 @@ class AsyncCasedevWithStreamedResponse:
         return AsyncDatabaseResourceWithStreamingResponse(self._client.database)
 
     @cached_property
+    def document_templates(self) -> document_templates.AsyncDocumentTemplatesResourceWithStreamingResponse:
+        from .resources.document_templates import AsyncDocumentTemplatesResourceWithStreamingResponse
+
+        return AsyncDocumentTemplatesResourceWithStreamingResponse(self._client.document_templates)
+
+    @cached_property
     def format(self) -> format.AsyncFormatResourceWithStreamingResponse:
         from .resources.format import AsyncFormatResourceWithStreamingResponse
 
@@ -1217,6 +1290,12 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.legal import AsyncLegalResourceWithStreamingResponse
 
         return AsyncLegalResourceWithStreamingResponse(self._client.legal)
+
+    @cached_property
+    def linc(self) -> linc.AsyncLincResourceWithStreamingResponse:
+        from .resources.linc import AsyncLincResourceWithStreamingResponse
+
+        return AsyncLincResourceWithStreamingResponse(self._client.linc)
 
     @cached_property
     def matters(self) -> matters.AsyncMattersResourceWithStreamingResponse:

@@ -15,6 +15,18 @@ class V1RetrieveParams(TypedDict, total=False):
     granularity: Literal["summary", "daily"]
     """Whether to return period totals only or include daily buckets."""
 
+    group_by: Annotated[Literal["lincSessionId"], PropertyInfo(alias="groupBy")]
+    """Optionally include usage groups keyed by native Linc session id.
+
+    Only Linc-session-attributable usage is grouped.
+    """
+
+    linc_session_id: Annotated[str, PropertyInfo(alias="lincSessionId")]
+    """Restrict usage to a native Linc session.
+
+    The session must belong to the authenticated organization.
+    """
+
     period_end: Annotated[Union[str, datetime], PropertyInfo(alias="periodEnd", format="iso8601")]
     """Period end date. Defaults to now."""
 

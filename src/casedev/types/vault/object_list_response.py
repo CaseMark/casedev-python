@@ -41,6 +41,9 @@ class Object(BaseModel):
     ingestion_workflow_id: Optional[str] = FieldInfo(alias="ingestionWorkflowId", default=None)
     """Durable workflow run ID for the active or last ingestion attempt"""
 
+    is_ai_generated: Optional[bool] = None
+    """Whether the file was marked as AI-generated work product at upload time"""
+
     metadata: Optional[object] = None
     """Custom metadata associated with the document"""
 

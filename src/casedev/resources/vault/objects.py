@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -26,20 +26,25 @@ from ..._response import (
     async_to_custom_streamed_response_wrapper,
 )
 from ...types.vault import (
+    object_list_params,
+    object_append_params,
     object_delete_params,
     object_update_params,
     object_get_pages_params,
+    object_summarize_params,
     object_get_chunks_params,
     object_get_ocr_words_params,
     object_create_presigned_url_params,
 )
 from ..._base_client import make_request_options
 from ...types.vault.object_list_response import ObjectListResponse
+from ...types.vault.object_append_response import ObjectAppendResponse
 from ...types.vault.object_delete_response import ObjectDeleteResponse
 from ...types.vault.object_update_response import ObjectUpdateResponse
 from ...types.vault.object_get_text_response import ObjectGetTextResponse
 from ...types.vault.object_retrieve_response import ObjectRetrieveResponse
 from ...types.vault.object_get_pages_response import ObjectGetPagesResponse
+from ...types.vault.object_summarize_response import ObjectSummarizeResponse
 from ...types.vault.object_get_chunks_response import ObjectGetChunksResponse
 from ...types.vault.object_get_ocr_words_response import ObjectGetOcrWordsResponse
 from ...types.vault.object_get_summarize_job_response import ObjectGetSummarizeJobResponse
@@ -169,6 +174,7 @@ class ObjectsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        include_unconfirmed: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,6 +187,9 @@ class ObjectsResource(SyncAPIResource):
         ingestion status, and processing statistics.
 
         Args:
+          include_unconfirmed: Include placeholders for uploads that were never completed (awaiting_upload) or
+              were cancelled (aborted). Excluded by default.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -194,7 +203,13 @@ class ObjectsResource(SyncAPIResource):
         return self._get(
             path_template("/vault/{id}/objects", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"include_unconfirmed": include_unconfirmed}, object_list_params.ObjectListParams
+                ),
             ),
             cast_to=ObjectListResponse,
         )
@@ -242,6 +257,71 @@ class ObjectsResource(SyncAPIResource):
                 query=maybe_transform({"force": force}, object_delete_params.ObjectDeleteParams),
             ),
             cast_to=ObjectDeleteResponse,
+        )
+
+    def append(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        append_object_ids: SequenceNotStr[str],
+        back_links: bool | Omit = omit,
+        back_links_text: str | Omit = omit,
+        rewrite_links: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectAppendResponse:
+        """
+        Merges one or more PDF vault objects onto the end of an existing PDF vault
+        object, overwriting the target in place before returning. Optionally rewrites
+        citation links in the original target into internal PDF jumps and adds back
+        links on appended pages. The target object’s ingestion state is not affected;
+        appended pages are not searchable.
+
+        Args:
+          append_object_ids: Vault object IDs whose pages will be appended onto the target object, in order.
+              Must not include the target object itself.
+
+          back_links: Adds back links on appended pages
+
+          back_links_text: Label text for the back link. Used only when backLinks is true and rendered
+              centered at the bottom of each appended page.
+
+          rewrite_links: When true, rewrites links in the target object to internal PDF jumps when the
+              URL contains exactly one appended object ID as a standalone query parameter
+              value or decoded path segment.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return self._post(
+            path_template("/vault/{id}/objects/{object_id}/append", id=id, object_id=object_id),
+            body=maybe_transform(
+                {
+                    "append_object_ids": append_object_ids,
+                    "back_links": back_links,
+                    "back_links_text": back_links_text,
+                    "rewrite_links": rewrite_links,
+                },
+                object_append_params.ObjectAppendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ObjectAppendResponse,
         )
 
     def create_presigned_url(
@@ -609,6 +689,57 @@ class ObjectsResource(SyncAPIResource):
             cast_to=ObjectGetTextResponse,
         )
 
+    def summarize(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        output_format: Literal["PDF", "WORD"] | Omit = omit,
+        workflow_type: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectSummarizeResponse:
+        """
+        Triggers a CaseMark AI workflow to summarize or analyze a document stored in the
+        vault. The workflow processes the document asynchronously and stores the result
+        as a new object in the same vault, linked to the original document.
+
+        Args:
+          output_format: Output format for the summary document
+
+          workflow_type: Type of CaseMark workflow to run
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return self._post(
+            path_template("/vault/{id}/objects/{object_id}/summarize", id=id, object_id=object_id),
+            body=maybe_transform(
+                {
+                    "output_format": output_format,
+                    "workflow_type": workflow_type,
+                },
+                object_summarize_params.ObjectSummarizeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ObjectSummarizeResponse,
+        )
+
 
 class AsyncObjectsResource(AsyncAPIResource):
     """Secure document storage with semantic search and GraphRAG"""
@@ -731,6 +862,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        include_unconfirmed: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -743,6 +875,9 @@ class AsyncObjectsResource(AsyncAPIResource):
         ingestion status, and processing statistics.
 
         Args:
+          include_unconfirmed: Include placeholders for uploads that were never completed (awaiting_upload) or
+              were cancelled (aborted). Excluded by default.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -756,7 +891,13 @@ class AsyncObjectsResource(AsyncAPIResource):
         return await self._get(
             path_template("/vault/{id}/objects", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"include_unconfirmed": include_unconfirmed}, object_list_params.ObjectListParams
+                ),
             ),
             cast_to=ObjectListResponse,
         )
@@ -804,6 +945,71 @@ class AsyncObjectsResource(AsyncAPIResource):
                 query=await async_maybe_transform({"force": force}, object_delete_params.ObjectDeleteParams),
             ),
             cast_to=ObjectDeleteResponse,
+        )
+
+    async def append(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        append_object_ids: SequenceNotStr[str],
+        back_links: bool | Omit = omit,
+        back_links_text: str | Omit = omit,
+        rewrite_links: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectAppendResponse:
+        """
+        Merges one or more PDF vault objects onto the end of an existing PDF vault
+        object, overwriting the target in place before returning. Optionally rewrites
+        citation links in the original target into internal PDF jumps and adds back
+        links on appended pages. The target object’s ingestion state is not affected;
+        appended pages are not searchable.
+
+        Args:
+          append_object_ids: Vault object IDs whose pages will be appended onto the target object, in order.
+              Must not include the target object itself.
+
+          back_links: Adds back links on appended pages
+
+          back_links_text: Label text for the back link. Used only when backLinks is true and rendered
+              centered at the bottom of each appended page.
+
+          rewrite_links: When true, rewrites links in the target object to internal PDF jumps when the
+              URL contains exactly one appended object ID as a standalone query parameter
+              value or decoded path segment.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return await self._post(
+            path_template("/vault/{id}/objects/{object_id}/append", id=id, object_id=object_id),
+            body=await async_maybe_transform(
+                {
+                    "append_object_ids": append_object_ids,
+                    "back_links": back_links,
+                    "back_links_text": back_links_text,
+                    "rewrite_links": rewrite_links,
+                },
+                object_append_params.ObjectAppendParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ObjectAppendResponse,
         )
 
     async def create_presigned_url(
@@ -1171,6 +1377,57 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=ObjectGetTextResponse,
         )
 
+    async def summarize(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        output_format: Literal["PDF", "WORD"] | Omit = omit,
+        workflow_type: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectSummarizeResponse:
+        """
+        Triggers a CaseMark AI workflow to summarize or analyze a document stored in the
+        vault. The workflow processes the document asynchronously and stores the result
+        as a new object in the same vault, linked to the original document.
+
+        Args:
+          output_format: Output format for the summary document
+
+          workflow_type: Type of CaseMark workflow to run
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        return await self._post(
+            path_template("/vault/{id}/objects/{object_id}/summarize", id=id, object_id=object_id),
+            body=await async_maybe_transform(
+                {
+                    "output_format": output_format,
+                    "workflow_type": workflow_type,
+                },
+                object_summarize_params.ObjectSummarizeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ObjectSummarizeResponse,
+        )
+
 
 class ObjectsResourceWithRawResponse:
     def __init__(self, objects: ObjectsResource) -> None:
@@ -1187,6 +1444,9 @@ class ObjectsResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             objects.delete,
+        )
+        self.append = to_raw_response_wrapper(
+            objects.append,
         )
         self.create_presigned_url = to_raw_response_wrapper(
             objects.create_presigned_url,
@@ -1210,6 +1470,9 @@ class ObjectsResourceWithRawResponse:
         self.get_text = to_raw_response_wrapper(
             objects.get_text,
         )
+        self.summarize = to_raw_response_wrapper(
+            objects.summarize,
+        )
 
 
 class AsyncObjectsResourceWithRawResponse:
@@ -1227,6 +1490,9 @@ class AsyncObjectsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             objects.delete,
+        )
+        self.append = async_to_raw_response_wrapper(
+            objects.append,
         )
         self.create_presigned_url = async_to_raw_response_wrapper(
             objects.create_presigned_url,
@@ -1250,6 +1516,9 @@ class AsyncObjectsResourceWithRawResponse:
         self.get_text = async_to_raw_response_wrapper(
             objects.get_text,
         )
+        self.summarize = async_to_raw_response_wrapper(
+            objects.summarize,
+        )
 
 
 class ObjectsResourceWithStreamingResponse:
@@ -1267,6 +1536,9 @@ class ObjectsResourceWithStreamingResponse:
         )
         self.delete = to_streamed_response_wrapper(
             objects.delete,
+        )
+        self.append = to_streamed_response_wrapper(
+            objects.append,
         )
         self.create_presigned_url = to_streamed_response_wrapper(
             objects.create_presigned_url,
@@ -1290,6 +1562,9 @@ class ObjectsResourceWithStreamingResponse:
         self.get_text = to_streamed_response_wrapper(
             objects.get_text,
         )
+        self.summarize = to_streamed_response_wrapper(
+            objects.summarize,
+        )
 
 
 class AsyncObjectsResourceWithStreamingResponse:
@@ -1307,6 +1582,9 @@ class AsyncObjectsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             objects.delete,
+        )
+        self.append = async_to_streamed_response_wrapper(
+            objects.append,
         )
         self.create_presigned_url = async_to_streamed_response_wrapper(
             objects.create_presigned_url,
@@ -1329,4 +1607,7 @@ class AsyncObjectsResourceWithStreamingResponse:
         )
         self.get_text = async_to_streamed_response_wrapper(
             objects.get_text,
+        )
+        self.summarize = async_to_streamed_response_wrapper(
+            objects.summarize,
         )

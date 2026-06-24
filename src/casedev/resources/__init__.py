@@ -16,6 +16,14 @@ from .ocr import (
     OcrResourceWithStreamingResponse,
     AsyncOcrResourceWithStreamingResponse,
 )
+from .linc import (
+    LincResource,
+    AsyncLincResource,
+    LincResourceWithRawResponse,
+    AsyncLincResourceWithRawResponse,
+    LincResourceWithStreamingResponse,
+    AsyncLincResourceWithStreamingResponse,
+)
 from .mail import (
     MailResource,
     AsyncMailResource,
@@ -168,6 +176,14 @@ from .translate import (
     TranslateResourceWithStreamingResponse,
     AsyncTranslateResourceWithStreamingResponse,
 )
+from .document_templates import (
+    DocumentTemplatesResource,
+    AsyncDocumentTemplatesResource,
+    DocumentTemplatesResourceWithRawResponse,
+    AsyncDocumentTemplatesResourceWithRawResponse,
+    DocumentTemplatesResourceWithStreamingResponse,
+    AsyncDocumentTemplatesResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AgentResource",
@@ -194,6 +210,12 @@ __all__ = [
     "AsyncDatabaseResourceWithRawResponse",
     "DatabaseResourceWithStreamingResponse",
     "AsyncDatabaseResourceWithStreamingResponse",
+    "DocumentTemplatesResource",
+    "AsyncDocumentTemplatesResource",
+    "DocumentTemplatesResourceWithRawResponse",
+    "AsyncDocumentTemplatesResourceWithRawResponse",
+    "DocumentTemplatesResourceWithStreamingResponse",
+    "AsyncDocumentTemplatesResourceWithStreamingResponse",
     "FormatResource",
     "AsyncFormatResource",
     "FormatResourceWithRawResponse",
@@ -206,6 +228,12 @@ __all__ = [
     "AsyncLegalResourceWithRawResponse",
     "LegalResourceWithStreamingResponse",
     "AsyncLegalResourceWithStreamingResponse",
+    "LincResource",
+    "AsyncLincResource",
+    "LincResourceWithRawResponse",
+    "AsyncLincResourceWithRawResponse",
+    "LincResourceWithStreamingResponse",
+    "AsyncLincResourceWithStreamingResponse",
     "MattersResource",
     "AsyncMattersResource",
     "MattersResourceWithRawResponse",

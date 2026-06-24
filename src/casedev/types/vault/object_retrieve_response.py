@@ -41,6 +41,9 @@ class ObjectRetrieveResponse(BaseModel):
     ingestion_error: Optional[str] = FieldInfo(alias="ingestionError", default=None)
     """Error details when ingestion fails"""
 
+    is_ai_generated: Optional[bool] = None
+    """Whether the file was marked as AI-generated work product at upload time"""
+
     metadata: Optional[object] = None
     """Additional metadata"""
 

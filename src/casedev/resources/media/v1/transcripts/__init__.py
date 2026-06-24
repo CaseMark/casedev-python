@@ -8,6 +8,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .retrieve import (
+    RetrieveResource,
+    AsyncRetrieveResource,
+    RetrieveResourceWithRawResponse,
+    AsyncRetrieveResourceWithRawResponse,
+    RetrieveResourceWithStreamingResponse,
+    AsyncRetrieveResourceWithStreamingResponse,
+)
 from .transcripts import (
     TranscriptsResource,
     AsyncTranscriptsResource,
@@ -24,6 +32,12 @@ __all__ = [
     "AsyncSearchResourceWithRawResponse",
     "SearchResourceWithStreamingResponse",
     "AsyncSearchResourceWithStreamingResponse",
+    "RetrieveResource",
+    "AsyncRetrieveResource",
+    "RetrieveResourceWithRawResponse",
+    "AsyncRetrieveResourceWithRawResponse",
+    "RetrieveResourceWithStreamingResponse",
+    "AsyncRetrieveResourceWithStreamingResponse",
     "TranscriptsResource",
     "AsyncTranscriptsResource",
     "TranscriptsResourceWithRawResponse",

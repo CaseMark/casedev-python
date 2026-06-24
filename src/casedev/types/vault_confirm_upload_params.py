@@ -19,6 +19,14 @@ class VaultConfirmUploadSuccess(TypedDict, total=False):
     success: Required[Literal[True]]
     """Whether the upload succeeded"""
 
+    auto_ingest: Annotated[bool, PropertyInfo(alias="autoIngest")]
+    """
+    When true and the object was uploaded with auto_index, trigger ingestion
+    immediately after a successful confirmation (no separate ingest call needed).
+    The ingest outcome is reported in the `ingest` response field; an ingest failure
+    does not fail the confirmation.
+    """
+
     etag: str
     """S3 ETag for the uploaded object (optional if client cannot access ETag header)"""
 

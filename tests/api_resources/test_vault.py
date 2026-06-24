@@ -249,6 +249,7 @@ class TestVault:
             id="id",
             size_bytes=1,
             success=True,
+            auto_ingest=True,
             etag="etag",
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
@@ -481,6 +482,7 @@ class TestVault:
             content_type="contentType",
             filename="filename",
             auto_index=True,
+            is_ai_generated=True,
             metadata={},
             path="path",
             size_bytes=1,
@@ -752,6 +754,7 @@ class TestAsyncVault:
             id="id",
             size_bytes=1,
             success=True,
+            auto_ingest=True,
             etag="etag",
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
@@ -984,6 +987,7 @@ class TestAsyncVault:
             content_type="contentType",
             filename="filename",
             auto_index=True,
+            is_ai_generated=True,
             metadata={},
             path="path",
             size_bytes=1,
