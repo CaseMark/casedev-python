@@ -29,4 +29,4 @@ class V1RetrieveResponse(BaseModel):
     """Number of pages processed"""
 
     text: Optional[str] = None
-    """Extracted text content (when completed)"""
+    """Extracted text content when completed and include_text=true"""

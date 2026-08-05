@@ -54,7 +54,10 @@ class V1DocketParams(TypedDict, total=False):
     """
 
     offset: int
-    """Offset for search results or entry list"""
+    """
+    Offset for search results or entry list (maximum 200 when including lookup
+    entries)
+    """
 
     query: str
     """Case name or party name search query (required for search)"""

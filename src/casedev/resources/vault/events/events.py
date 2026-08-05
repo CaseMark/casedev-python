@@ -19,7 +19,7 @@ __all__ = ["EventsResource", "AsyncEventsResource"]
 class EventsResource(SyncAPIResource):
     @cached_property
     def subscriptions(self) -> SubscriptionsResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped event subscriptions and delivery testing"""
         return SubscriptionsResource(self._client)
 
     @cached_property
@@ -45,7 +45,7 @@ class EventsResource(SyncAPIResource):
 class AsyncEventsResource(AsyncAPIResource):
     @cached_property
     def subscriptions(self) -> AsyncSubscriptionsResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped event subscriptions and delivery testing"""
         return AsyncSubscriptionsResource(self._client)
 
     @cached_property
@@ -74,7 +74,7 @@ class EventsResourceWithRawResponse:
 
     @cached_property
     def subscriptions(self) -> SubscriptionsResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped event subscriptions and delivery testing"""
         return SubscriptionsResourceWithRawResponse(self._events.subscriptions)
 
 
@@ -84,7 +84,7 @@ class AsyncEventsResourceWithRawResponse:
 
     @cached_property
     def subscriptions(self) -> AsyncSubscriptionsResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped event subscriptions and delivery testing"""
         return AsyncSubscriptionsResourceWithRawResponse(self._events.subscriptions)
 
 
@@ -94,7 +94,7 @@ class EventsResourceWithStreamingResponse:
 
     @cached_property
     def subscriptions(self) -> SubscriptionsResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped event subscriptions and delivery testing"""
         return SubscriptionsResourceWithStreamingResponse(self._events.subscriptions)
 
 
@@ -104,5 +104,5 @@ class AsyncEventsResourceWithStreamingResponse:
 
     @cached_property
     def subscriptions(self) -> AsyncSubscriptionsResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped event subscriptions and delivery testing"""
         return AsyncSubscriptionsResourceWithStreamingResponse(self._events.subscriptions)

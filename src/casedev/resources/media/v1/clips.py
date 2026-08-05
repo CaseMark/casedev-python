@@ -20,6 +20,8 @@ __all__ = ["ClipsResource", "AsyncClipsResource"]
 
 
 class ClipsResource(SyncAPIResource):
+    """Transcript retrieval and captioned media clip generation"""
+
     @cached_property
     def with_raw_response(self) -> ClipsResourceWithRawResponse:
         """
@@ -95,6 +97,8 @@ class ClipsResource(SyncAPIResource):
 
 
 class AsyncClipsResource(AsyncAPIResource):
+    """Transcript retrieval and captioned media clip generation"""
+
     @cached_property
     def with_raw_response(self) -> AsyncClipsResourceWithRawResponse:
         """

@@ -27,6 +27,7 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 class V1Resource(SyncAPIResource):
     @cached_property
     def clips(self) -> ClipsResource:
+        """Transcript retrieval and captioned media clip generation"""
         return ClipsResource(self._client)
 
     @cached_property
@@ -56,6 +57,7 @@ class V1Resource(SyncAPIResource):
 class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def clips(self) -> AsyncClipsResource:
+        """Transcript retrieval and captioned media clip generation"""
         return AsyncClipsResource(self._client)
 
     @cached_property
@@ -88,6 +90,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def clips(self) -> ClipsResourceWithRawResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return ClipsResourceWithRawResponse(self._v1.clips)
 
     @cached_property
@@ -101,6 +104,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def clips(self) -> AsyncClipsResourceWithRawResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return AsyncClipsResourceWithRawResponse(self._v1.clips)
 
     @cached_property
@@ -114,6 +118,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def clips(self) -> ClipsResourceWithStreamingResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return ClipsResourceWithStreamingResponse(self._v1.clips)
 
     @cached_property
@@ -127,6 +132,7 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def clips(self) -> AsyncClipsResourceWithStreamingResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return AsyncClipsResourceWithStreamingResponse(self._v1.clips)
 
     @cached_property

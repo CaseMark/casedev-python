@@ -19,6 +19,8 @@ __all__ = ["SearchResource", "AsyncSearchResource"]
 
 
 class SearchResource(SyncAPIResource):
+    """Transcript retrieval and captioned media clip generation"""
+
     @cached_property
     def with_raw_response(self) -> SearchResourceWithRawResponse:
         """
@@ -60,6 +62,8 @@ class SearchResource(SyncAPIResource):
 
 
 class AsyncSearchResource(AsyncAPIResource):
+    """Transcript retrieval and captioned media clip generation"""
+
     @cached_property
     def with_raw_response(self) -> AsyncSearchResourceWithRawResponse:
         """

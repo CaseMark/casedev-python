@@ -25,6 +25,8 @@ class TestV1:
     def test_method_retrieve_with_all_params(self, client: Casedev) -> None:
         v1 = client.usage.v1.retrieve(
             granularity="summary",
+            group_by="lincSessionId",
+            linc_session_id="lincSessionId",
             period_end=parse_datetime("2019-12-27T18:11:19.117Z"),
             period_start=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
@@ -65,6 +67,8 @@ class TestAsyncV1:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.usage.v1.retrieve(
             granularity="summary",
+            group_by="lincSessionId",
+            linc_session_id="lincSessionId",
             period_end=parse_datetime("2019-12-27T18:11:19.117Z"),
             period_start=parse_datetime("2019-12-27T18:11:19.117Z"),
         )

@@ -252,7 +252,6 @@ class TestWorkItems:
             work_item_id="workItemId",
             id="id",
             decision="approve",
-            agent_type_id="agent_type_id",
             metadata={"foo": "bar"},
             reason="reason",
         )
@@ -300,54 +299,6 @@ class TestWorkItems:
                 work_item_id="",
                 id="id",
                 decision="approve",
-            )
-
-    @parametrize
-    def test_method_list_executions(self, client: Casedev) -> None:
-        work_item = client.matters.v1.work_items.list_executions(
-            work_item_id="workItemId",
-            id="id",
-        )
-        assert work_item is None
-
-    @parametrize
-    def test_raw_response_list_executions(self, client: Casedev) -> None:
-        response = client.matters.v1.work_items.with_raw_response.list_executions(
-            work_item_id="workItemId",
-            id="id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        work_item = response.parse()
-        assert work_item is None
-
-    @parametrize
-    def test_streaming_response_list_executions(self, client: Casedev) -> None:
-        with client.matters.v1.work_items.with_streaming_response.list_executions(
-            work_item_id="workItemId",
-            id="id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            work_item = response.parse()
-            assert work_item is None
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_list_executions(self, client: Casedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.matters.v1.work_items.with_raw_response.list_executions(
-                work_item_id="workItemId",
-                id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `work_item_id` but received ''"):
-            client.matters.v1.work_items.with_raw_response.list_executions(
-                work_item_id="",
-                id="id",
             )
 
 
@@ -592,7 +543,6 @@ class TestAsyncWorkItems:
             work_item_id="workItemId",
             id="id",
             decision="approve",
-            agent_type_id="agent_type_id",
             metadata={"foo": "bar"},
             reason="reason",
         )
@@ -640,52 +590,4 @@ class TestAsyncWorkItems:
                 work_item_id="",
                 id="id",
                 decision="approve",
-            )
-
-    @parametrize
-    async def test_method_list_executions(self, async_client: AsyncCasedev) -> None:
-        work_item = await async_client.matters.v1.work_items.list_executions(
-            work_item_id="workItemId",
-            id="id",
-        )
-        assert work_item is None
-
-    @parametrize
-    async def test_raw_response_list_executions(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.matters.v1.work_items.with_raw_response.list_executions(
-            work_item_id="workItemId",
-            id="id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        work_item = await response.parse()
-        assert work_item is None
-
-    @parametrize
-    async def test_streaming_response_list_executions(self, async_client: AsyncCasedev) -> None:
-        async with async_client.matters.v1.work_items.with_streaming_response.list_executions(
-            work_item_id="workItemId",
-            id="id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            work_item = await response.parse()
-            assert work_item is None
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_list_executions(self, async_client: AsyncCasedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.matters.v1.work_items.with_raw_response.list_executions(
-                work_item_id="workItemId",
-                id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `work_item_id` but received ''"):
-            await async_client.matters.v1.work_items.with_raw_response.list_executions(
-                work_item_id="",
-                id="id",
             )

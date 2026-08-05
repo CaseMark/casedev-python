@@ -19,6 +19,7 @@ __all__ = ["TranslateResource", "AsyncTranslateResource"]
 class TranslateResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
+        """Language detection and translation for multilingual legal workflows"""
         return V1Resource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class TranslateResource(SyncAPIResource):
 class AsyncTranslateResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
+        """Language detection and translation for multilingual legal workflows"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class TranslateResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
+        """Language detection and translation for multilingual legal workflows"""
         return V1ResourceWithRawResponse(self._translate.v1)
 
 
@@ -81,6 +84,7 @@ class AsyncTranslateResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
+        """Language detection and translation for multilingual legal workflows"""
         return AsyncV1ResourceWithRawResponse(self._translate.v1)
 
 
@@ -90,6 +94,7 @@ class TranslateResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
+        """Language detection and translation for multilingual legal workflows"""
         return V1ResourceWithStreamingResponse(self._translate.v1)
 
 
@@ -99,4 +104,5 @@ class AsyncTranslateResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
+        """Language detection and translation for multilingual legal workflows"""
         return AsyncV1ResourceWithStreamingResponse(self._translate.v1)

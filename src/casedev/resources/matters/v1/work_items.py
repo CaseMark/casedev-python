@@ -269,8 +269,7 @@ class WorkItemsResource(SyncAPIResource):
         work_item_id: str,
         *,
         id: str,
-        decision: Literal["approve", "revise", "block", "reassign"],
-        agent_type_id: Optional[str] | Omit = omit,
+        decision: Literal["approve", "block"],
         metadata: Dict[str, object] | Omit = omit,
         reason: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -280,10 +279,8 @@ class WorkItemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Approve, revise, block, or reassign a work item.
-
-        Used by humans or agents to
-        move work items through their lifecycle.
+        """
+        Approve or block a work item.
 
         Args:
           extra_headers: Send extra headers
@@ -304,49 +301,11 @@ class WorkItemsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "decision": decision,
-                    "agent_type_id": agent_type_id,
                     "metadata": metadata,
                     "reason": reason,
                 },
                 work_item_decide_params.WorkItemDecideParams,
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    def list_executions(
-        self,
-        work_item_id: str,
-        *,
-        id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List execution attempts for a work item, including agent and run linkage.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not work_item_id:
-            raise ValueError(f"Expected a non-empty value for `work_item_id` but received {work_item_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._get(
-            path_template("/matters/v1/{id}/work-items/{work_item_id}/executions", id=id, work_item_id=work_item_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -594,8 +553,7 @@ class AsyncWorkItemsResource(AsyncAPIResource):
         work_item_id: str,
         *,
         id: str,
-        decision: Literal["approve", "revise", "block", "reassign"],
-        agent_type_id: Optional[str] | Omit = omit,
+        decision: Literal["approve", "block"],
         metadata: Dict[str, object] | Omit = omit,
         reason: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -605,10 +563,8 @@ class AsyncWorkItemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Approve, revise, block, or reassign a work item.
-
-        Used by humans or agents to
-        move work items through their lifecycle.
+        """
+        Approve or block a work item.
 
         Args:
           extra_headers: Send extra headers
@@ -629,49 +585,11 @@ class AsyncWorkItemsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "decision": decision,
-                    "agent_type_id": agent_type_id,
                     "metadata": metadata,
                     "reason": reason,
                 },
                 work_item_decide_params.WorkItemDecideParams,
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=NoneType,
-        )
-
-    async def list_executions(
-        self,
-        work_item_id: str,
-        *,
-        id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List execution attempts for a work item, including agent and run linkage.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not work_item_id:
-            raise ValueError(f"Expected a non-empty value for `work_item_id` but received {work_item_id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._get(
-            path_template("/matters/v1/{id}/work-items/{work_item_id}/executions", id=id, work_item_id=work_item_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -698,9 +616,6 @@ class WorkItemsResourceWithRawResponse:
         self.decide = to_raw_response_wrapper(
             work_items.decide,
         )
-        self.list_executions = to_raw_response_wrapper(
-            work_items.list_executions,
-        )
 
 
 class AsyncWorkItemsResourceWithRawResponse:
@@ -721,9 +636,6 @@ class AsyncWorkItemsResourceWithRawResponse:
         )
         self.decide = async_to_raw_response_wrapper(
             work_items.decide,
-        )
-        self.list_executions = async_to_raw_response_wrapper(
-            work_items.list_executions,
         )
 
 
@@ -746,9 +658,6 @@ class WorkItemsResourceWithStreamingResponse:
         self.decide = to_streamed_response_wrapper(
             work_items.decide,
         )
-        self.list_executions = to_streamed_response_wrapper(
-            work_items.list_executions,
-        )
 
 
 class AsyncWorkItemsResourceWithStreamingResponse:
@@ -769,7 +678,4 @@ class AsyncWorkItemsResourceWithStreamingResponse:
         )
         self.decide = async_to_streamed_response_wrapper(
             work_items.decide,
-        )
-        self.list_executions = async_to_streamed_response_wrapper(
-            work_items.list_executions,
         )

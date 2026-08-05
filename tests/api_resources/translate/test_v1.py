@@ -5,10 +5,18 @@ from __future__ import annotations
 import os
 from typing import Any, cast
 
+import httpx
 import pytest
+from respx import MockRouter
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
+from casedev._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+)
 from casedev.types.translate import (
     V1DetectResponse,
     V1TranslateResponse,
@@ -130,6 +138,65 @@ class TestV1:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_translate_document(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        v1 = client.translate.v1.translate_document(
+            file=b"Example data",
+            target="es",
+        )
+        assert v1.is_closed
+        assert v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_translate_document_with_all_params(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        v1 = client.translate.v1.translate_document(
+            file=b"Example data",
+            target="es",
+            source="en",
+        )
+        assert v1.is_closed
+        assert v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_raw_response_translate_document(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        v1 = client.translate.v1.with_raw_response.translate_document(
+            file=b"Example data",
+            target="es",
+        )
+
+        assert v1.is_closed is True
+        assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert v1.json() == {"foo": "bar"}
+        assert isinstance(v1, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_streaming_response_translate_document(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        with client.translate.v1.with_streaming_response.translate_document(
+            file=b"Example data",
+            target="es",
+        ) as v1:
+            assert not v1.is_closed
+            assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            assert v1.json() == {"foo": "bar"}
+            assert cast(Any, v1.is_closed) is True
+            assert isinstance(v1, StreamedBinaryAPIResponse)
+
+        assert cast(Any, v1.is_closed) is True
+
 
 class TestAsyncV1:
     parametrize = pytest.mark.parametrize(
@@ -244,3 +311,66 @@ class TestAsyncV1:
             assert_matches_type(V1TranslateResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_translate_document(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        v1 = await async_client.translate.v1.translate_document(
+            file=b"Example data",
+            target="es",
+        )
+        assert v1.is_closed
+        assert await v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_translate_document_with_all_params(
+        self, async_client: AsyncCasedev, respx_mock: MockRouter
+    ) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        v1 = await async_client.translate.v1.translate_document(
+            file=b"Example data",
+            target="es",
+            source="en",
+        )
+        assert v1.is_closed
+        assert await v1.json() == {"foo": "bar"}
+        assert cast(Any, v1.is_closed) is True
+        assert isinstance(v1, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_raw_response_translate_document(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        v1 = await async_client.translate.v1.with_raw_response.translate_document(
+            file=b"Example data",
+            target="es",
+        )
+
+        assert v1.is_closed is True
+        assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert await v1.json() == {"foo": "bar"}
+        assert isinstance(v1, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_streaming_response_translate_document(
+        self, async_client: AsyncCasedev, respx_mock: MockRouter
+    ) -> None:
+        respx_mock.post("/translate/v1/document").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        async with async_client.translate.v1.with_streaming_response.translate_document(
+            file=b"Example data",
+            target="es",
+        ) as v1:
+            assert not v1.is_closed
+            assert v1.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            assert await v1.json() == {"foo": "bar"}
+            assert cast(Any, v1.is_closed) is True
+            assert isinstance(v1, AsyncStreamedBinaryAPIResponse)
+
+        assert cast(Any, v1.is_closed) is True

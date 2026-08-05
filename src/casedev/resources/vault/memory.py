@@ -27,7 +27,7 @@ __all__ = ["MemoryResource", "AsyncMemoryResource"]
 
 
 class MemoryResource(SyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Vault-scoped persistent memory and semantic retrieval"""
 
     @cached_property
     def with_raw_response(self) -> MemoryResourceWithRawResponse:
@@ -261,7 +261,7 @@ class MemoryResource(SyncAPIResource):
 
 
 class AsyncMemoryResource(AsyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Vault-scoped persistent memory and semantic retrieval"""
 
     @cached_property
     def with_raw_response(self) -> AsyncMemoryResourceWithRawResponse:

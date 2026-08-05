@@ -31,7 +31,11 @@ class VaultSearchParams(TypedDict, total=False):
     """
 
 
-class Filters(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
+class Filters(  # type: ignore[call-arg]
+    TypedDict,
+    total=False,
+    extra_items=object,  # pyright: ignore[reportGeneralTypeIssues]
+):
     """Filters to narrow search results to specific documents"""
 
     object_id: Union[str, SequenceNotStr[str]]

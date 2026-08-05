@@ -1,68 +1,62 @@
-# Agent
+# Connectors
 
 ## V1
 
-### Agents
+Types:
+
+```python
+from casedev.types.connectors import V1SyncLinkResponse, V1TransferResponse
+```
+
+Methods:
+
+- <code title="post /connectors/v1/sync-link">client.connectors.v1.<a href="./src/casedev/resources/connectors/v1/v1.py">sync_link</a>(\*\*<a href="src/casedev/types/connectors/v1_sync_link_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1_sync_link_response.py">V1SyncLinkResponse</a></code>
+- <code title="post /connectors/v1/transfer">client.connectors.v1.<a href="./src/casedev/resources/connectors/v1/v1.py">transfer</a>(\*\*<a href="src/casedev/types/connectors/v1_transfer_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1_transfer_response.py">V1TransferResponse</a></code>
+
+### Installations
+
+Methods:
+
+- <code title="get /connectors/v1/installations">client.connectors.v1.installations.<a href="./src/casedev/resources/connectors/v1/installations/installations.py">list</a>(\*\*<a href="src/casedev/types/connectors/v1/installation_list_params.py">params</a>) -> None</code>
+- <code title="post /connectors/v1/installations">client.connectors.v1.installations.<a href="./src/casedev/resources/connectors/v1/installations/installations.py">ensure</a>(\*\*<a href="src/casedev/types/connectors/v1/installation_ensure_params.py">params</a>) -> None</code>
+
+#### Vaults
+
+Methods:
+
+- <code title="get /connectors/v1/installations/{id}/vaults">client.connectors.v1.installations.vaults.<a href="./src/casedev/resources/connectors/v1/installations/vaults.py">list</a>(id) -> None</code>
+- <code title="put /connectors/v1/installations/{id}/vaults/{vaultId}">client.connectors.v1.installations.vaults.<a href="./src/casedev/resources/connectors/v1/installations/vaults.py">grant</a>(vault_id, \*, id, \*\*<a href="src/casedev/types/connectors/v1/installations/vault_grant_params.py">params</a>) -> None</code>
+- <code title="delete /connectors/v1/installations/{id}/vaults/{vaultId}">client.connectors.v1.installations.vaults.<a href="./src/casedev/resources/connectors/v1/installations/vaults.py">revoke</a>(vault_id, \*, id) -> None</code>
+
+### Connections
 
 Types:
 
 ```python
-from casedev.types.agent.v1 import (
-    AgentCreateResponse,
-    AgentRetrieveResponse,
-    AgentUpdateResponse,
-    AgentListResponse,
-    AgentDeleteResponse,
+from casedev.types.connectors.v1 import (
+    ConnectionCreateResponse,
+    ConnectionListResponse,
+    ConnectionBrowseResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /agent/v1/agents">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/agent_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/agent_create_response.py">AgentCreateResponse</a></code>
-- <code title="get /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">retrieve</a>(id) -> <a href="./src/casedev/types/agent/v1/agent_retrieve_response.py">AgentRetrieveResponse</a></code>
-- <code title="patch /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">update</a>(id, \*\*<a href="src/casedev/types/agent/v1/agent_update_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/agent_update_response.py">AgentUpdateResponse</a></code>
-- <code title="get /agent/v1/agents">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">list</a>(\*\*<a href="src/casedev/types/agent/v1/agent_list_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/agent_list_response.py">AgentListResponse</a></code>
-- <code title="delete /agent/v1/agents/{id}">client.agent.v1.agents.<a href="./src/casedev/resources/agent/v1/agents.py">delete</a>(id) -> <a href="./src/casedev/types/agent/v1/agent_delete_response.py">AgentDeleteResponse</a></code>
+- <code title="post /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">create</a>(\*\*<a href="src/casedev/types/connectors/v1/connection_create_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_create_response.py">ConnectionCreateResponse</a></code>
+- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">retrieve</a>(id) -> None</code>
+- <code title="get /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">list</a>(\*\*<a href="src/casedev/types/connectors/v1/connection_list_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_list_response.py">ConnectionListResponse</a></code>
+- <code title="delete /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">delete</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_delete_params.py">params</a>) -> None</code>
+- <code title="get /connectors/v1/connections/{id}/browse">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">browse</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_browse_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_browse_response.py">ConnectionBrowseResponse</a></code>
 
-### Run
-
-Types:
-
-```python
-from casedev.types.agent.v1 import (
-    RunCreateResponse,
-    RunListResponse,
-    RunCancelResponse,
-    RunEventsResponse,
-    RunExecResponse,
-    RunGetDetailsResponse,
-    RunGetStatusResponse,
-    RunWatchResponse,
-)
-```
+### Links
 
 Methods:
 
-- <code title="post /agent/v1/run">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/run_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_create_response.py">RunCreateResponse</a></code>
-- <code title="get /agent/v1/run">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">list</a>(\*\*<a href="src/casedev/types/agent/v1/run_list_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_list_response.py">RunListResponse</a></code>
-- <code title="post /agent/v1/run/{id}/cancel">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">cancel</a>(id) -> <a href="./src/casedev/types/agent/v1/run_cancel_response.py">RunCancelResponse</a></code>
-- <code title="get /agent/v1/run/{id}/events">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">events</a>(id, \*\*<a href="src/casedev/types/agent/v1/run_events_params.py">params</a>) -> str</code>
-- <code title="post /agent/v1/run/{id}/exec">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">exec</a>(id) -> <a href="./src/casedev/types/agent/v1/run_exec_response.py">RunExecResponse</a></code>
-- <code title="get /agent/v1/run/{id}/details">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_details</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_details_response.py">RunGetDetailsResponse</a></code>
-- <code title="get /agent/v1/run/{id}/status">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">get_status</a>(id) -> <a href="./src/casedev/types/agent/v1/run_get_status_response.py">RunGetStatusResponse</a></code>
-- <code title="post /agent/v1/run/{id}/watch">client.agent.v1.run.<a href="./src/casedev/resources/agent/v1/run.py">watch</a>(id, \*\*<a href="src/casedev/types/agent/v1/run_watch_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/run_watch_response.py">RunWatchResponse</a></code>
-
-### Execute
-
-Types:
-
-```python
-from casedev.types.agent.v1 import ExecuteCreateResponse
-```
-
-Methods:
-
-- <code title="post /agent/v1/execute">client.agent.v1.execute.<a href="./src/casedev/resources/agent/v1/execute.py">create</a>(\*\*<a href="src/casedev/types/agent/v1/execute_create_params.py">params</a>) -> <a href="./src/casedev/types/agent/v1/execute_create_response.py">ExecuteCreateResponse</a></code>
+- <code title="get /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">retrieve</a>(id) -> None</code>
+- <code title="patch /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">update</a>(id, \*\*<a href="src/casedev/types/connectors/v1/link_update_params.py">params</a>) -> None</code>
+- <code title="get /connectors/v1/links">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">list</a>(\*\*<a href="src/casedev/types/connectors/v1/link_list_params.py">params</a>) -> None</code>
+- <code title="delete /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">delete</a>(id, \*\*<a href="src/casedev/types/connectors/v1/link_delete_params.py">params</a>) -> None</code>
+- <code title="get /connectors/v1/links/{id}/objects">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">list_objects</a>(id, \*\*<a href="src/casedev/types/connectors/v1/link_list_objects_params.py">params</a>) -> None</code>
 
 # System
 
@@ -167,72 +161,6 @@ Methods:
 - <code title="get /compute/v1/secrets/{group}">client.compute.v1.secrets.<a href="./src/casedev/resources/compute/v1/secrets.py">retrieve_group</a>(group, \*\*<a href="src/casedev/types/compute/v1/secret_retrieve_group_params.py">params</a>) -> <a href="./src/casedev/types/compute/v1/secret_retrieve_group_response.py">SecretRetrieveGroupResponse</a></code>
 - <code title="put /compute/v1/secrets/{group}">client.compute.v1.secrets.<a href="./src/casedev/resources/compute/v1/secrets.py">update_group</a>(group, \*\*<a href="src/casedev/types/compute/v1/secret_update_group_params.py">params</a>) -> <a href="./src/casedev/types/compute/v1/secret_update_group_response.py">SecretUpdateGroupResponse</a></code>
 
-# Database
-
-## V1
-
-Types:
-
-```python
-from casedev.types.database import V1GetUsageResponse
-```
-
-Methods:
-
-- <code title="get /database/v1/usage">client.database.v1.<a href="./src/casedev/resources/database/v1/v1.py">get_usage</a>() -> <a href="./src/casedev/types/database/v1_get_usage_response.py">V1GetUsageResponse</a></code>
-
-### Projects
-
-Types:
-
-```python
-from casedev.types.database.v1 import (
-    ProjectCreateResponse,
-    ProjectRetrieveResponse,
-    ProjectListResponse,
-    ProjectDeleteResponse,
-    ProjectCreateBranchResponse,
-    ProjectGetConnectionResponse,
-    ProjectListBranchesResponse,
-)
-```
-
-Methods:
-
-- <code title="post /database/v1/projects">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">create</a>(\*\*<a href="src/casedev/types/database/v1/project_create_params.py">params</a>) -> <a href="./src/casedev/types/database/v1/project_create_response.py">ProjectCreateResponse</a></code>
-- <code title="get /database/v1/projects/{id}">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">retrieve</a>(id) -> <a href="./src/casedev/types/database/v1/project_retrieve_response.py">ProjectRetrieveResponse</a></code>
-- <code title="get /database/v1/projects">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">list</a>() -> <a href="./src/casedev/types/database/v1/project_list_response.py">ProjectListResponse</a></code>
-- <code title="delete /database/v1/projects/{id}">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">delete</a>(id) -> <a href="./src/casedev/types/database/v1/project_delete_response.py">ProjectDeleteResponse</a></code>
-- <code title="post /database/v1/projects/{id}/branches">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">create_branch</a>(id, \*\*<a href="src/casedev/types/database/v1/project_create_branch_params.py">params</a>) -> <a href="./src/casedev/types/database/v1/project_create_branch_response.py">ProjectCreateBranchResponse</a></code>
-- <code title="get /database/v1/projects/{id}/connection">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">get_connection</a>(id, \*\*<a href="src/casedev/types/database/v1/project_get_connection_params.py">params</a>) -> <a href="./src/casedev/types/database/v1/project_get_connection_response.py">ProjectGetConnectionResponse</a></code>
-- <code title="get /database/v1/projects/{id}/branches">client.database.v1.projects.<a href="./src/casedev/resources/database/v1/projects.py">list_branches</a>(id) -> <a href="./src/casedev/types/database/v1/project_list_branches_response.py">ProjectListBranchesResponse</a></code>
-
-# Format
-
-## V1
-
-Methods:
-
-- <code title="post /format/v1/document">client.format.v1.<a href="./src/casedev/resources/format/v1/v1.py">create_document</a>(\*\*<a href="src/casedev/types/format/v1_create_document_params.py">params</a>) -> BinaryAPIResponse</code>
-
-### Templates
-
-Types:
-
-```python
-from casedev.types.format.v1 import (
-    TemplateCreateResponse,
-    TemplateRetrieveResponse,
-    TemplateListResponse,
-)
-```
-
-Methods:
-
-- <code title="post /format/v1/templates">client.format.v1.templates.<a href="./src/casedev/resources/format/v1/templates.py">create</a>(\*\*<a href="src/casedev/types/format/v1/template_create_params.py">params</a>) -> <a href="./src/casedev/types/format/v1/template_create_response.py">TemplateCreateResponse</a></code>
-- <code title="get /format/v1/templates/{id}">client.format.v1.templates.<a href="./src/casedev/resources/format/v1/templates.py">retrieve</a>(id) -> <a href="./src/casedev/types/format/v1/template_retrieve_response.py">TemplateRetrieveResponse</a></code>
-- <code title="get /format/v1/templates">client.format.v1.templates.<a href="./src/casedev/resources/format/v1/templates.py">list</a>(\*\*<a href="src/casedev/types/format/v1/template_list_params.py">params</a>) -> <a href="./src/casedev/types/format/v1/template_list_response.py">TemplateListResponse</a></code>
-
 # Legal
 
 ## V1
@@ -244,7 +172,6 @@ from casedev.types.legal import (
     DocketDetail,
     DocketSearchResult,
     V1DocketResponse,
-    V1DraftResponse,
     V1FindResponse,
     V1GetCitationsResponse,
     V1GetCitationsFromURLResponse,
@@ -263,7 +190,6 @@ from casedev.types.legal import (
 Methods:
 
 - <code title="post /legal/v1/docket">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">docket</a>(\*\*<a href="src/casedev/types/legal/v1_docket_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_docket_response.py">V1DocketResponse</a></code>
-- <code title="post /legal/v1/draft">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">draft</a>(\*\*<a href="src/casedev/types/legal/v1_draft_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_draft_response.py">V1DraftResponse</a></code>
 - <code title="post /legal/v1/find">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">find</a>(\*\*<a href="src/casedev/types/legal/v1_find_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_find_response.py">V1FindResponse</a></code>
 - <code title="post /legal/v1/citations">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_response.py">V1GetCitationsResponse</a></code>
 - <code title="post /legal/v1/citations-from-url">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">get_citations_from_url</a>(\*\*<a href="src/casedev/types/legal/v1_get_citations_from_url_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_get_citations_from_url_response.py">V1GetCitationsFromURLResponse</a></code>
@@ -276,6 +202,23 @@ Methods:
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">similar</a>(\*\*<a href="src/casedev/types/legal/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_similar_response.py">V1SimilarResponse</a></code>
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">trademark_search</a>(\*\*<a href="src/casedev/types/legal/v1_trademark_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_trademark_search_response.py">V1TrademarkSearchResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>
+
+# Linc
+
+## V1
+
+### Sessions
+
+Methods:
+
+- <code title="post /linc/v1/sessions">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">create</a>(\*\*<a href="src/casedev/types/linc/v1/session_create_params.py">params</a>) -> None</code>
+- <code title="delete /linc/v1/sessions/{id}">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">delete</a>(id) -> None</code>
+- <code title="post /linc/v1/sessions/{id}/cancel">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">cancel</a>(id, \*\*<a href="src/casedev/types/linc/v1/session_cancel_params.py">params</a>) -> None</code>
+- <code title="post /linc/v1/sessions/{id}/events/ingest">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">ingest_events</a>(id, \*\*<a href="src/casedev/types/linc/v1/session_ingest_events_params.py">params</a>) -> None</code>
+- <code title="get /linc/v1/sessions/{id}/events">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">retrieve_events</a>(id, \*\*<a href="src/casedev/types/linc/v1/session_retrieve_events_params.py">params</a>) -> None</code>
+- <code title="get /linc/v1/sessions/{id}/messages">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">retrieve_messages</a>(id, \*\*<a href="src/casedev/types/linc/v1/session_retrieve_messages_params.py">params</a>) -> None</code>
+- <code title="get /linc/v1/sessions/{id}/state">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">retrieve_state</a>(id) -> None</code>
+- <code title="post /linc/v1/sessions/{id}/rpc">client.linc.v1.sessions.<a href="./src/casedev/resources/linc/v1/sessions.py">send_rpc</a>(path_id, \*\*<a href="src/casedev/types/linc/v1/session_send_rpc_params.py">params</a>) -> None</code>
 
 # Matters
 
@@ -361,7 +304,6 @@ Methods:
 - <code title="patch /matters/v1/{id}/work-items/{workItemId}">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">update</a>(work_item_id, \*, id, \*\*<a href="src/casedev/types/matters/v1/work_item_update_params.py">params</a>) -> None</code>
 - <code title="get /matters/v1/{id}/work-items">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">list</a>(id, \*\*<a href="src/casedev/types/matters/v1/work_item_list_params.py">params</a>) -> None</code>
 - <code title="post /matters/v1/{id}/work-items/{workItemId}/decision">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">decide</a>(work_item_id, \*, id, \*\*<a href="src/casedev/types/matters/v1/work_item_decide_params.py">params</a>) -> None</code>
-- <code title="get /matters/v1/{id}/work-items/{workItemId}/executions">client.matters.v1.work_items.<a href="./src/casedev/resources/matters/v1/work_items.py">list_executions</a>(work_item_id, \*, id) -> None</code>
 
 # Llm
 
@@ -445,6 +387,18 @@ Methods:
 
 - <code title="post /media/v1/transcripts/search">client.media.v1.transcripts.search.<a href="./src/casedev/resources/media/v1/transcripts/search.py">create</a>() -> None</code>
 
+#### Retrieve
+
+Types:
+
+```python
+from casedev.types.media.v1.transcripts import RetrieveCreateResponse
+```
+
+Methods:
+
+- <code title="post /media/v1/transcripts/retrieve">client.media.v1.transcripts.retrieve.<a href="./src/casedev/resources/media/v1/transcripts/retrieve.py">create</a>(\*\*<a href="src/casedev/types/media/v1/transcripts/retrieve_create_params.py">params</a>) -> <a href="./src/casedev/types/media/v1/transcripts/retrieve_create_response.py">RetrieveCreateResponse</a></code>
+
 # Ocr
 
 ## V1
@@ -474,26 +428,6 @@ from casedev.types.privilege import V1DetectResponse
 Methods:
 
 - <code title="post /privilege/v1/detect">client.privilege.v1.<a href="./src/casedev/resources/privilege/v1.py">detect</a>(\*\*<a href="src/casedev/types/privilege/v1_detect_params.py">params</a>) -> <a href="./src/casedev/types/privilege/v1_detect_response.py">V1DetectResponse</a></code>
-
-# Mail
-
-## V1
-
-### Inboxes
-
-Methods:
-
-- <code title="post /mail/v1/inboxes">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">create</a>(\*\*<a href="src/casedev/types/mail/v1/inbox_create_params.py">params</a>) -> None</code>
-- <code title="get /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">retrieve</a>(inbox_id) -> None</code>
-- <code title="get /mail/v1/inboxes">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">list</a>() -> None</code>
-- <code title="delete /mail/v1/inboxes/{inboxId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">delete</a>(inbox_id) -> None</code>
-- <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}/attachments/{attachmentId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_attachment</a>(attachment_id, \*, inbox_id, message_id) -> None</code>
-- <code title="get /mail/v1/inboxes/{inboxId}/messages/{messageId}">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_message</a>(message_id, \*, inbox_id) -> None</code>
-- <code title="get /mail/v1/inboxes/{inboxId}/policy">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">get_policy</a>(inbox_id) -> None</code>
-- <code title="get /mail/v1/inboxes/{inboxId}/messages">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">list_messages</a>(inbox_id) -> None</code>
-- <code title="post /mail/v1/inboxes/{inboxId}/messages/{messageId}/reply">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">reply</a>(message_id, \*, inbox_id) -> None</code>
-- <code title="post /mail/v1/inboxes/{inboxId}/messages/send">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">send</a>(inbox_id) -> None</code>
-- <code title="put /mail/v1/inboxes/{inboxId}/policy">client.mail.v1.inboxes.<a href="./src/casedev/resources/mail/v1/inboxes.py">set_policy</a>(inbox_id, \*\*<a href="src/casedev/types/mail/v1/inbox_set_policy_params.py">params</a>) -> None</code>
 
 # Skills
 
@@ -543,8 +477,6 @@ Types:
 from casedev.types.search import (
     V1AnswerResponse,
     V1ContentsResponse,
-    V1ResearchResponse,
-    V1RetrieveResearchResponse,
     V1SearchResponse,
     V1SimilarResponse,
 )
@@ -554,19 +486,8 @@ Methods:
 
 - <code title="post /search/v1/answer">client.search.v1.<a href="./src/casedev/resources/search/v1.py">answer</a>(\*\*<a href="src/casedev/types/search/v1_answer_params.py">params</a>) -> <a href="./src/casedev/types/search/v1_answer_response.py">V1AnswerResponse</a></code>
 - <code title="post /search/v1/contents">client.search.v1.<a href="./src/casedev/resources/search/v1.py">contents</a>(\*\*<a href="src/casedev/types/search/v1_contents_params.py">params</a>) -> <a href="./src/casedev/types/search/v1_contents_response.py">V1ContentsResponse</a></code>
-- <code title="post /search/v1/research">client.search.v1.<a href="./src/casedev/resources/search/v1.py">research</a>(\*\*<a href="src/casedev/types/search/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/search/v1_research_response.py">V1ResearchResponse</a></code>
-- <code title="get /search/v1/research/{id}">client.search.v1.<a href="./src/casedev/resources/search/v1.py">retrieve_research</a>(id, \*\*<a href="src/casedev/types/search/v1_retrieve_research_params.py">params</a>) -> <a href="./src/casedev/types/search/v1_retrieve_research_response.py">V1RetrieveResearchResponse</a></code>
 - <code title="post /search/v1/search">client.search.v1.<a href="./src/casedev/resources/search/v1.py">search</a>(\*\*<a href="src/casedev/types/search/v1_search_params.py">params</a>) -> <a href="./src/casedev/types/search/v1_search_response.py">V1SearchResponse</a></code>
 - <code title="post /search/v1/similar">client.search.v1.<a href="./src/casedev/resources/search/v1.py">similar</a>(\*\*<a href="src/casedev/types/search/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/search/v1_similar_response.py">V1SimilarResponse</a></code>
-
-# Superdoc
-
-## V1
-
-Methods:
-
-- <code title="post /superdoc/v1/annotate">client.superdoc.v1.<a href="./src/casedev/resources/superdoc/v1.py">annotate</a>(\*\*<a href="src/casedev/types/superdoc/v1_annotate_params.py">params</a>) -> BinaryAPIResponse</code>
-- <code title="post /superdoc/v1/convert">client.superdoc.v1.<a href="./src/casedev/resources/superdoc/v1.py">convert</a>(\*\*<a href="src/casedev/types/superdoc/v1_convert_params.py">params</a>) -> BinaryAPIResponse</code>
 
 # Translate
 
@@ -583,6 +504,7 @@ Methods:
 - <code title="post /translate/v1/detect">client.translate.v1.<a href="./src/casedev/resources/translate/v1.py">detect</a>(\*\*<a href="src/casedev/types/translate/v1_detect_params.py">params</a>) -> <a href="./src/casedev/types/translate/v1_detect_response.py">V1DetectResponse</a></code>
 - <code title="get /translate/v1/languages">client.translate.v1.<a href="./src/casedev/resources/translate/v1.py">list_languages</a>(\*\*<a href="src/casedev/types/translate/v1_list_languages_params.py">params</a>) -> <a href="./src/casedev/types/translate/v1_list_languages_response.py">V1ListLanguagesResponse</a></code>
 - <code title="post /translate/v1/translate">client.translate.v1.<a href="./src/casedev/resources/translate/v1.py">translate</a>(\*\*<a href="src/casedev/types/translate/v1_translate_params.py">params</a>) -> <a href="./src/casedev/types/translate/v1_translate_response.py">V1TranslateResponse</a></code>
+- <code title="post /translate/v1/document">client.translate.v1.<a href="./src/casedev/resources/translate/v1.py">translate_document</a>(\*\*<a href="src/casedev/types/translate/v1_translate_document_params.py">params</a>) -> BinaryAPIResponse</code>
 
 # Usage
 
@@ -644,24 +566,6 @@ Methods:
 - <code title="delete /vault/{id}/events/subscriptions/{subscriptionId}">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">delete</a>(subscription_id, \*, id) -> None</code>
 - <code title="post /vault/{id}/events/subscriptions/{subscriptionId}/test">client.vault.events.subscriptions.<a href="./src/casedev/resources/vault/events/subscriptions.py">test</a>(subscription_id, \*, id, \*\*<a href="src/casedev/types/vault/events/subscription_test_params.py">params</a>) -> None</code>
 
-## Graphrag
-
-Types:
-
-```python
-from casedev.types.vault import (
-    GraphragGetStatsResponse,
-    GraphragInitResponse,
-    GraphragProcessObjectResponse,
-)
-```
-
-Methods:
-
-- <code title="get /vault/{id}/graphrag/stats">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">get_stats</a>(id) -> <a href="./src/casedev/types/vault/graphrag_get_stats_response.py">GraphragGetStatsResponse</a></code>
-- <code title="post /vault/{id}/graphrag/init">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">init</a>(id) -> <a href="./src/casedev/types/vault/graphrag_init_response.py">GraphragInitResponse</a></code>
-- <code title="post /vault/{id}/graphrag/{objectId}">client.vault.graphrag.<a href="./src/casedev/resources/vault/graphrag.py">process_object</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/graphrag_process_object_response.py">GraphragProcessObjectResponse</a></code>
-
 ## Groups
 
 Methods:
@@ -676,13 +580,15 @@ Methods:
 Types:
 
 ```python
-from casedev.types.vault import MultipartGetPartURLsResponse
+from casedev.types.vault import MultipartGetPartURLsResponse, MultipartInitResponse
 ```
 
 Methods:
 
 - <code title="post /vault/{id}/multipart/abort">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">abort</a>(id, \*\*<a href="src/casedev/types/vault/multipart_abort_params.py">params</a>) -> None</code>
+- <code title="post /vault/{id}/multipart/complete">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">complete</a>(id, \*\*<a href="src/casedev/types/vault/multipart_complete_params.py">params</a>) -> None</code>
 - <code title="post /vault/{id}/multipart/part-urls">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">get_part_urls</a>(id, \*\*<a href="src/casedev/types/vault/multipart_get_part_urls_params.py">params</a>) -> <a href="./src/casedev/types/vault/multipart_get_part_urls_response.py">MultipartGetPartURLsResponse</a></code>
+- <code title="post /vault/{id}/multipart/init">client.vault.multipart.<a href="./src/casedev/resources/vault/multipart.py">init</a>(id, \*\*<a href="src/casedev/types/vault/multipart_init_params.py">params</a>) -> <a href="./src/casedev/types/vault/multipart_init_response.py">MultipartInitResponse</a></code>
 
 ## Objects
 
@@ -694,12 +600,13 @@ from casedev.types.vault import (
     ObjectUpdateResponse,
     ObjectListResponse,
     ObjectDeleteResponse,
+    ObjectAppendResponse,
     ObjectCreatePresignedURLResponse,
     ObjectGetChunksResponse,
     ObjectGetOcrWordsResponse,
     ObjectGetPagesResponse,
-    ObjectGetSummarizeJobResponse,
     ObjectGetTextResponse,
+    ObjectMergeResponse,
 )
 ```
 
@@ -707,15 +614,16 @@ Methods:
 
 - <code title="get /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">retrieve</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/object_retrieve_response.py">ObjectRetrieveResponse</a></code>
 - <code title="patch /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">update</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_update_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_update_response.py">ObjectUpdateResponse</a></code>
-- <code title="get /vault/{id}/objects">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">list</a>(id) -> <a href="./src/casedev/types/vault/object_list_response.py">ObjectListResponse</a></code>
+- <code title="get /vault/{id}/objects">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">list</a>(id, \*\*<a href="src/casedev/types/vault/object_list_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_list_response.py">ObjectListResponse</a></code>
 - <code title="delete /vault/{id}/objects/{objectId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">delete</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_delete_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_delete_response.py">ObjectDeleteResponse</a></code>
+- <code title="post /vault/{id}/objects/{objectId}/append">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">append</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_append_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_append_response.py">ObjectAppendResponse</a></code>
 - <code title="post /vault/{id}/objects/{objectId}/presigned-url">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">create_presigned_url</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_create_presigned_url_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_create_presigned_url_response.py">ObjectCreatePresignedURLResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/download">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">download</a>(object_id, \*, id) -> BinaryAPIResponse</code>
 - <code title="get /vault/{id}/objects/{objectId}/chunks">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_chunks</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_chunks_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_chunks_response.py">ObjectGetChunksResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/ocr-words">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_ocr_words</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_ocr_words_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_ocr_words_response.py">ObjectGetOcrWordsResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/pages">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_pages</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault/object_get_pages_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_get_pages_response.py">ObjectGetPagesResponse</a></code>
-- <code title="get /vault/{id}/objects/{objectId}/summarize/{jobId}">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_summarize_job</a>(job_id, \*, id, object_id) -> <a href="./src/casedev/types/vault/object_get_summarize_job_response.py">ObjectGetSummarizeJobResponse</a></code>
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_text</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/object_get_text_response.py">ObjectGetTextResponse</a></code>
+- <code title="post /vault/{id}/objects/merge">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">merge</a>(id, \*\*<a href="src/casedev/types/vault/object_merge_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_merge_response.py">ObjectMergeResponse</a></code>
 
 ## Memory
 

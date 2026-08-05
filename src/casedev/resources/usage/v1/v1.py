@@ -63,6 +63,8 @@ class V1Resource(SyncAPIResource):
         self,
         *,
         granularity: Literal["summary", "daily"] | Omit = omit,
+        group_by: Literal["lincSessionId"] | Omit = omit,
+        linc_session_id: str | Omit = omit,
         period_end: Union[str, datetime] | Omit = omit,
         period_start: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -80,6 +82,12 @@ class V1Resource(SyncAPIResource):
 
         Args:
           granularity: Whether to return period totals only or include daily buckets.
+
+          group_by: Optionally include usage groups keyed by native Linc session id. Only
+              Linc-session-attributable usage is grouped.
+
+          linc_session_id: Restrict usage to a native Linc session. The session must belong to the
+              authenticated organization.
 
           period_end: Period end date. Defaults to now.
 
@@ -104,6 +112,8 @@ class V1Resource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "granularity": granularity,
+                        "group_by": group_by,
+                        "linc_session_id": linc_session_id,
                         "period_end": period_end,
                         "period_start": period_start,
                     },
@@ -145,6 +155,8 @@ class AsyncV1Resource(AsyncAPIResource):
         self,
         *,
         granularity: Literal["summary", "daily"] | Omit = omit,
+        group_by: Literal["lincSessionId"] | Omit = omit,
+        linc_session_id: str | Omit = omit,
         period_end: Union[str, datetime] | Omit = omit,
         period_start: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -162,6 +174,12 @@ class AsyncV1Resource(AsyncAPIResource):
 
         Args:
           granularity: Whether to return period totals only or include daily buckets.
+
+          group_by: Optionally include usage groups keyed by native Linc session id. Only
+              Linc-session-attributable usage is grouped.
+
+          linc_session_id: Restrict usage to a native Linc session. The session must belong to the
+              authenticated organization.
 
           period_end: Period end date. Defaults to now.
 
@@ -186,6 +204,8 @@ class AsyncV1Resource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "granularity": granularity,
+                        "group_by": group_by,
+                        "linc_session_id": linc_session_id,
                         "period_end": period_end,
                         "period_start": period_start,
                     },

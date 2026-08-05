@@ -31,7 +31,11 @@ class V1ProcessParams(TypedDict, total=False):
     """S3 key prefix for results"""
 
 
-class FeaturesTables(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
+class FeaturesTables(  # type: ignore[call-arg]
+    TypedDict,
+    total=False,
+    extra_items=object,  # pyright: ignore[reportGeneralTypeIssues]
+):
     """Extract tables as structured data"""
 
     format: Literal["csv", "json"]

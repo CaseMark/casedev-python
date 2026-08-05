@@ -68,11 +68,11 @@ class V1Resource(SyncAPIResource):
     ) -> V1RetrieveResponse:
         """Retrieve the status and results of an OCR job.
 
-        Returns job progress, extracted
-        text, and metadata when processing is complete.
+        Returns job progress and
+        metadata; full extracted text is included only when include_text=true.
 
         Args:
-          include_text: Include full OCR text in completed responses (default: true)
+          include_text: Include full OCR text in completed responses (default: false)
 
           extra_headers: Send extra headers
 
@@ -236,11 +236,11 @@ class AsyncV1Resource(AsyncAPIResource):
     ) -> V1RetrieveResponse:
         """Retrieve the status and results of an OCR job.
 
-        Returns job progress, extracted
-        text, and metadata when processing is complete.
+        Returns job progress and
+        metadata; full extracted text is included only when include_text=true.
 
         Args:
-          include_text: Include full OCR text in completed responses (default: true)
+          include_text: Include full OCR text in completed responses (default: false)
 
           extra_headers: Send extra headers
 

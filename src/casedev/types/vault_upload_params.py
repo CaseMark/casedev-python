@@ -19,6 +19,14 @@ class VaultUploadParams(TypedDict, total=False):
     auto_index: bool
     """Whether to automatically process and index the file for search"""
 
+    is_ai_generated: bool
+    """Marks the file as AI-generated work product (e.g.
+
+    uploaded by an agent) rather than a user-provided source document. Persisted on
+    the object and returned by object listings so clients can distinguish
+    provenance.
+    """
+
     metadata: object
     """Additional metadata to associate with the file"""
 
@@ -34,3 +42,5 @@ class VaultUploadParams(TypedDict, total=False):
 
     When provided, enforces exact file size at S3 level.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

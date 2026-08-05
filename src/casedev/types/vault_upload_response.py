@@ -18,6 +18,9 @@ class Instructions(BaseModel):
 
 
 class VaultUploadResponse(BaseModel):
+    already_uploaded: Optional[bool] = FieldInfo(alias="alreadyUploaded", default=None)
+    """True when this idempotency key already identifies a confirmed upload"""
+
     auto_index: Optional[bool] = None
     """Whether the file will be automatically indexed"""
 
@@ -28,6 +31,9 @@ class VaultUploadResponse(BaseModel):
     """URL expiration time in seconds"""
 
     instructions: Optional[Instructions] = None
+
+    is_ai_generated: Optional[bool] = None
+    """Whether the file is marked as AI-generated work product"""
 
     next_step: Optional[str] = None
     """Next API endpoint to call for processing"""

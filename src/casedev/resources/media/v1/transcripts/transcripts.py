@@ -10,6 +10,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .retrieve import (
+    RetrieveResource,
+    AsyncRetrieveResource,
+    RetrieveResourceWithRawResponse,
+    AsyncRetrieveResourceWithRawResponse,
+    RetrieveResourceWithStreamingResponse,
+    AsyncRetrieveResourceWithStreamingResponse,
+)
 from ....._compat import cached_property
 from ....._resource import SyncAPIResource, AsyncAPIResource
 
@@ -19,7 +27,13 @@ __all__ = ["TranscriptsResource", "AsyncTranscriptsResource"]
 class TranscriptsResource(SyncAPIResource):
     @cached_property
     def search(self) -> SearchResource:
+        """Transcript retrieval and captioned media clip generation"""
         return SearchResource(self._client)
+
+    @cached_property
+    def retrieve(self) -> RetrieveResource:
+        """Transcript retrieval and captioned media clip generation"""
+        return RetrieveResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> TranscriptsResourceWithRawResponse:
@@ -44,7 +58,13 @@ class TranscriptsResource(SyncAPIResource):
 class AsyncTranscriptsResource(AsyncAPIResource):
     @cached_property
     def search(self) -> AsyncSearchResource:
+        """Transcript retrieval and captioned media clip generation"""
         return AsyncSearchResource(self._client)
+
+    @cached_property
+    def retrieve(self) -> AsyncRetrieveResource:
+        """Transcript retrieval and captioned media clip generation"""
+        return AsyncRetrieveResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncTranscriptsResourceWithRawResponse:
@@ -72,7 +92,13 @@ class TranscriptsResourceWithRawResponse:
 
     @cached_property
     def search(self) -> SearchResourceWithRawResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return SearchResourceWithRawResponse(self._transcripts.search)
+
+    @cached_property
+    def retrieve(self) -> RetrieveResourceWithRawResponse:
+        """Transcript retrieval and captioned media clip generation"""
+        return RetrieveResourceWithRawResponse(self._transcripts.retrieve)
 
 
 class AsyncTranscriptsResourceWithRawResponse:
@@ -81,7 +107,13 @@ class AsyncTranscriptsResourceWithRawResponse:
 
     @cached_property
     def search(self) -> AsyncSearchResourceWithRawResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return AsyncSearchResourceWithRawResponse(self._transcripts.search)
+
+    @cached_property
+    def retrieve(self) -> AsyncRetrieveResourceWithRawResponse:
+        """Transcript retrieval and captioned media clip generation"""
+        return AsyncRetrieveResourceWithRawResponse(self._transcripts.retrieve)
 
 
 class TranscriptsResourceWithStreamingResponse:
@@ -90,7 +122,13 @@ class TranscriptsResourceWithStreamingResponse:
 
     @cached_property
     def search(self) -> SearchResourceWithStreamingResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return SearchResourceWithStreamingResponse(self._transcripts.search)
+
+    @cached_property
+    def retrieve(self) -> RetrieveResourceWithStreamingResponse:
+        """Transcript retrieval and captioned media clip generation"""
+        return RetrieveResourceWithStreamingResponse(self._transcripts.retrieve)
 
 
 class AsyncTranscriptsResourceWithStreamingResponse:
@@ -99,4 +137,10 @@ class AsyncTranscriptsResourceWithStreamingResponse:
 
     @cached_property
     def search(self) -> AsyncSearchResourceWithStreamingResponse:
+        """Transcript retrieval and captioned media clip generation"""
         return AsyncSearchResourceWithStreamingResponse(self._transcripts.search)
+
+    @cached_property
+    def retrieve(self) -> AsyncRetrieveResourceWithStreamingResponse:
+        """Transcript retrieval and captioned media clip generation"""
+        return AsyncRetrieveResourceWithStreamingResponse(self._transcripts.retrieve)
