@@ -18,6 +18,9 @@ class Instructions(BaseModel):
 
 
 class VaultUploadResponse(BaseModel):
+    already_uploaded: Optional[bool] = FieldInfo(alias="alreadyUploaded", default=None)
+    """True when this idempotency key already identifies a confirmed upload"""
+
     auto_index: Optional[bool] = None
     """Whether the file will be automatically indexed"""
 

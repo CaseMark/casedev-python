@@ -39,53 +39,40 @@ if TYPE_CHECKING:
         llm,
         ocr,
         linc,
-        mail,
-        agent,
         legal,
         media,
         usage,
         vault,
         voice,
-        format,
         memory,
         search,
         skills,
         system,
         compute,
         matters,
-        database,
-        superdoc,
         webhooks,
         privilege,
         translate,
-        document_templates,
+        connectors,
     )
     from .resources.system import SystemResource, AsyncSystemResource
     from .resources.llm.llm import LlmResource, AsyncLlmResource
     from .resources.ocr.ocr import OcrResource, AsyncOcrResource
     from .resources.linc.linc import LincResource, AsyncLincResource
-    from .resources.mail.mail import MailResource, AsyncMailResource
-    from .resources.agent.agent import AgentResource, AsyncAgentResource
     from .resources.legal.legal import LegalResource, AsyncLegalResource
     from .resources.media.media import MediaResource, AsyncMediaResource
     from .resources.usage.usage import UsageResource, AsyncUsageResource
     from .resources.vault.vault import VaultResource, AsyncVaultResource
     from .resources.voice.voice import VoiceResource, AsyncVoiceResource
-    from .resources.format.format import FormatResource, AsyncFormatResource
     from .resources.memory.memory import MemoryResource, AsyncMemoryResource
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.skills.skills import SkillsResource, AsyncSkillsResource
     from .resources.compute.compute import ComputeResource, AsyncComputeResource
     from .resources.matters.matters import MattersResource, AsyncMattersResource
-    from .resources.database.database import DatabaseResource, AsyncDatabaseResource
-    from .resources.superdoc.superdoc import SuperdocResource, AsyncSuperdocResource
     from .resources.webhooks.webhooks import WebhooksResource, AsyncWebhooksResource
     from .resources.privilege.privilege import PrivilegeResource, AsyncPrivilegeResource
     from .resources.translate.translate import TranslateResource, AsyncTranslateResource
-    from .resources.document_templates.document_templates import (
-        DocumentTemplatesResource,
-        AsyncDocumentTemplatesResource,
-    )
+    from .resources.connectors.connectors import ConnectorsResource, AsyncConnectorsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -194,10 +181,10 @@ class Casedev(SyncAPIClient):
         )
 
     @cached_property
-    def agent(self) -> AgentResource:
-        from .resources.agent import AgentResource
+    def connectors(self) -> ConnectorsResource:
+        from .resources.connectors import ConnectorsResource
 
-        return AgentResource(self)
+        return ConnectorsResource(self)
 
     @cached_property
     def system(self) -> SystemResource:
@@ -211,24 +198,6 @@ class Casedev(SyncAPIClient):
         from .resources.compute import ComputeResource
 
         return ComputeResource(self)
-
-    @cached_property
-    def database(self) -> DatabaseResource:
-        from .resources.database import DatabaseResource
-
-        return DatabaseResource(self)
-
-    @cached_property
-    def document_templates(self) -> DocumentTemplatesResource:
-        from .resources.document_templates import DocumentTemplatesResource
-
-        return DocumentTemplatesResource(self)
-
-    @cached_property
-    def format(self) -> FormatResource:
-        from .resources.format import FormatResource
-
-        return FormatResource(self)
 
     @cached_property
     def legal(self) -> LegalResource:
@@ -280,12 +249,6 @@ class Casedev(SyncAPIClient):
         return PrivilegeResource(self)
 
     @cached_property
-    def mail(self) -> MailResource:
-        from .resources.mail import MailResource
-
-        return MailResource(self)
-
-    @cached_property
     def skills(self) -> SkillsResource:
         """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResource
@@ -297,12 +260,6 @@ class Casedev(SyncAPIClient):
         from .resources.search import SearchResource
 
         return SearchResource(self)
-
-    @cached_property
-    def superdoc(self) -> SuperdocResource:
-        from .resources.superdoc import SuperdocResource
-
-        return SuperdocResource(self)
 
     @cached_property
     def translate(self) -> TranslateResource:
@@ -539,10 +496,10 @@ class AsyncCasedev(AsyncAPIClient):
         )
 
     @cached_property
-    def agent(self) -> AsyncAgentResource:
-        from .resources.agent import AsyncAgentResource
+    def connectors(self) -> AsyncConnectorsResource:
+        from .resources.connectors import AsyncConnectorsResource
 
-        return AsyncAgentResource(self)
+        return AsyncConnectorsResource(self)
 
     @cached_property
     def system(self) -> AsyncSystemResource:
@@ -556,24 +513,6 @@ class AsyncCasedev(AsyncAPIClient):
         from .resources.compute import AsyncComputeResource
 
         return AsyncComputeResource(self)
-
-    @cached_property
-    def database(self) -> AsyncDatabaseResource:
-        from .resources.database import AsyncDatabaseResource
-
-        return AsyncDatabaseResource(self)
-
-    @cached_property
-    def document_templates(self) -> AsyncDocumentTemplatesResource:
-        from .resources.document_templates import AsyncDocumentTemplatesResource
-
-        return AsyncDocumentTemplatesResource(self)
-
-    @cached_property
-    def format(self) -> AsyncFormatResource:
-        from .resources.format import AsyncFormatResource
-
-        return AsyncFormatResource(self)
 
     @cached_property
     def legal(self) -> AsyncLegalResource:
@@ -625,12 +564,6 @@ class AsyncCasedev(AsyncAPIClient):
         return AsyncPrivilegeResource(self)
 
     @cached_property
-    def mail(self) -> AsyncMailResource:
-        from .resources.mail import AsyncMailResource
-
-        return AsyncMailResource(self)
-
-    @cached_property
     def skills(self) -> AsyncSkillsResource:
         """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResource
@@ -642,12 +575,6 @@ class AsyncCasedev(AsyncAPIClient):
         from .resources.search import AsyncSearchResource
 
         return AsyncSearchResource(self)
-
-    @cached_property
-    def superdoc(self) -> AsyncSuperdocResource:
-        from .resources.superdoc import AsyncSuperdocResource
-
-        return AsyncSuperdocResource(self)
 
     @cached_property
     def translate(self) -> AsyncTranslateResource:
@@ -802,10 +729,10 @@ class CasedevWithRawResponse:
         self._client = client
 
     @cached_property
-    def agent(self) -> agent.AgentResourceWithRawResponse:
-        from .resources.agent import AgentResourceWithRawResponse
+    def connectors(self) -> connectors.ConnectorsResourceWithRawResponse:
+        from .resources.connectors import ConnectorsResourceWithRawResponse
 
-        return AgentResourceWithRawResponse(self._client.agent)
+        return ConnectorsResourceWithRawResponse(self._client.connectors)
 
     @cached_property
     def system(self) -> system.SystemResourceWithRawResponse:
@@ -819,24 +746,6 @@ class CasedevWithRawResponse:
         from .resources.compute import ComputeResourceWithRawResponse
 
         return ComputeResourceWithRawResponse(self._client.compute)
-
-    @cached_property
-    def database(self) -> database.DatabaseResourceWithRawResponse:
-        from .resources.database import DatabaseResourceWithRawResponse
-
-        return DatabaseResourceWithRawResponse(self._client.database)
-
-    @cached_property
-    def document_templates(self) -> document_templates.DocumentTemplatesResourceWithRawResponse:
-        from .resources.document_templates import DocumentTemplatesResourceWithRawResponse
-
-        return DocumentTemplatesResourceWithRawResponse(self._client.document_templates)
-
-    @cached_property
-    def format(self) -> format.FormatResourceWithRawResponse:
-        from .resources.format import FormatResourceWithRawResponse
-
-        return FormatResourceWithRawResponse(self._client.format)
 
     @cached_property
     def legal(self) -> legal.LegalResourceWithRawResponse:
@@ -888,12 +797,6 @@ class CasedevWithRawResponse:
         return PrivilegeResourceWithRawResponse(self._client.privilege)
 
     @cached_property
-    def mail(self) -> mail.MailResourceWithRawResponse:
-        from .resources.mail import MailResourceWithRawResponse
-
-        return MailResourceWithRawResponse(self._client.mail)
-
-    @cached_property
     def skills(self) -> skills.SkillsResourceWithRawResponse:
         """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResourceWithRawResponse
@@ -905,12 +808,6 @@ class CasedevWithRawResponse:
         from .resources.search import SearchResourceWithRawResponse
 
         return SearchResourceWithRawResponse(self._client.search)
-
-    @cached_property
-    def superdoc(self) -> superdoc.SuperdocResourceWithRawResponse:
-        from .resources.superdoc import SuperdocResourceWithRawResponse
-
-        return SuperdocResourceWithRawResponse(self._client.superdoc)
 
     @cached_property
     def translate(self) -> translate.TranslateResourceWithRawResponse:
@@ -951,10 +848,10 @@ class AsyncCasedevWithRawResponse:
         self._client = client
 
     @cached_property
-    def agent(self) -> agent.AsyncAgentResourceWithRawResponse:
-        from .resources.agent import AsyncAgentResourceWithRawResponse
+    def connectors(self) -> connectors.AsyncConnectorsResourceWithRawResponse:
+        from .resources.connectors import AsyncConnectorsResourceWithRawResponse
 
-        return AsyncAgentResourceWithRawResponse(self._client.agent)
+        return AsyncConnectorsResourceWithRawResponse(self._client.connectors)
 
     @cached_property
     def system(self) -> system.AsyncSystemResourceWithRawResponse:
@@ -968,24 +865,6 @@ class AsyncCasedevWithRawResponse:
         from .resources.compute import AsyncComputeResourceWithRawResponse
 
         return AsyncComputeResourceWithRawResponse(self._client.compute)
-
-    @cached_property
-    def database(self) -> database.AsyncDatabaseResourceWithRawResponse:
-        from .resources.database import AsyncDatabaseResourceWithRawResponse
-
-        return AsyncDatabaseResourceWithRawResponse(self._client.database)
-
-    @cached_property
-    def document_templates(self) -> document_templates.AsyncDocumentTemplatesResourceWithRawResponse:
-        from .resources.document_templates import AsyncDocumentTemplatesResourceWithRawResponse
-
-        return AsyncDocumentTemplatesResourceWithRawResponse(self._client.document_templates)
-
-    @cached_property
-    def format(self) -> format.AsyncFormatResourceWithRawResponse:
-        from .resources.format import AsyncFormatResourceWithRawResponse
-
-        return AsyncFormatResourceWithRawResponse(self._client.format)
 
     @cached_property
     def legal(self) -> legal.AsyncLegalResourceWithRawResponse:
@@ -1037,12 +916,6 @@ class AsyncCasedevWithRawResponse:
         return AsyncPrivilegeResourceWithRawResponse(self._client.privilege)
 
     @cached_property
-    def mail(self) -> mail.AsyncMailResourceWithRawResponse:
-        from .resources.mail import AsyncMailResourceWithRawResponse
-
-        return AsyncMailResourceWithRawResponse(self._client.mail)
-
-    @cached_property
     def skills(self) -> skills.AsyncSkillsResourceWithRawResponse:
         """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResourceWithRawResponse
@@ -1054,12 +927,6 @@ class AsyncCasedevWithRawResponse:
         from .resources.search import AsyncSearchResourceWithRawResponse
 
         return AsyncSearchResourceWithRawResponse(self._client.search)
-
-    @cached_property
-    def superdoc(self) -> superdoc.AsyncSuperdocResourceWithRawResponse:
-        from .resources.superdoc import AsyncSuperdocResourceWithRawResponse
-
-        return AsyncSuperdocResourceWithRawResponse(self._client.superdoc)
 
     @cached_property
     def translate(self) -> translate.AsyncTranslateResourceWithRawResponse:
@@ -1100,10 +967,10 @@ class CasedevWithStreamedResponse:
         self._client = client
 
     @cached_property
-    def agent(self) -> agent.AgentResourceWithStreamingResponse:
-        from .resources.agent import AgentResourceWithStreamingResponse
+    def connectors(self) -> connectors.ConnectorsResourceWithStreamingResponse:
+        from .resources.connectors import ConnectorsResourceWithStreamingResponse
 
-        return AgentResourceWithStreamingResponse(self._client.agent)
+        return ConnectorsResourceWithStreamingResponse(self._client.connectors)
 
     @cached_property
     def system(self) -> system.SystemResourceWithStreamingResponse:
@@ -1117,24 +984,6 @@ class CasedevWithStreamedResponse:
         from .resources.compute import ComputeResourceWithStreamingResponse
 
         return ComputeResourceWithStreamingResponse(self._client.compute)
-
-    @cached_property
-    def database(self) -> database.DatabaseResourceWithStreamingResponse:
-        from .resources.database import DatabaseResourceWithStreamingResponse
-
-        return DatabaseResourceWithStreamingResponse(self._client.database)
-
-    @cached_property
-    def document_templates(self) -> document_templates.DocumentTemplatesResourceWithStreamingResponse:
-        from .resources.document_templates import DocumentTemplatesResourceWithStreamingResponse
-
-        return DocumentTemplatesResourceWithStreamingResponse(self._client.document_templates)
-
-    @cached_property
-    def format(self) -> format.FormatResourceWithStreamingResponse:
-        from .resources.format import FormatResourceWithStreamingResponse
-
-        return FormatResourceWithStreamingResponse(self._client.format)
 
     @cached_property
     def legal(self) -> legal.LegalResourceWithStreamingResponse:
@@ -1186,12 +1035,6 @@ class CasedevWithStreamedResponse:
         return PrivilegeResourceWithStreamingResponse(self._client.privilege)
 
     @cached_property
-    def mail(self) -> mail.MailResourceWithStreamingResponse:
-        from .resources.mail import MailResourceWithStreamingResponse
-
-        return MailResourceWithStreamingResponse(self._client.mail)
-
-    @cached_property
     def skills(self) -> skills.SkillsResourceWithStreamingResponse:
         """Search and read legal AI skills for agents"""
         from .resources.skills import SkillsResourceWithStreamingResponse
@@ -1203,12 +1046,6 @@ class CasedevWithStreamedResponse:
         from .resources.search import SearchResourceWithStreamingResponse
 
         return SearchResourceWithStreamingResponse(self._client.search)
-
-    @cached_property
-    def superdoc(self) -> superdoc.SuperdocResourceWithStreamingResponse:
-        from .resources.superdoc import SuperdocResourceWithStreamingResponse
-
-        return SuperdocResourceWithStreamingResponse(self._client.superdoc)
 
     @cached_property
     def translate(self) -> translate.TranslateResourceWithStreamingResponse:
@@ -1249,10 +1086,10 @@ class AsyncCasedevWithStreamedResponse:
         self._client = client
 
     @cached_property
-    def agent(self) -> agent.AsyncAgentResourceWithStreamingResponse:
-        from .resources.agent import AsyncAgentResourceWithStreamingResponse
+    def connectors(self) -> connectors.AsyncConnectorsResourceWithStreamingResponse:
+        from .resources.connectors import AsyncConnectorsResourceWithStreamingResponse
 
-        return AsyncAgentResourceWithStreamingResponse(self._client.agent)
+        return AsyncConnectorsResourceWithStreamingResponse(self._client.connectors)
 
     @cached_property
     def system(self) -> system.AsyncSystemResourceWithStreamingResponse:
@@ -1266,24 +1103,6 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.compute import AsyncComputeResourceWithStreamingResponse
 
         return AsyncComputeResourceWithStreamingResponse(self._client.compute)
-
-    @cached_property
-    def database(self) -> database.AsyncDatabaseResourceWithStreamingResponse:
-        from .resources.database import AsyncDatabaseResourceWithStreamingResponse
-
-        return AsyncDatabaseResourceWithStreamingResponse(self._client.database)
-
-    @cached_property
-    def document_templates(self) -> document_templates.AsyncDocumentTemplatesResourceWithStreamingResponse:
-        from .resources.document_templates import AsyncDocumentTemplatesResourceWithStreamingResponse
-
-        return AsyncDocumentTemplatesResourceWithStreamingResponse(self._client.document_templates)
-
-    @cached_property
-    def format(self) -> format.AsyncFormatResourceWithStreamingResponse:
-        from .resources.format import AsyncFormatResourceWithStreamingResponse
-
-        return AsyncFormatResourceWithStreamingResponse(self._client.format)
 
     @cached_property
     def legal(self) -> legal.AsyncLegalResourceWithStreamingResponse:
@@ -1335,12 +1154,6 @@ class AsyncCasedevWithStreamedResponse:
         return AsyncPrivilegeResourceWithStreamingResponse(self._client.privilege)
 
     @cached_property
-    def mail(self) -> mail.AsyncMailResourceWithStreamingResponse:
-        from .resources.mail import AsyncMailResourceWithStreamingResponse
-
-        return AsyncMailResourceWithStreamingResponse(self._client.mail)
-
-    @cached_property
     def skills(self) -> skills.AsyncSkillsResourceWithStreamingResponse:
         """Search and read legal AI skills for agents"""
         from .resources.skills import AsyncSkillsResourceWithStreamingResponse
@@ -1352,12 +1165,6 @@ class AsyncCasedevWithStreamedResponse:
         from .resources.search import AsyncSearchResourceWithStreamingResponse
 
         return AsyncSearchResourceWithStreamingResponse(self._client.search)
-
-    @cached_property
-    def superdoc(self) -> superdoc.AsyncSuperdocResourceWithStreamingResponse:
-        from .resources.superdoc import AsyncSuperdocResourceWithStreamingResponse
-
-        return AsyncSuperdocResourceWithStreamingResponse(self._client.superdoc)
 
     @cached_property
     def translate(self) -> translate.AsyncTranslateResourceWithStreamingResponse:

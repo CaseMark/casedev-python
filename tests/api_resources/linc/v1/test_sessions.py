@@ -29,6 +29,7 @@ class TestSessions:
             instructions="instructions",
             model="model",
             scoped_api_key="scopedApiKey",
+            service_tier="default",
             skill_slugs=["string"],
             title="title",
             vault_ids=["string"],
@@ -96,14 +97,22 @@ class TestSessions:
     @parametrize
     def test_method_cancel(self, client: Casedev) -> None:
         session = client.linc.v1.sessions.cancel(
-            "id",
+            id="id",
+        )
+        assert session is None
+
+    @parametrize
+    def test_method_cancel_with_all_params(self, client: Casedev) -> None:
+        session = client.linc.v1.sessions.cancel(
+            id="id",
+            clear_queue=True,
         )
         assert session is None
 
     @parametrize
     def test_raw_response_cancel(self, client: Casedev) -> None:
         response = client.linc.v1.sessions.with_raw_response.cancel(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -114,7 +123,7 @@ class TestSessions:
     @parametrize
     def test_streaming_response_cancel(self, client: Casedev) -> None:
         with client.linc.v1.sessions.with_streaming_response.cancel(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -128,7 +137,7 @@ class TestSessions:
     def test_path_params_cancel(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.linc.v1.sessions.with_raw_response.cancel(
-                "",
+                id="",
             )
 
     @parametrize
@@ -403,6 +412,7 @@ class TestAsyncSessions:
             instructions="instructions",
             model="model",
             scoped_api_key="scopedApiKey",
+            service_tier="default",
             skill_slugs=["string"],
             title="title",
             vault_ids=["string"],
@@ -470,14 +480,22 @@ class TestAsyncSessions:
     @parametrize
     async def test_method_cancel(self, async_client: AsyncCasedev) -> None:
         session = await async_client.linc.v1.sessions.cancel(
-            "id",
+            id="id",
+        )
+        assert session is None
+
+    @parametrize
+    async def test_method_cancel_with_all_params(self, async_client: AsyncCasedev) -> None:
+        session = await async_client.linc.v1.sessions.cancel(
+            id="id",
+            clear_queue=True,
         )
         assert session is None
 
     @parametrize
     async def test_raw_response_cancel(self, async_client: AsyncCasedev) -> None:
         response = await async_client.linc.v1.sessions.with_raw_response.cancel(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -488,7 +506,7 @@ class TestAsyncSessions:
     @parametrize
     async def test_streaming_response_cancel(self, async_client: AsyncCasedev) -> None:
         async with async_client.linc.v1.sessions.with_streaming_response.cancel(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -502,7 +520,7 @@ class TestAsyncSessions:
     async def test_path_params_cancel(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.linc.v1.sessions.with_raw_response.cancel(
-                "",
+                id="",
             )
 
     @parametrize

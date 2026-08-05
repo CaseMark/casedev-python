@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -18,6 +19,7 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.linc.v1 import (
+    session_cancel_params,
     session_create_params,
     session_send_rpc_params,
     session_ingest_events_params,
@@ -29,9 +31,7 @@ __all__ = ["SessionsResource", "AsyncSessionsResource"]
 
 
 class SessionsResource(SyncAPIResource):
-    """
-    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-    """
+    """Durable, stateful legal agent sessions with sandboxed tools and files"""
 
     @cached_property
     def with_raw_response(self) -> SessionsResourceWithRawResponse:
@@ -61,6 +61,7 @@ class SessionsResource(SyncAPIResource):
         instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         scoped_api_key: Optional[str] | Omit = omit,
+        service_tier: Literal["default", "priority"] | Omit = omit,
         skill_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -87,6 +88,9 @@ class SessionsResource(SyncAPIResource):
 
           scoped_api_key: Optional caller-provided scoped Case.dev API key for the runtime.
 
+          service_tier: Processing tier for eligible OpenAI GPT models. Priority provides lower latency
+              at premium cost.
+
           skill_slugs: Skills API slugs to install into the runtime sandbox before the native session
               starts.
 
@@ -109,6 +113,7 @@ class SessionsResource(SyncAPIResource):
                     "instructions": instructions,
                     "model": model,
                     "scoped_api_key": scoped_api_key,
+                    "service_tier": service_tier,
                     "skill_slugs": skill_slugs,
                     "title": title,
                     "vault_ids": vault_ids,
@@ -159,6 +164,7 @@ class SessionsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        clear_queue: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -167,9 +173,19 @@ class SessionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Cancel native Linc session turn
+        Sends an abort RPC to the session runtime, ending the current turn while keeping
+        the session alive. Body handling is intentionally lenient — cancel is a stop
+        control, so unknown fields are ignored and an invalid or missing body is treated
+        as empty rather than rejected.
 
         Args:
+          clear_queue: Also clear queued steering/follow-up messages so the abort leaves the agent
+              fully idle. Cleared texts are returned in the `response.data.clearedQueue` field
+              of the response body. Without it, messages still queued when the abort settles
+              are auto-continued as a new run. Runtimes older than the Linc release that
+              supports this flag ignore it: the abort still happens but the queue is left
+              untouched.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -183,6 +199,7 @@ class SessionsResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             path_template("/linc/v1/sessions/{id}/cancel", id=id),
+            body=maybe_transform({"clear_queue": clear_queue}, session_cancel_params.SessionCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -430,9 +447,7 @@ class SessionsResource(SyncAPIResource):
 
 
 class AsyncSessionsResource(AsyncAPIResource):
-    """
-    Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-    """
+    """Durable, stateful legal agent sessions with sandboxed tools and files"""
 
     @cached_property
     def with_raw_response(self) -> AsyncSessionsResourceWithRawResponse:
@@ -462,6 +477,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         scoped_api_key: Optional[str] | Omit = omit,
+        service_tier: Literal["default", "priority"] | Omit = omit,
         skill_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -488,6 +504,9 @@ class AsyncSessionsResource(AsyncAPIResource):
 
           scoped_api_key: Optional caller-provided scoped Case.dev API key for the runtime.
 
+          service_tier: Processing tier for eligible OpenAI GPT models. Priority provides lower latency
+              at premium cost.
+
           skill_slugs: Skills API slugs to install into the runtime sandbox before the native session
               starts.
 
@@ -510,6 +529,7 @@ class AsyncSessionsResource(AsyncAPIResource):
                     "instructions": instructions,
                     "model": model,
                     "scoped_api_key": scoped_api_key,
+                    "service_tier": service_tier,
                     "skill_slugs": skill_slugs,
                     "title": title,
                     "vault_ids": vault_ids,
@@ -560,6 +580,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        clear_queue: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -568,9 +589,19 @@ class AsyncSessionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Cancel native Linc session turn
+        Sends an abort RPC to the session runtime, ending the current turn while keeping
+        the session alive. Body handling is intentionally lenient — cancel is a stop
+        control, so unknown fields are ignored and an invalid or missing body is treated
+        as empty rather than rejected.
 
         Args:
+          clear_queue: Also clear queued steering/follow-up messages so the abort leaves the agent
+              fully idle. Cleared texts are returned in the `response.data.clearedQueue` field
+              of the response body. Without it, messages still queued when the abort settles
+              are auto-continued as a new run. Runtimes older than the Linc release that
+              supports this flag ignore it: the abort still happens but the queue is left
+              untouched.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -584,6 +615,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             path_template("/linc/v1/sessions/{id}/cancel", id=id),
+            body=await async_maybe_transform({"clear_queue": clear_queue}, session_cancel_params.SessionCancelParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

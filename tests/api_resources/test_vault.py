@@ -233,33 +233,33 @@ class TestVault:
             )
 
     @parametrize
-    def test_method_confirm_upload_overload_1(self, client: Casedev) -> None:
+    def test_method_confirm_upload(self, client: Casedev) -> None:
         vault = client.vault.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
     @parametrize
-    def test_method_confirm_upload_with_all_params_overload_1(self, client: Casedev) -> None:
+    def test_method_confirm_upload_with_all_params(self, client: Casedev) -> None:
         vault = client.vault.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
             auto_ingest=True,
+            error_code="errorCode",
+            error_message="errorMessage",
             etag="etag",
+            size_bytes=1,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
     @parametrize
-    def test_raw_response_confirm_upload_overload_1(self, client: Casedev) -> None:
+    def test_raw_response_confirm_upload(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
         )
 
@@ -269,11 +269,10 @@ class TestVault:
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
     @parametrize
-    def test_streaming_response_confirm_upload_overload_1(self, client: Casedev) -> None:
+    def test_streaming_response_confirm_upload(self, client: Casedev) -> None:
         with client.vault.with_streaming_response.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
         ) as response:
             assert not response.is_closed
@@ -285,12 +284,11 @@ class TestVault:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_confirm_upload_overload_1(self, client: Casedev) -> None:
+    def test_path_params_confirm_upload(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.vault.with_raw_response.confirm_upload(
                 object_id="objectId",
                 id="",
-                size_bytes=1,
                 success=True,
             )
 
@@ -298,71 +296,7 @@ class TestVault:
             client.vault.with_raw_response.confirm_upload(
                 object_id="",
                 id="id",
-                size_bytes=1,
                 success=True,
-            )
-
-    @parametrize
-    def test_method_confirm_upload_overload_2(self, client: Casedev) -> None:
-        vault = client.vault.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-        )
-        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-    @parametrize
-    def test_raw_response_confirm_upload_overload_2(self, client: Casedev) -> None:
-        response = client.vault.with_raw_response.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        vault = response.parse()
-        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-    @parametrize
-    def test_streaming_response_confirm_upload_overload_2(self, client: Casedev) -> None:
-        with client.vault.with_streaming_response.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            vault = response.parse()
-            assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_confirm_upload_overload_2(self, client: Casedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.vault.with_raw_response.confirm_upload(
-                object_id="objectId",
-                id="",
-                error_code="errorCode",
-                error_message="errorMessage",
-                success=False,
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
-            client.vault.with_raw_response.confirm_upload(
-                object_id="",
-                id="id",
-                error_code="errorCode",
-                error_message="errorMessage",
-                success=False,
             )
 
     @parametrize
@@ -486,6 +420,7 @@ class TestVault:
             metadata={},
             path="path",
             size_bytes=1,
+            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 
@@ -738,33 +673,33 @@ class TestAsyncVault:
             )
 
     @parametrize
-    async def test_method_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+    async def test_method_confirm_upload(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
     @parametrize
-    async def test_method_confirm_upload_with_all_params_overload_1(self, async_client: AsyncCasedev) -> None:
+    async def test_method_confirm_upload_with_all_params(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
             auto_ingest=True,
+            error_code="errorCode",
+            error_message="errorMessage",
             etag="etag",
+            size_bytes=1,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
     @parametrize
-    async def test_raw_response_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+    async def test_raw_response_confirm_upload(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
         )
 
@@ -774,11 +709,10 @@ class TestAsyncVault:
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
     @parametrize
-    async def test_streaming_response_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+    async def test_streaming_response_confirm_upload(self, async_client: AsyncCasedev) -> None:
         async with async_client.vault.with_streaming_response.confirm_upload(
             object_id="objectId",
             id="id",
-            size_bytes=1,
             success=True,
         ) as response:
             assert not response.is_closed
@@ -790,12 +724,11 @@ class TestAsyncVault:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_confirm_upload_overload_1(self, async_client: AsyncCasedev) -> None:
+    async def test_path_params_confirm_upload(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.vault.with_raw_response.confirm_upload(
                 object_id="objectId",
                 id="",
-                size_bytes=1,
                 success=True,
             )
 
@@ -803,71 +736,7 @@ class TestAsyncVault:
             await async_client.vault.with_raw_response.confirm_upload(
                 object_id="",
                 id="id",
-                size_bytes=1,
                 success=True,
-            )
-
-    @parametrize
-    async def test_method_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
-        vault = await async_client.vault.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-        )
-        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-    @parametrize
-    async def test_raw_response_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.vault.with_raw_response.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        vault = await response.parse()
-        assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
-        async with async_client.vault.with_streaming_response.confirm_upload(
-            object_id="objectId",
-            id="id",
-            error_code="errorCode",
-            error_message="errorMessage",
-            success=False,
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            vault = await response.parse()
-            assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_confirm_upload_overload_2(self, async_client: AsyncCasedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.vault.with_raw_response.confirm_upload(
-                object_id="objectId",
-                id="",
-                error_code="errorCode",
-                error_message="errorMessage",
-                success=False,
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
-            await async_client.vault.with_raw_response.confirm_upload(
-                object_id="",
-                id="id",
-                error_code="errorCode",
-                error_message="errorMessage",
-                success=False,
             )
 
     @parametrize
@@ -991,6 +860,7 @@ class TestAsyncVault:
             metadata={},
             path="path",
             size_bytes=1,
+            idempotency_key="Idempotency-Key",
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
 

@@ -2,21 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Union
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["VaultConfirmUploadParams", "VaultConfirmUploadSuccess", "VaultConfirmUploadFailure"]
+__all__ = ["VaultConfirmUploadParams"]
 
 
-class VaultConfirmUploadSuccess(TypedDict, total=False):
+class VaultConfirmUploadParams(TypedDict, total=False):
     id: Required[str]
 
-    size_bytes: Required[Annotated[int, PropertyInfo(alias="sizeBytes")]]
-    """Uploaded file size in bytes"""
-
-    success: Required[Literal[True]]
+    success: Required[bool]
     """Whether the upload succeeded"""
 
     auto_ingest: Annotated[bool, PropertyInfo(alias="autoIngest")]
@@ -27,21 +23,17 @@ class VaultConfirmUploadSuccess(TypedDict, total=False):
     does not fail the confirmation.
     """
 
+    error_code: Annotated[str, PropertyInfo(alias="errorCode")]
+    """Client-side error code. Required when success=false."""
+
+    error_message: Annotated[str, PropertyInfo(alias="errorMessage")]
+    """Client-side error message. Required when success=false."""
+
     etag: str
-    """S3 ETag for the uploaded object (optional if client cannot access ETag header)"""
+    """S3 ETag for the uploaded object (optional if client cannot access ETag header).
 
+    Only meaningful when success=true.
+    """
 
-class VaultConfirmUploadFailure(TypedDict, total=False):
-    id: Required[str]
-
-    error_code: Required[Annotated[str, PropertyInfo(alias="errorCode")]]
-    """Client-side error code"""
-
-    error_message: Required[Annotated[str, PropertyInfo(alias="errorMessage")]]
-    """Client-side error message"""
-
-    success: Required[Literal[False]]
-    """Whether the upload succeeded"""
-
-
-VaultConfirmUploadParams: TypeAlias = Union[VaultConfirmUploadSuccess, VaultConfirmUploadFailure]
+    size_bytes: Annotated[int, PropertyInfo(alias="sizeBytes")]
+    """Uploaded file size in bytes. Required when success=true."""

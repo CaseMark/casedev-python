@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .session_cancel_params import SessionCancelParams as SessionCancelParams
 from .session_create_params import SessionCreateParams as SessionCreateParams
 from .session_send_rpc_params import SessionSendRpcParams as SessionSendRpcParams
 from .session_ingest_events_params import SessionIngestEventsParams as SessionIngestEventsParams

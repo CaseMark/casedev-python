@@ -7,7 +7,7 @@ from typing_extensions import Required, Annotated, TypedDict
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
-__all__ = ["ObjectAppendParams"]
+__all__ = ["ObjectAppendParams", "Bates"]
 
 
 class ObjectAppendParams(TypedDict, total=False):
@@ -29,9 +29,33 @@ class ObjectAppendParams(TypedDict, total=False):
     appended page.
     """
 
+    bates: Bates
+    """Optional Bates stamping for appended source PDFs.
+
+    Numbering is deterministic across appendObjectIds order and does not stamp the
+    target report pages.
+    """
+
     rewrite_links: Annotated[bool, PropertyInfo(alias="rewriteLinks")]
     """
     When true, rewrites links in the target object to internal PDF jumps when the
     URL contains exactly one appended object ID as a standalone query parameter
     value or decoded path segment.
     """
+
+
+class Bates(TypedDict, total=False):
+    """Optional Bates stamping for appended source PDFs.
+
+    Numbering is deterministic across appendObjectIds order and does not stamp the target report pages.
+    """
+
+    enabled: bool
+
+    pad_to: Annotated[int, PropertyInfo(alias="padTo")]
+
+    prefix: str
+
+    start: int
+
+    suffix: str

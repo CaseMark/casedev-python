@@ -71,13 +71,15 @@ class TranscriptionResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TranscriptionCreateResponse:
-        """Creates an asynchronous transcription job for audio files.
+        """Creates an asynchronous transcription job for audio or video files.
 
-        Supports two modes:
+        Supports two
+        modes:
 
         **Vault-based (recommended)**: Pass `vault_id` and `object_id` to transcribe
-        audio from your vault. The transcript will automatically be saved back to the
-        vault when complete.
+        media from your vault. Large videos are converted to an internal MP3 derivative
+        before transcription while the original video remains the transcript source. The
+        transcript is automatically saved back to the vault when complete.
 
         **Direct URL (legacy)**: Pass `audio_url` for direct transcription without
         automatic storage.
@@ -280,13 +282,15 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TranscriptionCreateResponse:
-        """Creates an asynchronous transcription job for audio files.
+        """Creates an asynchronous transcription job for audio or video files.
 
-        Supports two modes:
+        Supports two
+        modes:
 
         **Vault-based (recommended)**: Pass `vault_id` and `object_id` to transcribe
-        audio from your vault. The transcript will automatically be saved back to the
-        vault when complete.
+        media from your vault. Large videos are converted to an internal MP3 derivative
+        before transcription while the original video remains the transcript source. The
+        transcript is automatically saved back to the vault when complete.
 
         **Direct URL (legacy)**: Pass `audio_url` for direct transcription without
         automatic storage.

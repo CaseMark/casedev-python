@@ -13,6 +13,8 @@ __all__ = ["ObjectAppendResponse"]
 class ObjectAppendResponse(BaseModel):
     id: Optional[str] = None
 
+    bates: Optional[object] = None
+
     checksum: Optional[str] = None
 
     content_type: Optional[str] = FieldInfo(alias="contentType", default=None)
@@ -28,6 +30,8 @@ class ObjectAppendResponse(BaseModel):
     ingestion_status: Optional[str] = FieldInfo(alias="ingestionStatus", default=None)
 
     metadata: Optional[object] = None
+
+    object_id: Optional[str] = FieldInfo(alias="objectId", default=None)
 
     page_count: Optional[int] = FieldInfo(alias="pageCount", default=None)
 

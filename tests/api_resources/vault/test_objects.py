@@ -19,6 +19,7 @@ from casedev._response import (
 )
 from casedev.types.vault import (
     ObjectListResponse,
+    ObjectMergeResponse,
     ObjectAppendResponse,
     ObjectDeleteResponse,
     ObjectUpdateResponse,
@@ -26,9 +27,7 @@ from casedev.types.vault import (
     ObjectGetPagesResponse,
     ObjectRetrieveResponse,
     ObjectGetChunksResponse,
-    ObjectSummarizeResponse,
     ObjectGetOcrWordsResponse,
-    ObjectGetSummarizeJobResponse,
     ObjectCreatePresignedURLResponse,
 )
 
@@ -265,6 +264,13 @@ class TestObjects:
             append_object_ids=["string"],
             back_links=True,
             back_links_text="backLinksText",
+            bates={
+                "enabled": True,
+                "pad_to": 0,
+                "prefix": "prefix",
+                "start": 1,
+                "suffix": "suffix",
+            },
             rewrite_links=True,
         )
         assert_matches_type(ObjectAppendResponse, object_, path=["response"])
@@ -615,66 +621,6 @@ class TestObjects:
             )
 
     @parametrize
-    def test_method_get_summarize_job(self, client: Casedev) -> None:
-        object_ = client.vault.objects.get_summarize_job(
-            job_id="jobId",
-            id="id",
-            object_id="objectId",
-        )
-        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
-
-    @parametrize
-    def test_raw_response_get_summarize_job(self, client: Casedev) -> None:
-        response = client.vault.objects.with_raw_response.get_summarize_job(
-            job_id="jobId",
-            id="id",
-            object_id="objectId",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        object_ = response.parse()
-        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get_summarize_job(self, client: Casedev) -> None:
-        with client.vault.objects.with_streaming_response.get_summarize_job(
-            job_id="jobId",
-            id="id",
-            object_id="objectId",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            object_ = response.parse()
-            assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_get_summarize_job(self, client: Casedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.vault.objects.with_raw_response.get_summarize_job(
-                job_id="jobId",
-                id="",
-                object_id="objectId",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
-            client.vault.objects.with_raw_response.get_summarize_job(
-                job_id="jobId",
-                id="id",
-                object_id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            client.vault.objects.with_raw_response.get_summarize_job(
-                job_id="",
-                id="id",
-                object_id="objectId",
-            )
-
-    @parametrize
     def test_method_get_text(self, client: Casedev) -> None:
         object_ = client.vault.objects.get_text(
             object_id="objectId",
@@ -723,61 +669,75 @@ class TestObjects:
             )
 
     @parametrize
-    def test_method_summarize(self, client: Casedev) -> None:
-        object_ = client.vault.objects.summarize(
-            object_id="objectId",
+    def test_method_merge(self, client: Casedev) -> None:
+        object_ = client.vault.objects.merge(
             id="id",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
         )
-        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+        assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
     @parametrize
-    def test_method_summarize_with_all_params(self, client: Casedev) -> None:
-        object_ = client.vault.objects.summarize(
-            object_id="objectId",
+    def test_method_merge_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.merge(
             id="id",
-            output_format="PDF",
-            workflow_type="workflowType",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
+            bates={
+                "pad_to": 0,
+                "prefix": "prefix",
+                "start": 1,
+                "suffix": "suffix",
+            },
+            client_reference="clientReference",
         )
-        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+        assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
     @parametrize
-    def test_raw_response_summarize(self, client: Casedev) -> None:
-        response = client.vault.objects.with_raw_response.summarize(
-            object_id="objectId",
+    def test_raw_response_merge(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.merge(
             id="id",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = response.parse()
-        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+        assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
     @parametrize
-    def test_streaming_response_summarize(self, client: Casedev) -> None:
-        with client.vault.objects.with_streaming_response.summarize(
-            object_id="objectId",
+    def test_streaming_response_merge(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.merge(
             id="id",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = response.parse()
-            assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+            assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_summarize(self, client: Casedev) -> None:
+    def test_path_params_merge(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.vault.objects.with_raw_response.summarize(
-                object_id="objectId",
+            client.vault.objects.with_raw_response.merge(
                 id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
-            client.vault.objects.with_raw_response.summarize(
-                object_id="",
-                id="id",
+                filename="filename",
+                source_object_ids=["string"],
+                source_rendition="original",
+                idempotency_key="x",
             )
 
 
@@ -1013,6 +973,13 @@ class TestAsyncObjects:
             append_object_ids=["string"],
             back_links=True,
             back_links_text="backLinksText",
+            bates={
+                "enabled": True,
+                "pad_to": 0,
+                "prefix": "prefix",
+                "start": 1,
+                "suffix": "suffix",
+            },
             rewrite_links=True,
         )
         assert_matches_type(ObjectAppendResponse, object_, path=["response"])
@@ -1363,66 +1330,6 @@ class TestAsyncObjects:
             )
 
     @parametrize
-    async def test_method_get_summarize_job(self, async_client: AsyncCasedev) -> None:
-        object_ = await async_client.vault.objects.get_summarize_job(
-            job_id="jobId",
-            id="id",
-            object_id="objectId",
-        )
-        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
-
-    @parametrize
-    async def test_raw_response_get_summarize_job(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.vault.objects.with_raw_response.get_summarize_job(
-            job_id="jobId",
-            id="id",
-            object_id="objectId",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        object_ = await response.parse()
-        assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_get_summarize_job(self, async_client: AsyncCasedev) -> None:
-        async with async_client.vault.objects.with_streaming_response.get_summarize_job(
-            job_id="jobId",
-            id="id",
-            object_id="objectId",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            object_ = await response.parse()
-            assert_matches_type(ObjectGetSummarizeJobResponse, object_, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_get_summarize_job(self, async_client: AsyncCasedev) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.vault.objects.with_raw_response.get_summarize_job(
-                job_id="jobId",
-                id="",
-                object_id="objectId",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
-            await async_client.vault.objects.with_raw_response.get_summarize_job(
-                job_id="jobId",
-                id="id",
-                object_id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `job_id` but received ''"):
-            await async_client.vault.objects.with_raw_response.get_summarize_job(
-                job_id="",
-                id="id",
-                object_id="objectId",
-            )
-
-    @parametrize
     async def test_method_get_text(self, async_client: AsyncCasedev) -> None:
         object_ = await async_client.vault.objects.get_text(
             object_id="objectId",
@@ -1471,59 +1378,73 @@ class TestAsyncObjects:
             )
 
     @parametrize
-    async def test_method_summarize(self, async_client: AsyncCasedev) -> None:
-        object_ = await async_client.vault.objects.summarize(
-            object_id="objectId",
+    async def test_method_merge(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.merge(
             id="id",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
         )
-        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+        assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
     @parametrize
-    async def test_method_summarize_with_all_params(self, async_client: AsyncCasedev) -> None:
-        object_ = await async_client.vault.objects.summarize(
-            object_id="objectId",
+    async def test_method_merge_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.merge(
             id="id",
-            output_format="PDF",
-            workflow_type="workflowType",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
+            bates={
+                "pad_to": 0,
+                "prefix": "prefix",
+                "start": 1,
+                "suffix": "suffix",
+            },
+            client_reference="clientReference",
         )
-        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+        assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
     @parametrize
-    async def test_raw_response_summarize(self, async_client: AsyncCasedev) -> None:
-        response = await async_client.vault.objects.with_raw_response.summarize(
-            object_id="objectId",
+    async def test_raw_response_merge(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.merge(
             id="id",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         object_ = await response.parse()
-        assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+        assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
     @parametrize
-    async def test_streaming_response_summarize(self, async_client: AsyncCasedev) -> None:
-        async with async_client.vault.objects.with_streaming_response.summarize(
-            object_id="objectId",
+    async def test_streaming_response_merge(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.merge(
             id="id",
+            filename="filename",
+            source_object_ids=["string"],
+            source_rendition="original",
+            idempotency_key="x",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             object_ = await response.parse()
-            assert_matches_type(ObjectSummarizeResponse, object_, path=["response"])
+            assert_matches_type(ObjectMergeResponse, object_, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_summarize(self, async_client: AsyncCasedev) -> None:
+    async def test_path_params_merge(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.vault.objects.with_raw_response.summarize(
-                object_id="objectId",
+            await async_client.vault.objects.with_raw_response.merge(
                 id="",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
-            await async_client.vault.objects.with_raw_response.summarize(
-                object_id="",
-                id="id",
+                filename="filename",
+                source_object_ids=["string"],
+                source_rendition="original",
+                idempotency_key="x",
             )

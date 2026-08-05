@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
@@ -33,6 +33,12 @@ class SessionCreateParams(TypedDict, total=False):
 
     scoped_api_key: Annotated[Optional[str], PropertyInfo(alias="scopedApiKey")]
     """Optional caller-provided scoped Case.dev API key for the runtime."""
+
+    service_tier: Annotated[Literal["default", "priority"], PropertyInfo(alias="serviceTier")]
+    """Processing tier for eligible OpenAI GPT models.
+
+    Priority provides lower latency at premium cost.
+    """
 
     skill_slugs: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="skillSlugs")]
     """

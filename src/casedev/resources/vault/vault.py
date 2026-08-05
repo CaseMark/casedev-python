@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, overload
+from typing_extensions import Literal
 
 import httpx
 
@@ -40,15 +40,7 @@ from .objects import (
     AsyncObjectsResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
-from .graphrag import (
-    GraphragResource,
-    AsyncGraphragResource,
-    GraphragResourceWithRawResponse,
-    AsyncGraphragResourceWithRawResponse,
-    GraphragResourceWithStreamingResponse,
-    AsyncGraphragResourceWithStreamingResponse,
-)
+from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from .multipart import (
     MultipartResource,
@@ -95,11 +87,6 @@ class VaultResource(SyncAPIResource):
         return EventsResource(self._client)
 
     @cached_property
-    def graphrag(self) -> GraphragResource:
-        """Secure document storage with semantic search and GraphRAG"""
-        return GraphragResource(self._client)
-
-    @cached_property
     def groups(self) -> GroupsResource:
         """Secure document storage with semantic search and GraphRAG"""
         return GroupsResource(self._client)
@@ -111,12 +98,12 @@ class VaultResource(SyncAPIResource):
 
     @cached_property
     def objects(self) -> ObjectsResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault object management, content access, and document operations"""
         return ObjectsResource(self._client)
 
     @cached_property
     def memory(self) -> MemoryResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped persistent memory and semantic retrieval"""
         return MemoryResource(self._client)
 
     @cached_property
@@ -383,16 +370,17 @@ class VaultResource(SyncAPIResource):
             cast_to=VaultDeleteResponse,
         )
 
-    @overload
     def confirm_upload(
         self,
         object_id: str,
         *,
         id: str,
-        size_bytes: int,
-        success: Literal[True],
+        success: bool,
         auto_ingest: bool | Omit = omit,
+        error_code: str | Omit = omit,
+        error_message: str | Omit = omit,
         etag: str | Omit = omit,
+        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -404,11 +392,11 @@ class VaultResource(SyncAPIResource):
 
         This endpoint
         emits vault.upload.completed or vault.upload.failed events and is idempotent for
-        repeated confirmations.
+        repeated confirmations. Conditional fields: when success=true, sizeBytes is
+        required; when success=false, errorCode and errorMessage are required. These
+        rules are enforced server-side with specific 400 responses.
 
         Args:
-          size_bytes: Uploaded file size in bytes
-
           success: Whether the upload succeeded
 
           auto_ingest: When true and the object was uploaded with auto_index, trigger ingestion
@@ -416,7 +404,14 @@ class VaultResource(SyncAPIResource):
               The ingest outcome is reported in the `ingest` response field; an ingest failure
               does not fail the confirmation.
 
-          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
+          error_code: Client-side error code. Required when success=false.
+
+          error_message: Client-side error message. Required when success=false.
+
+          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header).
+              Only meaningful when success=true.
+
+          size_bytes: Uploaded file size in bytes. Required when success=true.
 
           extra_headers: Send extra headers
 
@@ -426,66 +421,6 @@ class VaultResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        ...
-
-    @overload
-    def confirm_upload(
-        self,
-        object_id: str,
-        *,
-        id: str,
-        error_code: str,
-        error_message: str,
-        success: Literal[False],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> VaultConfirmUploadResponse:
-        """Confirm whether a direct-to-S3 vault upload succeeded or failed.
-
-        This endpoint
-        emits vault.upload.completed or vault.upload.failed events and is idempotent for
-        repeated confirmations.
-
-        Args:
-          error_code: Client-side error code
-
-          error_message: Client-side error message
-
-          success: Whether the upload succeeded
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["id", "size_bytes", "success"], ["id", "error_code", "error_message", "success"])
-    def confirm_upload(
-        self,
-        object_id: str,
-        *,
-        id: str,
-        size_bytes: int | Omit = omit,
-        success: Literal[True] | Literal[False],
-        auto_ingest: bool | Omit = omit,
-        etag: str | Omit = omit,
-        error_code: str | Omit = omit,
-        error_message: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> VaultConfirmUploadResponse:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
@@ -494,12 +429,12 @@ class VaultResource(SyncAPIResource):
             path_template("/vault/{id}/upload/{object_id}/confirm", id=id, object_id=object_id),
             body=maybe_transform(
                 {
-                    "size_bytes": size_bytes,
                     "success": success,
                     "auto_ingest": auto_ingest,
-                    "etag": etag,
                     "error_code": error_code,
                     "error_message": error_message,
+                    "etag": etag,
+                    "size_bytes": size_bytes,
                 },
                 vault_confirm_upload_params.VaultConfirmUploadParams,
             ),
@@ -529,8 +464,7 @@ class VaultResource(SyncAPIResource):
         recursively up to 5 levels, and each extracted file is created as an independent
         vault object and ingested via the normal pipeline. For unsupported types
         (images, etc.), the file is marked as completed immediately without text
-        extraction. GraphRAG indexing must be triggered separately via POST
-        /vault/:id/graphrag/:objectId.
+        extraction.
 
         Args:
           extra_headers: Send extra headers
@@ -623,6 +557,7 @@ class VaultResource(SyncAPIResource):
         metadata: object | Omit = omit,
         path: str | Omit = omit,
         size_bytes: int | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -665,6 +600,7 @@ class VaultResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             path_template("/vault/{id}/upload", id=id),
             body=maybe_transform(
@@ -694,11 +630,6 @@ class AsyncVaultResource(AsyncAPIResource):
         return AsyncEventsResource(self._client)
 
     @cached_property
-    def graphrag(self) -> AsyncGraphragResource:
-        """Secure document storage with semantic search and GraphRAG"""
-        return AsyncGraphragResource(self._client)
-
-    @cached_property
     def groups(self) -> AsyncGroupsResource:
         """Secure document storage with semantic search and GraphRAG"""
         return AsyncGroupsResource(self._client)
@@ -710,12 +641,12 @@ class AsyncVaultResource(AsyncAPIResource):
 
     @cached_property
     def objects(self) -> AsyncObjectsResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault object management, content access, and document operations"""
         return AsyncObjectsResource(self._client)
 
     @cached_property
     def memory(self) -> AsyncMemoryResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped persistent memory and semantic retrieval"""
         return AsyncMemoryResource(self._client)
 
     @cached_property
@@ -982,16 +913,17 @@ class AsyncVaultResource(AsyncAPIResource):
             cast_to=VaultDeleteResponse,
         )
 
-    @overload
     async def confirm_upload(
         self,
         object_id: str,
         *,
         id: str,
-        size_bytes: int,
-        success: Literal[True],
+        success: bool,
         auto_ingest: bool | Omit = omit,
+        error_code: str | Omit = omit,
+        error_message: str | Omit = omit,
         etag: str | Omit = omit,
+        size_bytes: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1003,11 +935,11 @@ class AsyncVaultResource(AsyncAPIResource):
 
         This endpoint
         emits vault.upload.completed or vault.upload.failed events and is idempotent for
-        repeated confirmations.
+        repeated confirmations. Conditional fields: when success=true, sizeBytes is
+        required; when success=false, errorCode and errorMessage are required. These
+        rules are enforced server-side with specific 400 responses.
 
         Args:
-          size_bytes: Uploaded file size in bytes
-
           success: Whether the upload succeeded
 
           auto_ingest: When true and the object was uploaded with auto_index, trigger ingestion
@@ -1015,7 +947,14 @@ class AsyncVaultResource(AsyncAPIResource):
               The ingest outcome is reported in the `ingest` response field; an ingest failure
               does not fail the confirmation.
 
-          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header)
+          error_code: Client-side error code. Required when success=false.
+
+          error_message: Client-side error message. Required when success=false.
+
+          etag: S3 ETag for the uploaded object (optional if client cannot access ETag header).
+              Only meaningful when success=true.
+
+          size_bytes: Uploaded file size in bytes. Required when success=true.
 
           extra_headers: Send extra headers
 
@@ -1025,66 +964,6 @@ class AsyncVaultResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        ...
-
-    @overload
-    async def confirm_upload(
-        self,
-        object_id: str,
-        *,
-        id: str,
-        error_code: str,
-        error_message: str,
-        success: Literal[False],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> VaultConfirmUploadResponse:
-        """Confirm whether a direct-to-S3 vault upload succeeded or failed.
-
-        This endpoint
-        emits vault.upload.completed or vault.upload.failed events and is idempotent for
-        repeated confirmations.
-
-        Args:
-          error_code: Client-side error code
-
-          error_message: Client-side error message
-
-          success: Whether the upload succeeded
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["id", "size_bytes", "success"], ["id", "error_code", "error_message", "success"])
-    async def confirm_upload(
-        self,
-        object_id: str,
-        *,
-        id: str,
-        size_bytes: int | Omit = omit,
-        success: Literal[True] | Literal[False],
-        auto_ingest: bool | Omit = omit,
-        etag: str | Omit = omit,
-        error_code: str | Omit = omit,
-        error_message: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> VaultConfirmUploadResponse:
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
@@ -1093,12 +972,12 @@ class AsyncVaultResource(AsyncAPIResource):
             path_template("/vault/{id}/upload/{object_id}/confirm", id=id, object_id=object_id),
             body=await async_maybe_transform(
                 {
-                    "size_bytes": size_bytes,
                     "success": success,
                     "auto_ingest": auto_ingest,
-                    "etag": etag,
                     "error_code": error_code,
                     "error_message": error_message,
+                    "etag": etag,
+                    "size_bytes": size_bytes,
                 },
                 vault_confirm_upload_params.VaultConfirmUploadParams,
             ),
@@ -1128,8 +1007,7 @@ class AsyncVaultResource(AsyncAPIResource):
         recursively up to 5 levels, and each extracted file is created as an independent
         vault object and ingested via the normal pipeline. For unsupported types
         (images, etc.), the file is marked as completed immediately without text
-        extraction. GraphRAG indexing must be triggered separately via POST
-        /vault/:id/graphrag/:objectId.
+        extraction.
 
         Args:
           extra_headers: Send extra headers
@@ -1222,6 +1100,7 @@ class AsyncVaultResource(AsyncAPIResource):
         metadata: object | Omit = omit,
         path: str | Omit = omit,
         size_bytes: int | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1264,6 +1143,7 @@ class AsyncVaultResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             path_template("/vault/{id}/upload", id=id),
             body=await async_maybe_transform(
@@ -1322,11 +1202,6 @@ class VaultResourceWithRawResponse:
         return EventsResourceWithRawResponse(self._vault.events)
 
     @cached_property
-    def graphrag(self) -> GraphragResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
-        return GraphragResourceWithRawResponse(self._vault.graphrag)
-
-    @cached_property
     def groups(self) -> GroupsResourceWithRawResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return GroupsResourceWithRawResponse(self._vault.groups)
@@ -1338,12 +1213,12 @@ class VaultResourceWithRawResponse:
 
     @cached_property
     def objects(self) -> ObjectsResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault object management, content access, and document operations"""
         return ObjectsResourceWithRawResponse(self._vault.objects)
 
     @cached_property
     def memory(self) -> MemoryResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped persistent memory and semantic retrieval"""
         return MemoryResourceWithRawResponse(self._vault.memory)
 
 
@@ -1384,11 +1259,6 @@ class AsyncVaultResourceWithRawResponse:
         return AsyncEventsResourceWithRawResponse(self._vault.events)
 
     @cached_property
-    def graphrag(self) -> AsyncGraphragResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
-        return AsyncGraphragResourceWithRawResponse(self._vault.graphrag)
-
-    @cached_property
     def groups(self) -> AsyncGroupsResourceWithRawResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return AsyncGroupsResourceWithRawResponse(self._vault.groups)
@@ -1400,12 +1270,12 @@ class AsyncVaultResourceWithRawResponse:
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault object management, content access, and document operations"""
         return AsyncObjectsResourceWithRawResponse(self._vault.objects)
 
     @cached_property
     def memory(self) -> AsyncMemoryResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped persistent memory and semantic retrieval"""
         return AsyncMemoryResourceWithRawResponse(self._vault.memory)
 
 
@@ -1446,11 +1316,6 @@ class VaultResourceWithStreamingResponse:
         return EventsResourceWithStreamingResponse(self._vault.events)
 
     @cached_property
-    def graphrag(self) -> GraphragResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
-        return GraphragResourceWithStreamingResponse(self._vault.graphrag)
-
-    @cached_property
     def groups(self) -> GroupsResourceWithStreamingResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return GroupsResourceWithStreamingResponse(self._vault.groups)
@@ -1462,12 +1327,12 @@ class VaultResourceWithStreamingResponse:
 
     @cached_property
     def objects(self) -> ObjectsResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault object management, content access, and document operations"""
         return ObjectsResourceWithStreamingResponse(self._vault.objects)
 
     @cached_property
     def memory(self) -> MemoryResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped persistent memory and semantic retrieval"""
         return MemoryResourceWithStreamingResponse(self._vault.memory)
 
 
@@ -1508,11 +1373,6 @@ class AsyncVaultResourceWithStreamingResponse:
         return AsyncEventsResourceWithStreamingResponse(self._vault.events)
 
     @cached_property
-    def graphrag(self) -> AsyncGraphragResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
-        return AsyncGraphragResourceWithStreamingResponse(self._vault.graphrag)
-
-    @cached_property
     def groups(self) -> AsyncGroupsResourceWithStreamingResponse:
         """Secure document storage with semantic search and GraphRAG"""
         return AsyncGroupsResourceWithStreamingResponse(self._vault.groups)
@@ -1524,10 +1384,10 @@ class AsyncVaultResourceWithStreamingResponse:
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault object management, content access, and document operations"""
         return AsyncObjectsResourceWithStreamingResponse(self._vault.objects)
 
     @cached_property
     def memory(self) -> AsyncMemoryResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Vault-scoped persistent memory and semantic retrieval"""
         return AsyncMemoryResourceWithStreamingResponse(self._vault.memory)

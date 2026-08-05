@@ -11,9 +11,7 @@ __all__ = ["WorkItemDecideParams"]
 class WorkItemDecideParams(TypedDict, total=False):
     id: Required[str]
 
-    decision: Required[Literal["approve", "revise", "block", "reassign"]]
-
-    agent_type_id: Optional[str]
+    decision: Required[Literal["approve", "block"]]
 
     metadata: Dict[str, object]
 

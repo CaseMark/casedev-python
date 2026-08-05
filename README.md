@@ -140,13 +140,32 @@ from casedev import Casedev
 
 client = Casedev()
 
-agent = client.agent.v1.agents.create(
-    instructions="instructions",
-    name="name",
-    sandbox={},
+response = client.connectors.v1.sync_link(
+    connection_id="connection_id",
+    direction="import",
+    remote={"folder_id": "folder_id"},
+    vault_id="vault_id",
 )
-print(agent.sandbox)
+print(response.remote)
 ```
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
+
+```python
+from pathlib import Path
+from casedev import Casedev
+
+client = Casedev()
+
+client.translate.v1.translate_document(
+    file=Path("/path/to/file"),
+    target="es",
+)
+```
+
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
 ## Handling errors
 

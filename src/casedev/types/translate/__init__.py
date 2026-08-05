@@ -8,3 +8,4 @@ from .v1_translate_params import V1TranslateParams as V1TranslateParams
 from .v1_translate_response import V1TranslateResponse as V1TranslateResponse
 from .v1_list_languages_params import V1ListLanguagesParams as V1ListLanguagesParams
 from .v1_list_languages_response import V1ListLanguagesResponse as V1ListLanguagesResponse
+from .v1_translate_document_params import V1TranslateDocumentParams as V1TranslateDocumentParams

@@ -12,7 +12,7 @@ class TranscriptionRetrieveResponse(BaseModel):
     id: str
     """Unique transcription job ID"""
 
-    status: Literal["queued", "processing", "completed", "failed"]
+    status: Literal["queued", "preprocessing", "processing", "completed", "failed"]
     """Current status of the transcription job"""
 
     audio_duration: Optional[float] = None
@@ -24,11 +24,17 @@ class TranscriptionRetrieveResponse(BaseModel):
     error: Optional[str] = None
     """Error message (only present when status is failed)"""
 
+    input_object_id: Optional[str] = None
+    """Media object submitted to the speech provider.
+
+    May be an internal audio derivative for large videos.
+    """
+
     result_object_id: Optional[str] = None
     """Result transcript object ID (vault-based jobs, when completed)"""
 
     source_object_id: Optional[str] = None
-    """Source audio object ID (vault-based jobs only)"""
+    """Original source media object ID (vault-based jobs only)"""
 
     text: Optional[str] = None
     """

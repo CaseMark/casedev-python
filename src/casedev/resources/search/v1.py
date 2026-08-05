@@ -9,7 +9,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -19,26 +19,17 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.search import (
-    v1_answer_params,
-    v1_search_params,
-    v1_similar_params,
-    v1_contents_params,
-    v1_research_params,
-    v1_retrieve_research_params,
-)
+from ...types.search import v1_answer_params, v1_search_params, v1_similar_params, v1_contents_params
 from ...types.search.v1_answer_response import V1AnswerResponse
 from ...types.search.v1_search_response import V1SearchResponse
 from ...types.search.v1_similar_response import V1SimilarResponse
 from ...types.search.v1_contents_response import V1ContentsResponse
-from ...types.search.v1_research_response import V1ResearchResponse
-from ...types.search.v1_retrieve_research_response import V1RetrieveResearchResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
-    """Web search, AI answers, and deep research"""
+    """Web search and AI answers"""
 
     @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
@@ -220,112 +211,6 @@ class V1Resource(SyncAPIResource):
             cast_to=V1ContentsResponse,
         )
 
-    def research(
-        self,
-        *,
-        instructions: str,
-        model: Literal["fast", "normal", "pro"] | Omit = omit,
-        output_schema: object | Omit = omit,
-        query: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> V1ResearchResponse:
-        """
-        Performs deep research by conducting multi-step analysis, gathering information
-        from multiple sources, and providing comprehensive insights. Ideal for legal
-        research, case analysis, and due diligence investigations.
-
-        Args:
-          instructions: Research instructions or query
-
-          model: Research quality level - fast (quick), normal (balanced), pro (comprehensive)
-
-          output_schema: Optional JSON schema to structure the research output
-
-          query: Alias for instructions (for convenience)
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._post(
-            "/search/v1/research",
-            body=maybe_transform(
-                {
-                    "instructions": instructions,
-                    "model": model,
-                    "output_schema": output_schema,
-                    "query": query,
-                },
-                v1_research_params.V1ResearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=V1ResearchResponse,
-        )
-
-    def retrieve_research(
-        self,
-        id: str,
-        *,
-        events: str | Omit = omit,
-        stream: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> V1RetrieveResearchResponse:
-        """Retrieve the status and results of a deep research task by ID.
-
-        Supports both
-        standard JSON responses and streaming for real-time updates as the research
-        progresses. Research tasks analyze topics comprehensively using web search and
-        AI synthesis.
-
-        Args:
-          events: Filter specific event types for streaming
-
-          stream: Enable streaming for real-time updates
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._get(
-            path_template("/search/v1/research/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "events": events,
-                        "stream": stream,
-                    },
-                    v1_retrieve_research_params.V1RetrieveResearchParams,
-                ),
-            ),
-            cast_to=V1RetrieveResearchResponse,
-        )
-
     def search(
         self,
         *,
@@ -499,7 +384,7 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
-    """Web search, AI answers, and deep research"""
+    """Web search and AI answers"""
 
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
@@ -679,112 +564,6 @@ class AsyncV1Resource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1ContentsResponse,
-        )
-
-    async def research(
-        self,
-        *,
-        instructions: str,
-        model: Literal["fast", "normal", "pro"] | Omit = omit,
-        output_schema: object | Omit = omit,
-        query: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> V1ResearchResponse:
-        """
-        Performs deep research by conducting multi-step analysis, gathering information
-        from multiple sources, and providing comprehensive insights. Ideal for legal
-        research, case analysis, and due diligence investigations.
-
-        Args:
-          instructions: Research instructions or query
-
-          model: Research quality level - fast (quick), normal (balanced), pro (comprehensive)
-
-          output_schema: Optional JSON schema to structure the research output
-
-          query: Alias for instructions (for convenience)
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._post(
-            "/search/v1/research",
-            body=await async_maybe_transform(
-                {
-                    "instructions": instructions,
-                    "model": model,
-                    "output_schema": output_schema,
-                    "query": query,
-                },
-                v1_research_params.V1ResearchParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=V1ResearchResponse,
-        )
-
-    async def retrieve_research(
-        self,
-        id: str,
-        *,
-        events: str | Omit = omit,
-        stream: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> V1RetrieveResearchResponse:
-        """Retrieve the status and results of a deep research task by ID.
-
-        Supports both
-        standard JSON responses and streaming for real-time updates as the research
-        progresses. Research tasks analyze topics comprehensively using web search and
-        AI synthesis.
-
-        Args:
-          events: Filter specific event types for streaming
-
-          stream: Enable streaming for real-time updates
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._get(
-            path_template("/search/v1/research/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "events": events,
-                        "stream": stream,
-                    },
-                    v1_retrieve_research_params.V1RetrieveResearchParams,
-                ),
-            ),
-            cast_to=V1RetrieveResearchResponse,
         )
 
     async def search(
@@ -969,12 +748,6 @@ class V1ResourceWithRawResponse:
         self.contents = to_raw_response_wrapper(
             v1.contents,
         )
-        self.research = to_raw_response_wrapper(
-            v1.research,
-        )
-        self.retrieve_research = to_raw_response_wrapper(
-            v1.retrieve_research,
-        )
         self.search = to_raw_response_wrapper(
             v1.search,
         )
@@ -992,12 +765,6 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.contents = async_to_raw_response_wrapper(
             v1.contents,
-        )
-        self.research = async_to_raw_response_wrapper(
-            v1.research,
-        )
-        self.retrieve_research = async_to_raw_response_wrapper(
-            v1.retrieve_research,
         )
         self.search = async_to_raw_response_wrapper(
             v1.search,
@@ -1017,12 +784,6 @@ class V1ResourceWithStreamingResponse:
         self.contents = to_streamed_response_wrapper(
             v1.contents,
         )
-        self.research = to_streamed_response_wrapper(
-            v1.research,
-        )
-        self.retrieve_research = to_streamed_response_wrapper(
-            v1.retrieve_research,
-        )
         self.search = to_streamed_response_wrapper(
             v1.search,
         )
@@ -1040,12 +801,6 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.contents = async_to_streamed_response_wrapper(
             v1.contents,
-        )
-        self.research = async_to_streamed_response_wrapper(
-            v1.research,
-        )
-        self.retrieve_research = async_to_streamed_response_wrapper(
-            v1.retrieve_research,
         )
         self.search = async_to_streamed_response_wrapper(
             v1.search,

@@ -19,9 +19,7 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 class V1Resource(SyncAPIResource):
     @cached_property
     def sessions(self) -> SessionsResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Durable, stateful legal agent sessions with sandboxed tools and files"""
         return SessionsResource(self._client)
 
     @cached_property
@@ -47,9 +45,7 @@ class V1Resource(SyncAPIResource):
 class AsyncV1Resource(AsyncAPIResource):
     @cached_property
     def sessions(self) -> AsyncSessionsResource:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Durable, stateful legal agent sessions with sandboxed tools and files"""
         return AsyncSessionsResource(self._client)
 
     @cached_property
@@ -78,9 +74,7 @@ class V1ResourceWithRawResponse:
 
     @cached_property
     def sessions(self) -> SessionsResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Durable, stateful legal agent sessions with sandboxed tools and files"""
         return SessionsResourceWithRawResponse(self._v1.sessions)
 
 
@@ -90,9 +84,7 @@ class AsyncV1ResourceWithRawResponse:
 
     @cached_property
     def sessions(self) -> AsyncSessionsResourceWithRawResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Durable, stateful legal agent sessions with sandboxed tools and files"""
         return AsyncSessionsResourceWithRawResponse(self._v1.sessions)
 
 
@@ -102,9 +94,7 @@ class V1ResourceWithStreamingResponse:
 
     @cached_property
     def sessions(self) -> SessionsResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Durable, stateful legal agent sessions with sandboxed tools and files"""
         return SessionsResourceWithStreamingResponse(self._v1.sessions)
 
 
@@ -114,7 +104,5 @@ class AsyncV1ResourceWithStreamingResponse:
 
     @cached_property
     def sessions(self) -> AsyncSessionsResourceWithStreamingResponse:
-        """
-        Create, manage, and execute AI agents with tool access, sandbox environments, and async run workflows
-        """
+        """Durable, stateful legal agent sessions with sandboxed tools and files"""
         return AsyncSessionsResourceWithStreamingResponse(self._v1.sessions)

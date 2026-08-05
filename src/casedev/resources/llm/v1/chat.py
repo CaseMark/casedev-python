@@ -74,8 +74,9 @@ class ChatResource(SyncAPIResource):
         Args:
           messages: List of messages comprising the conversation
 
-          casemark_show_reasoning: CaseMark-only: when true, allows reasoning fields in responses. Defaults to
-              false (reasoning is suppressed).
+          casemark_show_reasoning: CaseMark-only: controls whether reasoning fields appear in responses. Defaults
+              to false (suppressed) for most CaseMark models; defaults to true for
+              casemark/core-potassium.
 
           frequency_penalty: Frequency penalty parameter
 
@@ -173,8 +174,9 @@ class AsyncChatResource(AsyncAPIResource):
         Args:
           messages: List of messages comprising the conversation
 
-          casemark_show_reasoning: CaseMark-only: when true, allows reasoning fields in responses. Defaults to
-              false (reasoning is suppressed).
+          casemark_show_reasoning: CaseMark-only: controls whether reasoning fields appear in responses. Defaults
+              to false (suppressed) for most CaseMark models; defaults to true for
+              casemark/core-potassium.
 
           frequency_penalty: Frequency penalty parameter
 

@@ -27,34 +27,33 @@ from ..._response import (
 )
 from ...types.vault import (
     object_list_params,
+    object_merge_params,
     object_append_params,
     object_delete_params,
     object_update_params,
     object_get_pages_params,
-    object_summarize_params,
     object_get_chunks_params,
     object_get_ocr_words_params,
     object_create_presigned_url_params,
 )
 from ..._base_client import make_request_options
 from ...types.vault.object_list_response import ObjectListResponse
+from ...types.vault.object_merge_response import ObjectMergeResponse
 from ...types.vault.object_append_response import ObjectAppendResponse
 from ...types.vault.object_delete_response import ObjectDeleteResponse
 from ...types.vault.object_update_response import ObjectUpdateResponse
 from ...types.vault.object_get_text_response import ObjectGetTextResponse
 from ...types.vault.object_retrieve_response import ObjectRetrieveResponse
 from ...types.vault.object_get_pages_response import ObjectGetPagesResponse
-from ...types.vault.object_summarize_response import ObjectSummarizeResponse
 from ...types.vault.object_get_chunks_response import ObjectGetChunksResponse
 from ...types.vault.object_get_ocr_words_response import ObjectGetOcrWordsResponse
-from ...types.vault.object_get_summarize_job_response import ObjectGetSummarizeJobResponse
 from ...types.vault.object_create_presigned_url_response import ObjectCreatePresignedURLResponse
 
 __all__ = ["ObjectsResource", "AsyncObjectsResource"]
 
 
 class ObjectsResource(SyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Vault object management, content access, and document operations"""
 
     @cached_property
     def with_raw_response(self) -> ObjectsResourceWithRawResponse:
@@ -267,6 +266,7 @@ class ObjectsResource(SyncAPIResource):
         append_object_ids: SequenceNotStr[str],
         back_links: bool | Omit = omit,
         back_links_text: str | Omit = omit,
+        bates: object_append_params.Bates | Omit = omit,
         rewrite_links: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -291,6 +291,9 @@ class ObjectsResource(SyncAPIResource):
           back_links_text: Label text for the back link. Used only when backLinks is true and rendered
               centered at the bottom of each appended page.
 
+          bates: Optional Bates stamping for appended source PDFs. Numbering is deterministic
+              across appendObjectIds order and does not stamp the target report pages.
+
           rewrite_links: When true, rewrites links in the target object to internal PDF jumps when the
               URL contains exactly one appended object ID as a standalone query parameter
               value or decoded path segment.
@@ -314,6 +317,7 @@ class ObjectsResource(SyncAPIResource):
                     "append_object_ids": append_object_ids,
                     "back_links": back_links,
                     "back_links_text": back_links_text,
+                    "bates": bates,
                     "rewrite_links": rewrite_links,
                 },
                 object_append_params.ObjectAppendParams,
@@ -609,47 +613,6 @@ class ObjectsResource(SyncAPIResource):
             cast_to=ObjectGetPagesResponse,
         )
 
-    def get_summarize_job(
-        self,
-        job_id: str,
-        *,
-        id: str,
-        object_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ObjectGetSummarizeJobResponse:
-        """
-        Get the status of a CaseMark summary workflow job.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not object_id:
-            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        if not job_id:
-            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
-        return self._get(
-            path_template(
-                "/vault/{id}/objects/{object_id}/summarize/{job_id}", id=id, object_id=object_id, job_id=job_id
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ObjectGetSummarizeJobResponse,
-        )
-
     def get_text(
         self,
         object_id: str,
@@ -662,11 +625,11 @@ class ObjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectGetTextResponse:
-        """Retrieves the full extracted text content from a processed vault object.
-
-        Returns
-        the concatenated text from all chunks, useful for document review, analysis, or
-        export. The object must have completed processing before text can be retrieved.
+        """
+        Retrieves the full extracted text content from a processed vault object,
+        page-numbered (--- Page N --- markers) when the source document is paginated.
+        Useful for document review, analysis, or export. The object must have completed
+        processing before text can be retrieved.
 
         Args:
           extra_headers: Send extra headers
@@ -689,29 +652,33 @@ class ObjectsResource(SyncAPIResource):
             cast_to=ObjectGetTextResponse,
         )
 
-    def summarize(
+    def merge(
         self,
-        object_id: str,
-        *,
         id: str,
-        output_format: Literal["PDF", "WORD"] | Omit = omit,
-        workflow_type: str | Omit = omit,
+        *,
+        filename: str,
+        source_object_ids: SequenceNotStr[str],
+        source_rendition: Literal["original", "searchable_pdf"],
+        idempotency_key: str,
+        bates: object_merge_params.Bates | Omit = omit,
+        client_reference: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ObjectSummarizeResponse:
-        """
-        Triggers a CaseMark AI workflow to summarize or analyze a document stored in the
-        vault. The workflow processes the document asynchronously and stores the result
-        as a new object in the same vault, linked to the original document.
+    ) -> ObjectMergeResponse:
+        """Starts an asynchronous merge that creates a new PDF vault object.
+
+        Source objects
+        are unchanged. Missing searchable PDF renditions are generated on demand before
+        combining. Completion is reported through vault.object.merge webhooks.
 
         Args:
-          output_format: Output format for the summary document
+          filename: Output PDF filename
 
-          workflow_type: Type of CaseMark workflow to run
+          source_object_ids: Source object IDs in output order
 
           extra_headers: Send extra headers
 
@@ -723,26 +690,28 @@ class ObjectsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not object_id:
-            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {"Idempotency-Key": idempotency_key, **(extra_headers or {})}
         return self._post(
-            path_template("/vault/{id}/objects/{object_id}/summarize", id=id, object_id=object_id),
+            path_template("/vault/{id}/objects/merge", id=id),
             body=maybe_transform(
                 {
-                    "output_format": output_format,
-                    "workflow_type": workflow_type,
+                    "filename": filename,
+                    "source_object_ids": source_object_ids,
+                    "source_rendition": source_rendition,
+                    "bates": bates,
+                    "client_reference": client_reference,
                 },
-                object_summarize_params.ObjectSummarizeParams,
+                object_merge_params.ObjectMergeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ObjectSummarizeResponse,
+            cast_to=ObjectMergeResponse,
         )
 
 
 class AsyncObjectsResource(AsyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Vault object management, content access, and document operations"""
 
     @cached_property
     def with_raw_response(self) -> AsyncObjectsResourceWithRawResponse:
@@ -955,6 +924,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         append_object_ids: SequenceNotStr[str],
         back_links: bool | Omit = omit,
         back_links_text: str | Omit = omit,
+        bates: object_append_params.Bates | Omit = omit,
         rewrite_links: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -979,6 +949,9 @@ class AsyncObjectsResource(AsyncAPIResource):
           back_links_text: Label text for the back link. Used only when backLinks is true and rendered
               centered at the bottom of each appended page.
 
+          bates: Optional Bates stamping for appended source PDFs. Numbering is deterministic
+              across appendObjectIds order and does not stamp the target report pages.
+
           rewrite_links: When true, rewrites links in the target object to internal PDF jumps when the
               URL contains exactly one appended object ID as a standalone query parameter
               value or decoded path segment.
@@ -1002,6 +975,7 @@ class AsyncObjectsResource(AsyncAPIResource):
                     "append_object_ids": append_object_ids,
                     "back_links": back_links,
                     "back_links_text": back_links_text,
+                    "bates": bates,
                     "rewrite_links": rewrite_links,
                 },
                 object_append_params.ObjectAppendParams,
@@ -1297,47 +1271,6 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=ObjectGetPagesResponse,
         )
 
-    async def get_summarize_job(
-        self,
-        job_id: str,
-        *,
-        id: str,
-        object_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ObjectGetSummarizeJobResponse:
-        """
-        Get the status of a CaseMark summary workflow job.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not object_id:
-            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
-        if not job_id:
-            raise ValueError(f"Expected a non-empty value for `job_id` but received {job_id!r}")
-        return await self._get(
-            path_template(
-                "/vault/{id}/objects/{object_id}/summarize/{job_id}", id=id, object_id=object_id, job_id=job_id
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ObjectGetSummarizeJobResponse,
-        )
-
     async def get_text(
         self,
         object_id: str,
@@ -1350,11 +1283,11 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectGetTextResponse:
-        """Retrieves the full extracted text content from a processed vault object.
-
-        Returns
-        the concatenated text from all chunks, useful for document review, analysis, or
-        export. The object must have completed processing before text can be retrieved.
+        """
+        Retrieves the full extracted text content from a processed vault object,
+        page-numbered (--- Page N --- markers) when the source document is paginated.
+        Useful for document review, analysis, or export. The object must have completed
+        processing before text can be retrieved.
 
         Args:
           extra_headers: Send extra headers
@@ -1377,29 +1310,33 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=ObjectGetTextResponse,
         )
 
-    async def summarize(
+    async def merge(
         self,
-        object_id: str,
-        *,
         id: str,
-        output_format: Literal["PDF", "WORD"] | Omit = omit,
-        workflow_type: str | Omit = omit,
+        *,
+        filename: str,
+        source_object_ids: SequenceNotStr[str],
+        source_rendition: Literal["original", "searchable_pdf"],
+        idempotency_key: str,
+        bates: object_merge_params.Bates | Omit = omit,
+        client_reference: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ObjectSummarizeResponse:
-        """
-        Triggers a CaseMark AI workflow to summarize or analyze a document stored in the
-        vault. The workflow processes the document asynchronously and stores the result
-        as a new object in the same vault, linked to the original document.
+    ) -> ObjectMergeResponse:
+        """Starts an asynchronous merge that creates a new PDF vault object.
+
+        Source objects
+        are unchanged. Missing searchable PDF renditions are generated on demand before
+        combining. Completion is reported through vault.object.merge webhooks.
 
         Args:
-          output_format: Output format for the summary document
+          filename: Output PDF filename
 
-          workflow_type: Type of CaseMark workflow to run
+          source_object_ids: Source object IDs in output order
 
           extra_headers: Send extra headers
 
@@ -1411,21 +1348,23 @@ class AsyncObjectsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        if not object_id:
-            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {"Idempotency-Key": idempotency_key, **(extra_headers or {})}
         return await self._post(
-            path_template("/vault/{id}/objects/{object_id}/summarize", id=id, object_id=object_id),
+            path_template("/vault/{id}/objects/merge", id=id),
             body=await async_maybe_transform(
                 {
-                    "output_format": output_format,
-                    "workflow_type": workflow_type,
+                    "filename": filename,
+                    "source_object_ids": source_object_ids,
+                    "source_rendition": source_rendition,
+                    "bates": bates,
+                    "client_reference": client_reference,
                 },
-                object_summarize_params.ObjectSummarizeParams,
+                object_merge_params.ObjectMergeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ObjectSummarizeResponse,
+            cast_to=ObjectMergeResponse,
         )
 
 
@@ -1464,14 +1403,11 @@ class ObjectsResourceWithRawResponse:
         self.get_pages = to_raw_response_wrapper(
             objects.get_pages,
         )
-        self.get_summarize_job = to_raw_response_wrapper(
-            objects.get_summarize_job,
-        )
         self.get_text = to_raw_response_wrapper(
             objects.get_text,
         )
-        self.summarize = to_raw_response_wrapper(
-            objects.summarize,
+        self.merge = to_raw_response_wrapper(
+            objects.merge,
         )
 
 
@@ -1510,14 +1446,11 @@ class AsyncObjectsResourceWithRawResponse:
         self.get_pages = async_to_raw_response_wrapper(
             objects.get_pages,
         )
-        self.get_summarize_job = async_to_raw_response_wrapper(
-            objects.get_summarize_job,
-        )
         self.get_text = async_to_raw_response_wrapper(
             objects.get_text,
         )
-        self.summarize = async_to_raw_response_wrapper(
-            objects.summarize,
+        self.merge = async_to_raw_response_wrapper(
+            objects.merge,
         )
 
 
@@ -1556,14 +1489,11 @@ class ObjectsResourceWithStreamingResponse:
         self.get_pages = to_streamed_response_wrapper(
             objects.get_pages,
         )
-        self.get_summarize_job = to_streamed_response_wrapper(
-            objects.get_summarize_job,
-        )
         self.get_text = to_streamed_response_wrapper(
             objects.get_text,
         )
-        self.summarize = to_streamed_response_wrapper(
-            objects.summarize,
+        self.merge = to_streamed_response_wrapper(
+            objects.merge,
         )
 
 
@@ -1602,12 +1532,9 @@ class AsyncObjectsResourceWithStreamingResponse:
         self.get_pages = async_to_streamed_response_wrapper(
             objects.get_pages,
         )
-        self.get_summarize_job = async_to_streamed_response_wrapper(
-            objects.get_summarize_job,
-        )
         self.get_text = async_to_streamed_response_wrapper(
             objects.get_text,
         )
-        self.summarize = async_to_streamed_response_wrapper(
-            objects.summarize,
+        self.merge = async_to_streamed_response_wrapper(
+            objects.merge,
         )

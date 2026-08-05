@@ -2,23 +2,47 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, Mapping, cast
 from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._files import deepcopy_with_paths
+from ..._types import (
+    Body,
+    Omit,
+    Query,
+    Headers,
+    NotGiven,
+    FileTypes,
+    SequenceNotStr,
+    omit,
+    not_given,
+)
+from ..._utils import extract_files, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.translate import v1_detect_params, v1_translate_params, v1_list_languages_params
+from ...types.translate import (
+    v1_detect_params,
+    v1_translate_params,
+    v1_list_languages_params,
+    v1_translate_document_params,
+)
 from ...types.translate.v1_detect_response import V1DetectResponse
 from ...types.translate.v1_translate_response import V1TranslateResponse
 from ...types.translate.v1_list_languages_response import V1ListLanguagesResponse
@@ -27,6 +51,8 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
+    """Language detection and translation for multilingual legal workflows"""
+
     @cached_property
     def with_raw_response(self) -> V1ResourceWithRawResponse:
         """
@@ -191,8 +217,68 @@ class V1Resource(SyncAPIResource):
             cast_to=V1TranslateResponse,
         )
 
+    def translate_document(
+        self,
+        *,
+        file: FileTypes,
+        target: str,
+        source: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> BinaryAPIResponse:
+        """Translate one TXT, DOCX, or searchable PDF document.
+
+        DOCX and PDF translations
+        preserve the source document format and retain as much layout and formatting as
+        possible.
+
+        Args:
+          file: TXT, DOCX, or searchable PDF document (max 20MB)
+
+          target: Target BCP-47 language code
+
+          source: Optional source BCP-47 language code. Auto-detected when omitted.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "file": file,
+                "target": target,
+                "source": source,
+            },
+            [["file"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return self._post(
+            "/translate/v1/document",
+            body=maybe_transform(body, v1_translate_document_params.V1TranslateDocumentParams),
+            files=files,
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BinaryAPIResponse,
+        )
+
 
 class AsyncV1Resource(AsyncAPIResource):
+    """Language detection and translation for multilingual legal workflows"""
+
     @cached_property
     def with_raw_response(self) -> AsyncV1ResourceWithRawResponse:
         """
@@ -357,6 +443,64 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=V1TranslateResponse,
         )
 
+    async def translate_document(
+        self,
+        *,
+        file: FileTypes,
+        target: str,
+        source: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncBinaryAPIResponse:
+        """Translate one TXT, DOCX, or searchable PDF document.
+
+        DOCX and PDF translations
+        preserve the source document format and retain as much layout and formatting as
+        possible.
+
+        Args:
+          file: TXT, DOCX, or searchable PDF document (max 20MB)
+
+          target: Target BCP-47 language code
+
+          source: Optional source BCP-47 language code. Auto-detected when omitted.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "file": file,
+                "target": target,
+                "source": source,
+            },
+            [["file"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return await self._post(
+            "/translate/v1/document",
+            body=await async_maybe_transform(body, v1_translate_document_params.V1TranslateDocumentParams),
+            files=files,
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AsyncBinaryAPIResponse,
+        )
+
 
 class V1ResourceWithRawResponse:
     def __init__(self, v1: V1Resource) -> None:
@@ -370,6 +514,10 @@ class V1ResourceWithRawResponse:
         )
         self.translate = to_raw_response_wrapper(
             v1.translate,
+        )
+        self.translate_document = to_custom_raw_response_wrapper(
+            v1.translate_document,
+            BinaryAPIResponse,
         )
 
 
@@ -386,6 +534,10 @@ class AsyncV1ResourceWithRawResponse:
         self.translate = async_to_raw_response_wrapper(
             v1.translate,
         )
+        self.translate_document = async_to_custom_raw_response_wrapper(
+            v1.translate_document,
+            AsyncBinaryAPIResponse,
+        )
 
 
 class V1ResourceWithStreamingResponse:
@@ -401,6 +553,10 @@ class V1ResourceWithStreamingResponse:
         self.translate = to_streamed_response_wrapper(
             v1.translate,
         )
+        self.translate_document = to_custom_streamed_response_wrapper(
+            v1.translate_document,
+            StreamedBinaryAPIResponse,
+        )
 
 
 class AsyncV1ResourceWithStreamingResponse:
@@ -415,4 +571,8 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.translate = async_to_streamed_response_wrapper(
             v1.translate,
+        )
+        self.translate_document = async_to_custom_streamed_response_wrapper(
+            v1.translate_document,
+            AsyncStreamedBinaryAPIResponse,
         )

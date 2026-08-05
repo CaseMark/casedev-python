@@ -13,9 +13,10 @@ class ChatCreateCompletionParams(TypedDict, total=False):
     """List of messages comprising the conversation"""
 
     casemark_show_reasoning: bool
-    """CaseMark-only: when true, allows reasoning fields in responses.
+    """CaseMark-only: controls whether reasoning fields appear in responses.
 
-    Defaults to false (reasoning is suppressed).
+    Defaults to false (suppressed) for most CaseMark models; defaults to true for
+    casemark/core-potassium.
     """
 
     frequency_penalty: float

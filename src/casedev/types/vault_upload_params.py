@@ -42,3 +42,5 @@ class VaultUploadParams(TypedDict, total=False):
 
     When provided, enforces exact file size at S3 level.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

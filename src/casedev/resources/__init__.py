@@ -24,22 +24,6 @@ from .linc import (
     LincResourceWithStreamingResponse,
     AsyncLincResourceWithStreamingResponse,
 )
-from .mail import (
-    MailResource,
-    AsyncMailResource,
-    MailResourceWithRawResponse,
-    AsyncMailResourceWithRawResponse,
-    MailResourceWithStreamingResponse,
-    AsyncMailResourceWithStreamingResponse,
-)
-from .agent import (
-    AgentResource,
-    AsyncAgentResource,
-    AgentResourceWithRawResponse,
-    AsyncAgentResourceWithRawResponse,
-    AgentResourceWithStreamingResponse,
-    AsyncAgentResourceWithStreamingResponse,
-)
 from .legal import (
     LegalResource,
     AsyncLegalResource,
@@ -79,14 +63,6 @@ from .voice import (
     AsyncVoiceResourceWithRawResponse,
     VoiceResourceWithStreamingResponse,
     AsyncVoiceResourceWithStreamingResponse,
-)
-from .format import (
-    FormatResource,
-    AsyncFormatResource,
-    FormatResourceWithRawResponse,
-    AsyncFormatResourceWithRawResponse,
-    FormatResourceWithStreamingResponse,
-    AsyncFormatResourceWithStreamingResponse,
 )
 from .memory import (
     MemoryResource,
@@ -136,22 +112,6 @@ from .matters import (
     MattersResourceWithStreamingResponse,
     AsyncMattersResourceWithStreamingResponse,
 )
-from .database import (
-    DatabaseResource,
-    AsyncDatabaseResource,
-    DatabaseResourceWithRawResponse,
-    AsyncDatabaseResourceWithRawResponse,
-    DatabaseResourceWithStreamingResponse,
-    AsyncDatabaseResourceWithStreamingResponse,
-)
-from .superdoc import (
-    SuperdocResource,
-    AsyncSuperdocResource,
-    SuperdocResourceWithRawResponse,
-    AsyncSuperdocResourceWithRawResponse,
-    SuperdocResourceWithStreamingResponse,
-    AsyncSuperdocResourceWithStreamingResponse,
-)
 from .webhooks import (
     WebhooksResource,
     AsyncWebhooksResource,
@@ -176,22 +136,22 @@ from .translate import (
     TranslateResourceWithStreamingResponse,
     AsyncTranslateResourceWithStreamingResponse,
 )
-from .document_templates import (
-    DocumentTemplatesResource,
-    AsyncDocumentTemplatesResource,
-    DocumentTemplatesResourceWithRawResponse,
-    AsyncDocumentTemplatesResourceWithRawResponse,
-    DocumentTemplatesResourceWithStreamingResponse,
-    AsyncDocumentTemplatesResourceWithStreamingResponse,
+from .connectors import (
+    ConnectorsResource,
+    AsyncConnectorsResource,
+    ConnectorsResourceWithRawResponse,
+    AsyncConnectorsResourceWithRawResponse,
+    ConnectorsResourceWithStreamingResponse,
+    AsyncConnectorsResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "AgentResource",
-    "AsyncAgentResource",
-    "AgentResourceWithRawResponse",
-    "AsyncAgentResourceWithRawResponse",
-    "AgentResourceWithStreamingResponse",
-    "AsyncAgentResourceWithStreamingResponse",
+    "ConnectorsResource",
+    "AsyncConnectorsResource",
+    "ConnectorsResourceWithRawResponse",
+    "AsyncConnectorsResourceWithRawResponse",
+    "ConnectorsResourceWithStreamingResponse",
+    "AsyncConnectorsResourceWithStreamingResponse",
     "SystemResource",
     "AsyncSystemResource",
     "SystemResourceWithRawResponse",
@@ -204,24 +164,6 @@ __all__ = [
     "AsyncComputeResourceWithRawResponse",
     "ComputeResourceWithStreamingResponse",
     "AsyncComputeResourceWithStreamingResponse",
-    "DatabaseResource",
-    "AsyncDatabaseResource",
-    "DatabaseResourceWithRawResponse",
-    "AsyncDatabaseResourceWithRawResponse",
-    "DatabaseResourceWithStreamingResponse",
-    "AsyncDatabaseResourceWithStreamingResponse",
-    "DocumentTemplatesResource",
-    "AsyncDocumentTemplatesResource",
-    "DocumentTemplatesResourceWithRawResponse",
-    "AsyncDocumentTemplatesResourceWithRawResponse",
-    "DocumentTemplatesResourceWithStreamingResponse",
-    "AsyncDocumentTemplatesResourceWithStreamingResponse",
-    "FormatResource",
-    "AsyncFormatResource",
-    "FormatResourceWithRawResponse",
-    "AsyncFormatResourceWithRawResponse",
-    "FormatResourceWithStreamingResponse",
-    "AsyncFormatResourceWithStreamingResponse",
     "LegalResource",
     "AsyncLegalResource",
     "LegalResourceWithRawResponse",
@@ -270,12 +212,6 @@ __all__ = [
     "AsyncPrivilegeResourceWithRawResponse",
     "PrivilegeResourceWithStreamingResponse",
     "AsyncPrivilegeResourceWithStreamingResponse",
-    "MailResource",
-    "AsyncMailResource",
-    "MailResourceWithRawResponse",
-    "AsyncMailResourceWithRawResponse",
-    "MailResourceWithStreamingResponse",
-    "AsyncMailResourceWithStreamingResponse",
     "SkillsResource",
     "AsyncSkillsResource",
     "SkillsResourceWithRawResponse",
@@ -288,12 +224,6 @@ __all__ = [
     "AsyncSearchResourceWithRawResponse",
     "SearchResourceWithStreamingResponse",
     "AsyncSearchResourceWithStreamingResponse",
-    "SuperdocResource",
-    "AsyncSuperdocResource",
-    "SuperdocResourceWithRawResponse",
-    "AsyncSuperdocResourceWithRawResponse",
-    "SuperdocResourceWithStreamingResponse",
-    "AsyncSuperdocResourceWithStreamingResponse",
     "TranslateResource",
     "AsyncTranslateResource",
     "TranslateResourceWithRawResponse",

@@ -12,10 +12,16 @@ class TranscriptionCreateResponse(BaseModel):
     id: Optional[str] = None
     """Unique transcription job ID"""
 
-    source_object_id: Optional[str] = None
-    """Source audio object ID (only for vault-based transcription)"""
+    input_object_id: Optional[str] = None
+    """Object submitted to the speech provider.
 
-    status: Optional[Literal["queued", "processing", "completed", "error"]] = None
+    For large videos, this is an internal audio derivative.
+    """
+
+    source_object_id: Optional[str] = None
+    """Original source media object ID (only for vault-based transcription)"""
+
+    status: Optional[Literal["queued", "preprocessing", "processing", "completed", "error"]] = None
     """Current status of the transcription job"""
 
     vault_id: Optional[str] = None
