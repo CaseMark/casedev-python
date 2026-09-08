@@ -15,6 +15,7 @@ dependencies = [
   "anyio>=3.5.0, <5",
   "distro>=1.7.0, <2",
   "sniffio",
+  "idna>=3.15,<4",
 ]
 
 requires-python = ">= 3.9"
@@ -41,7 +42,13 @@ Homepage = "https://github.com/CaseMark/casedev-python"
 Repository = "https://github.com/CaseMark/casedev-python"
 
 [project.optional-dependencies]
-aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
+# Python 3.9 has no patched aiohttp release for the remaining 3.14.x advisories.
+# Retain SDK compatibility pending the owner decision to retire Python 3.9.
+aiohttp = [
+    "aiohttp>=3.13.5,<4; python_version < '3.10'",
+    "aiohttp>=3.14.3,<4; python_version >= '3.10'",
+    "httpx_aiohttp>=0.1.9",
+]
 
 [tool.uv]
 managed = true
@@ -59,7 +66,10 @@ dev = [
     "pyright==1.1.399",
     "mypy==1.17",
     "respx",
-    "pytest",
+    # pytest 9.0.3 fixes GHSA-6w46-j5rx-g56g but requires Python 3.10.
+    "pytest>=8.4.2,<9; python_version < '3.10'",
+    "pytest>=9.0.3,<10; python_version >= '3.10'",
+    "pygments>=2.20.0,<3",
     "pytest-asyncio",
     "ruff",
     "time-machine",
