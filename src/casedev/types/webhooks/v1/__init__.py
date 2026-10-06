@@ -8,4 +8,5 @@ from .endpoint_test_params import EndpointTestParams as EndpointTestParams
 from .delivery_replay_params import DeliveryReplayParams as DeliveryReplayParams
 from .endpoint_create_params import EndpointCreateParams as EndpointCreateParams
 from .endpoint_update_params import EndpointUpdateParams as EndpointUpdateParams
+from .endpoint_create_response import EndpointCreateResponse as EndpointCreateResponse
 from .endpoint_rotate_secret_params import EndpointRotateSecretParams as EndpointRotateSecretParams

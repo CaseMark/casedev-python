@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Dict
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -19,6 +20,12 @@ class VaultUploadParams(TypedDict, total=False):
     auto_index: bool
     """Whether to automatically process and index the file for search"""
 
+    file_origin: Dict[str, object]
+    """Optional client-defined provenance metadata.
+
+    Returned with the object and queryable through the object-list API.
+    """
+
     is_ai_generated: bool
     """Marks the file as AI-generated work product (e.g.
 
@@ -31,16 +38,17 @@ class VaultUploadParams(TypedDict, total=False):
     """Additional metadata to associate with the file"""
 
     path: str
-    """Optional folder path for hierarchy preservation.
+    """Optional folder path, excluding the filename, for hierarchy preservation.
 
     Allows integrations to maintain source folder structure from systems like
     NetDocs, Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
     """
 
     size_bytes: Annotated[int, PropertyInfo(alias="sizeBytes")]
-    """File size in bytes (optional, max 5GB for single PUT uploads).
+    """File size in bytes (optional, including zero, max 5GB for single PUT uploads).
 
-    When provided, enforces exact file size at S3 level.
+    When provided, enforces exact file size at S3 level. Empty files can be stored
+    and transferred, but cannot be ingested.
     """
 
     idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

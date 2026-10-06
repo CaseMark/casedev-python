@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -27,6 +27,7 @@ from ..._response import (
 )
 from ...types.vault import (
     object_list_params,
+    object_move_params,
     object_merge_params,
     object_append_params,
     object_delete_params,
@@ -38,6 +39,7 @@ from ...types.vault import (
 )
 from ..._base_client import make_request_options
 from ...types.vault.object_list_response import ObjectListResponse
+from ...types.vault.object_move_response import ObjectMoveResponse
 from ...types.vault.object_merge_response import ObjectMergeResponse
 from ...types.vault.object_append_response import ObjectAppendResponse
 from ...types.vault.object_delete_response import ObjectDeleteResponse
@@ -127,19 +129,19 @@ class ObjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectUpdateResponse:
-        """Update a document's filename, path, or metadata.
+        """Update a document's filename, folder path, or metadata.
 
-        Use this to rename files or
-        organize them into virtual folders. The path is stored in metadata.path and can
-        be used to build folder hierarchies in your application.
+        Use this to rename files
+        or organize them into virtual folders. The path is a folder, not a complete file
+        path, and is stored separately from the filename.
 
         Args:
           filename: New filename for the document (affects display name and downloads)
 
           metadata: Additional metadata to merge with existing metadata
 
-          path: Folder path for hierarchy preservation (e.g., '/Discovery/Depositions'). Set to
-              null or empty string to remove.
+          path: Folder path, excluding the filename, for hierarchy preservation (e.g.,
+              '/Discovery/Depositions'). Set to null or empty string to remove.
 
           extra_headers: Send extra headers
 
@@ -173,7 +175,12 @@ class ObjectsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        cursor: str | Omit = omit,
+        file_origin: str | Omit = omit,
+        include_totals: bool | Omit = omit,
         include_unconfirmed: bool | Omit = omit,
+        limit: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -182,12 +189,29 @@ class ObjectsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectListResponse:
         """
-        Retrieve all objects stored in a specific vault, including document metadata,
-        ingestion status, and processing statistics.
+        Retrieve the objects stored in a specific vault, oldest first, including
+        document metadata, ingestion status, and processing statistics. Pass `limit` to
+        page through large vaults: when `pagination.has_more` is true, the response is
+        incomplete and `pagination.next_cursor` fetches the rest.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same API key scope and the same `query`, `file_origin`
+              and `includeUnconfirmed` values that produced it.
+
+          file_origin: JSON-encoded provenance object used as a partial match. For example,
+              {"provider":"clio"} returns objects whose file_origin contains that value.
+
+          include_totals: When `true`, adds `totals` covering every object matching the filters, not just
+              this page. Request it once per filter change rather than on every page.
+
           include_unconfirmed: Include placeholders for uploads that were never completed (awaiting_upload) or
               were cancelled (aborted). Excluded by default.
+
+          limit: Objects per page (1-200). Omit to receive every object. Supplying a cursor
+              without a limit uses 50.
+
+          query: Case-insensitive substring match on the filename.
 
           extra_headers: Send extra headers
 
@@ -207,7 +231,15 @@ class ObjectsResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"include_unconfirmed": include_unconfirmed}, object_list_params.ObjectListParams
+                    {
+                        "cursor": cursor,
+                        "file_origin": file_origin,
+                        "include_totals": include_totals,
+                        "include_unconfirmed": include_unconfirmed,
+                        "limit": limit,
+                        "query": query,
+                    },
+                    object_list_params.ObjectListParams,
                 ),
             ),
             cast_to=ObjectListResponse,
@@ -267,7 +299,10 @@ class ObjectsResource(SyncAPIResource):
         back_links: bool | Omit = omit,
         back_links_text: str | Omit = omit,
         bates: object_append_params.Bates | Omit = omit,
+        client_reference: str | Omit = omit,
+        mode: Literal["sync", "async"] | Omit = omit,
         rewrite_links: bool | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -277,14 +312,16 @@ class ObjectsResource(SyncAPIResource):
     ) -> ObjectAppendResponse:
         """
         Merges one or more PDF vault objects onto the end of an existing PDF vault
-        object, overwriting the target in place before returning. Optionally rewrites
-        citation links in the original target into internal PDF jumps and adds back
-        links on appended pages. The target object’s ingestion state is not affected;
-        appended pages are not searchable.
+        object. Sync mode is the default and overwrites the target in place before
+        returning. Async mode returns 202 immediately and reports completion through
+        vault.object.append webhooks. Optionally rewrites citation links in the original
+        target into internal PDF jumps and adds back links on appended pages. The target
+        object’s ingestion state is not affected; appended pages are not searchable.
 
         Args:
           append_object_ids: Vault object IDs whose pages will be appended onto the target object, in order.
-              Must not include the target object itself.
+              Must not include the target object itself. Sync mode accepts at most 20; async
+              mode accepts at most 1000.
 
           back_links: Adds back links on appended pages
 
@@ -293,6 +330,11 @@ class ObjectsResource(SyncAPIResource):
 
           bates: Optional Bates stamping for appended source PDFs. Numbering is deterministic
               across appendObjectIds order and does not stamp the target report pages.
+
+          client_reference: Caller-provided correlation value returned in async responses and webhooks.
+
+          mode: Use async to return immediately and receive completion through
+              vault.object.append webhooks.
 
           rewrite_links: When true, rewrites links in the target object to internal PDF jumps when the
               URL contains exactly one appended object ID as a standalone query parameter
@@ -310,6 +352,7 @@ class ObjectsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             path_template("/vault/{id}/objects/{object_id}/append", id=id, object_id=object_id),
             body=maybe_transform(
@@ -318,6 +361,8 @@ class ObjectsResource(SyncAPIResource):
                     "back_links": back_links,
                     "back_links_text": back_links_text,
                     "bates": bates,
+                    "client_reference": client_reference,
+                    "mode": mode,
                     "rewrite_links": rewrite_links,
                 },
                 object_append_params.ObjectAppendParams,
@@ -709,6 +754,58 @@ class ObjectsResource(SyncAPIResource):
             cast_to=ObjectMergeResponse,
         )
 
+    def move(
+        self,
+        id: str,
+        *,
+        destination_vault_id: str,
+        mode: Literal["move", "copy"],
+        object_ids: SequenceNotStr[str],
+        idempotency_key: str,
+        path: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectMoveResponse:
+        """
+        Copies storage and search data without downloading the file through the client.
+        Moves preserve object IDs; copies return new IDs. Extracted ZIP children travel
+        with their parent. Retry failed objects with the same Idempotency-Key;
+        successful objects are replayed without transfer. Object ID order does not
+        affect the key.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Idempotency-Key": idempotency_key, **(extra_headers or {})}
+        return self._post(
+            path_template("/vault/{id}/objects/move", id=id),
+            body=maybe_transform(
+                {
+                    "destination_vault_id": destination_vault_id,
+                    "mode": mode,
+                    "object_ids": object_ids,
+                    "path": path,
+                },
+                object_move_params.ObjectMoveParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ObjectMoveResponse,
+        )
+
 
 class AsyncObjectsResource(AsyncAPIResource):
     """Vault object management, content access, and document operations"""
@@ -785,19 +882,19 @@ class AsyncObjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectUpdateResponse:
-        """Update a document's filename, path, or metadata.
+        """Update a document's filename, folder path, or metadata.
 
-        Use this to rename files or
-        organize them into virtual folders. The path is stored in metadata.path and can
-        be used to build folder hierarchies in your application.
+        Use this to rename files
+        or organize them into virtual folders. The path is a folder, not a complete file
+        path, and is stored separately from the filename.
 
         Args:
           filename: New filename for the document (affects display name and downloads)
 
           metadata: Additional metadata to merge with existing metadata
 
-          path: Folder path for hierarchy preservation (e.g., '/Discovery/Depositions'). Set to
-              null or empty string to remove.
+          path: Folder path, excluding the filename, for hierarchy preservation (e.g.,
+              '/Discovery/Depositions'). Set to null or empty string to remove.
 
           extra_headers: Send extra headers
 
@@ -831,7 +928,12 @@ class AsyncObjectsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        cursor: str | Omit = omit,
+        file_origin: str | Omit = omit,
+        include_totals: bool | Omit = omit,
         include_unconfirmed: bool | Omit = omit,
+        limit: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -840,12 +942,29 @@ class AsyncObjectsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ObjectListResponse:
         """
-        Retrieve all objects stored in a specific vault, including document metadata,
-        ingestion status, and processing statistics.
+        Retrieve the objects stored in a specific vault, oldest first, including
+        document metadata, ingestion status, and processing statistics. Pass `limit` to
+        page through large vaults: when `pagination.has_more` is true, the response is
+        incomplete and `pagination.next_cursor` fetches the rest.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same API key scope and the same `query`, `file_origin`
+              and `includeUnconfirmed` values that produced it.
+
+          file_origin: JSON-encoded provenance object used as a partial match. For example,
+              {"provider":"clio"} returns objects whose file_origin contains that value.
+
+          include_totals: When `true`, adds `totals` covering every object matching the filters, not just
+              this page. Request it once per filter change rather than on every page.
+
           include_unconfirmed: Include placeholders for uploads that were never completed (awaiting_upload) or
               were cancelled (aborted). Excluded by default.
+
+          limit: Objects per page (1-200). Omit to receive every object. Supplying a cursor
+              without a limit uses 50.
+
+          query: Case-insensitive substring match on the filename.
 
           extra_headers: Send extra headers
 
@@ -865,7 +984,15 @@ class AsyncObjectsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_unconfirmed": include_unconfirmed}, object_list_params.ObjectListParams
+                    {
+                        "cursor": cursor,
+                        "file_origin": file_origin,
+                        "include_totals": include_totals,
+                        "include_unconfirmed": include_unconfirmed,
+                        "limit": limit,
+                        "query": query,
+                    },
+                    object_list_params.ObjectListParams,
                 ),
             ),
             cast_to=ObjectListResponse,
@@ -925,7 +1052,10 @@ class AsyncObjectsResource(AsyncAPIResource):
         back_links: bool | Omit = omit,
         back_links_text: str | Omit = omit,
         bates: object_append_params.Bates | Omit = omit,
+        client_reference: str | Omit = omit,
+        mode: Literal["sync", "async"] | Omit = omit,
         rewrite_links: bool | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -935,14 +1065,16 @@ class AsyncObjectsResource(AsyncAPIResource):
     ) -> ObjectAppendResponse:
         """
         Merges one or more PDF vault objects onto the end of an existing PDF vault
-        object, overwriting the target in place before returning. Optionally rewrites
-        citation links in the original target into internal PDF jumps and adds back
-        links on appended pages. The target object’s ingestion state is not affected;
-        appended pages are not searchable.
+        object. Sync mode is the default and overwrites the target in place before
+        returning. Async mode returns 202 immediately and reports completion through
+        vault.object.append webhooks. Optionally rewrites citation links in the original
+        target into internal PDF jumps and adds back links on appended pages. The target
+        object’s ingestion state is not affected; appended pages are not searchable.
 
         Args:
           append_object_ids: Vault object IDs whose pages will be appended onto the target object, in order.
-              Must not include the target object itself.
+              Must not include the target object itself. Sync mode accepts at most 20; async
+              mode accepts at most 1000.
 
           back_links: Adds back links on appended pages
 
@@ -951,6 +1083,11 @@ class AsyncObjectsResource(AsyncAPIResource):
 
           bates: Optional Bates stamping for appended source PDFs. Numbering is deterministic
               across appendObjectIds order and does not stamp the target report pages.
+
+          client_reference: Caller-provided correlation value returned in async responses and webhooks.
+
+          mode: Use async to return immediately and receive completion through
+              vault.object.append webhooks.
 
           rewrite_links: When true, rewrites links in the target object to internal PDF jumps when the
               URL contains exactly one appended object ID as a standalone query parameter
@@ -968,6 +1105,7 @@ class AsyncObjectsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         if not object_id:
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             path_template("/vault/{id}/objects/{object_id}/append", id=id, object_id=object_id),
             body=await async_maybe_transform(
@@ -976,6 +1114,8 @@ class AsyncObjectsResource(AsyncAPIResource):
                     "back_links": back_links,
                     "back_links_text": back_links_text,
                     "bates": bates,
+                    "client_reference": client_reference,
+                    "mode": mode,
                     "rewrite_links": rewrite_links,
                 },
                 object_append_params.ObjectAppendParams,
@@ -1367,6 +1507,58 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=ObjectMergeResponse,
         )
 
+    async def move(
+        self,
+        id: str,
+        *,
+        destination_vault_id: str,
+        mode: Literal["move", "copy"],
+        object_ids: SequenceNotStr[str],
+        idempotency_key: str,
+        path: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ObjectMoveResponse:
+        """
+        Copies storage and search data without downloading the file through the client.
+        Moves preserve object IDs; copies return new IDs. Extracted ZIP children travel
+        with their parent. Retry failed objects with the same Idempotency-Key;
+        successful objects are replayed without transfer. Object ID order does not
+        affect the key.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Idempotency-Key": idempotency_key, **(extra_headers or {})}
+        return await self._post(
+            path_template("/vault/{id}/objects/move", id=id),
+            body=await async_maybe_transform(
+                {
+                    "destination_vault_id": destination_vault_id,
+                    "mode": mode,
+                    "object_ids": object_ids,
+                    "path": path,
+                },
+                object_move_params.ObjectMoveParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ObjectMoveResponse,
+        )
+
 
 class ObjectsResourceWithRawResponse:
     def __init__(self, objects: ObjectsResource) -> None:
@@ -1408,6 +1600,9 @@ class ObjectsResourceWithRawResponse:
         )
         self.merge = to_raw_response_wrapper(
             objects.merge,
+        )
+        self.move = to_raw_response_wrapper(
+            objects.move,
         )
 
 
@@ -1452,6 +1647,9 @@ class AsyncObjectsResourceWithRawResponse:
         self.merge = async_to_raw_response_wrapper(
             objects.merge,
         )
+        self.move = async_to_raw_response_wrapper(
+            objects.move,
+        )
 
 
 class ObjectsResourceWithStreamingResponse:
@@ -1495,6 +1693,9 @@ class ObjectsResourceWithStreamingResponse:
         self.merge = to_streamed_response_wrapper(
             objects.merge,
         )
+        self.move = to_streamed_response_wrapper(
+            objects.move,
+        )
 
 
 class AsyncObjectsResourceWithStreamingResponse:
@@ -1537,4 +1738,7 @@ class AsyncObjectsResourceWithStreamingResponse:
         )
         self.merge = async_to_streamed_response_wrapper(
             objects.merge,
+        )
+        self.move = async_to_streamed_response_wrapper(
+            objects.move,
         )

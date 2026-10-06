@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Dict, Optional
 from datetime import datetime
 
 from pydantic import Field as FieldInfo
@@ -37,6 +37,9 @@ class ObjectRetrieveResponse(BaseModel):
 
     chunk_count: Optional[int] = FieldInfo(alias="chunkCount", default=None)
     """Number of text chunks created"""
+
+    file_origin: Optional[Dict[str, object]] = None
+    """Client-defined provenance metadata associated with the file"""
 
     ingestion_error: Optional[str] = FieldInfo(alias="ingestionError", default=None)
     """Error details when ingestion fails"""

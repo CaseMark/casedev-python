@@ -41,6 +41,8 @@ class TestChat:
             stream=False,
             temperature=0.7,
             top_p=0,
+            ai_reporting_tags="ai-reporting-tags",
+            ai_reporting_user="ai-reporting-user",
         )
         assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 
@@ -98,6 +100,8 @@ class TestAsyncChat:
             stream=False,
             temperature=0.7,
             top_p=0,
+            ai_reporting_tags="ai-reporting-tags",
+            ai_reporting_user="ai-reporting-user",
         )
         assert_matches_type(ChatCreateCompletionResponse, chat, path=["response"])
 

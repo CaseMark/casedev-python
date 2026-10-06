@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from typing_extensions import TypedDict
+from typing_extensions import Annotated, TypedDict
+
+from ...._utils import PropertyInfo
 
 __all__ = ["ConnectionBrowseParams"]
 
@@ -23,3 +25,5 @@ class ConnectionBrowseParams(TypedDict, total=False):
 
     site: str
     """Site id to list"""
+
+    x_case_connector_subject: Annotated[str, PropertyInfo(alias="x-case-connector-subject")]

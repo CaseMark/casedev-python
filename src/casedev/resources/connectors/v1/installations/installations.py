@@ -4,6 +4,14 @@ from __future__ import annotations
 
 import httpx
 
+from .tokens import (
+    TokensResource,
+    AsyncTokensResource,
+    TokensResourceWithRawResponse,
+    AsyncTokensResourceWithRawResponse,
+    TokensResourceWithStreamingResponse,
+    AsyncTokensResourceWithStreamingResponse,
+)
 from .vaults import (
     VaultsResource,
     AsyncVaultsResource,
@@ -24,16 +32,22 @@ from ....._response import (
 )
 from ....._base_client import make_request_options
 from .....types.connectors.v1 import installation_list_params, installation_ensure_params
+from .....types.connectors.v1.installation_list_response import InstallationListResponse
 
 __all__ = ["InstallationsResource", "AsyncInstallationsResource"]
 
 
 class InstallationsResource(SyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
+
+    @cached_property
+    def tokens(self) -> TokensResource:
+        """Import and export between provider folders and vaults"""
+        return TokensResource(self._client)
 
     @cached_property
     def vaults(self) -> VaultsResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return VaultsResource(self._client)
 
     @cached_property
@@ -59,18 +73,30 @@ class InstallationsResource(SyncAPIResource):
         self,
         *,
         application: str | Omit = omit,
+        cursor: str | Omit = omit,
         external_tenant_id: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List application installations (tenants) in this organization.
+    ) -> InstallationListResponse:
+        """List application installations (tenants) in this organization.
+
+        Returns at most
+        `limit` installations (default 200, maximum 200). When `pagination.has_more` is
+        true, replay `pagination.next_cursor` as `?cursor=` to fetch the following page.
+        Cursors are opaque and are only valid for the exact filter set and caller scope
+        they were issued under.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters and scope that produced it.
+
+          limit: Installations per page (1-200). Defaults to 200.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -79,7 +105,6 @@ class InstallationsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/connectors/v1/installations",
             options=make_request_options(
@@ -90,12 +115,14 @@ class InstallationsResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "application": application,
+                        "cursor": cursor,
                         "external_tenant_id": external_tenant_id,
+                        "limit": limit,
                     },
                     installation_list_params.InstallationListParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=InstallationListResponse,
         )
 
     def ensure(
@@ -146,11 +173,16 @@ class InstallationsResource(SyncAPIResource):
 
 
 class AsyncInstallationsResource(AsyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
+
+    @cached_property
+    def tokens(self) -> AsyncTokensResource:
+        """Import and export between provider folders and vaults"""
+        return AsyncTokensResource(self._client)
 
     @cached_property
     def vaults(self) -> AsyncVaultsResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncVaultsResource(self._client)
 
     @cached_property
@@ -176,18 +208,30 @@ class AsyncInstallationsResource(AsyncAPIResource):
         self,
         *,
         application: str | Omit = omit,
+        cursor: str | Omit = omit,
         external_tenant_id: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List application installations (tenants) in this organization.
+    ) -> InstallationListResponse:
+        """List application installations (tenants) in this organization.
+
+        Returns at most
+        `limit` installations (default 200, maximum 200). When `pagination.has_more` is
+        true, replay `pagination.next_cursor` as `?cursor=` to fetch the following page.
+        Cursors are opaque and are only valid for the exact filter set and caller scope
+        they were issued under.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters and scope that produced it.
+
+          limit: Installations per page (1-200). Defaults to 200.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -196,7 +240,6 @@ class AsyncInstallationsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/connectors/v1/installations",
             options=make_request_options(
@@ -207,12 +250,14 @@ class AsyncInstallationsResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "application": application,
+                        "cursor": cursor,
                         "external_tenant_id": external_tenant_id,
+                        "limit": limit,
                     },
                     installation_list_params.InstallationListParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=InstallationListResponse,
         )
 
     async def ensure(
@@ -274,8 +319,13 @@ class InstallationsResourceWithRawResponse:
         )
 
     @cached_property
+    def tokens(self) -> TokensResourceWithRawResponse:
+        """Import and export between provider folders and vaults"""
+        return TokensResourceWithRawResponse(self._installations.tokens)
+
+    @cached_property
     def vaults(self) -> VaultsResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return VaultsResourceWithRawResponse(self._installations.vaults)
 
 
@@ -291,8 +341,13 @@ class AsyncInstallationsResourceWithRawResponse:
         )
 
     @cached_property
+    def tokens(self) -> AsyncTokensResourceWithRawResponse:
+        """Import and export between provider folders and vaults"""
+        return AsyncTokensResourceWithRawResponse(self._installations.tokens)
+
+    @cached_property
     def vaults(self) -> AsyncVaultsResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncVaultsResourceWithRawResponse(self._installations.vaults)
 
 
@@ -308,8 +363,13 @@ class InstallationsResourceWithStreamingResponse:
         )
 
     @cached_property
+    def tokens(self) -> TokensResourceWithStreamingResponse:
+        """Import and export between provider folders and vaults"""
+        return TokensResourceWithStreamingResponse(self._installations.tokens)
+
+    @cached_property
     def vaults(self) -> VaultsResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return VaultsResourceWithStreamingResponse(self._installations.vaults)
 
 
@@ -325,6 +385,11 @@ class AsyncInstallationsResourceWithStreamingResponse:
         )
 
     @cached_property
+    def tokens(self) -> AsyncTokensResourceWithStreamingResponse:
+        """Import and export between provider folders and vaults"""
+        return AsyncTokensResourceWithStreamingResponse(self._installations.tokens)
+
+    @cached_property
     def vaults(self) -> AsyncVaultsResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncVaultsResourceWithStreamingResponse(self._installations.vaults)

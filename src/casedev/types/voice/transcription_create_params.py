@@ -22,6 +22,9 @@ class TranscriptionCreateParams(TypedDict, total=False):
     content_safety: bool
     """Enable content moderation and safety labeling"""
 
+    disfluencies: bool
+    """Preserve filler words such as um and uh in English transcription"""
+
     format: Literal["json", "text"]
     """Output format for the transcript when using vault mode"""
 

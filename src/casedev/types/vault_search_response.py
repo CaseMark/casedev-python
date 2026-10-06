@@ -23,6 +23,12 @@ class Chunk(BaseModel):
     Present only for media-backed transcripts with real word timing.
     """
 
+    filename: Optional[str] = None
+    """
+    Filename of the chunk's source document; null when the vector's object ID no
+    longer matches a vault object (stale index entry)
+    """
+
     object_id: Optional[str] = None
     """ID of the source document"""
 
@@ -93,9 +99,6 @@ class VaultSearchResponse(BaseModel):
 
     query: Optional[str] = None
     """Original search query"""
-
-    response: Optional[str] = None
-    """AI-generated answer based on search results (for global/entity methods)"""
 
     sources: Optional[List[Source]] = None
 

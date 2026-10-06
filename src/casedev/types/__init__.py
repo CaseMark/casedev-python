@@ -2,16 +2,19 @@
 
 from __future__ import annotations
 
+from .vault_list_params import VaultListParams as VaultListParams
 from .skill_create_params import SkillCreateParams as SkillCreateParams
 from .skill_export_params import SkillExportParams as SkillExportParams
 from .skill_read_response import SkillReadResponse as SkillReadResponse
 from .skill_update_params import SkillUpdateParams as SkillUpdateParams
 from .vault_create_params import VaultCreateParams as VaultCreateParams
 from .vault_delete_params import VaultDeleteParams as VaultDeleteParams
+from .vault_ingest_params import VaultIngestParams as VaultIngestParams
 from .vault_list_response import VaultListResponse as VaultListResponse
 from .vault_search_params import VaultSearchParams as VaultSearchParams
 from .vault_update_params import VaultUpdateParams as VaultUpdateParams
 from .vault_upload_params import VaultUploadParams as VaultUploadParams
+from .skill_catalog_params import SkillCatalogParams as SkillCatalogParams
 from .skill_resolve_params import SkillResolveParams as SkillResolveParams
 from .skill_create_response import SkillCreateResponse as SkillCreateResponse
 from .skill_delete_response import SkillDeleteResponse as SkillDeleteResponse
@@ -23,6 +26,7 @@ from .vault_ingest_response import VaultIngestResponse as VaultIngestResponse
 from .vault_search_response import VaultSearchResponse as VaultSearchResponse
 from .vault_update_response import VaultUpdateResponse as VaultUpdateResponse
 from .vault_upload_response import VaultUploadResponse as VaultUploadResponse
+from .skill_catalog_response import SkillCatalogResponse as SkillCatalogResponse
 from .skill_resolve_response import SkillResolveResponse as SkillResolveResponse
 from .llm_get_config_response import LlmGetConfigResponse as LlmGetConfigResponse
 from .vault_retrieve_response import VaultRetrieveResponse as VaultRetrieveResponse
