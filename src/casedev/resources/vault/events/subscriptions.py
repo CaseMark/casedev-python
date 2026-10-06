@@ -7,7 +7,7 @@ from typing import Dict
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -52,6 +52,7 @@ class SubscriptionsResource(SyncAPIResource):
         event_types: SequenceNotStr[str] | Omit = omit,
         object_ids: SequenceNotStr[str] | Omit = omit,
         signing_secret: str | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -85,6 +86,7 @@ class SubscriptionsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             path_template("/vault/{id}/events/subscriptions", id=id),
             body=maybe_transform(
@@ -330,6 +332,7 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         event_types: SequenceNotStr[str] | Omit = omit,
         object_ids: SequenceNotStr[str] | Omit = omit,
         signing_secret: str | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -363,6 +366,7 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             path_template("/vault/{id}/events/subscriptions", id=id),
             body=await async_maybe_transform(

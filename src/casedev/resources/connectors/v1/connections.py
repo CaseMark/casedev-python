@@ -7,7 +7,7 @@ from typing_extensions import Literal
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -22,6 +22,7 @@ from ....types.connectors.v1 import (
     connection_browse_params,
     connection_create_params,
     connection_delete_params,
+    connection_update_all_params,
 )
 from ....types.connectors.v1.connection_list_response import ConnectionListResponse
 from ....types.connectors.v1.connection_browse_response import ConnectionBrowseResponse
@@ -31,7 +32,7 @@ __all__ = ["ConnectionsResource", "AsyncConnectionsResource"]
 
 
 class ConnectionsResource(SyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
 
     @cached_property
     def with_raw_response(self) -> ConnectionsResourceWithRawResponse:
@@ -55,9 +56,23 @@ class ConnectionsResource(SyncAPIResource):
     def create(
         self,
         *,
-        provider: Literal["clio", "gdrive", "microsoft"],
+        provider: Literal["box", "clio", "dropbox", "gdrive", "microsoft", "smokeball"],
         return_url: str,
-        scope_tier: Literal["clio.us", "drive", "microsoft.read"] | Omit = omit,
+        scope_tier: Literal[
+            "box.readwrite",
+            "box.readwrite.webhooks",
+            "clio.us",
+            "dropbox.readwrite",
+            "drive",
+            "microsoft.read",
+            "microsoft.personal.read",
+            "microsoft.write",
+            "microsoft.personal.write",
+            "smokeball.us",
+            "smokeball.us.staging",
+        ]
+        | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -74,6 +89,10 @@ class ConnectionsResource(SyncAPIResource):
           return_url: HTTPS URL the user is sent back to after consent.
 
           scope_tier: Provider-specific OAuth permission tier. Omit to use the provider's default.
+              Microsoft defaults to organizational OneDrive/SharePoint; use
+              microsoft.personal.read for a personal Microsoft account's own OneDrive.
+              Microsoft write tiers are a separately gated private pilot; exports and paired
+              sync are not yet available.
 
           extra_headers: Send extra headers
 
@@ -83,6 +102,10 @@ class ConnectionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/connectors/v1/connections",
             body=maybe_transform(
@@ -103,6 +126,7 @@ class ConnectionsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -125,6 +149,10 @@ class ConnectionsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._get(
             path_template("/connectors/v1/connections/{id}", id=id),
             options=make_request_options(
@@ -136,8 +164,11 @@ class ConnectionsResource(SyncAPIResource):
     def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         provider: str | Omit = omit,
         status: Literal["pending", "healthy", "reauth_required", "revoked", "throttled"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -145,10 +176,20 @@ class ConnectionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConnectionListResponse:
-        """
-        List provider connections for the organization, with health status.
+        """List provider connections for the organization, with health status.
+
+        Returns at
+        most `limit` connections (default 200, maximum 200). When `pagination.has_more`
+        is true, replay `pagination.next_cursor` as `?cursor=` to fetch the following
+        page. Cursors are opaque and are only valid for the exact filter set and
+        installation/subject scope they were issued under.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters and scope that produced it.
+
+          limit: Connections per page (1-200). Defaults to 200.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -157,6 +198,10 @@ class ConnectionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._get(
             "/connectors/v1/connections",
             options=make_request_options(
@@ -166,6 +211,8 @@ class ConnectionsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "cursor": cursor,
+                        "limit": limit,
                         "provider": provider,
                         "status": status,
                     },
@@ -180,6 +227,7 @@ class ConnectionsResource(SyncAPIResource):
         id: str,
         *,
         purge: bool | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -203,6 +251,10 @@ class ConnectionsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._delete(
             path_template("/connectors/v1/connections/{id}", id=id),
             options=make_request_options(
@@ -225,6 +277,7 @@ class ConnectionsResource(SyncAPIResource):
         parent: str | Omit = omit,
         query: str | Omit = omit,
         site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -238,6 +291,8 @@ class ConnectionsResource(SyncAPIResource):
         returns top-level resources. Pass the stable browse_ref fields returned by one
         response to navigate into the next level. Returns 403
         provider_scope_insufficient when the connection scope cannot browse server-side.
+        Clio browsing shares request capacity with background runs; throttled responses
+        include Retry-After when a retry deadline is known.
 
         Args:
           container: Container id to list, or the container containing parent
@@ -258,6 +313,10 @@ class ConnectionsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._get(
             path_template("/connectors/v1/connections/{id}/browse", id=id),
             options=make_request_options(
@@ -280,9 +339,56 @@ class ConnectionsResource(SyncAPIResource):
             cast_to=ConnectionBrowseResponse,
         )
 
+    def update_all(
+        self,
+        *,
+        confirm_organization_wide: Literal[True],
+        enabled: bool,
+        provider: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Enable or disable new runs and scheduled syncs for one provider across the
+        authenticated organization or installation. This organization-wide operation
+        requires explicit confirmation. Existing credentials, links, and imported files
+        are preserved; active runs are not interrupted.
+
+        Args:
+          confirm_organization_wide: Confirms that this change applies to every user connection in scope.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._patch(
+            "/connectors/v1/connections",
+            body=maybe_transform(
+                {
+                    "confirm_organization_wide": confirm_organization_wide,
+                    "enabled": enabled,
+                    "provider": provider,
+                },
+                connection_update_all_params.ConnectionUpdateAllParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
 
 class AsyncConnectionsResource(AsyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
 
     @cached_property
     def with_raw_response(self) -> AsyncConnectionsResourceWithRawResponse:
@@ -306,9 +412,23 @@ class AsyncConnectionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        provider: Literal["clio", "gdrive", "microsoft"],
+        provider: Literal["box", "clio", "dropbox", "gdrive", "microsoft", "smokeball"],
         return_url: str,
-        scope_tier: Literal["clio.us", "drive", "microsoft.read"] | Omit = omit,
+        scope_tier: Literal[
+            "box.readwrite",
+            "box.readwrite.webhooks",
+            "clio.us",
+            "dropbox.readwrite",
+            "drive",
+            "microsoft.read",
+            "microsoft.personal.read",
+            "microsoft.write",
+            "microsoft.personal.write",
+            "smokeball.us",
+            "smokeball.us.staging",
+        ]
+        | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -325,6 +445,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
           return_url: HTTPS URL the user is sent back to after consent.
 
           scope_tier: Provider-specific OAuth permission tier. Omit to use the provider's default.
+              Microsoft defaults to organizational OneDrive/SharePoint; use
+              microsoft.personal.read for a personal Microsoft account's own OneDrive.
+              Microsoft write tiers are a separately gated private pilot; exports and paired
+              sync are not yet available.
 
           extra_headers: Send extra headers
 
@@ -334,6 +458,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/connectors/v1/connections",
             body=await async_maybe_transform(
@@ -354,6 +482,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -376,6 +505,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._get(
             path_template("/connectors/v1/connections/{id}", id=id),
             options=make_request_options(
@@ -387,8 +520,11 @@ class AsyncConnectionsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         provider: str | Omit = omit,
         status: Literal["pending", "healthy", "reauth_required", "revoked", "throttled"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -396,10 +532,20 @@ class AsyncConnectionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ConnectionListResponse:
-        """
-        List provider connections for the organization, with health status.
+        """List provider connections for the organization, with health status.
+
+        Returns at
+        most `limit` connections (default 200, maximum 200). When `pagination.has_more`
+        is true, replay `pagination.next_cursor` as `?cursor=` to fetch the following
+        page. Cursors are opaque and are only valid for the exact filter set and
+        installation/subject scope they were issued under.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters and scope that produced it.
+
+          limit: Connections per page (1-200). Defaults to 200.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -408,6 +554,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._get(
             "/connectors/v1/connections",
             options=make_request_options(
@@ -417,6 +567,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "cursor": cursor,
+                        "limit": limit,
                         "provider": provider,
                         "status": status,
                     },
@@ -431,6 +583,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         id: str,
         *,
         purge: bool | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -454,6 +607,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._delete(
             path_template("/connectors/v1/connections/{id}", id=id),
             options=make_request_options(
@@ -476,6 +633,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         parent: str | Omit = omit,
         query: str | Omit = omit,
         site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -489,6 +647,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
         returns top-level resources. Pass the stable browse_ref fields returned by one
         response to navigate into the next level. Returns 403
         provider_scope_insufficient when the connection scope cannot browse server-side.
+        Clio browsing shares request capacity with background runs; throttled responses
+        include Retry-After when a retry deadline is known.
 
         Args:
           container: Container id to list, or the container containing parent
@@ -509,6 +669,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._get(
             path_template("/connectors/v1/connections/{id}/browse", id=id),
             options=make_request_options(
@@ -531,6 +695,53 @@ class AsyncConnectionsResource(AsyncAPIResource):
             cast_to=ConnectionBrowseResponse,
         )
 
+    async def update_all(
+        self,
+        *,
+        confirm_organization_wide: Literal[True],
+        enabled: bool,
+        provider: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Enable or disable new runs and scheduled syncs for one provider across the
+        authenticated organization or installation. This organization-wide operation
+        requires explicit confirmation. Existing credentials, links, and imported files
+        are preserved; active runs are not interrupted.
+
+        Args:
+          confirm_organization_wide: Confirms that this change applies to every user connection in scope.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._patch(
+            "/connectors/v1/connections",
+            body=await async_maybe_transform(
+                {
+                    "confirm_organization_wide": confirm_organization_wide,
+                    "enabled": enabled,
+                    "provider": provider,
+                },
+                connection_update_all_params.ConnectionUpdateAllParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
 
 class ConnectionsResourceWithRawResponse:
     def __init__(self, connections: ConnectionsResource) -> None:
@@ -550,6 +761,9 @@ class ConnectionsResourceWithRawResponse:
         )
         self.browse = to_raw_response_wrapper(
             connections.browse,
+        )
+        self.update_all = to_raw_response_wrapper(
+            connections.update_all,
         )
 
 
@@ -572,6 +786,9 @@ class AsyncConnectionsResourceWithRawResponse:
         self.browse = async_to_raw_response_wrapper(
             connections.browse,
         )
+        self.update_all = async_to_raw_response_wrapper(
+            connections.update_all,
+        )
 
 
 class ConnectionsResourceWithStreamingResponse:
@@ -593,6 +810,9 @@ class ConnectionsResourceWithStreamingResponse:
         self.browse = to_streamed_response_wrapper(
             connections.browse,
         )
+        self.update_all = to_streamed_response_wrapper(
+            connections.update_all,
+        )
 
 
 class AsyncConnectionsResourceWithStreamingResponse:
@@ -613,4 +833,7 @@ class AsyncConnectionsResourceWithStreamingResponse:
         )
         self.browse = async_to_streamed_response_wrapper(
             connections.browse,
+        )
+        self.update_all = async_to_streamed_response_wrapper(
+            connections.update_all,
         )

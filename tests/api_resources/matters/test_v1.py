@@ -8,7 +8,9 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
 from casedev._utils import parse_datetime
+from casedev.types.matters import V1ListResponse, V1DeleteResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -43,7 +45,6 @@ class TestV1:
             subtype="subtype",
             vault={
                 "description": "description",
-                "enable_graph": True,
                 "enable_indexing": True,
                 "metadata": {"foo": "bar"},
             },
@@ -177,17 +178,19 @@ class TestV1:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         v1 = client.matters.v1.list()
-        assert v1 is None
+        assert_matches_type(V1ListResponse, v1, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Casedev) -> None:
         v1 = client.matters.v1.list(
+            cursor="cursor",
+            limit=1,
             matter_type="matter_type",
             practice_area="practice_area",
             query="query",
             status="status",
         )
-        assert v1 is None
+        assert_matches_type(V1ListResponse, v1, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
@@ -196,7 +199,7 @@ class TestV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = response.parse()
-        assert v1 is None
+        assert_matches_type(V1ListResponse, v1, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
@@ -205,9 +208,47 @@ class TestV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = response.parse()
-            assert v1 is None
+            assert_matches_type(V1ListResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_delete(self, client: Casedev) -> None:
+        v1 = client.matters.v1.delete(
+            "id",
+        )
+        assert_matches_type(V1DeleteResponse, v1, path=["response"])
+
+    @parametrize
+    def test_raw_response_delete(self, client: Casedev) -> None:
+        response = client.matters.v1.with_raw_response.delete(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1DeleteResponse, v1, path=["response"])
+
+    @parametrize
+    def test_streaming_response_delete(self, client: Casedev) -> None:
+        with client.matters.v1.with_streaming_response.delete(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1DeleteResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_delete(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.matters.v1.with_raw_response.delete(
+                "",
+            )
 
 
 class TestAsyncV1:
@@ -242,7 +283,6 @@ class TestAsyncV1:
             subtype="subtype",
             vault={
                 "description": "description",
-                "enable_graph": True,
                 "enable_indexing": True,
                 "metadata": {"foo": "bar"},
             },
@@ -376,17 +416,19 @@ class TestAsyncV1:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.matters.v1.list()
-        assert v1 is None
+        assert_matches_type(V1ListResponse, v1, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.matters.v1.list(
+            cursor="cursor",
+            limit=1,
             matter_type="matter_type",
             practice_area="practice_area",
             query="query",
             status="status",
         )
-        assert v1 is None
+        assert_matches_type(V1ListResponse, v1, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
@@ -395,7 +437,7 @@ class TestAsyncV1:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         v1 = await response.parse()
-        assert v1 is None
+        assert_matches_type(V1ListResponse, v1, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
@@ -404,6 +446,44 @@ class TestAsyncV1:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             v1 = await response.parse()
-            assert v1 is None
+            assert_matches_type(V1ListResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_delete(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.matters.v1.delete(
+            "id",
+        )
+        assert_matches_type(V1DeleteResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.matters.v1.with_raw_response.delete(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1DeleteResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
+        async with async_client.matters.v1.with_streaming_response.delete(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1DeleteResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.matters.v1.with_raw_response.delete(
+                "",
+            )

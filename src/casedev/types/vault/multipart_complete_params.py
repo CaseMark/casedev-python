@@ -23,6 +23,12 @@ class MultipartCompleteParams(TypedDict, total=False):
 
     upload_id: Required[Annotated[str, PropertyInfo(alias="uploadId")]]
 
+    auto_ingest: Annotated[bool, PropertyInfo(alias="autoIngest")]
+    """Start ingestion after completion when auto_index is enabled.
+
+    The ingest response reports whether a workflow was started.
+    """
+
 
 class Part(TypedDict, total=False):
     etag: Required[str]

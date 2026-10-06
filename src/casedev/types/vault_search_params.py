@@ -8,7 +8,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["VaultSearchParams", "Filters"]
+__all__ = ["VaultSearchParams", "Filters", "FiltersPageRange"]
 
 
 class VaultSearchParams(TypedDict, total=False):
@@ -18,10 +18,11 @@ class VaultSearchParams(TypedDict, total=False):
     filters: Filters
     """Filters to narrow search results to specific documents"""
 
-    method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"]
+    method: Literal["hybrid", "fast", "vector"]
     """
-    Search method: 'global' for comprehensive questions, 'entity' for specific
-    entities, 'fast' for quick similarity search, 'hybrid' for combined approach
+    Search method: 'hybrid' for combined vector + keyword ranking (default), 'fast'
+    for quick vector similarity search, 'vector' for a simple document listing
+    fallback
     """
 
     top_k: Annotated[int, PropertyInfo(alias="topK")]
@@ -29,6 +30,16 @@ class VaultSearchParams(TypedDict, total=False):
 
     Hybrid search supports 1 to 50; other methods may support up to 100.
     """
+
+
+class FiltersPageRange(TypedDict, total=False):
+    """
+    Restrict vector-backed retrieval to chunks wholly contained in this inclusive PDF page range. Supported by vector, hybrid, and fast methods.
+    """
+
+    start: Required[int]
+
+    end: int
 
 
 class Filters(  # type: ignore[call-arg]
@@ -42,4 +53,10 @@ class Filters(  # type: ignore[call-arg]
     """Filter to specific document(s) by object ID.
 
     Accepts a single ID or array of IDs.
+    """
+
+    page_range: FiltersPageRange
+    """
+    Restrict vector-backed retrieval to chunks wholly contained in this inclusive
+    PDF page range. Supported by vector, hybrid, and fast methods.
     """

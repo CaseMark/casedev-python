@@ -15,6 +15,9 @@ class File(BaseModel):
 
     content_type: Optional[str] = None
 
+    encoding: Optional[Literal["utf8", "base64"]] = None
+    """Encoding used by content when this companion slug is read."""
+
     name: Optional[str] = None
 
 

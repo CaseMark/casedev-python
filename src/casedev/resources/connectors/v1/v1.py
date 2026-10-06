@@ -16,7 +16,7 @@ from .links import (
     AsyncLinksResourceWithStreamingResponse,
 )
 from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from .connections import (
     ConnectionsResource,
@@ -35,6 +35,14 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.connectors import v1_transfer_params, v1_sync_link_params
+from .applications.applications import (
+    ApplicationsResource,
+    AsyncApplicationsResource,
+    ApplicationsResourceWithRawResponse,
+    AsyncApplicationsResourceWithRawResponse,
+    ApplicationsResourceWithStreamingResponse,
+    AsyncApplicationsResourceWithStreamingResponse,
+)
 from .installations.installations import (
     InstallationsResource,
     AsyncInstallationsResource,
@@ -50,21 +58,25 @@ __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
+
+    @cached_property
+    def applications(self) -> ApplicationsResource:
+        return ApplicationsResource(self._client)
 
     @cached_property
     def installations(self) -> InstallationsResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return InstallationsResource(self._client)
 
     @cached_property
     def connections(self) -> ConnectionsResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return ConnectionsResource(self._client)
 
     @cached_property
     def links(self) -> LinksResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return LinksResource(self._client)
 
     @cached_property
@@ -90,11 +102,13 @@ class V1Resource(SyncAPIResource):
         self,
         *,
         connection_id: str,
-        direction: Literal["import", "export"],
+        direction: Literal["import", "export", "both"],
         remote: v1_sync_link_params.Remote,
         vault_id: str,
+        export_destination: v1_sync_link_params.ExportDestination | Omit = omit,
         matter_id: Optional[str] | Omit = omit,
         policy: v1_sync_link_params.Policy | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -104,12 +118,16 @@ class V1Resource(SyncAPIResource):
     ) -> V1SyncLinkResponse:
         """
         Standing promise: backfill now, then stay current (the sync sweeper re-runs
-        synced links on a schedule). Same body as /transfer minus run_mode. Upserts the
-        link identified by (connection_id, direction, remote, vault_id); an existing
-        once-link is upgraded in place with its ledger and cursor preserved. Downgrade
-        or pause via PATCH /links/{id}.
+        synced links on a schedule). Direction both creates paired import/export links
+        and defaults export to a CaseMark Output subfolder. Same body as /transfer minus
+        run_mode. Upserts links by (connection_id, direction, remote, vault_id);
+        existing once-links are upgraded in place with their ledger and cursor
+        preserved. Downgrade or pause via PATCH /links/{id}.
 
         Args:
+          export_destination: Optional destination for direction both. Defaults to CaseMark Output under
+              remote.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -118,6 +136,10 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/connectors/v1/sync-link",
             body=maybe_transform(
@@ -126,6 +148,7 @@ class V1Resource(SyncAPIResource):
                     "direction": direction,
                     "remote": remote,
                     "vault_id": vault_id,
+                    "export_destination": export_destination,
                     "matter_id": matter_id,
                     "policy": policy,
                 },
@@ -141,12 +164,14 @@ class V1Resource(SyncAPIResource):
         self,
         *,
         connection_id: str,
-        direction: Literal["import", "export"],
+        direction: Literal["import", "export", "both"],
         remote: v1_transfer_params.Remote,
         vault_id: str,
+        export_destination: v1_transfer_params.ExportDestination | Omit = omit,
         matter_id: Optional[str] | Omit = omit,
         policy: v1_transfer_params.Policy | Omit = omit,
         run_mode: Literal["auto", "full_reconcile"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -155,12 +180,16 @@ class V1Resource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1TransferResponse:
         """
-        One-shot import (provider folder → vault) or export (vault → provider folder).
-        Upserts the link identified by (connection_id, direction, remote, vault_id):
-        first call backfills, later calls move only new/changed files via the ledger.
-        Poll GET /links/{id} → active_run for progress.
+        One-shot import (provider folder → vault), export (vault → provider folder), or
+        both. Direction both creates paired import/export links and defaults export to a
+        CaseMark Output subfolder. Upserts links by (connection_id, direction, remote,
+        vault_id): first call backfills, later calls move only new/changed files via the
+        ledger. Poll GET /links/{id} → active_run for progress.
 
         Args:
+          export_destination: Optional destination for direction both. Defaults to CaseMark Output under
+              remote.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -169,6 +198,10 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/connectors/v1/transfer",
             body=maybe_transform(
@@ -177,6 +210,7 @@ class V1Resource(SyncAPIResource):
                     "direction": direction,
                     "remote": remote,
                     "vault_id": vault_id,
+                    "export_destination": export_destination,
                     "matter_id": matter_id,
                     "policy": policy,
                     "run_mode": run_mode,
@@ -191,21 +225,25 @@ class V1Resource(SyncAPIResource):
 
 
 class AsyncV1Resource(AsyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
+
+    @cached_property
+    def applications(self) -> AsyncApplicationsResource:
+        return AsyncApplicationsResource(self._client)
 
     @cached_property
     def installations(self) -> AsyncInstallationsResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncInstallationsResource(self._client)
 
     @cached_property
     def connections(self) -> AsyncConnectionsResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncConnectionsResource(self._client)
 
     @cached_property
     def links(self) -> AsyncLinksResource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncLinksResource(self._client)
 
     @cached_property
@@ -231,11 +269,13 @@ class AsyncV1Resource(AsyncAPIResource):
         self,
         *,
         connection_id: str,
-        direction: Literal["import", "export"],
+        direction: Literal["import", "export", "both"],
         remote: v1_sync_link_params.Remote,
         vault_id: str,
+        export_destination: v1_sync_link_params.ExportDestination | Omit = omit,
         matter_id: Optional[str] | Omit = omit,
         policy: v1_sync_link_params.Policy | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -245,12 +285,16 @@ class AsyncV1Resource(AsyncAPIResource):
     ) -> V1SyncLinkResponse:
         """
         Standing promise: backfill now, then stay current (the sync sweeper re-runs
-        synced links on a schedule). Same body as /transfer minus run_mode. Upserts the
-        link identified by (connection_id, direction, remote, vault_id); an existing
-        once-link is upgraded in place with its ledger and cursor preserved. Downgrade
-        or pause via PATCH /links/{id}.
+        synced links on a schedule). Direction both creates paired import/export links
+        and defaults export to a CaseMark Output subfolder. Same body as /transfer minus
+        run_mode. Upserts links by (connection_id, direction, remote, vault_id);
+        existing once-links are upgraded in place with their ledger and cursor
+        preserved. Downgrade or pause via PATCH /links/{id}.
 
         Args:
+          export_destination: Optional destination for direction both. Defaults to CaseMark Output under
+              remote.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -259,6 +303,10 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/connectors/v1/sync-link",
             body=await async_maybe_transform(
@@ -267,6 +315,7 @@ class AsyncV1Resource(AsyncAPIResource):
                     "direction": direction,
                     "remote": remote,
                     "vault_id": vault_id,
+                    "export_destination": export_destination,
                     "matter_id": matter_id,
                     "policy": policy,
                 },
@@ -282,12 +331,14 @@ class AsyncV1Resource(AsyncAPIResource):
         self,
         *,
         connection_id: str,
-        direction: Literal["import", "export"],
+        direction: Literal["import", "export", "both"],
         remote: v1_transfer_params.Remote,
         vault_id: str,
+        export_destination: v1_transfer_params.ExportDestination | Omit = omit,
         matter_id: Optional[str] | Omit = omit,
         policy: v1_transfer_params.Policy | Omit = omit,
         run_mode: Literal["auto", "full_reconcile"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -296,12 +347,16 @@ class AsyncV1Resource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1TransferResponse:
         """
-        One-shot import (provider folder → vault) or export (vault → provider folder).
-        Upserts the link identified by (connection_id, direction, remote, vault_id):
-        first call backfills, later calls move only new/changed files via the ledger.
-        Poll GET /links/{id} → active_run for progress.
+        One-shot import (provider folder → vault), export (vault → provider folder), or
+        both. Direction both creates paired import/export links and defaults export to a
+        CaseMark Output subfolder. Upserts links by (connection_id, direction, remote,
+        vault_id): first call backfills, later calls move only new/changed files via the
+        ledger. Poll GET /links/{id} → active_run for progress.
 
         Args:
+          export_destination: Optional destination for direction both. Defaults to CaseMark Output under
+              remote.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -310,6 +365,10 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/connectors/v1/transfer",
             body=await async_maybe_transform(
@@ -318,6 +377,7 @@ class AsyncV1Resource(AsyncAPIResource):
                     "direction": direction,
                     "remote": remote,
                     "vault_id": vault_id,
+                    "export_destination": export_destination,
                     "matter_id": matter_id,
                     "policy": policy,
                     "run_mode": run_mode,
@@ -343,18 +403,22 @@ class V1ResourceWithRawResponse:
         )
 
     @cached_property
+    def applications(self) -> ApplicationsResourceWithRawResponse:
+        return ApplicationsResourceWithRawResponse(self._v1.applications)
+
+    @cached_property
     def installations(self) -> InstallationsResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return InstallationsResourceWithRawResponse(self._v1.installations)
 
     @cached_property
     def connections(self) -> ConnectionsResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return ConnectionsResourceWithRawResponse(self._v1.connections)
 
     @cached_property
     def links(self) -> LinksResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return LinksResourceWithRawResponse(self._v1.links)
 
 
@@ -370,18 +434,22 @@ class AsyncV1ResourceWithRawResponse:
         )
 
     @cached_property
+    def applications(self) -> AsyncApplicationsResourceWithRawResponse:
+        return AsyncApplicationsResourceWithRawResponse(self._v1.applications)
+
+    @cached_property
     def installations(self) -> AsyncInstallationsResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncInstallationsResourceWithRawResponse(self._v1.installations)
 
     @cached_property
     def connections(self) -> AsyncConnectionsResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncConnectionsResourceWithRawResponse(self._v1.connections)
 
     @cached_property
     def links(self) -> AsyncLinksResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncLinksResourceWithRawResponse(self._v1.links)
 
 
@@ -397,18 +465,22 @@ class V1ResourceWithStreamingResponse:
         )
 
     @cached_property
+    def applications(self) -> ApplicationsResourceWithStreamingResponse:
+        return ApplicationsResourceWithStreamingResponse(self._v1.applications)
+
+    @cached_property
     def installations(self) -> InstallationsResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return InstallationsResourceWithStreamingResponse(self._v1.installations)
 
     @cached_property
     def connections(self) -> ConnectionsResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return ConnectionsResourceWithStreamingResponse(self._v1.connections)
 
     @cached_property
     def links(self) -> LinksResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return LinksResourceWithStreamingResponse(self._v1.links)
 
 
@@ -424,16 +496,20 @@ class AsyncV1ResourceWithStreamingResponse:
         )
 
     @cached_property
+    def applications(self) -> AsyncApplicationsResourceWithStreamingResponse:
+        return AsyncApplicationsResourceWithStreamingResponse(self._v1.applications)
+
+    @cached_property
     def installations(self) -> AsyncInstallationsResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncInstallationsResourceWithStreamingResponse(self._v1.installations)
 
     @cached_property
     def connections(self) -> AsyncConnectionsResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncConnectionsResourceWithStreamingResponse(self._v1.connections)
 
     @cached_property
     def links(self) -> AsyncLinksResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncLinksResourceWithStreamingResponse(self._v1.links)

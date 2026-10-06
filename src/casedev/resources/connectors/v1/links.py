@@ -7,7 +7,7 @@ from typing_extensions import Literal
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -23,7 +23,7 @@ __all__ = ["LinksResource", "AsyncLinksResource"]
 
 
 class LinksResource(SyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
 
     @cached_property
     def with_raw_response(self) -> LinksResourceWithRawResponse:
@@ -48,6 +48,7 @@ class LinksResource(SyncAPIResource):
         self,
         id: str,
         *,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -72,6 +73,10 @@ class LinksResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._get(
             path_template("/connectors/v1/links/{id}", id=id),
             options=make_request_options(
@@ -87,6 +92,7 @@ class LinksResource(SyncAPIResource):
         mode: Literal["once", "synced"] | Omit = omit,
         policy: object | Omit = omit,
         state: Literal["paused", "ready"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -99,6 +105,10 @@ class LinksResource(SyncAPIResource):
         is the sync downgrade), or edit its policy in place.
 
         Args:
+          policy: Replaces the entire stored policy; omitted fields return to defaults. Repeat
+              deletes, collisions and filters that should be retained. Folder/file exclusions
+              require deletes: preserve (the default).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -110,6 +120,10 @@ class LinksResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._patch(
             path_template("/connectors/v1/links/{id}", id=id),
             body=maybe_transform(
@@ -130,11 +144,13 @@ class LinksResource(SyncAPIResource):
         self,
         *,
         connection_id: str | Omit = omit,
+        cursor: str | Omit = omit,
         direction: Literal["import", "export"] | Omit = omit,
         mode: Literal["once", "synced"] | Omit = omit,
         pair_id: str | Omit = omit,
         state: Literal["ready", "running", "active", "paused", "orphaned", "error"] | Omit = omit,
         vault_id: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -147,6 +163,8 @@ class LinksResource(SyncAPIResource):
         state.
 
         Args:
+          cursor: Opaque cursor from the previous page.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -156,6 +174,10 @@ class LinksResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._get(
             "/connectors/v1/links",
             options=make_request_options(
@@ -166,6 +188,7 @@ class LinksResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "connection_id": connection_id,
+                        "cursor": cursor,
                         "direction": direction,
                         "mode": mode,
                         "pair_id": pair_id,
@@ -183,6 +206,7 @@ class LinksResource(SyncAPIResource):
         id: str,
         *,
         vault_docs: Literal["keep", "delete"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -207,6 +231,10 @@ class LinksResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._delete(
             path_template("/connectors/v1/links/{id}", id=id),
             options=make_request_options(
@@ -226,6 +254,7 @@ class LinksResource(SyncAPIResource):
         cursor: str | Omit = omit,
         state: Literal["pending", "transferring", "ingesting", "synced", "skipped", "failed", "tombstoned"]
         | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -249,6 +278,10 @@ class LinksResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return self._get(
             path_template("/connectors/v1/links/{id}/objects", id=id),
             options=make_request_options(
@@ -269,7 +302,7 @@ class LinksResource(SyncAPIResource):
 
 
 class AsyncLinksResource(AsyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
 
     @cached_property
     def with_raw_response(self) -> AsyncLinksResourceWithRawResponse:
@@ -294,6 +327,7 @@ class AsyncLinksResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -318,6 +352,10 @@ class AsyncLinksResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._get(
             path_template("/connectors/v1/links/{id}", id=id),
             options=make_request_options(
@@ -333,6 +371,7 @@ class AsyncLinksResource(AsyncAPIResource):
         mode: Literal["once", "synced"] | Omit = omit,
         policy: object | Omit = omit,
         state: Literal["paused", "ready"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -345,6 +384,10 @@ class AsyncLinksResource(AsyncAPIResource):
         is the sync downgrade), or edit its policy in place.
 
         Args:
+          policy: Replaces the entire stored policy; omitted fields return to defaults. Repeat
+              deletes, collisions and filters that should be retained. Folder/file exclusions
+              require deletes: preserve (the default).
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -356,6 +399,10 @@ class AsyncLinksResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._patch(
             path_template("/connectors/v1/links/{id}", id=id),
             body=await async_maybe_transform(
@@ -376,11 +423,13 @@ class AsyncLinksResource(AsyncAPIResource):
         self,
         *,
         connection_id: str | Omit = omit,
+        cursor: str | Omit = omit,
         direction: Literal["import", "export"] | Omit = omit,
         mode: Literal["once", "synced"] | Omit = omit,
         pair_id: str | Omit = omit,
         state: Literal["ready", "running", "active", "paused", "orphaned", "error"] | Omit = omit,
         vault_id: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -393,6 +442,8 @@ class AsyncLinksResource(AsyncAPIResource):
         state.
 
         Args:
+          cursor: Opaque cursor from the previous page.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -402,6 +453,10 @@ class AsyncLinksResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._get(
             "/connectors/v1/links",
             options=make_request_options(
@@ -412,6 +467,7 @@ class AsyncLinksResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "connection_id": connection_id,
+                        "cursor": cursor,
                         "direction": direction,
                         "mode": mode,
                         "pair_id": pair_id,
@@ -429,6 +485,7 @@ class AsyncLinksResource(AsyncAPIResource):
         id: str,
         *,
         vault_docs: Literal["keep", "delete"] | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -453,6 +510,10 @@ class AsyncLinksResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._delete(
             path_template("/connectors/v1/links/{id}", id=id),
             options=make_request_options(
@@ -472,6 +533,7 @@ class AsyncLinksResource(AsyncAPIResource):
         cursor: str | Omit = omit,
         state: Literal["pending", "transferring", "ingesting", "synced", "skipped", "failed", "tombstoned"]
         | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -495,6 +557,10 @@ class AsyncLinksResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
         return await self._get(
             path_template("/connectors/v1/links/{id}/objects", id=id),
             options=make_request_options(

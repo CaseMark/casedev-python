@@ -39,12 +39,6 @@ class VaultCreateParams(TypedDict, total=False):
     compatibility); new integrations should use `casemark/embed-v1` directly.
     """
 
-    enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
-    """Enable knowledge graph for entity relationship mapping.
-
-    Only applies when enableIndexing is true.
-    """
-
     enable_indexing: Annotated[bool, PropertyInfo(alias="enableIndexing")]
     """Enable vector indexing and search capabilities.
 

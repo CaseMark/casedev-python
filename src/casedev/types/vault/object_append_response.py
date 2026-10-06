@@ -13,6 +13,12 @@ __all__ = ["ObjectAppendResponse"]
 class ObjectAppendResponse(BaseModel):
     id: Optional[str] = None
 
+    appended_page_end: Optional[int] = FieldInfo(alias="appendedPageEnd", default=None)
+    """Last 1-indexed page added by this append operation."""
+
+    appended_page_start: Optional[int] = FieldInfo(alias="appendedPageStart", default=None)
+    """First 1-indexed page added by this append operation."""
+
     bates: Optional[object] = None
 
     checksum: Optional[str] = None

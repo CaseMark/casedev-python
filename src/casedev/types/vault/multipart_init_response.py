@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Dict, Optional
 
 from pydantic import Field as FieldInfo
 
@@ -10,6 +10,9 @@ __all__ = ["MultipartInitResponse"]
 
 
 class MultipartInitResponse(BaseModel):
+    file_origin: Optional[Dict[str, object]] = None
+    """Client-defined provenance metadata associated with the file"""
+
     next_step: Optional[str] = None
 
     object_id: Optional[str] = FieldInfo(alias="objectId", default=None)

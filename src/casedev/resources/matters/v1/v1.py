@@ -24,6 +24,14 @@ from .types import (
     TypesResourceWithStreamingResponse,
     AsyncTypesResourceWithStreamingResponse,
 )
+from .purges import (
+    PurgesResource,
+    AsyncPurgesResource,
+    PurgesResourceWithRawResponse,
+    AsyncPurgesResourceWithRawResponse,
+    PurgesResourceWithStreamingResponse,
+    AsyncPurgesResourceWithStreamingResponse,
+)
 from .shares import (
     SharesResource,
     AsyncSharesResource,
@@ -74,6 +82,14 @@ from .events.events import (
     EventsResourceWithStreamingResponse,
     AsyncEventsResourceWithStreamingResponse,
 )
+from .content_purges import (
+    ContentPurgesResource,
+    AsyncContentPurgesResource,
+    ContentPurgesResourceWithRawResponse,
+    AsyncContentPurgesResourceWithRawResponse,
+    ContentPurgesResourceWithStreamingResponse,
+    AsyncContentPurgesResourceWithStreamingResponse,
+)
 from .matter_parties import (
     MatterPartiesResource,
     AsyncMatterPartiesResource,
@@ -84,12 +100,24 @@ from .matter_parties import (
 )
 from ...._base_client import make_request_options
 from ....types.matters import v1_list_params, v1_create_params, v1_update_params
+from ....types.matters.v1_list_response import V1ListResponse
+from ....types.matters.v1_delete_response import V1DeleteResponse
 
 __all__ = ["V1Resource", "AsyncV1Resource"]
 
 
 class V1Resource(SyncAPIResource):
     """Matter-native legal workspaces and orchestration primitives"""
+
+    @cached_property
+    def purges(self) -> PurgesResource:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return PurgesResource(self._client)
+
+    @cached_property
+    def content_purges(self) -> ContentPurgesResource:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return ContentPurgesResource(self._client)
 
     @cached_property
     def agent_types(self) -> AgentTypesResource:
@@ -327,6 +355,8 @@ class V1Resource(SyncAPIResource):
     def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         matter_type: str | Omit = omit,
         practice_area: str | Omit = omit,
         query: str | Omit = omit,
@@ -337,9 +367,70 @@ class V1Resource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1ListResponse:
+        """List matters for the authenticated organization, newest update first.
+
+        Pagination
+        is opt-in: pass `limit` (1-200) to receive a bounded page, then replay
+        `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is true.
+        Cursors are opaque and are only valid for the exact filter set they were issued
+        under. A request with neither `limit` nor `cursor` still returns every matter,
+        and `pagination.limit` is null. That default will become a bounded page in a
+        future release — paginate now to avoid the change.
+
+        Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters that produced it.
+
+          limit: Matters per page (1-200). Omit to receive every matter. Supplying a cursor
+              without a limit uses 50.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
-        List matters for the authenticated organization.
+        return self._get(
+            "/matters/v1",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                        "matter_type": matter_type,
+                        "practice_area": practice_area,
+                        "query": query,
+                        "status": status,
+                    },
+                    v1_list_params.V1ListParams,
+                ),
+            ),
+            cast_to=V1ListResponse,
+        )
+
+    def delete(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1DeleteResponse:
+        """Queues a durable, idempotent purge of a Matter and all linked live content.
+
+        Use
+        matter purge webhooks for status changes; the inspection route is intended for
+        manual diagnostics only.
 
         Args:
           extra_headers: Send extra headers
@@ -350,30 +441,29 @@ class V1Resource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._get(
-            "/matters/v1",
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._delete(
+            path_template("/matters/v1/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "matter_type": matter_type,
-                        "practice_area": practice_area,
-                        "query": query,
-                        "status": status,
-                    },
-                    v1_list_params.V1ListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1DeleteResponse,
         )
 
 
 class AsyncV1Resource(AsyncAPIResource):
     """Matter-native legal workspaces and orchestration primitives"""
+
+    @cached_property
+    def purges(self) -> AsyncPurgesResource:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return AsyncPurgesResource(self._client)
+
+    @cached_property
+    def content_purges(self) -> AsyncContentPurgesResource:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return AsyncContentPurgesResource(self._client)
 
     @cached_property
     def agent_types(self) -> AsyncAgentTypesResource:
@@ -611,6 +701,8 @@ class AsyncV1Resource(AsyncAPIResource):
     async def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         matter_type: str | Omit = omit,
         practice_area: str | Omit = omit,
         query: str | Omit = omit,
@@ -621,9 +713,70 @@ class AsyncV1Resource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> V1ListResponse:
+        """List matters for the authenticated organization, newest update first.
+
+        Pagination
+        is opt-in: pass `limit` (1-200) to receive a bounded page, then replay
+        `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is true.
+        Cursors are opaque and are only valid for the exact filter set they were issued
+        under. A request with neither `limit` nor `cursor` still returns every matter,
+        and `pagination.limit` is null. That default will become a bounded page in a
+        future release — paginate now to avoid the change.
+
+        Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters that produced it.
+
+          limit: Matters per page (1-200). Omit to receive every matter. Supplying a cursor
+              without a limit uses 50.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
-        List matters for the authenticated organization.
+        return await self._get(
+            "/matters/v1",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                        "matter_type": matter_type,
+                        "practice_area": practice_area,
+                        "query": query,
+                        "status": status,
+                    },
+                    v1_list_params.V1ListParams,
+                ),
+            ),
+            cast_to=V1ListResponse,
+        )
+
+    async def delete(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1DeleteResponse:
+        """Queues a durable, idempotent purge of a Matter and all linked live content.
+
+        Use
+        matter purge webhooks for status changes; the inspection route is intended for
+        manual diagnostics only.
 
         Args:
           extra_headers: Send extra headers
@@ -634,25 +787,14 @@ class AsyncV1Resource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._get(
-            "/matters/v1",
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._delete(
+            path_template("/matters/v1/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "matter_type": matter_type,
-                        "practice_area": practice_area,
-                        "query": query,
-                        "status": status,
-                    },
-                    v1_list_params.V1ListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=V1DeleteResponse,
         )
 
 
@@ -672,6 +814,19 @@ class V1ResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             v1.list,
         )
+        self.delete = to_raw_response_wrapper(
+            v1.delete,
+        )
+
+    @cached_property
+    def purges(self) -> PurgesResourceWithRawResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return PurgesResourceWithRawResponse(self._v1.purges)
+
+    @cached_property
+    def content_purges(self) -> ContentPurgesResourceWithRawResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return ContentPurgesResourceWithRawResponse(self._v1.content_purges)
 
     @cached_property
     def agent_types(self) -> AgentTypesResourceWithRawResponse:
@@ -729,6 +884,19 @@ class AsyncV1ResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             v1.list,
         )
+        self.delete = async_to_raw_response_wrapper(
+            v1.delete,
+        )
+
+    @cached_property
+    def purges(self) -> AsyncPurgesResourceWithRawResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return AsyncPurgesResourceWithRawResponse(self._v1.purges)
+
+    @cached_property
+    def content_purges(self) -> AsyncContentPurgesResourceWithRawResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return AsyncContentPurgesResourceWithRawResponse(self._v1.content_purges)
 
     @cached_property
     def agent_types(self) -> AsyncAgentTypesResourceWithRawResponse:
@@ -786,6 +954,19 @@ class V1ResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             v1.list,
         )
+        self.delete = to_streamed_response_wrapper(
+            v1.delete,
+        )
+
+    @cached_property
+    def purges(self) -> PurgesResourceWithStreamingResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return PurgesResourceWithStreamingResponse(self._v1.purges)
+
+    @cached_property
+    def content_purges(self) -> ContentPurgesResourceWithStreamingResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return ContentPurgesResourceWithStreamingResponse(self._v1.content_purges)
 
     @cached_property
     def agent_types(self) -> AgentTypesResourceWithStreamingResponse:
@@ -843,6 +1024,19 @@ class AsyncV1ResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             v1.list,
         )
+        self.delete = async_to_streamed_response_wrapper(
+            v1.delete,
+        )
+
+    @cached_property
+    def purges(self) -> AsyncPurgesResourceWithStreamingResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return AsyncPurgesResourceWithStreamingResponse(self._v1.purges)
+
+    @cached_property
+    def content_purges(self) -> AsyncContentPurgesResourceWithStreamingResponse:
+        """Matter-native legal workspaces and orchestration primitives"""
+        return AsyncContentPurgesResourceWithStreamingResponse(self._v1.content_purges)
 
     @cached_property
     def agent_types(self) -> AsyncAgentTypesResourceWithStreamingResponse:

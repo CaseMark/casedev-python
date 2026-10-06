@@ -16,3 +16,5 @@ class SubscriptionCreateParams(TypedDict, total=False):
     event_types: Annotated[SequenceNotStr[str], PropertyInfo(alias="eventTypes")]
 
     signing_secret: Annotated[str, PropertyInfo(alias="signingSecret")]
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

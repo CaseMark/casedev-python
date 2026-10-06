@@ -11,6 +11,7 @@ from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
 from casedev.types.vault import (
     MultipartInitResponse,
+    MultipartCompleteResponse,
     MultipartGetPartURLsResponse,
 )
 
@@ -80,7 +81,24 @@ class TestMultipart:
             size_bytes=1,
             upload_id="uploadId",
         )
-        assert multipart is None
+        assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
+
+    @parametrize
+    def test_method_complete_with_all_params(self, client: Casedev) -> None:
+        multipart = client.vault.multipart.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+            auto_ingest=True,
+        )
+        assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
 
     @parametrize
     def test_raw_response_complete(self, client: Casedev) -> None:
@@ -100,7 +118,7 @@ class TestMultipart:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         multipart = response.parse()
-        assert multipart is None
+        assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
 
     @parametrize
     def test_streaming_response_complete(self, client: Casedev) -> None:
@@ -120,7 +138,7 @@ class TestMultipart:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             multipart = response.parse()
-            assert multipart is None
+            assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -228,6 +246,7 @@ class TestMultipart:
             filename="filename",
             size_bytes=1,
             auto_index=True,
+            file_origin={"foo": "bar"},
             is_ai_generated=True,
             metadata={},
             part_size_bytes=5242880,
@@ -341,7 +360,24 @@ class TestAsyncMultipart:
             size_bytes=1,
             upload_id="uploadId",
         )
-        assert multipart is None
+        assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
+
+    @parametrize
+    async def test_method_complete_with_all_params(self, async_client: AsyncCasedev) -> None:
+        multipart = await async_client.vault.multipart.complete(
+            id="id",
+            object_id="objectId",
+            parts=[
+                {
+                    "etag": "etag",
+                    "part_number": 1,
+                }
+            ],
+            size_bytes=1,
+            upload_id="uploadId",
+            auto_ingest=True,
+        )
+        assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
 
     @parametrize
     async def test_raw_response_complete(self, async_client: AsyncCasedev) -> None:
@@ -361,7 +397,7 @@ class TestAsyncMultipart:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         multipart = await response.parse()
-        assert multipart is None
+        assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
 
     @parametrize
     async def test_streaming_response_complete(self, async_client: AsyncCasedev) -> None:
@@ -381,7 +417,7 @@ class TestAsyncMultipart:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             multipart = await response.parse()
-            assert multipart is None
+            assert_matches_type(MultipartCompleteResponse, multipart, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -489,6 +525,7 @@ class TestAsyncMultipart:
             filename="filename",
             size_bytes=1,
             auto_index=True,
+            file_origin={"foo": "bar"},
             is_ai_generated=True,
             metadata={},
             part_size_bytes=5242880,
