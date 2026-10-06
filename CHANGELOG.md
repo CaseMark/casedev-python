@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.73.0](https://github.com/CaseMark/casedev-python/compare/v0.72.0...v0.73.0) (2026-10-06)
+
+
+### Compatibility and migration
+
+This pre-1.0 minor release includes breaking API signatures. Vault GraphRAG settings and graph/global/local/entity search modes are retired; use hybrid, fast, or vector search instead. Matter, party and work-item lists and multipart completion now expose typed response envelopes; consume pagination.next_cursor and pagination.has_more rather than assuming an array or empty response.
+
+Migration examples and operational guidance: https://github.com/CaseMark/casedotdev-mono/blob/preview/stainless/RELEASE_RECONCILIATION.md. Connector token creation and webhook endpoint creation return one-time credentials; protect them and exclude responses from logs.
+
+### Features
+
+* **api:** api update ([6e657fe](https://github.com/CaseMark/casedev-python/commit/6e657fe3b49a8440939bcdd521124534270c1c7a))
+
 ## [0.72.0](https://github.com/CaseMark/casedev-python/compare/v0.71.0...v0.72.0) (2026-08-05)
 
 
