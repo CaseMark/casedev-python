@@ -15,6 +15,8 @@ class Ingest(BaseModel):
 
     error: Optional[str] = None
 
+    status_code: Optional[int] = FieldInfo(alias="statusCode", default=None)
+
     triggered: Optional[bool] = None
 
     workflow_id: Optional[str] = FieldInfo(alias="workflowId", default=None)

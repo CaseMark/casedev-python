@@ -23,9 +23,6 @@ class VaultUpdateResponse(BaseModel):
     description: Optional[str] = None
     """Vault description"""
 
-    enable_graph: Optional[bool] = FieldInfo(alias="enableGraph", default=None)
-    """Whether GraphRAG is enabled for future uploads"""
-
     files_bucket: Optional[str] = FieldInfo(alias="filesBucket", default=None)
     """S3 bucket for document storage"""
 

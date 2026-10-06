@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -14,7 +15,13 @@ from .custom import (
     CustomResourceWithStreamingResponse,
     AsyncCustomResourceWithStreamingResponse,
 )
-from ...types import skill_create_params, skill_export_params, skill_update_params, skill_resolve_params
+from ...types import (
+    skill_create_params,
+    skill_export_params,
+    skill_update_params,
+    skill_catalog_params,
+    skill_resolve_params,
+)
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -31,6 +38,7 @@ from ...types.skill_create_response import SkillCreateResponse
 from ...types.skill_delete_response import SkillDeleteResponse
 from ...types.skill_export_response import SkillExportResponse
 from ...types.skill_update_response import SkillUpdateResponse
+from ...types.skill_catalog_response import SkillCatalogResponse
 from ...types.skill_resolve_response import SkillResolveResponse
 
 __all__ = ["SkillsResource", "AsyncSkillsResource"]
@@ -91,7 +99,8 @@ class SkillsResource(SyncAPIResource):
           name: Skill name
 
           files: Optional bundled companion files installed alongside the skill as <slug>/<path>
-              in sandbox skill directories.
+              in sandbox skill directories. The complete file set may contain at most 12 MiB
+              of decoded content.
 
           metadata: Arbitrary metadata (author, license, etc.)
 
@@ -134,6 +143,7 @@ class SkillsResource(SyncAPIResource):
         path_slug: str,
         *,
         content: str | Omit = omit,
+        expected_version: int | Omit = omit,
         files: Optional[Iterable[skill_update_params.File]] | Omit = omit,
         metadata: object | Omit = omit,
         name: str | Omit = omit,
@@ -153,8 +163,10 @@ class SkillsResource(SyncAPIResource):
         Version is auto-incremented.
 
         Args:
-          files: Optional replacement companion file tree. Omit to leave existing bundled files
-              unchanged; send [] to remove bundled files.
+          expected_version: Reject with 409 if the skill changed since this version was read.
+
+          files: Optional replacement companion file tree, limited to 12 MiB of decoded content.
+              Omit to leave existing bundled files unchanged; send [] to remove bundled files.
 
           body_slug: New slug (renames the skill)
 
@@ -173,6 +185,7 @@ class SkillsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "content": content,
+                    "expected_version": expected_version,
                     "files": files,
                     "metadata": metadata,
                     "name": name,
@@ -221,6 +234,67 @@ class SkillsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SkillDeleteResponse,
+        )
+
+    def catalog(
+        self,
+        *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        q: str | Omit = omit,
+        source: Literal["custom", "curated"] | Omit = omit,
+        tag: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SkillCatalogResponse:
+        """Browse public and organization skills using one authenticated catalog.
+
+        Returns
+        metadata only; skill content is loaded separately.
+
+        Args:
+          limit: Maximum results to return
+
+          offset: Number of results to skip
+
+          q: Optional text search
+
+          source: Optional source filter, applied after organization overrides and before
+              pagination. Omit to browse both sources.
+
+          tag: Optional tag filter
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/skills/catalog",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                        "q": q,
+                        "source": source,
+                        "tag": tag,
+                    },
+                    skill_catalog_params.SkillCatalogParams,
+                ),
+            ),
+            cast_to=SkillCatalogResponse,
         )
 
     def export(
@@ -403,7 +477,8 @@ class AsyncSkillsResource(AsyncAPIResource):
           name: Skill name
 
           files: Optional bundled companion files installed alongside the skill as <slug>/<path>
-              in sandbox skill directories.
+              in sandbox skill directories. The complete file set may contain at most 12 MiB
+              of decoded content.
 
           metadata: Arbitrary metadata (author, license, etc.)
 
@@ -446,6 +521,7 @@ class AsyncSkillsResource(AsyncAPIResource):
         path_slug: str,
         *,
         content: str | Omit = omit,
+        expected_version: int | Omit = omit,
         files: Optional[Iterable[skill_update_params.File]] | Omit = omit,
         metadata: object | Omit = omit,
         name: str | Omit = omit,
@@ -465,8 +541,10 @@ class AsyncSkillsResource(AsyncAPIResource):
         Version is auto-incremented.
 
         Args:
-          files: Optional replacement companion file tree. Omit to leave existing bundled files
-              unchanged; send [] to remove bundled files.
+          expected_version: Reject with 409 if the skill changed since this version was read.
+
+          files: Optional replacement companion file tree, limited to 12 MiB of decoded content.
+              Omit to leave existing bundled files unchanged; send [] to remove bundled files.
 
           body_slug: New slug (renames the skill)
 
@@ -485,6 +563,7 @@ class AsyncSkillsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "content": content,
+                    "expected_version": expected_version,
                     "files": files,
                     "metadata": metadata,
                     "name": name,
@@ -533,6 +612,67 @@ class AsyncSkillsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=SkillDeleteResponse,
+        )
+
+    async def catalog(
+        self,
+        *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        q: str | Omit = omit,
+        source: Literal["custom", "curated"] | Omit = omit,
+        tag: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SkillCatalogResponse:
+        """Browse public and organization skills using one authenticated catalog.
+
+        Returns
+        metadata only; skill content is loaded separately.
+
+        Args:
+          limit: Maximum results to return
+
+          offset: Number of results to skip
+
+          q: Optional text search
+
+          source: Optional source filter, applied after organization overrides and before
+              pagination. Omit to browse both sources.
+
+          tag: Optional tag filter
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/skills/catalog",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                        "q": q,
+                        "source": source,
+                        "tag": tag,
+                    },
+                    skill_catalog_params.SkillCatalogParams,
+                ),
+            ),
+            cast_to=SkillCatalogResponse,
         )
 
     async def export(
@@ -673,6 +813,9 @@ class SkillsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             skills.delete,
         )
+        self.catalog = to_raw_response_wrapper(
+            skills.catalog,
+        )
         self.export = to_raw_response_wrapper(
             skills.export,
         )
@@ -701,6 +844,9 @@ class AsyncSkillsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             skills.delete,
+        )
+        self.catalog = async_to_raw_response_wrapper(
+            skills.catalog,
         )
         self.export = async_to_raw_response_wrapper(
             skills.export,
@@ -731,6 +877,9 @@ class SkillsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             skills.delete,
         )
+        self.catalog = to_streamed_response_wrapper(
+            skills.catalog,
+        )
         self.export = to_streamed_response_wrapper(
             skills.export,
         )
@@ -759,6 +908,9 @@ class AsyncSkillsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             skills.delete,
+        )
+        self.catalog = async_to_streamed_response_wrapper(
+            skills.catalog,
         )
         self.export = async_to_streamed_response_wrapper(
             skills.export,

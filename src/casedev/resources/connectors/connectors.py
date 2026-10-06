@@ -19,7 +19,7 @@ __all__ = ["ConnectorsResource", "AsyncConnectorsResource"]
 class ConnectorsResource(SyncAPIResource):
     @cached_property
     def v1(self) -> V1Resource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return V1Resource(self._client)
 
     @cached_property
@@ -45,7 +45,7 @@ class ConnectorsResource(SyncAPIResource):
 class AsyncConnectorsResource(AsyncAPIResource):
     @cached_property
     def v1(self) -> AsyncV1Resource:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncV1Resource(self._client)
 
     @cached_property
@@ -74,7 +74,7 @@ class ConnectorsResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return V1ResourceWithRawResponse(self._connectors.v1)
 
 
@@ -84,7 +84,7 @@ class AsyncConnectorsResourceWithRawResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithRawResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncV1ResourceWithRawResponse(self._connectors.v1)
 
 
@@ -94,7 +94,7 @@ class ConnectorsResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> V1ResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return V1ResourceWithStreamingResponse(self._connectors.v1)
 
 
@@ -104,5 +104,5 @@ class AsyncConnectorsResourceWithStreamingResponse:
 
     @cached_property
     def v1(self) -> AsyncV1ResourceWithStreamingResponse:
-        """Import and export between provider folders (Google Drive) and vaults"""
+        """Import and export between provider folders and vaults"""
         return AsyncV1ResourceWithStreamingResponse(self._connectors.v1)

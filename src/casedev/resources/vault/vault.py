@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -24,8 +24,10 @@ from .memory import (
     AsyncMemoryResourceWithStreamingResponse,
 )
 from ...types import (
+    vault_list_params,
     vault_create_params,
     vault_delete_params,
+    vault_ingest_params,
     vault_search_params,
     vault_update_params,
     vault_upload_params,
@@ -80,7 +82,7 @@ __all__ = ["VaultResource", "AsyncVaultResource"]
 
 
 class VaultResource(SyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Secure document storage with semantic search"""
 
     @cached_property
     def events(self) -> EventsResource:
@@ -88,12 +90,12 @@ class VaultResource(SyncAPIResource):
 
     @cached_property
     def groups(self) -> GroupsResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return GroupsResource(self._client)
 
     @cached_property
     def multipart(self) -> MultipartResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return MultipartResource(self._client)
 
     @cached_property
@@ -141,7 +143,6 @@ class VaultResource(SyncAPIResource):
             "casemark/llama-nemotron-embed-vl-1b-v2",
         ]
         | Omit = omit,
-        enable_graph: bool | Omit = omit,
         enable_indexing: bool | Omit = omit,
         group_id: str | Omit = omit,
         metadata: object | Omit = omit,
@@ -154,9 +155,8 @@ class VaultResource(SyncAPIResource):
     ) -> VaultCreateResponse:
         """
         Creates a new secure vault with dedicated S3 storage and vector search
-        capabilities. Each vault provides isolated document storage with semantic
-        search, OCR processing, and optional GraphRAG knowledge graph features for legal
-        document analysis and discovery.
+        capabilities. Each vault provides isolated document storage with semantic search
+        and OCR processing for legal document analysis and discovery.
 
         Args:
           name: Display name for the vault
@@ -170,9 +170,6 @@ class VaultResource(SyncAPIResource):
               `casemark/llama-nemotron-embed-vl-1b-v2` is a deprecated alias for
               `casemark/embed-v1` (retained for SDK backward compatibility); new integrations
               should use `casemark/embed-v1` directly.
-
-          enable_graph: Enable knowledge graph for entity relationship mapping. Only applies when
-              enableIndexing is true.
 
           enable_indexing: Enable vector indexing and search capabilities. Set to false for storage-only
               vaults.
@@ -198,7 +195,6 @@ class VaultResource(SyncAPIResource):
                     "name": name,
                     "description": description,
                     "embedding_model": embedding_model,
-                    "enable_graph": enable_graph,
                     "enable_indexing": enable_indexing,
                     "group_id": group_id,
                     "metadata": metadata,
@@ -251,7 +247,6 @@ class VaultResource(SyncAPIResource):
         id: str,
         *,
         description: Optional[str] | Omit = omit,
-        enable_graph: bool | Omit = omit,
         group_id: Optional[str] | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -261,16 +256,11 @@ class VaultResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultUpdateResponse:
-        """Update vault settings including name, description, and enableGraph.
-
-        Changing
-        enableGraph only affects future document uploads - existing documents retain
-        their current graph/non-graph state.
+        """
+        Update vault settings including name, description, and group membership.
 
         Args:
           description: New description for the vault. Set to null to remove.
-
-          enable_graph: Whether to enable GraphRAG for future document uploads
 
           group_id: Move the vault to a different group, or set to null to remove from its current
               group.
@@ -292,7 +282,6 @@ class VaultResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "description": description,
-                    "enable_graph": enable_graph,
                     "group_id": group_id,
                     "name": name,
                 },
@@ -307,6 +296,10 @@ class VaultResource(SyncAPIResource):
     def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        include_totals: bool | Omit = omit,
+        limit: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -318,11 +311,49 @@ class VaultResource(SyncAPIResource):
 
         Returns vault metadata
         including name, description, storage configuration, and usage statistics.
+        Pagination is opt-in: pass `limit` (1-200) to receive a bounded page, then
+        replay `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is
+        true. A request with neither `limit` nor `cursor` still returns every vault, and
+        `pagination.limit` is null. That default will become a bounded page in a future
+        release — paginate now to avoid the change.
+
+        Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same API key scope and `query` that produced it.
+
+          include_totals: When `true`, adds `totals` covering every vault matching the filters, not just
+              this page. Scans all objects in those vaults, so request it once per filter
+              change rather than on every page.
+
+          limit: Vaults per page (1-200). Omit to receive every vault. Supplying a cursor without
+              a limit uses 50.
+
+          query: Case-insensitive substring match on the vault name.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get(
             "/vault",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "include_totals": include_totals,
+                        "limit": limit,
+                        "query": query,
+                    },
+                    vault_list_params.VaultListParams,
+                ),
             ),
             cast_to=VaultListResponse,
         )
@@ -411,7 +442,9 @@ class VaultResource(SyncAPIResource):
           etag: S3 ETag for the uploaded object (optional if client cannot access ETag header).
               Only meaningful when success=true.
 
-          size_bytes: Uploaded file size in bytes. Required when success=true.
+          size_bytes: Uploaded file size in bytes, including zero. Required when success=true and
+              verified against S3. Empty files can be stored and transferred, but cannot be
+              ingested.
 
           extra_headers: Send extra headers
 
@@ -449,6 +482,8 @@ class VaultResource(SyncAPIResource):
         object_id: str,
         *,
         id: str,
+        callback_url: str | Omit = omit,
+        page_boundaries: Iterable[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -460,13 +495,18 @@ class VaultResource(SyncAPIResource):
         Triggers ingestion workflow for a vault object to extract text, generate chunks,
         and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
         RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
-        ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
-        recursively up to 5 levels, and each extracted file is created as an independent
-        vault object and ingested via the normal pipeline. For unsupported types
-        (images, etc.), the file is marked as completed immediately without text
-        extraction.
+        ZIP, audio, video), processing happens asynchronously. ZIP archives always
+        return a processing response, are unpacked recursively up to 5 levels, and each
+        extracted file is created as an independent vault object and ingested via the
+        normal pipeline. For unsupported types (images, etc.), the file is marked as
+        completed immediately without text extraction.
 
         Args:
+          callback_url: Optional callback URL for asynchronous workflow completion.
+
+          page_boundaries: Optional PDF pages that must begin a new chunk segment. Overlap never crosses
+              these boundaries.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -481,6 +521,13 @@ class VaultResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return self._post(
             path_template("/vault/{id}/ingest/{object_id}", id=id, object_id=object_id),
+            body=maybe_transform(
+                {
+                    "callback_url": callback_url,
+                    "page_boundaries": page_boundaries,
+                },
+                vault_ingest_params.VaultIngestParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -493,7 +540,7 @@ class VaultResource(SyncAPIResource):
         *,
         query: str,
         filters: vault_search_params.Filters | Omit = omit,
-        method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"] | Omit = omit,
+        method: Literal["hybrid", "fast", "vector"] | Omit = omit,
         top_k: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -503,18 +550,18 @@ class VaultResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultSearchResponse:
         """
-        Search across vault documents using multiple methods including hybrid vector +
-        graph search, GraphRAG global search, entity-based search, and fast similarity
-        search. Returns relevant documents and contextual answers based on the search
-        method.
+        Search across vault documents using hybrid vector + BM25 search (default), fast
+        vector similarity search, or a simple vector fallback. Returns matching chunks
+        and their source documents.
 
         Args:
           query: Search query or question to find relevant documents
 
           filters: Filters to narrow search results to specific documents
 
-          method: Search method: 'global' for comprehensive questions, 'entity' for specific
-              entities, 'fast' for quick similarity search, 'hybrid' for combined approach
+          method: Search method: 'hybrid' for combined vector + keyword ranking (default), 'fast'
+              for quick vector similarity search, 'vector' for a simple document listing
+              fallback
 
           top_k: Maximum number of results to return. Hybrid search supports 1 to 50; other
               methods may support up to 100.
@@ -553,6 +600,7 @@ class VaultResource(SyncAPIResource):
         content_type: str,
         filename: str,
         auto_index: bool | Omit = omit,
+        file_origin: Dict[str, object] | Omit = omit,
         is_ai_generated: bool | Omit = omit,
         metadata: object | Omit = omit,
         path: str | Omit = omit,
@@ -577,18 +625,22 @@ class VaultResource(SyncAPIResource):
 
           auto_index: Whether to automatically process and index the file for search
 
+          file_origin: Optional client-defined provenance metadata. Returned with the object and
+              queryable through the object-list API.
+
           is_ai_generated: Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
               than a user-provided source document. Persisted on the object and returned by
               object listings so clients can distinguish provenance.
 
           metadata: Additional metadata to associate with the file
 
-          path: Optional folder path for hierarchy preservation. Allows integrations to maintain
-              source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
-              '/Discovery/Depositions/2024'
+          path: Optional folder path, excluding the filename, for hierarchy preservation. Allows
+              integrations to maintain source folder structure from systems like NetDocs,
+              Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
 
-          size_bytes: File size in bytes (optional, max 5GB for single PUT uploads). When provided,
-              enforces exact file size at S3 level.
+          size_bytes: File size in bytes (optional, including zero, max 5GB for single PUT uploads).
+              When provided, enforces exact file size at S3 level. Empty files can be stored
+              and transferred, but cannot be ingested.
 
           extra_headers: Send extra headers
 
@@ -608,6 +660,7 @@ class VaultResource(SyncAPIResource):
                     "content_type": content_type,
                     "filename": filename,
                     "auto_index": auto_index,
+                    "file_origin": file_origin,
                     "is_ai_generated": is_ai_generated,
                     "metadata": metadata,
                     "path": path,
@@ -623,7 +676,7 @@ class VaultResource(SyncAPIResource):
 
 
 class AsyncVaultResource(AsyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Secure document storage with semantic search"""
 
     @cached_property
     def events(self) -> AsyncEventsResource:
@@ -631,12 +684,12 @@ class AsyncVaultResource(AsyncAPIResource):
 
     @cached_property
     def groups(self) -> AsyncGroupsResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return AsyncGroupsResource(self._client)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return AsyncMultipartResource(self._client)
 
     @cached_property
@@ -684,7 +737,6 @@ class AsyncVaultResource(AsyncAPIResource):
             "casemark/llama-nemotron-embed-vl-1b-v2",
         ]
         | Omit = omit,
-        enable_graph: bool | Omit = omit,
         enable_indexing: bool | Omit = omit,
         group_id: str | Omit = omit,
         metadata: object | Omit = omit,
@@ -697,9 +749,8 @@ class AsyncVaultResource(AsyncAPIResource):
     ) -> VaultCreateResponse:
         """
         Creates a new secure vault with dedicated S3 storage and vector search
-        capabilities. Each vault provides isolated document storage with semantic
-        search, OCR processing, and optional GraphRAG knowledge graph features for legal
-        document analysis and discovery.
+        capabilities. Each vault provides isolated document storage with semantic search
+        and OCR processing for legal document analysis and discovery.
 
         Args:
           name: Display name for the vault
@@ -713,9 +764,6 @@ class AsyncVaultResource(AsyncAPIResource):
               `casemark/llama-nemotron-embed-vl-1b-v2` is a deprecated alias for
               `casemark/embed-v1` (retained for SDK backward compatibility); new integrations
               should use `casemark/embed-v1` directly.
-
-          enable_graph: Enable knowledge graph for entity relationship mapping. Only applies when
-              enableIndexing is true.
 
           enable_indexing: Enable vector indexing and search capabilities. Set to false for storage-only
               vaults.
@@ -741,7 +789,6 @@ class AsyncVaultResource(AsyncAPIResource):
                     "name": name,
                     "description": description,
                     "embedding_model": embedding_model,
-                    "enable_graph": enable_graph,
                     "enable_indexing": enable_indexing,
                     "group_id": group_id,
                     "metadata": metadata,
@@ -794,7 +841,6 @@ class AsyncVaultResource(AsyncAPIResource):
         id: str,
         *,
         description: Optional[str] | Omit = omit,
-        enable_graph: bool | Omit = omit,
         group_id: Optional[str] | Omit = omit,
         name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -804,16 +850,11 @@ class AsyncVaultResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultUpdateResponse:
-        """Update vault settings including name, description, and enableGraph.
-
-        Changing
-        enableGraph only affects future document uploads - existing documents retain
-        their current graph/non-graph state.
+        """
+        Update vault settings including name, description, and group membership.
 
         Args:
           description: New description for the vault. Set to null to remove.
-
-          enable_graph: Whether to enable GraphRAG for future document uploads
 
           group_id: Move the vault to a different group, or set to null to remove from its current
               group.
@@ -835,7 +876,6 @@ class AsyncVaultResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "description": description,
-                    "enable_graph": enable_graph,
                     "group_id": group_id,
                     "name": name,
                 },
@@ -850,6 +890,10 @@ class AsyncVaultResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        cursor: str | Omit = omit,
+        include_totals: bool | Omit = omit,
+        limit: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -861,11 +905,49 @@ class AsyncVaultResource(AsyncAPIResource):
 
         Returns vault metadata
         including name, description, storage configuration, and usage statistics.
+        Pagination is opt-in: pass `limit` (1-200) to receive a bounded page, then
+        replay `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is
+        true. A request with neither `limit` nor `cursor` still returns every vault, and
+        `pagination.limit` is null. That default will become a bounded page in a future
+        release — paginate now to avoid the change.
+
+        Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same API key scope and `query` that produced it.
+
+          include_totals: When `true`, adds `totals` covering every vault matching the filters, not just
+              this page. Scans all objects in those vaults, so request it once per filter
+              change rather than on every page.
+
+          limit: Vaults per page (1-200). Omit to receive every vault. Supplying a cursor without
+              a limit uses 50.
+
+          query: Case-insensitive substring match on the vault name.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._get(
             "/vault",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "include_totals": include_totals,
+                        "limit": limit,
+                        "query": query,
+                    },
+                    vault_list_params.VaultListParams,
+                ),
             ),
             cast_to=VaultListResponse,
         )
@@ -954,7 +1036,9 @@ class AsyncVaultResource(AsyncAPIResource):
           etag: S3 ETag for the uploaded object (optional if client cannot access ETag header).
               Only meaningful when success=true.
 
-          size_bytes: Uploaded file size in bytes. Required when success=true.
+          size_bytes: Uploaded file size in bytes, including zero. Required when success=true and
+              verified against S3. Empty files can be stored and transferred, but cannot be
+              ingested.
 
           extra_headers: Send extra headers
 
@@ -992,6 +1076,8 @@ class AsyncVaultResource(AsyncAPIResource):
         object_id: str,
         *,
         id: str,
+        callback_url: str | Omit = omit,
+        page_boundaries: Iterable[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1003,13 +1089,18 @@ class AsyncVaultResource(AsyncAPIResource):
         Triggers ingestion workflow for a vault object to extract text, generate chunks,
         and create embeddings. For supported file types (PDF, DOCX, PPTX, XLSX, TXT,
         RTF, XML, HTML, Markdown, CSV/TSV, JSON/YAML/TOML, common source code files,
-        ZIP, audio, video), processing happens asynchronously. ZIP archives are unpacked
-        recursively up to 5 levels, and each extracted file is created as an independent
-        vault object and ingested via the normal pipeline. For unsupported types
-        (images, etc.), the file is marked as completed immediately without text
-        extraction.
+        ZIP, audio, video), processing happens asynchronously. ZIP archives always
+        return a processing response, are unpacked recursively up to 5 levels, and each
+        extracted file is created as an independent vault object and ingested via the
+        normal pipeline. For unsupported types (images, etc.), the file is marked as
+        completed immediately without text extraction.
 
         Args:
+          callback_url: Optional callback URL for asynchronous workflow completion.
+
+          page_boundaries: Optional PDF pages that must begin a new chunk segment. Overlap never crosses
+              these boundaries.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1024,6 +1115,13 @@ class AsyncVaultResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
         return await self._post(
             path_template("/vault/{id}/ingest/{object_id}", id=id, object_id=object_id),
+            body=await async_maybe_transform(
+                {
+                    "callback_url": callback_url,
+                    "page_boundaries": page_boundaries,
+                },
+                vault_ingest_params.VaultIngestParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1036,7 +1134,7 @@ class AsyncVaultResource(AsyncAPIResource):
         *,
         query: str,
         filters: vault_search_params.Filters | Omit = omit,
-        method: Literal["vector", "graph", "hybrid", "global", "local", "fast", "entity"] | Omit = omit,
+        method: Literal["hybrid", "fast", "vector"] | Omit = omit,
         top_k: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1046,18 +1144,18 @@ class AsyncVaultResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultSearchResponse:
         """
-        Search across vault documents using multiple methods including hybrid vector +
-        graph search, GraphRAG global search, entity-based search, and fast similarity
-        search. Returns relevant documents and contextual answers based on the search
-        method.
+        Search across vault documents using hybrid vector + BM25 search (default), fast
+        vector similarity search, or a simple vector fallback. Returns matching chunks
+        and their source documents.
 
         Args:
           query: Search query or question to find relevant documents
 
           filters: Filters to narrow search results to specific documents
 
-          method: Search method: 'global' for comprehensive questions, 'entity' for specific
-              entities, 'fast' for quick similarity search, 'hybrid' for combined approach
+          method: Search method: 'hybrid' for combined vector + keyword ranking (default), 'fast'
+              for quick vector similarity search, 'vector' for a simple document listing
+              fallback
 
           top_k: Maximum number of results to return. Hybrid search supports 1 to 50; other
               methods may support up to 100.
@@ -1096,6 +1194,7 @@ class AsyncVaultResource(AsyncAPIResource):
         content_type: str,
         filename: str,
         auto_index: bool | Omit = omit,
+        file_origin: Dict[str, object] | Omit = omit,
         is_ai_generated: bool | Omit = omit,
         metadata: object | Omit = omit,
         path: str | Omit = omit,
@@ -1120,18 +1219,22 @@ class AsyncVaultResource(AsyncAPIResource):
 
           auto_index: Whether to automatically process and index the file for search
 
+          file_origin: Optional client-defined provenance metadata. Returned with the object and
+              queryable through the object-list API.
+
           is_ai_generated: Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
               than a user-provided source document. Persisted on the object and returned by
               object listings so clients can distinguish provenance.
 
           metadata: Additional metadata to associate with the file
 
-          path: Optional folder path for hierarchy preservation. Allows integrations to maintain
-              source folder structure from systems like NetDocs, Clio, or Smokeball. Example:
-              '/Discovery/Depositions/2024'
+          path: Optional folder path, excluding the filename, for hierarchy preservation. Allows
+              integrations to maintain source folder structure from systems like NetDocs,
+              Clio, or Smokeball. Example: '/Discovery/Depositions/2024'
 
-          size_bytes: File size in bytes (optional, max 5GB for single PUT uploads). When provided,
-              enforces exact file size at S3 level.
+          size_bytes: File size in bytes (optional, including zero, max 5GB for single PUT uploads).
+              When provided, enforces exact file size at S3 level. Empty files can be stored
+              and transferred, but cannot be ingested.
 
           extra_headers: Send extra headers
 
@@ -1151,6 +1254,7 @@ class AsyncVaultResource(AsyncAPIResource):
                     "content_type": content_type,
                     "filename": filename,
                     "auto_index": auto_index,
+                    "file_origin": file_origin,
                     "is_ai_generated": is_ai_generated,
                     "metadata": metadata,
                     "path": path,
@@ -1203,12 +1307,12 @@ class VaultResourceWithRawResponse:
 
     @cached_property
     def groups(self) -> GroupsResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return GroupsResourceWithRawResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> MultipartResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return MultipartResourceWithRawResponse(self._vault.multipart)
 
     @cached_property
@@ -1260,12 +1364,12 @@ class AsyncVaultResourceWithRawResponse:
 
     @cached_property
     def groups(self) -> AsyncGroupsResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return AsyncGroupsResourceWithRawResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return AsyncMultipartResourceWithRawResponse(self._vault.multipart)
 
     @cached_property
@@ -1317,12 +1421,12 @@ class VaultResourceWithStreamingResponse:
 
     @cached_property
     def groups(self) -> GroupsResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return GroupsResourceWithStreamingResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> MultipartResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return MultipartResourceWithStreamingResponse(self._vault.multipart)
 
     @cached_property
@@ -1374,12 +1478,12 @@ class AsyncVaultResourceWithStreamingResponse:
 
     @cached_property
     def groups(self) -> AsyncGroupsResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return AsyncGroupsResourceWithStreamingResponse(self._vault.groups)
 
     @cached_property
     def multipart(self) -> AsyncMultipartResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         return AsyncMultipartResourceWithStreamingResponse(self._vault.multipart)
 
     @cached_property

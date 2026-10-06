@@ -23,7 +23,7 @@ __all__ = ["VaultsResource", "AsyncVaultsResource"]
 
 
 class VaultsResource(SyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
 
     @cached_property
     def with_raw_response(self) -> VaultsResourceWithRawResponse:
@@ -174,7 +174,7 @@ class VaultsResource(SyncAPIResource):
 
 
 class AsyncVaultsResource(AsyncAPIResource):
-    """Import and export between provider folders (Google Drive) and vaults"""
+    """Import and export between provider folders and vaults"""
 
     @cached_property
     def with_raw_response(self) -> AsyncVaultsResourceWithRawResponse:

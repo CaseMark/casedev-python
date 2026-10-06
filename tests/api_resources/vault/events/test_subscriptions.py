@@ -31,6 +31,7 @@ class TestSubscriptions:
             event_types=["string"],
             object_ids=["string"],
             signing_secret="signingSecret",
+            idempotency_key="Idempotency-Key",
         )
         assert subscription is None
 
@@ -297,6 +298,7 @@ class TestAsyncSubscriptions:
             event_types=["string"],
             object_ids=["string"],
             signing_secret="signingSecret",
+            idempotency_key="Idempotency-Key",
         )
         assert subscription is None
 

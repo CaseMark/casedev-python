@@ -15,6 +15,11 @@ class Item(BaseModel):
 
     container_id: Optional[str] = None
 
+    description: Optional[str] = None
+
+    import_ref: Optional[object] = None
+    """Importable container root, when different from its browse reference."""
+
     kind: Optional[Literal["my_drive", "shared_drive", "matter", "site", "document_library", "folder", "file"]] = None
 
     mime_type: Optional[str] = None

@@ -40,7 +40,6 @@ class TestVault:
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
             embedding_model="casemark/embed-v1",
-            enable_graph=True,
             enable_indexing=True,
             group_id="grp_abc123",
             metadata={
@@ -124,7 +123,6 @@ class TestVault:
         vault = client.vault.update(
             id="id",
             description="description",
-            enable_graph=False,
             group_id="groupId",
             name="Updated Vault Name",
         )
@@ -164,6 +162,16 @@ class TestVault:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         vault = client.vault.list()
+        assert_matches_type(VaultListResponse, vault, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: Casedev) -> None:
+        vault = client.vault.list(
+            cursor="cursor",
+            include_totals=True,
+            limit=1,
+            query="query",
+        )
         assert_matches_type(VaultListResponse, vault, path=["response"])
 
     @parametrize
@@ -251,7 +259,7 @@ class TestVault:
             error_code="errorCode",
             error_message="errorMessage",
             etag="etag",
-            size_bytes=1,
+            size_bytes=0,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
@@ -308,6 +316,16 @@ class TestVault:
         assert_matches_type(VaultIngestResponse, vault, path=["response"])
 
     @parametrize
+    def test_method_ingest_with_all_params(self, client: Casedev) -> None:
+        vault = client.vault.ingest(
+            object_id="objectId",
+            id="id",
+            callback_url="https://example.com",
+            page_boundaries=[2],
+        )
+        assert_matches_type(VaultIngestResponse, vault, path=["response"])
+
+    @parametrize
     def test_raw_response_ingest(self, client: Casedev) -> None:
         response = client.vault.with_raw_response.ingest(
             object_id="objectId",
@@ -360,8 +378,14 @@ class TestVault:
         vault = client.vault.search(
             id="id",
             query="query",
-            filters={"object_id": "string"},
-            method="vector",
+            filters={
+                "object_id": "string",
+                "page_range": {
+                    "start": 1,
+                    "end": 1,
+                },
+            },
+            method="hybrid",
             top_k=1,
         )
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
@@ -416,10 +440,11 @@ class TestVault:
             content_type="contentType",
             filename="filename",
             auto_index=True,
+            file_origin={"foo": "bar"},
             is_ai_generated=True,
             metadata={},
             path="path",
-            size_bytes=1,
+            size_bytes=0,
             idempotency_key="Idempotency-Key",
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])
@@ -480,7 +505,6 @@ class TestAsyncVault:
             name="Contract Review Archive",
             description="Repository for all client contract reviews and analysis",
             embedding_model="casemark/embed-v1",
-            enable_graph=True,
             enable_indexing=True,
             group_id="grp_abc123",
             metadata={
@@ -564,7 +588,6 @@ class TestAsyncVault:
         vault = await async_client.vault.update(
             id="id",
             description="description",
-            enable_graph=False,
             group_id="groupId",
             name="Updated Vault Name",
         )
@@ -604,6 +627,16 @@ class TestAsyncVault:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         vault = await async_client.vault.list()
+        assert_matches_type(VaultListResponse, vault, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
+        vault = await async_client.vault.list(
+            cursor="cursor",
+            include_totals=True,
+            limit=1,
+            query="query",
+        )
         assert_matches_type(VaultListResponse, vault, path=["response"])
 
     @parametrize
@@ -691,7 +724,7 @@ class TestAsyncVault:
             error_code="errorCode",
             error_message="errorMessage",
             etag="etag",
-            size_bytes=1,
+            size_bytes=0,
         )
         assert_matches_type(VaultConfirmUploadResponse, vault, path=["response"])
 
@@ -748,6 +781,16 @@ class TestAsyncVault:
         assert_matches_type(VaultIngestResponse, vault, path=["response"])
 
     @parametrize
+    async def test_method_ingest_with_all_params(self, async_client: AsyncCasedev) -> None:
+        vault = await async_client.vault.ingest(
+            object_id="objectId",
+            id="id",
+            callback_url="https://example.com",
+            page_boundaries=[2],
+        )
+        assert_matches_type(VaultIngestResponse, vault, path=["response"])
+
+    @parametrize
     async def test_raw_response_ingest(self, async_client: AsyncCasedev) -> None:
         response = await async_client.vault.with_raw_response.ingest(
             object_id="objectId",
@@ -800,8 +843,14 @@ class TestAsyncVault:
         vault = await async_client.vault.search(
             id="id",
             query="query",
-            filters={"object_id": "string"},
-            method="vector",
+            filters={
+                "object_id": "string",
+                "page_range": {
+                    "start": 1,
+                    "end": 1,
+                },
+            },
+            method="hybrid",
             top_k=1,
         )
         assert_matches_type(VaultSearchResponse, vault, path=["response"])
@@ -856,10 +905,11 @@ class TestAsyncVault:
             content_type="contentType",
             filename="filename",
             auto_index=True,
+            file_origin={"foo": "bar"},
             is_ai_generated=True,
             metadata={},
             path="path",
-            size_bytes=1,
+            size_bytes=0,
             idempotency_key="Idempotency-Key",
         )
         assert_matches_type(VaultUploadResponse, vault, path=["response"])

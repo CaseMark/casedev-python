@@ -25,6 +25,7 @@ from ....types.webhooks.v1 import (
     endpoint_update_params,
     endpoint_rotate_secret_params,
 )
+from ....types.webhooks.v1.endpoint_create_response import EndpointCreateResponse
 
 __all__ = ["EndpointsResource", "AsyncEndpointsResource"]
 
@@ -64,7 +65,7 @@ class EndpointsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EndpointCreateResponse:
         """
         Creates a webhook endpoint that receives platform events matching the supplied
         event-type filters. Returns the generated signing secret ONCE — the response is
@@ -89,7 +90,6 @@ class EndpointsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             "/webhooks/v1/endpoints",
             body=maybe_transform(
@@ -104,7 +104,7 @@ class EndpointsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EndpointCreateResponse,
         )
 
     def retrieve(
@@ -410,7 +410,7 @@ class AsyncEndpointsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> EndpointCreateResponse:
         """
         Creates a webhook endpoint that receives platform events matching the supplied
         event-type filters. Returns the generated signing secret ONCE — the response is
@@ -435,7 +435,6 @@ class AsyncEndpointsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             "/webhooks/v1/endpoints",
             body=await async_maybe_transform(
@@ -450,7 +449,7 @@ class AsyncEndpointsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=EndpointCreateResponse,
         )
 
     async def retrieve(
