@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from .session_cancel_params import SessionCancelParams as SessionCancelParams
 from .session_create_params import SessionCreateParams as SessionCreateParams
+from .session_delete_params import SessionDeleteParams as SessionDeleteParams
 from .session_send_rpc_params import SessionSendRpcParams as SessionSendRpcParams
 from .session_ingest_events_params import SessionIngestEventsParams as SessionIngestEventsParams
+from .session_replace_scope_params import SessionReplaceScopeParams as SessionReplaceScopeParams
 from .session_retrieve_events_params import SessionRetrieveEventsParams as SessionRetrieveEventsParams
 from .session_retrieve_messages_params import SessionRetrieveMessagesParams as SessionRetrieveMessagesParams

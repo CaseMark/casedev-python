@@ -36,4 +36,8 @@ class VaultConfirmUploadParams(TypedDict, total=False):
     """
 
     size_bytes: Annotated[int, PropertyInfo(alias="sizeBytes")]
-    """Uploaded file size in bytes. Required when success=true."""
+    """Uploaded file size in bytes, including zero.
+
+    Required when success=true and verified against S3. Empty files can be stored
+    and transferred, but cannot be ingested.
+    """

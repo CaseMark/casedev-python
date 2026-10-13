@@ -1,13 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["ObjectListResponse", "Object"]
+__all__ = ["ObjectListResponse", "Object", "Pagination", "Totals"]
 
 
 class Object(BaseModel):
@@ -29,6 +29,9 @@ class Object(BaseModel):
     chunk_count: Optional[float] = FieldInfo(alias="chunkCount", default=None)
     """Number of text chunks created for vectorization"""
 
+    file_origin: Optional[Dict[str, object]] = None
+    """Client-defined provenance metadata associated with the file"""
+
     ingestion_completed_at: Optional[datetime] = FieldInfo(alias="ingestionCompletedAt", default=None)
     """Processing completion timestamp"""
 
@@ -39,7 +42,10 @@ class Object(BaseModel):
     """When ingestion processing began"""
 
     ingestion_workflow_id: Optional[str] = FieldInfo(alias="ingestionWorkflowId", default=None)
-    """Durable workflow run ID for the active or last ingestion attempt"""
+    """Durable workflow run ID for the active or last ingestion attempt.
+
+    Null while a dispatch claim is being reconciled or when no workflow applies.
+    """
 
     is_ai_generated: Optional[bool] = None
     """Whether the file was marked as AI-generated work product at upload time"""
@@ -66,11 +72,47 @@ class Object(BaseModel):
     """Number of vectors generated for semantic search"""
 
 
+class Pagination(BaseModel):
+    has_more: bool
+    """Whether more objects exist beyond this page."""
+
+    limit: Optional[int] = None
+    """Page size applied, or null when every object was returned."""
+
+    next_cursor: Optional[str] = None
+    """Pass as `cursor` to fetch the next page. Null on the final page."""
+
+
+class Totals(BaseModel):
+    """Present only with `include_totals=true`.
+
+    Covers every object matching the filters, across all pages.
+    """
+
+    objects: Optional[int] = None
+    """Number of matching objects"""
+
+    total_bytes: Optional[float] = FieldInfo(alias="totalBytes", default=None)
+    """Combined size of matching objects"""
+
+
 class ObjectListResponse(BaseModel):
     count: float
-    """Total number of objects in the vault"""
+    """Number of objects in this response.
+
+    Equals the vault total only when `pagination.has_more` is false; use
+    `totals.objects` for the total across pages.
+    """
 
     objects: List[Object]
 
+    pagination: Pagination
+
     vault_id: str = FieldInfo(alias="vaultId")
     """The ID of the vault"""
+
+    totals: Optional[Totals] = None
+    """Present only with `include_totals=true`.
+
+    Covers every object matching the filters, across all pages.
+    """

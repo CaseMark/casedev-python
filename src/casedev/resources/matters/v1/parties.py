@@ -19,6 +19,7 @@ from ...._response import (
 )
 from ...._base_client import make_request_options
 from ....types.matters.v1 import party_list_params, party_create_params
+from ....types.matters.v1.party_list_response import PartyListResponse
 
 __all__ = ["PartiesResource", "AsyncPartiesResource"]
 
@@ -168,7 +169,9 @@ class PartiesResource(SyncAPIResource):
     def list(
         self,
         *,
+        cursor: str | Omit = omit,
         email: str | Omit = omit,
+        limit: int | Omit = omit,
         query: str | Omit = omit,
         type: Literal["person", "organization"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -177,11 +180,22 @@ class PartiesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> PartyListResponse:
         """
-        List reusable legal parties for the authenticated organization.
+        List reusable legal parties for the authenticated organization, newest update
+        first. Pagination is opt-in: pass `limit` (1-200) to receive a bounded page,
+        then replay `pagination.next_cursor` as `?cursor=` while `pagination.has_more`
+        is true. A request with neither `limit` nor `cursor` still returns every party,
+        and `pagination.limit` is null. That default will become a bounded page in a
+        future release — paginate now to avoid the change.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters that produced it.
+
+          limit: Parties per page (1-200). Omit to receive every party. Supplying a cursor
+              without a limit uses 50.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -190,7 +204,6 @@ class PartiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             "/matters/v1/parties",
             options=make_request_options(
@@ -200,14 +213,16 @@ class PartiesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "cursor": cursor,
                         "email": email,
+                        "limit": limit,
                         "query": query,
                         "type": type,
                     },
                     party_list_params.PartyListParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=PartyListResponse,
         )
 
 
@@ -356,7 +371,9 @@ class AsyncPartiesResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        cursor: str | Omit = omit,
         email: str | Omit = omit,
+        limit: int | Omit = omit,
         query: str | Omit = omit,
         type: Literal["person", "organization"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -365,11 +382,22 @@ class AsyncPartiesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> PartyListResponse:
         """
-        List reusable legal parties for the authenticated organization.
+        List reusable legal parties for the authenticated organization, newest update
+        first. Pagination is opt-in: pass `limit` (1-200) to receive a bounded page,
+        then replay `pagination.next_cursor` as `?cursor=` while `pagination.has_more`
+        is true. A request with neither `limit` nor `cursor` still returns every party,
+        and `pagination.limit` is null. That default will become a bounded page in a
+        future release — paginate now to avoid the change.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters that produced it.
+
+          limit: Parties per page (1-200). Omit to receive every party. Supplying a cursor
+              without a limit uses 50.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -378,7 +406,6 @@ class AsyncPartiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             "/matters/v1/parties",
             options=make_request_options(
@@ -388,14 +415,16 @@ class AsyncPartiesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "cursor": cursor,
                         "email": email,
+                        "limit": limit,
                         "query": query,
                         "type": type,
                     },
                     party_list_params.PartyListParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=PartyListResponse,
         )
 
 

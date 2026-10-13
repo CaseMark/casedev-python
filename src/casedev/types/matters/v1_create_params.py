@@ -49,8 +49,6 @@ class V1CreateParams(TypedDict, total=False):
 class Vault(TypedDict, total=False):
     description: str
 
-    enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
-
     enable_indexing: Annotated[bool, PropertyInfo(alias="enableIndexing")]
 
     metadata: Dict[str, object]

@@ -23,6 +23,8 @@ class TestSessions:
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
         session = client.linc.v1.sessions.create(
+            capability_policy="read_only",
+            conversation_key="conversationKey",
             document_template_slugs=["string"],
             idle_timeout_ms=0,
             include_document_templates=True,
@@ -33,6 +35,15 @@ class TestSessions:
             skill_slugs=["string"],
             title="title",
             vault_ids=["string"],
+            vault_scopes=[
+                {
+                    "object_ids": ["string"],
+                    "vault_id": "vaultId",
+                }
+            ],
+            workspace_key="workspaceKey",
+            ai_reporting_tags="ai-reporting-tags",
+            ai_reporting_user="ai-reporting-user",
         )
         assert session is None
 
@@ -59,14 +70,22 @@ class TestSessions:
     @parametrize
     def test_method_delete(self, client: Casedev) -> None:
         session = client.linc.v1.sessions.delete(
-            "id",
+            id="id",
+        )
+        assert session is None
+
+    @parametrize
+    def test_method_delete_with_all_params(self, client: Casedev) -> None:
+        session = client.linc.v1.sessions.delete(
+            id="id",
+            reason="user_deleted",
         )
         assert session is None
 
     @parametrize
     def test_raw_response_delete(self, client: Casedev) -> None:
         response = client.linc.v1.sessions.with_raw_response.delete(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -77,7 +96,7 @@ class TestSessions:
     @parametrize
     def test_streaming_response_delete(self, client: Casedev) -> None:
         with client.linc.v1.sessions.with_streaming_response.delete(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -91,7 +110,7 @@ class TestSessions:
     def test_path_params_delete(self, client: Casedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.linc.v1.sessions.with_raw_response.delete(
-                "",
+                id="",
             )
 
     @parametrize
@@ -204,6 +223,58 @@ class TestSessions:
                         "type": "type",
                     }
                 ],
+            )
+
+    @parametrize
+    def test_method_replace_scope(self, client: Casedev) -> None:
+        session = client.linc.v1.sessions.replace_scope(
+            id="id",
+        )
+        assert session is None
+
+    @parametrize
+    def test_method_replace_scope_with_all_params(self, client: Casedev) -> None:
+        session = client.linc.v1.sessions.replace_scope(
+            id="id",
+            vault_ids=["string"],
+            vault_scopes=[
+                {
+                    "object_ids": ["string"],
+                    "vault_id": "vaultId",
+                }
+            ],
+        )
+        assert session is None
+
+    @parametrize
+    def test_raw_response_replace_scope(self, client: Casedev) -> None:
+        response = client.linc.v1.sessions.with_raw_response.replace_scope(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        session = response.parse()
+        assert session is None
+
+    @parametrize
+    def test_streaming_response_replace_scope(self, client: Casedev) -> None:
+        with client.linc.v1.sessions.with_streaming_response.replace_scope(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            session = response.parse()
+            assert session is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_replace_scope(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.linc.v1.sessions.with_raw_response.replace_scope(
+                id="",
             )
 
     @parametrize
@@ -406,6 +477,8 @@ class TestAsyncSessions:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
         session = await async_client.linc.v1.sessions.create(
+            capability_policy="read_only",
+            conversation_key="conversationKey",
             document_template_slugs=["string"],
             idle_timeout_ms=0,
             include_document_templates=True,
@@ -416,6 +489,15 @@ class TestAsyncSessions:
             skill_slugs=["string"],
             title="title",
             vault_ids=["string"],
+            vault_scopes=[
+                {
+                    "object_ids": ["string"],
+                    "vault_id": "vaultId",
+                }
+            ],
+            workspace_key="workspaceKey",
+            ai_reporting_tags="ai-reporting-tags",
+            ai_reporting_user="ai-reporting-user",
         )
         assert session is None
 
@@ -442,14 +524,22 @@ class TestAsyncSessions:
     @parametrize
     async def test_method_delete(self, async_client: AsyncCasedev) -> None:
         session = await async_client.linc.v1.sessions.delete(
-            "id",
+            id="id",
+        )
+        assert session is None
+
+    @parametrize
+    async def test_method_delete_with_all_params(self, async_client: AsyncCasedev) -> None:
+        session = await async_client.linc.v1.sessions.delete(
+            id="id",
+            reason="user_deleted",
         )
         assert session is None
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncCasedev) -> None:
         response = await async_client.linc.v1.sessions.with_raw_response.delete(
-            "id",
+            id="id",
         )
 
         assert response.is_closed is True
@@ -460,7 +550,7 @@ class TestAsyncSessions:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncCasedev) -> None:
         async with async_client.linc.v1.sessions.with_streaming_response.delete(
-            "id",
+            id="id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -474,7 +564,7 @@ class TestAsyncSessions:
     async def test_path_params_delete(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.linc.v1.sessions.with_raw_response.delete(
-                "",
+                id="",
             )
 
     @parametrize
@@ -587,6 +677,58 @@ class TestAsyncSessions:
                         "type": "type",
                     }
                 ],
+            )
+
+    @parametrize
+    async def test_method_replace_scope(self, async_client: AsyncCasedev) -> None:
+        session = await async_client.linc.v1.sessions.replace_scope(
+            id="id",
+        )
+        assert session is None
+
+    @parametrize
+    async def test_method_replace_scope_with_all_params(self, async_client: AsyncCasedev) -> None:
+        session = await async_client.linc.v1.sessions.replace_scope(
+            id="id",
+            vault_ids=["string"],
+            vault_scopes=[
+                {
+                    "object_ids": ["string"],
+                    "vault_id": "vaultId",
+                }
+            ],
+        )
+        assert session is None
+
+    @parametrize
+    async def test_raw_response_replace_scope(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.linc.v1.sessions.with_raw_response.replace_scope(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        session = await response.parse()
+        assert session is None
+
+    @parametrize
+    async def test_streaming_response_replace_scope(self, async_client: AsyncCasedev) -> None:
+        async with async_client.linc.v1.sessions.with_streaming_response.replace_scope(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            session = await response.parse()
+            assert session is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_replace_scope(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.linc.v1.sessions.with_raw_response.replace_scope(
+                id="",
             )
 
     @parametrize

@@ -30,6 +30,7 @@ class TestSubscriptions:
             callback_url="https://example.com",
             event_types=["string"],
             signing_secret="signingSecret",
+            idempotency_key="Idempotency-Key",
         )
         assert subscription is None
 
@@ -174,6 +175,7 @@ class TestAsyncSubscriptions:
             callback_url="https://example.com",
             event_types=["string"],
             signing_secret="signingSecret",
+            idempotency_key="Idempotency-Key",
         )
         assert subscription is None
 

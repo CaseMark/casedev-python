@@ -14,9 +14,6 @@ class VaultUpdateParams(TypedDict, total=False):
     description: Optional[str]
     """New description for the vault. Set to null to remove."""
 
-    enable_graph: Annotated[bool, PropertyInfo(alias="enableGraph")]
-    """Whether to enable GraphRAG for future document uploads"""
-
     group_id: Annotated[Optional[str], PropertyInfo(alias="groupId")]
     """
     Move the vault to a different group, or set to null to remove from its current

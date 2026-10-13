@@ -15,3 +15,5 @@ from .link_list_objects_params import LinkListObjectsParams as LinkListObjectsPa
 from .connection_browse_response import ConnectionBrowseResponse as ConnectionBrowseResponse
 from .connection_create_response import ConnectionCreateResponse as ConnectionCreateResponse
 from .installation_ensure_params import InstallationEnsureParams as InstallationEnsureParams
+from .installation_list_response import InstallationListResponse as InstallationListResponse
+from .connection_update_all_params import ConnectionUpdateAllParams as ConnectionUpdateAllParams

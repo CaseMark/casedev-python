@@ -24,6 +24,14 @@ from .connections import (
     ConnectionsResourceWithStreamingResponse,
     AsyncConnectionsResourceWithStreamingResponse,
 )
+from .applications import (
+    ApplicationsResource,
+    AsyncApplicationsResource,
+    ApplicationsResourceWithRawResponse,
+    AsyncApplicationsResourceWithRawResponse,
+    ApplicationsResourceWithStreamingResponse,
+    AsyncApplicationsResourceWithStreamingResponse,
+)
 from .installations import (
     InstallationsResource,
     AsyncInstallationsResource,
@@ -34,6 +42,12 @@ from .installations import (
 )
 
 __all__ = [
+    "ApplicationsResource",
+    "AsyncApplicationsResource",
+    "ApplicationsResourceWithRawResponse",
+    "AsyncApplicationsResourceWithRawResponse",
+    "ApplicationsResourceWithStreamingResponse",
+    "AsyncApplicationsResourceWithStreamingResponse",
     "InstallationsResource",
     "AsyncInstallationsResource",
     "InstallationsResourceWithRawResponse",

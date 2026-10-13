@@ -25,3 +25,5 @@ class SubscriptionCreateParams(TypedDict, total=False):
 
     signing_secret: Annotated[str, PropertyInfo(alias="signingSecret")]
     """Optional secret used to sign outbound webhook deliveries"""
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]

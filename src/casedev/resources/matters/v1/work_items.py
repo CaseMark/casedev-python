@@ -25,6 +25,7 @@ from ....types.matters.v1 import (
     work_item_decide_params,
     work_item_update_params,
 )
+from ....types.matters.v1.work_item_list_response import WorkItemListResponse
 
 __all__ = ["WorkItemsResource", "AsyncWorkItemsResource"]
 
@@ -223,6 +224,8 @@ class WorkItemsResource(SyncAPIResource):
         id: str,
         *,
         assignee_id: str | Omit = omit,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         status: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -230,11 +233,23 @@ class WorkItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List active work items for a matter.
+    ) -> WorkItemListResponse:
+        """List active work items for a matter, newest update first.
+
+        Pagination is opt-in:
+        pass `limit` (1-200) to receive a bounded page, then replay
+        `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is true. A
+        request with neither `limit` nor `cursor` still returns every work item, and
+        `pagination.limit` is null. That default will become a bounded page in a future
+        release — paginate now to avoid the change.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters that produced it.
+
+          limit: Work items per page (1-200). Omit to receive every work item. Supplying a cursor
+              without a limit uses 50.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -245,7 +260,6 @@ class WorkItemsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._get(
             path_template("/matters/v1/{id}/work-items", id=id),
             options=make_request_options(
@@ -256,12 +270,14 @@ class WorkItemsResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "assignee_id": assignee_id,
+                        "cursor": cursor,
+                        "limit": limit,
                         "status": status,
                     },
                     work_item_list_params.WorkItemListParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=WorkItemListResponse,
         )
 
     def decide(
@@ -507,6 +523,8 @@ class AsyncWorkItemsResource(AsyncAPIResource):
         id: str,
         *,
         assignee_id: str | Omit = omit,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         status: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -514,11 +532,23 @@ class AsyncWorkItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        List active work items for a matter.
+    ) -> WorkItemListResponse:
+        """List active work items for a matter, newest update first.
+
+        Pagination is opt-in:
+        pass `limit` (1-200) to receive a bounded page, then replay
+        `pagination.next_cursor` as `?cursor=` while `pagination.has_more` is true. A
+        request with neither `limit` nor `cursor` still returns every work item, and
+        `pagination.limit` is null. That default will become a bounded page in a future
+        release — paginate now to avoid the change.
 
         Args:
+          cursor: Opaque continuation cursor from `pagination.next_cursor` of the previous page.
+              Must be replayed with the same filters that produced it.
+
+          limit: Work items per page (1-200). Omit to receive every work item. Supplying a cursor
+              without a limit uses 50.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -529,7 +559,6 @@ class AsyncWorkItemsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._get(
             path_template("/matters/v1/{id}/work-items", id=id),
             options=make_request_options(
@@ -540,12 +569,14 @@ class AsyncWorkItemsResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "assignee_id": assignee_id,
+                        "cursor": cursor,
+                        "limit": limit,
                         "status": status,
                     },
                     work_item_list_params.WorkItemListParams,
                 ),
             ),
-            cast_to=NoneType,
+            cast_to=WorkItemListResponse,
         )
 
     async def decide(

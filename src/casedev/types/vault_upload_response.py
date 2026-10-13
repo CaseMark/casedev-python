@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Dict, Optional
 
 from pydantic import Field as FieldInfo
 
@@ -29,6 +29,9 @@ class VaultUploadResponse(BaseModel):
 
     expires_in: Optional[float] = FieldInfo(alias="expiresIn", default=None)
     """URL expiration time in seconds"""
+
+    file_origin: Optional[Dict[str, object]] = None
+    """Client-defined provenance metadata associated with the file"""
 
     instructions: Optional[Instructions] = None
 

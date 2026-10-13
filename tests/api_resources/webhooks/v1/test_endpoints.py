@@ -8,6 +8,10 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev.types.webhooks.v1 import (
+    EndpointCreateResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,7 +25,7 @@ class TestEndpoints:
             event_type_filters=["string"],
             url="https://example.com",
         )
-        assert endpoint is None
+        assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Casedev) -> None:
@@ -34,7 +38,7 @@ class TestEndpoints:
                 "vault_ids": ["string"],
             },
         )
-        assert endpoint is None
+        assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Casedev) -> None:
@@ -46,7 +50,7 @@ class TestEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         endpoint = response.parse()
-        assert endpoint is None
+        assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: Casedev) -> None:
@@ -58,7 +62,7 @@ class TestEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             endpoint = response.parse()
-            assert endpoint is None
+            assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -329,7 +333,7 @@ class TestAsyncEndpoints:
             event_type_filters=["string"],
             url="https://example.com",
         )
-        assert endpoint is None
+        assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncCasedev) -> None:
@@ -342,7 +346,7 @@ class TestAsyncEndpoints:
                 "vault_ids": ["string"],
             },
         )
-        assert endpoint is None
+        assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncCasedev) -> None:
@@ -354,7 +358,7 @@ class TestAsyncEndpoints:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         endpoint = await response.parse()
-        assert endpoint is None
+        assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncCasedev) -> None:
@@ -366,7 +370,7 @@ class TestAsyncEndpoints:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             endpoint = await response.parse()
-            assert endpoint is None
+            assert_matches_type(EndpointCreateResponse, endpoint, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

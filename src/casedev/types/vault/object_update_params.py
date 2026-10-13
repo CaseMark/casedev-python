@@ -18,7 +18,7 @@ class ObjectUpdateParams(TypedDict, total=False):
     """Additional metadata to merge with existing metadata"""
 
     path: Optional[str]
-    """Folder path for hierarchy preservation (e.g., '/Discovery/Depositions').
-
-    Set to null or empty string to remove.
+    """
+    Folder path, excluding the filename, for hierarchy preservation (e.g.,
+    '/Discovery/Depositions'). Set to null or empty string to remove.
     """

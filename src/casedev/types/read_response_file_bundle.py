@@ -16,3 +16,6 @@ class ReadResponseFileBundle(BaseModel):
     root_slug: str
 
     content_type: Optional[str] = None
+
+    encoding: Optional[Literal["utf8", "base64"]] = None
+    """Encoding of the returned content field."""

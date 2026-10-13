@@ -19,6 +19,7 @@ from casedev._response import (
 )
 from casedev.types.vault import (
     ObjectListResponse,
+    ObjectMoveResponse,
     ObjectMergeResponse,
     ObjectAppendResponse,
     ObjectDeleteResponse,
@@ -155,7 +156,12 @@ class TestObjects:
     def test_method_list_with_all_params(self, client: Casedev) -> None:
         object_ = client.vault.objects.list(
             id="id",
+            cursor="cursor",
+            file_origin='{"provider":"clio"}',
+            include_totals=True,
             include_unconfirmed=True,
+            limit=1,
+            query="query",
         )
         assert_matches_type(ObjectListResponse, object_, path=["response"])
 
@@ -271,7 +277,10 @@ class TestObjects:
                 "start": 1,
                 "suffix": "suffix",
             },
+            client_reference="clientReference",
+            mode="sync",
             rewrite_links=True,
+            idempotency_key="x",
         )
         assert_matches_type(ObjectAppendResponse, object_, path=["response"])
 
@@ -740,6 +749,72 @@ class TestObjects:
                 idempotency_key="x",
             )
 
+    @parametrize
+    def test_method_move(self, client: Casedev) -> None:
+        object_ = client.vault.objects.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+        )
+        assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+    @parametrize
+    def test_method_move_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+            path="path",
+        )
+        assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+    @parametrize
+    def test_raw_response_move(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+    @parametrize
+    def test_streaming_response_move(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_move(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.move(
+                id="",
+                destination_vault_id="destinationVaultId",
+                mode="move",
+                object_ids=["string"],
+                idempotency_key="Idempotency-Key",
+            )
+
 
 class TestAsyncObjects:
     parametrize = pytest.mark.parametrize(
@@ -864,7 +939,12 @@ class TestAsyncObjects:
     async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         object_ = await async_client.vault.objects.list(
             id="id",
+            cursor="cursor",
+            file_origin='{"provider":"clio"}',
+            include_totals=True,
             include_unconfirmed=True,
+            limit=1,
+            query="query",
         )
         assert_matches_type(ObjectListResponse, object_, path=["response"])
 
@@ -980,7 +1060,10 @@ class TestAsyncObjects:
                 "start": 1,
                 "suffix": "suffix",
             },
+            client_reference="clientReference",
+            mode="sync",
             rewrite_links=True,
+            idempotency_key="x",
         )
         assert_matches_type(ObjectAppendResponse, object_, path=["response"])
 
@@ -1447,4 +1530,70 @@ class TestAsyncObjects:
                 source_object_ids=["string"],
                 source_rendition="original",
                 idempotency_key="x",
+            )
+
+    @parametrize
+    async def test_method_move(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+        )
+        assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_method_move_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+            path="path",
+        )
+        assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_raw_response_move(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_move(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.move(
+            id="id",
+            destination_vault_id="destinationVaultId",
+            mode="move",
+            object_ids=["string"],
+            idempotency_key="Idempotency-Key",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectMoveResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_move(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.move(
+                id="",
+                destination_vault_id="destinationVaultId",
+                mode="move",
+                object_ids=["string"],
+                idempotency_key="Idempotency-Key",
             )

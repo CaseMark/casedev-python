@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from typing import Iterable
-from typing_extensions import Literal, Required, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
+
+from ...._utils import PropertyInfo
 
 __all__ = ["ChatCreateCompletionParams", "Message"]
 
@@ -39,6 +41,10 @@ class ChatCreateCompletionParams(TypedDict, total=False):
 
     top_p: float
     """Nucleus sampling parameter"""
+
+    ai_reporting_tags: Annotated[str, PropertyInfo(alias="ai-reporting-tags")]
+
+    ai_reporting_user: Annotated[str, PropertyInfo(alias="ai-reporting-user")]
 
 
 class Message(TypedDict, total=False):

@@ -7,7 +7,7 @@ from typing import Iterable
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -57,6 +57,8 @@ class ChatResource(SyncAPIResource):
         stream: bool | Omit = omit,
         temperature: float | Omit = omit,
         top_p: float | Omit = omit,
+        ai_reporting_tags: str | Omit = omit,
+        ai_reporting_user: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -100,6 +102,15 @@ class ChatResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "ai-reporting-tags": ai_reporting_tags,
+                    "ai-reporting-user": ai_reporting_user,
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/llm/v1/chat/completions",
             body=maybe_transform(
@@ -157,6 +168,8 @@ class AsyncChatResource(AsyncAPIResource):
         stream: bool | Omit = omit,
         temperature: float | Omit = omit,
         top_p: float | Omit = omit,
+        ai_reporting_tags: str | Omit = omit,
+        ai_reporting_user: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -200,6 +213,15 @@ class AsyncChatResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "ai-reporting-tags": ai_reporting_tags,
+                    "ai-reporting-user": ai_reporting_user,
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/llm/v1/chat/completions",
             body=await async_maybe_transform(

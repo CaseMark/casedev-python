@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .object_list_params import ObjectListParams as ObjectListParams
+from .object_move_params import ObjectMoveParams as ObjectMoveParams
 from .group_create_params import GroupCreateParams as GroupCreateParams
 from .group_update_params import GroupUpdateParams as GroupUpdateParams
 from .object_merge_params import ObjectMergeParams as ObjectMergeParams
@@ -13,6 +14,7 @@ from .memory_update_params import MemoryUpdateParams as MemoryUpdateParams
 from .object_append_params import ObjectAppendParams as ObjectAppendParams
 from .object_delete_params import ObjectDeleteParams as ObjectDeleteParams
 from .object_list_response import ObjectListResponse as ObjectListResponse
+from .object_move_response import ObjectMoveResponse as ObjectMoveResponse
 from .object_update_params import ObjectUpdateParams as ObjectUpdateParams
 from .multipart_init_params import MultipartInitParams as MultipartInitParams
 from .object_merge_response import ObjectMergeResponse as ObjectMergeResponse
@@ -30,6 +32,7 @@ from .object_retrieve_response import ObjectRetrieveResponse as ObjectRetrieveRe
 from .multipart_complete_params import MultipartCompleteParams as MultipartCompleteParams
 from .object_get_pages_response import ObjectGetPagesResponse as ObjectGetPagesResponse
 from .object_get_chunks_response import ObjectGetChunksResponse as ObjectGetChunksResponse
+from .multipart_complete_response import MultipartCompleteResponse as MultipartCompleteResponse
 from .object_get_ocr_words_params import ObjectGetOcrWordsParams as ObjectGetOcrWordsParams
 from .object_get_ocr_words_response import ObjectGetOcrWordsResponse as ObjectGetOcrWordsResponse
 from .multipart_get_part_urls_params import MultipartGetPartURLsParams as MultipartGetPartURLsParams

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
@@ -21,7 +21,8 @@ class SkillCreateParams(TypedDict, total=False):
     files: Iterable[File]
     """
     Optional bundled companion files installed alongside the skill as <slug>/<path>
-    in sandbox skill directories.
+    in sandbox skill directories. The complete file set may contain at most 12 MiB
+    of decoded content.
     """
 
     metadata: object
@@ -39,6 +40,10 @@ class SkillCreateParams(TypedDict, total=False):
 
 class File(TypedDict, total=False):
     content: Required[str]
+    """
+    UTF-8 text when encoding is utf8 (max 65,536 characters), or canonical base64
+    when encoding is base64 (max 262,144 decoded bytes).
+    """
 
     path: Required[str]
     """Relative path inside the skill directory.
@@ -47,6 +52,9 @@ class File(TypedDict, total=False):
     """
 
     content_type: Annotated[str, PropertyInfo(alias="contentType")]
+
+    encoding: Literal["utf8", "base64"]
+    """How content is encoded. Omit for UTF-8 text files."""
 
     metadata: object
 

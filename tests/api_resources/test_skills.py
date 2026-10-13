@@ -15,6 +15,7 @@ from casedev.types import (
     SkillDeleteResponse,
     SkillExportResponse,
     SkillUpdateResponse,
+    SkillCatalogResponse,
     SkillResolveResponse,
 )
 
@@ -42,6 +43,7 @@ class TestSkills:
                     "content": "content",
                     "path": "path",
                     "content_type": "contentType",
+                    "encoding": "utf8",
                     "metadata": {},
                     "name": "name",
                     "summary": "summary",
@@ -93,11 +95,13 @@ class TestSkills:
         skill = client.skills.update(
             path_slug="slug",
             content="content",
+            expected_version=0,
             files=[
                 {
                     "content": "content",
                     "path": "path",
                     "content_type": "contentType",
+                    "encoding": "utf8",
                     "metadata": {},
                     "name": "name",
                     "summary": "summary",
@@ -180,6 +184,42 @@ class TestSkills:
             client.skills.with_raw_response.delete(
                 "",
             )
+
+    @parametrize
+    def test_method_catalog(self, client: Casedev) -> None:
+        skill = client.skills.catalog()
+        assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+    @parametrize
+    def test_method_catalog_with_all_params(self, client: Casedev) -> None:
+        skill = client.skills.catalog(
+            limit=1,
+            offset=0,
+            q="q",
+            source="custom",
+            tag="tag",
+        )
+        assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+    @parametrize
+    def test_raw_response_catalog(self, client: Casedev) -> None:
+        response = client.skills.with_raw_response.catalog()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        skill = response.parse()
+        assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+    @parametrize
+    def test_streaming_response_catalog(self, client: Casedev) -> None:
+        with client.skills.with_streaming_response.catalog() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            skill = response.parse()
+            assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_export(self, client: Casedev) -> None:
@@ -328,6 +368,7 @@ class TestAsyncSkills:
                     "content": "content",
                     "path": "path",
                     "content_type": "contentType",
+                    "encoding": "utf8",
                     "metadata": {},
                     "name": "name",
                     "summary": "summary",
@@ -379,11 +420,13 @@ class TestAsyncSkills:
         skill = await async_client.skills.update(
             path_slug="slug",
             content="content",
+            expected_version=0,
             files=[
                 {
                     "content": "content",
                     "path": "path",
                     "content_type": "contentType",
+                    "encoding": "utf8",
                     "metadata": {},
                     "name": "name",
                     "summary": "summary",
@@ -466,6 +509,42 @@ class TestAsyncSkills:
             await async_client.skills.with_raw_response.delete(
                 "",
             )
+
+    @parametrize
+    async def test_method_catalog(self, async_client: AsyncCasedev) -> None:
+        skill = await async_client.skills.catalog()
+        assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+    @parametrize
+    async def test_method_catalog_with_all_params(self, async_client: AsyncCasedev) -> None:
+        skill = await async_client.skills.catalog(
+            limit=1,
+            offset=0,
+            q="q",
+            source="custom",
+            tag="tag",
+        )
+        assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+    @parametrize
+    async def test_raw_response_catalog(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.skills.with_raw_response.catalog()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        skill = await response.parse()
+        assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_catalog(self, async_client: AsyncCasedev) -> None:
+        async with async_client.skills.with_streaming_response.catalog() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            skill = await response.parse()
+            assert_matches_type(SkillCatalogResponse, skill, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_export(self, async_client: AsyncCasedev) -> None:

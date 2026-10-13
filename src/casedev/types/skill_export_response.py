@@ -13,6 +13,9 @@ class File(BaseModel):
 
     content_type: Optional[str] = None
 
+    encoding: Optional[Literal["utf8", "base64"]] = None
+    """Encoding of content. Binary files use canonical base64."""
+
     path: Optional[str] = None
 
     sha256: Optional[str] = None

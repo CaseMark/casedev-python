@@ -11,9 +11,6 @@ __all__ = ["VaultIngestResponse"]
 
 
 class VaultIngestResponse(BaseModel):
-    enable_graph_rag: bool = FieldInfo(alias="enableGraphRAG")
-    """Always false; retained for response compatibility"""
-
     message: str
     """Human-readable status message"""
 

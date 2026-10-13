@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 
 import httpx
 
@@ -24,13 +24,14 @@ from ...types.vault import (
 )
 from ..._base_client import make_request_options
 from ...types.vault.multipart_init_response import MultipartInitResponse
+from ...types.vault.multipart_complete_response import MultipartCompleteResponse
 from ...types.vault.multipart_get_part_urls_response import MultipartGetPartURLsResponse
 
 __all__ = ["MultipartResource", "AsyncMultipartResource"]
 
 
 class MultipartResource(SyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Secure document storage with semantic search"""
 
     @cached_property
     def with_raw_response(self) -> MultipartResourceWithRawResponse:
@@ -106,13 +107,14 @@ class MultipartResource(SyncAPIResource):
         parts: Iterable[multipart_complete_params.Part],
         size_bytes: int,
         upload_id: str,
+        auto_ingest: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> MultipartCompleteResponse:
         """
         Complete a multipart upload by providing the list of part numbers and ETags
         (live). Single PUT uploads are capped at 5GB; multipart default max is 16GB
@@ -121,6 +123,9 @@ class MultipartResource(SyncAPIResource):
         Args:
           size_bytes: File size in bytes (default max 16GB). Configure via
               VAULT_MULTIPART_MAX_FILE_SIZE_BYTES.
+
+          auto_ingest: Start ingestion after completion when auto_index is enabled. The ingest response
+              reports whether a workflow was started.
 
           extra_headers: Send extra headers
 
@@ -132,7 +137,6 @@ class MultipartResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             path_template("/vault/{id}/multipart/complete", id=id),
             body=maybe_transform(
@@ -141,13 +145,14 @@ class MultipartResource(SyncAPIResource):
                     "parts": parts,
                     "size_bytes": size_bytes,
                     "upload_id": upload_id,
+                    "auto_ingest": auto_ingest,
                 },
                 multipart_complete_params.MultipartCompleteParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=MultipartCompleteResponse,
         )
 
     def get_part_urls(
@@ -208,6 +213,7 @@ class MultipartResource(SyncAPIResource):
         filename: str,
         size_bytes: int,
         auto_index: bool | Omit = omit,
+        file_origin: Dict[str, object] | Omit = omit,
         is_ai_generated: bool | Omit = omit,
         metadata: object | Omit = omit,
         part_size_bytes: int | Omit = omit,
@@ -236,6 +242,9 @@ class MultipartResource(SyncAPIResource):
 
           auto_index: Whether to automatically process and index the file for search
 
+          file_origin: Optional client-defined provenance metadata. Returned with the object and
+              queryable through the object-list API.
+
           is_ai_generated: Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
               than a user-provided source document. Persisted on the object and returned by
               object listings so clients can distinguish provenance.
@@ -244,7 +253,7 @@ class MultipartResource(SyncAPIResource):
 
           part_size_bytes: Multipart part size in bytes (min 5MB, max 5GB). Defaults to 64MB.
 
-          path: Optional folder path for hierarchy preservation
+          path: Optional folder path, excluding the filename, for hierarchy preservation
 
           extra_headers: Send extra headers
 
@@ -264,6 +273,7 @@ class MultipartResource(SyncAPIResource):
                     "filename": filename,
                     "size_bytes": size_bytes,
                     "auto_index": auto_index,
+                    "file_origin": file_origin,
                     "is_ai_generated": is_ai_generated,
                     "metadata": metadata,
                     "part_size_bytes": part_size_bytes,
@@ -279,7 +289,7 @@ class MultipartResource(SyncAPIResource):
 
 
 class AsyncMultipartResource(AsyncAPIResource):
-    """Secure document storage with semantic search and GraphRAG"""
+    """Secure document storage with semantic search"""
 
     @cached_property
     def with_raw_response(self) -> AsyncMultipartResourceWithRawResponse:
@@ -355,13 +365,14 @@ class AsyncMultipartResource(AsyncAPIResource):
         parts: Iterable[multipart_complete_params.Part],
         size_bytes: int,
         upload_id: str,
+        auto_ingest: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> MultipartCompleteResponse:
         """
         Complete a multipart upload by providing the list of part numbers and ETags
         (live). Single PUT uploads are capped at 5GB; multipart default max is 16GB
@@ -370,6 +381,9 @@ class AsyncMultipartResource(AsyncAPIResource):
         Args:
           size_bytes: File size in bytes (default max 16GB). Configure via
               VAULT_MULTIPART_MAX_FILE_SIZE_BYTES.
+
+          auto_ingest: Start ingestion after completion when auto_index is enabled. The ingest response
+              reports whether a workflow was started.
 
           extra_headers: Send extra headers
 
@@ -381,7 +395,6 @@ class AsyncMultipartResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             path_template("/vault/{id}/multipart/complete", id=id),
             body=await async_maybe_transform(
@@ -390,13 +403,14 @@ class AsyncMultipartResource(AsyncAPIResource):
                     "parts": parts,
                     "size_bytes": size_bytes,
                     "upload_id": upload_id,
+                    "auto_ingest": auto_ingest,
                 },
                 multipart_complete_params.MultipartCompleteParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=MultipartCompleteResponse,
         )
 
     async def get_part_urls(
@@ -457,6 +471,7 @@ class AsyncMultipartResource(AsyncAPIResource):
         filename: str,
         size_bytes: int,
         auto_index: bool | Omit = omit,
+        file_origin: Dict[str, object] | Omit = omit,
         is_ai_generated: bool | Omit = omit,
         metadata: object | Omit = omit,
         part_size_bytes: int | Omit = omit,
@@ -485,6 +500,9 @@ class AsyncMultipartResource(AsyncAPIResource):
 
           auto_index: Whether to automatically process and index the file for search
 
+          file_origin: Optional client-defined provenance metadata. Returned with the object and
+              queryable through the object-list API.
+
           is_ai_generated: Marks the file as AI-generated work product (e.g. uploaded by an agent) rather
               than a user-provided source document. Persisted on the object and returned by
               object listings so clients can distinguish provenance.
@@ -493,7 +511,7 @@ class AsyncMultipartResource(AsyncAPIResource):
 
           part_size_bytes: Multipart part size in bytes (min 5MB, max 5GB). Defaults to 64MB.
 
-          path: Optional folder path for hierarchy preservation
+          path: Optional folder path, excluding the filename, for hierarchy preservation
 
           extra_headers: Send extra headers
 
@@ -513,6 +531,7 @@ class AsyncMultipartResource(AsyncAPIResource):
                     "filename": filename,
                     "size_bytes": size_bytes,
                     "auto_index": auto_index,
+                    "file_origin": file_origin,
                     "is_ai_generated": is_ai_generated,
                     "metadata": metadata,
                     "part_size_bytes": part_size_bytes,

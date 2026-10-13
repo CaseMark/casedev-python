@@ -8,6 +8,8 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev.types.connectors.v1 import InstallationListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,15 +20,17 @@ class TestInstallations:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         installation = client.connectors.v1.installations.list()
-        assert installation is None
+        assert_matches_type(InstallationListResponse, installation, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Casedev) -> None:
         installation = client.connectors.v1.installations.list(
             application="application",
+            cursor="cursor",
             external_tenant_id="external_tenant_id",
+            limit=1,
         )
-        assert installation is None
+        assert_matches_type(InstallationListResponse, installation, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
@@ -35,7 +39,7 @@ class TestInstallations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         installation = response.parse()
-        assert installation is None
+        assert_matches_type(InstallationListResponse, installation, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
@@ -44,7 +48,7 @@ class TestInstallations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             installation = response.parse()
-            assert installation is None
+            assert_matches_type(InstallationListResponse, installation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -91,15 +95,17 @@ class TestAsyncInstallations:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         installation = await async_client.connectors.v1.installations.list()
-        assert installation is None
+        assert_matches_type(InstallationListResponse, installation, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         installation = await async_client.connectors.v1.installations.list(
             application="application",
+            cursor="cursor",
             external_tenant_id="external_tenant_id",
+            limit=1,
         )
-        assert installation is None
+        assert_matches_type(InstallationListResponse, installation, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
@@ -108,7 +114,7 @@ class TestAsyncInstallations:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         installation = await response.parse()
-        assert installation is None
+        assert_matches_type(InstallationListResponse, installation, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
@@ -117,7 +123,7 @@ class TestAsyncInstallations:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             installation = await response.parse()
-            assert installation is None
+            assert_matches_type(InstallationListResponse, installation, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

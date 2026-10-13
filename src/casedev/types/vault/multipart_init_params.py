@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Dict
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
@@ -25,6 +26,12 @@ class MultipartInitParams(TypedDict, total=False):
     auto_index: bool
     """Whether to automatically process and index the file for search"""
 
+    file_origin: Dict[str, object]
+    """Optional client-defined provenance metadata.
+
+    Returned with the object and queryable through the object-list API.
+    """
+
     is_ai_generated: bool
     """Marks the file as AI-generated work product (e.g.
 
@@ -40,4 +47,4 @@ class MultipartInitParams(TypedDict, total=False):
     """Multipart part size in bytes (min 5MB, max 5GB). Defaults to 64MB."""
 
     path: str
-    """Optional folder path for hierarchy preservation"""
+    """Optional folder path, excluding the filename, for hierarchy preservation"""

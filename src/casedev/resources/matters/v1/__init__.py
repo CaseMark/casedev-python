@@ -32,6 +32,14 @@ from .events import (
     EventsResourceWithStreamingResponse,
     AsyncEventsResourceWithStreamingResponse,
 )
+from .purges import (
+    PurgesResource,
+    AsyncPurgesResource,
+    PurgesResourceWithRawResponse,
+    AsyncPurgesResourceWithRawResponse,
+    PurgesResourceWithStreamingResponse,
+    AsyncPurgesResourceWithStreamingResponse,
+)
 from .shares import (
     SharesResource,
     AsyncSharesResource,
@@ -64,6 +72,14 @@ from .agent_types import (
     AgentTypesResourceWithStreamingResponse,
     AsyncAgentTypesResourceWithStreamingResponse,
 )
+from .content_purges import (
+    ContentPurgesResource,
+    AsyncContentPurgesResource,
+    ContentPurgesResourceWithRawResponse,
+    AsyncContentPurgesResourceWithRawResponse,
+    ContentPurgesResourceWithStreamingResponse,
+    AsyncContentPurgesResourceWithStreamingResponse,
+)
 from .matter_parties import (
     MatterPartiesResource,
     AsyncMatterPartiesResource,
@@ -74,6 +90,18 @@ from .matter_parties import (
 )
 
 __all__ = [
+    "PurgesResource",
+    "AsyncPurgesResource",
+    "PurgesResourceWithRawResponse",
+    "AsyncPurgesResourceWithRawResponse",
+    "PurgesResourceWithStreamingResponse",
+    "AsyncPurgesResourceWithStreamingResponse",
+    "ContentPurgesResource",
+    "AsyncContentPurgesResource",
+    "ContentPurgesResourceWithRawResponse",
+    "AsyncContentPurgesResourceWithRawResponse",
+    "ContentPurgesResourceWithStreamingResponse",
+    "AsyncContentPurgesResourceWithStreamingResponse",
     "AgentTypesResource",
     "AsyncAgentTypesResource",
     "AgentTypesResourceWithRawResponse",

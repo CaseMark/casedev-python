@@ -48,9 +48,6 @@ class VaultRetrieveResponse(BaseModel):
     description: Optional[str] = None
     """Vault description"""
 
-    enable_graph: Optional[bool] = FieldInfo(alias="enableGraph", default=None)
-    """Whether GraphRAG is enabled"""
-
     index_name: Optional[str] = FieldInfo(alias="indexName", default=None)
     """Search index name"""
 

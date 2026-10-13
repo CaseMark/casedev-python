@@ -275,7 +275,7 @@ class Casedev(SyncAPIClient):
 
     @cached_property
     def vault(self) -> VaultResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         from .resources.vault import VaultResource
 
         return VaultResource(self)
@@ -590,7 +590,7 @@ class AsyncCasedev(AsyncAPIClient):
 
     @cached_property
     def vault(self) -> AsyncVaultResource:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         from .resources.vault import AsyncVaultResource
 
         return AsyncVaultResource(self)
@@ -823,7 +823,7 @@ class CasedevWithRawResponse:
 
     @cached_property
     def vault(self) -> vault.VaultResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         from .resources.vault import VaultResourceWithRawResponse
 
         return VaultResourceWithRawResponse(self._client.vault)
@@ -942,7 +942,7 @@ class AsyncCasedevWithRawResponse:
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithRawResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         from .resources.vault import AsyncVaultResourceWithRawResponse
 
         return AsyncVaultResourceWithRawResponse(self._client.vault)
@@ -1061,7 +1061,7 @@ class CasedevWithStreamedResponse:
 
     @cached_property
     def vault(self) -> vault.VaultResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         from .resources.vault import VaultResourceWithStreamingResponse
 
         return VaultResourceWithStreamingResponse(self._client.vault)
@@ -1180,7 +1180,7 @@ class AsyncCasedevWithStreamedResponse:
 
     @cached_property
     def vault(self) -> vault.AsyncVaultResourceWithStreamingResponse:
-        """Secure document storage with semantic search and GraphRAG"""
+        """Secure document storage with semantic search"""
         from .resources.vault import AsyncVaultResourceWithStreamingResponse
 
         return AsyncVaultResourceWithStreamingResponse(self._client.vault)

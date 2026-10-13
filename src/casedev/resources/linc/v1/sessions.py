@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -21,8 +21,10 @@ from ...._base_client import make_request_options
 from ....types.linc.v1 import (
     session_cancel_params,
     session_create_params,
+    session_delete_params,
     session_send_rpc_params,
     session_ingest_events_params,
+    session_replace_scope_params,
     session_retrieve_events_params,
     session_retrieve_messages_params,
 )
@@ -55,6 +57,8 @@ class SessionsResource(SyncAPIResource):
     def create(
         self,
         *,
+        capability_policy: Literal["read_only"] | Omit = omit,
+        conversation_key: str | Omit = omit,
         document_template_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_ms: Optional[int] | Omit = omit,
         include_document_templates: Optional[bool] | Omit = omit,
@@ -65,6 +69,10 @@ class SessionsResource(SyncAPIResource):
         skill_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
+        vault_scopes: Optional[Iterable[session_create_params.VaultScope]] | Omit = omit,
+        workspace_key: str | Omit = omit,
+        ai_reporting_tags: str | Omit = omit,
+        ai_reporting_user: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -78,6 +86,13 @@ class SessionsResource(SyncAPIResource):
         separate endpoints.
 
         Args:
+          capability_policy: Optional server-enforced capability profile. read_only grants only
+              retrieval/inference service reads; session event ingestion remains bound to the
+              exact managed runtime credential.
+
+          conversation_key: Stable conversation identity within workspaceKey. Required in workspace mode and
+              idempotent for repeated creates.
+
           document_template_slugs: Specific document template slugs to inject into the using-document-templates
               skill.
 
@@ -94,6 +109,14 @@ class SessionsResource(SyncAPIResource):
           skill_slugs: Skills API slugs to install into the runtime sandbox before the native session
               starts.
 
+          vault_ids: Legacy explicit whole-vault scope. Mutually exclusive with vaultScopes.
+
+          vault_scopes: Exact object allowlist per vault. Empty objectIds denies object access for that
+              vault. Mutually exclusive with vaultIds.
+
+          workspace_key: Opt-in persistent workspace identity. Requires conversationKey. Omit both fields
+              to preserve isolated legacy session behavior.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -103,10 +126,21 @@ class SessionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "ai-reporting-tags": ai_reporting_tags,
+                    "ai-reporting-user": ai_reporting_user,
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/linc/v1/sessions",
             body=maybe_transform(
                 {
+                    "capability_policy": capability_policy,
+                    "conversation_key": conversation_key,
                     "document_template_slugs": document_template_slugs,
                     "idle_timeout_ms": idle_timeout_ms,
                     "include_document_templates": include_document_templates,
@@ -117,6 +151,8 @@ class SessionsResource(SyncAPIResource):
                     "skill_slugs": skill_slugs,
                     "title": title,
                     "vault_ids": vault_ids,
+                    "vault_scopes": vault_scopes,
+                    "workspace_key": workspace_key,
                 },
                 session_create_params.SessionCreateParams,
             ),
@@ -130,6 +166,10 @@ class SessionsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        reason: Literal[
+            "user_deleted", "replaced_scope_changed", "replaced_missing_session", "replaced_runtime_unavailable"
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -141,6 +181,11 @@ class SessionsResource(SyncAPIResource):
         End native Linc session
 
         Args:
+          reason: Why the session is being ended; recorded in the linc.session.ended event
+              payload. Unknown values fall back to user*deleted. The replaced*\\** values
+              distinguish automatic session replacement (e.g. by C3) from a user-initiated
+              deletion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -155,7 +200,11 @@ class SessionsResource(SyncAPIResource):
         return self._delete(
             path_template("/linc/v1/sessions/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"reason": reason}, session_delete_params.SessionDeleteParams),
             ),
             cast_to=NoneType,
         )
@@ -240,6 +289,55 @@ class SessionsResource(SyncAPIResource):
         return self._post(
             path_template("/linc/v1/sessions/{id}/events/ingest", id=id),
             body=maybe_transform({"frames": frames}, session_ingest_events_params.SessionIngestEventsParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def replace_scope(
+        self,
+        id: str,
+        *,
+        vault_ids: SequenceNotStr[str] | Omit = omit,
+        vault_scopes: Iterable[session_replace_scope_params.VaultScope] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Stops the conversation worker, applies a newly authorized object scope, revokes
+        its prior managed credential, and resumes the same native conversation in its
+        existing workspace.
+
+        Args:
+          vault_ids: Legacy whole-vault scope. Mutually exclusive with vaultScopes.
+
+          vault_scopes: Authoritative object allowlist for the next and later turns.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._put(
+            path_template("/linc/v1/sessions/{id}/scope", id=id),
+            body=maybe_transform(
+                {
+                    "vault_ids": vault_ids,
+                    "vault_scopes": vault_scopes,
+                },
+                session_replace_scope_params.SessionReplaceScopeParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -471,6 +569,8 @@ class AsyncSessionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        capability_policy: Literal["read_only"] | Omit = omit,
+        conversation_key: str | Omit = omit,
         document_template_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         idle_timeout_ms: Optional[int] | Omit = omit,
         include_document_templates: Optional[bool] | Omit = omit,
@@ -481,6 +581,10 @@ class AsyncSessionsResource(AsyncAPIResource):
         skill_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
+        vault_scopes: Optional[Iterable[session_create_params.VaultScope]] | Omit = omit,
+        workspace_key: str | Omit = omit,
+        ai_reporting_tags: str | Omit = omit,
+        ai_reporting_user: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -494,6 +598,13 @@ class AsyncSessionsResource(AsyncAPIResource):
         separate endpoints.
 
         Args:
+          capability_policy: Optional server-enforced capability profile. read_only grants only
+              retrieval/inference service reads; session event ingestion remains bound to the
+              exact managed runtime credential.
+
+          conversation_key: Stable conversation identity within workspaceKey. Required in workspace mode and
+              idempotent for repeated creates.
+
           document_template_slugs: Specific document template slugs to inject into the using-document-templates
               skill.
 
@@ -510,6 +621,14 @@ class AsyncSessionsResource(AsyncAPIResource):
           skill_slugs: Skills API slugs to install into the runtime sandbox before the native session
               starts.
 
+          vault_ids: Legacy explicit whole-vault scope. Mutually exclusive with vaultScopes.
+
+          vault_scopes: Exact object allowlist per vault. Empty objectIds denies object access for that
+              vault. Mutually exclusive with vaultIds.
+
+          workspace_key: Opt-in persistent workspace identity. Requires conversationKey. Omit both fields
+              to preserve isolated legacy session behavior.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -519,10 +638,21 @@ class AsyncSessionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "ai-reporting-tags": ai_reporting_tags,
+                    "ai-reporting-user": ai_reporting_user,
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/linc/v1/sessions",
             body=await async_maybe_transform(
                 {
+                    "capability_policy": capability_policy,
+                    "conversation_key": conversation_key,
                     "document_template_slugs": document_template_slugs,
                     "idle_timeout_ms": idle_timeout_ms,
                     "include_document_templates": include_document_templates,
@@ -533,6 +663,8 @@ class AsyncSessionsResource(AsyncAPIResource):
                     "skill_slugs": skill_slugs,
                     "title": title,
                     "vault_ids": vault_ids,
+                    "vault_scopes": vault_scopes,
+                    "workspace_key": workspace_key,
                 },
                 session_create_params.SessionCreateParams,
             ),
@@ -546,6 +678,10 @@ class AsyncSessionsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        reason: Literal[
+            "user_deleted", "replaced_scope_changed", "replaced_missing_session", "replaced_runtime_unavailable"
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -557,6 +693,11 @@ class AsyncSessionsResource(AsyncAPIResource):
         End native Linc session
 
         Args:
+          reason: Why the session is being ended; recorded in the linc.session.ended event
+              payload. Unknown values fall back to user*deleted. The replaced*\\** values
+              distinguish automatic session replacement (e.g. by C3) from a user-initiated
+              deletion.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -571,7 +712,11 @@ class AsyncSessionsResource(AsyncAPIResource):
         return await self._delete(
             path_template("/linc/v1/sessions/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"reason": reason}, session_delete_params.SessionDeleteParams),
             ),
             cast_to=NoneType,
         )
@@ -657,6 +802,55 @@ class AsyncSessionsResource(AsyncAPIResource):
             path_template("/linc/v1/sessions/{id}/events/ingest", id=id),
             body=await async_maybe_transform(
                 {"frames": frames}, session_ingest_events_params.SessionIngestEventsParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def replace_scope(
+        self,
+        id: str,
+        *,
+        vault_ids: SequenceNotStr[str] | Omit = omit,
+        vault_scopes: Iterable[session_replace_scope_params.VaultScope] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Stops the conversation worker, applies a newly authorized object scope, revokes
+        its prior managed credential, and resumes the same native conversation in its
+        existing workspace.
+
+        Args:
+          vault_ids: Legacy whole-vault scope. Mutually exclusive with vaultScopes.
+
+          vault_scopes: Authoritative object allowlist for the next and later turns.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._put(
+            path_template("/linc/v1/sessions/{id}/scope", id=id),
+            body=await async_maybe_transform(
+                {
+                    "vault_ids": vault_ids,
+                    "vault_scopes": vault_scopes,
+                },
+                session_replace_scope_params.SessionReplaceScopeParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -880,6 +1074,9 @@ class SessionsResourceWithRawResponse:
         self.ingest_events = to_raw_response_wrapper(
             sessions.ingest_events,
         )
+        self.replace_scope = to_raw_response_wrapper(
+            sessions.replace_scope,
+        )
         self.retrieve_events = to_raw_response_wrapper(
             sessions.retrieve_events,
         )
@@ -909,6 +1106,9 @@ class AsyncSessionsResourceWithRawResponse:
         )
         self.ingest_events = async_to_raw_response_wrapper(
             sessions.ingest_events,
+        )
+        self.replace_scope = async_to_raw_response_wrapper(
+            sessions.replace_scope,
         )
         self.retrieve_events = async_to_raw_response_wrapper(
             sessions.retrieve_events,
@@ -940,6 +1140,9 @@ class SessionsResourceWithStreamingResponse:
         self.ingest_events = to_streamed_response_wrapper(
             sessions.ingest_events,
         )
+        self.replace_scope = to_streamed_response_wrapper(
+            sessions.replace_scope,
+        )
         self.retrieve_events = to_streamed_response_wrapper(
             sessions.retrieve_events,
         )
@@ -969,6 +1172,9 @@ class AsyncSessionsResourceWithStreamingResponse:
         )
         self.ingest_events = async_to_streamed_response_wrapper(
             sessions.ingest_events,
+        )
+        self.replace_scope = async_to_streamed_response_wrapper(
+            sessions.replace_scope,
         )
         self.retrieve_events = async_to_streamed_response_wrapper(
             sessions.retrieve_events,

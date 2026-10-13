@@ -8,6 +8,8 @@ from typing import Any, cast
 import pytest
 
 from casedev import Casedev, AsyncCasedev
+from tests.utils import assert_matches_type
+from casedev.types.matters.v1 import PartyListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -139,16 +141,18 @@ class TestParties:
     @parametrize
     def test_method_list(self, client: Casedev) -> None:
         party = client.matters.v1.parties.list()
-        assert party is None
+        assert_matches_type(PartyListResponse, party, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Casedev) -> None:
         party = client.matters.v1.parties.list(
+            cursor="cursor",
             email="email",
+            limit=1,
             query="query",
             type="person",
         )
-        assert party is None
+        assert_matches_type(PartyListResponse, party, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Casedev) -> None:
@@ -157,7 +161,7 @@ class TestParties:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         party = response.parse()
-        assert party is None
+        assert_matches_type(PartyListResponse, party, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Casedev) -> None:
@@ -166,7 +170,7 @@ class TestParties:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             party = response.parse()
-            assert party is None
+            assert_matches_type(PartyListResponse, party, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -300,16 +304,18 @@ class TestAsyncParties:
     @parametrize
     async def test_method_list(self, async_client: AsyncCasedev) -> None:
         party = await async_client.matters.v1.parties.list()
-        assert party is None
+        assert_matches_type(PartyListResponse, party, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncCasedev) -> None:
         party = await async_client.matters.v1.parties.list(
+            cursor="cursor",
             email="email",
+            limit=1,
             query="query",
             type="person",
         )
-        assert party is None
+        assert_matches_type(PartyListResponse, party, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncCasedev) -> None:
@@ -318,7 +324,7 @@ class TestAsyncParties:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         party = await response.parse()
-        assert party is None
+        assert_matches_type(PartyListResponse, party, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncCasedev) -> None:
@@ -327,6 +333,6 @@ class TestAsyncParties:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             party = await response.parse()
-            assert party is None
+            assert_matches_type(PartyListResponse, party, path=["response"])
 
         assert cast(Any, response.is_closed) is True

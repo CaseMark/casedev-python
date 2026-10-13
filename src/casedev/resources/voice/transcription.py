@@ -53,6 +53,7 @@ class TranscriptionResource(SyncAPIResource):
         auto_highlights: bool | Omit = omit,
         boost_param: Literal["low", "default", "high"] | Omit = omit,
         content_safety: bool | Omit = omit,
+        disfluencies: bool | Omit = omit,
         format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
         language_code: str | Omit = omit,
@@ -93,6 +94,8 @@ class TranscriptionResource(SyncAPIResource):
 
           content_safety: Enable content moderation and safety labeling
 
+          disfluencies: Preserve filler words such as um and uh in English transcription
+
           format: Output format for the transcript when using vault mode
 
           format_text: Format text with proper capitalization
@@ -132,6 +135,7 @@ class TranscriptionResource(SyncAPIResource):
                     "auto_highlights": auto_highlights,
                     "boost_param": boost_param,
                     "content_safety": content_safety,
+                    "disfluencies": disfluencies,
                     "format": format,
                     "format_text": format_text,
                     "language_code": language_code,
@@ -264,6 +268,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         auto_highlights: bool | Omit = omit,
         boost_param: Literal["low", "default", "high"] | Omit = omit,
         content_safety: bool | Omit = omit,
+        disfluencies: bool | Omit = omit,
         format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
         language_code: str | Omit = omit,
@@ -304,6 +309,8 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           content_safety: Enable content moderation and safety labeling
 
+          disfluencies: Preserve filler words such as um and uh in English transcription
+
           format: Output format for the transcript when using vault mode
 
           format_text: Format text with proper capitalization
@@ -343,6 +350,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
                     "auto_highlights": auto_highlights,
                     "boost_param": boost_param,
                     "content_safety": content_safety,
+                    "disfluencies": disfluencies,
                     "format": format,
                     "format_text": format_text,
                     "language_code": language_code,
