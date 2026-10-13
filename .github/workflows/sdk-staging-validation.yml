@@ -66,7 +66,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.9', '3.12']
+        python-version: ['3.10', '3.12']
     steps:
       - uses: actions/checkout@v6
         with:
@@ -93,7 +93,7 @@ jobs:
       - name: Run SDK tests (including Prism API tests)
         env:
           RUN_PRISM_TESTS: 'true'
-          UV_PYTHON: ">=${{ matrix.python-version }}.0"
+          UV_PYTHON: "${{ matrix.python-version }}"
           DEFER_PYDANTIC_BUILD: 'false'
         run: |
           uv run --isolated --all-extras pytest \
