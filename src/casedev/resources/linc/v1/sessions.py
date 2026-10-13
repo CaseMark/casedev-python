@@ -60,12 +60,15 @@ class SessionsResource(SyncAPIResource):
         capability_policy: Literal["read_only"] | Omit = omit,
         conversation_key: str | Omit = omit,
         document_template_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
+        extensions: Optional[Iterable[session_create_params.Extension]] | Omit = omit,
         idle_timeout_ms: Optional[int] | Omit = omit,
         include_document_templates: Optional[bool] | Omit = omit,
         instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
+        model_fallbacks: SequenceNotStr[str] | Omit = omit,
         scoped_api_key: Optional[str] | Omit = omit,
         service_tier: Literal["default", "priority"] | Omit = omit,
+        skills_delivery: Literal["local", "mcp"] | Omit = omit,
         skill_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -96,15 +99,30 @@ class SessionsResource(SyncAPIResource):
           document_template_slugs: Specific document template slugs to inject into the using-document-templates
               skill.
 
+          extensions: Optional caller-supplied executable tool files to install into .linc/extensions/
+              before the agent starts. Only supported for standalone sessions without
+              capabilityPolicy: read_only. Rejected with a 400 on persistent
+              (workspaceKey/conversationKey) or read_only sessions. At most 10 files, 64KB
+              each, 256KB total. Extension destinations and content hashes are recorded in the
+              session-created audit event; raw code is not logged.
+
           include_document_templates: When true, inject all active org document templates into the
               using-document-templates skill.
 
           instructions: Privileged C3-only hidden app instructions to append to the sandbox AGENTS.md.
 
+          model_fallbacks: Optional ordered availability fallbacks for this session. Requires an explicit
+              model. An empty array disables fallbacks; omission preserves existing runtime
+              behavior. Linc switches within the same session, preserving context.
+
           scoped_api_key: Optional caller-provided scoped Case.dev API key for the runtime.
 
           service_tier: Processing tier for eligible OpenAI GPT models. Priority provides lower latency
               at premium cost.
+
+          skills_delivery: Defaults to local preinstallation. MCP is an opt-in, org-allowlisted rollout on
+              a separately pinned image; requires a new standalone session and no skillSlugs
+              preinstallation. Execution remains content-approval gated.
 
           skill_slugs: Skills API slugs to install into the runtime sandbox before the native session
               starts.
@@ -142,12 +160,15 @@ class SessionsResource(SyncAPIResource):
                     "capability_policy": capability_policy,
                     "conversation_key": conversation_key,
                     "document_template_slugs": document_template_slugs,
+                    "extensions": extensions,
                     "idle_timeout_ms": idle_timeout_ms,
                     "include_document_templates": include_document_templates,
                     "instructions": instructions,
                     "model": model,
+                    "model_fallbacks": model_fallbacks,
                     "scoped_api_key": scoped_api_key,
                     "service_tier": service_tier,
+                    "skills_delivery": skills_delivery,
                     "skill_slugs": skill_slugs,
                     "title": title,
                     "vault_ids": vault_ids,
@@ -572,12 +593,15 @@ class AsyncSessionsResource(AsyncAPIResource):
         capability_policy: Literal["read_only"] | Omit = omit,
         conversation_key: str | Omit = omit,
         document_template_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
+        extensions: Optional[Iterable[session_create_params.Extension]] | Omit = omit,
         idle_timeout_ms: Optional[int] | Omit = omit,
         include_document_templates: Optional[bool] | Omit = omit,
         instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
+        model_fallbacks: SequenceNotStr[str] | Omit = omit,
         scoped_api_key: Optional[str] | Omit = omit,
         service_tier: Literal["default", "priority"] | Omit = omit,
+        skills_delivery: Literal["local", "mcp"] | Omit = omit,
         skill_slugs: Optional[SequenceNotStr[str]] | Omit = omit,
         title: str | Omit = omit,
         vault_ids: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -608,15 +632,30 @@ class AsyncSessionsResource(AsyncAPIResource):
           document_template_slugs: Specific document template slugs to inject into the using-document-templates
               skill.
 
+          extensions: Optional caller-supplied executable tool files to install into .linc/extensions/
+              before the agent starts. Only supported for standalone sessions without
+              capabilityPolicy: read_only. Rejected with a 400 on persistent
+              (workspaceKey/conversationKey) or read_only sessions. At most 10 files, 64KB
+              each, 256KB total. Extension destinations and content hashes are recorded in the
+              session-created audit event; raw code is not logged.
+
           include_document_templates: When true, inject all active org document templates into the
               using-document-templates skill.
 
           instructions: Privileged C3-only hidden app instructions to append to the sandbox AGENTS.md.
 
+          model_fallbacks: Optional ordered availability fallbacks for this session. Requires an explicit
+              model. An empty array disables fallbacks; omission preserves existing runtime
+              behavior. Linc switches within the same session, preserving context.
+
           scoped_api_key: Optional caller-provided scoped Case.dev API key for the runtime.
 
           service_tier: Processing tier for eligible OpenAI GPT models. Priority provides lower latency
               at premium cost.
+
+          skills_delivery: Defaults to local preinstallation. MCP is an opt-in, org-allowlisted rollout on
+              a separately pinned image; requires a new standalone session and no skillSlugs
+              preinstallation. Execution remains content-approval gated.
 
           skill_slugs: Skills API slugs to install into the runtime sandbox before the native session
               starts.
@@ -654,12 +693,15 @@ class AsyncSessionsResource(AsyncAPIResource):
                     "capability_policy": capability_policy,
                     "conversation_key": conversation_key,
                     "document_template_slugs": document_template_slugs,
+                    "extensions": extensions,
                     "idle_timeout_ms": idle_timeout_ms,
                     "include_document_templates": include_document_templates,
                     "instructions": instructions,
                     "model": model,
+                    "model_fallbacks": model_fallbacks,
                     "scoped_api_key": scoped_api_key,
                     "service_tier": service_tier,
+                    "skills_delivery": skills_delivery,
                     "skill_slugs": skill_slugs,
                     "title": title,
                     "vault_ids": vault_ids,
