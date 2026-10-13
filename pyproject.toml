@@ -44,6 +44,7 @@ Repository = "https://github.com/CaseMark/casedev-python"
 aiohttp = [
     "aiohttp>=3.14.3,<4",
     "httpx_aiohttp>=0.1.9",
+    "multidict>=6.9.1,<7",
 ]
 
 [tool.uv]
