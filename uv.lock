@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.14' and extra != 'group-7-casedev-pydantic-v1' and extra == 'group-7-casedev-pydantic-v2'",
@@ -223,7 +223,7 @@ wheels = [
 
 [[package]]
 name = "casedev"
-version = "0.69.0"
+version = "0.74.0"
 source = { editable = "." }
 dependencies = [
     { name = "anyio" },

@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.74.0](https://github.com/CaseMark/casedev-python/compare/v0.73.0...v0.74.0) (2026-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** Python 3.9 is no longer supported. Upgrade to Python 3.10 or newer. The dependency minimums require patched AnyIO, aiohttp, idna and multidict versions. Dante approved this support change; see https://linear.app/casemarkai/issue/CD-1814.
+
+### Features
+
+* **api:** CD-1814: require Python 3.10 and update SDK APIs ([70c630c](https://github.com/CaseMark/casedev-python/commit/70c630c1926a5f22c6f5402a3e3bfc9d91b6ac80))
+
 ## [0.73.0](https://github.com/CaseMark/casedev-python/compare/v0.72.0...v0.73.0) (2026-10-06)
 
 
