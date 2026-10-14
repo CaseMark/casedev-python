@@ -26,12 +26,20 @@ class TestSessions:
             capability_policy="read_only",
             conversation_key="conversationKey",
             document_template_slugs=["string"],
+            extensions=[
+                {
+                    "content": "content",
+                    "path": "path",
+                }
+            ],
             idle_timeout_ms=0,
             include_document_templates=True,
             instructions="instructions",
             model="model",
+            model_fallbacks=["string"],
             scoped_api_key="scopedApiKey",
             service_tier="default",
+            skills_delivery="local",
             skill_slugs=["string"],
             title="title",
             vault_ids=["string"],
@@ -480,12 +488,20 @@ class TestAsyncSessions:
             capability_policy="read_only",
             conversation_key="conversationKey",
             document_template_slugs=["string"],
+            extensions=[
+                {
+                    "content": "content",
+                    "path": "path",
+                }
+            ],
             idle_timeout_ms=0,
             include_document_templates=True,
             instructions="instructions",
             model="model",
+            model_fallbacks=["string"],
             scoped_api_key="scopedApiKey",
             service_tier="default",
+            skills_delivery="local",
             skill_slugs=["string"],
             title="title",
             vault_ids=["string"],

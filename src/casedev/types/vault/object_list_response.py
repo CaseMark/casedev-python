@@ -32,6 +32,9 @@ class Object(BaseModel):
     file_origin: Optional[Dict[str, object]] = None
     """Client-defined provenance metadata associated with the file"""
 
+    folder_path: Optional[str] = FieldInfo(alias="folderPath", default=None)
+    """Canonical folder path, excluding the filename even for legacy ZIP imports."""
+
     ingestion_completed_at: Optional[datetime] = FieldInfo(alias="ingestionCompletedAt", default=None)
     """Processing completion timestamp"""
 

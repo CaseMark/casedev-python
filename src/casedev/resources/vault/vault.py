@@ -33,6 +33,14 @@ from ...types import (
     vault_upload_params,
     vault_confirm_upload_params,
 )
+from .folders import (
+    FoldersResource,
+    AsyncFoldersResource,
+    FoldersResourceWithRawResponse,
+    AsyncFoldersResourceWithRawResponse,
+    FoldersResourceWithStreamingResponse,
+    AsyncFoldersResourceWithStreamingResponse,
+)
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -83,6 +91,11 @@ __all__ = ["VaultResource", "AsyncVaultResource"]
 
 class VaultResource(SyncAPIResource):
     """Secure document storage with semantic search"""
+
+    @cached_property
+    def folders(self) -> FoldersResource:
+        """Secure document storage with semantic search"""
+        return FoldersResource(self._client)
 
     @cached_property
     def events(self) -> EventsResource:
@@ -677,6 +690,11 @@ class VaultResource(SyncAPIResource):
 
 class AsyncVaultResource(AsyncAPIResource):
     """Secure document storage with semantic search"""
+
+    @cached_property
+    def folders(self) -> AsyncFoldersResource:
+        """Secure document storage with semantic search"""
+        return AsyncFoldersResource(self._client)
 
     @cached_property
     def events(self) -> AsyncEventsResource:
@@ -1302,6 +1320,11 @@ class VaultResourceWithRawResponse:
         )
 
     @cached_property
+    def folders(self) -> FoldersResourceWithRawResponse:
+        """Secure document storage with semantic search"""
+        return FoldersResourceWithRawResponse(self._vault.folders)
+
+    @cached_property
     def events(self) -> EventsResourceWithRawResponse:
         return EventsResourceWithRawResponse(self._vault.events)
 
@@ -1357,6 +1380,11 @@ class AsyncVaultResourceWithRawResponse:
         self.upload = async_to_raw_response_wrapper(
             vault.upload,
         )
+
+    @cached_property
+    def folders(self) -> AsyncFoldersResourceWithRawResponse:
+        """Secure document storage with semantic search"""
+        return AsyncFoldersResourceWithRawResponse(self._vault.folders)
 
     @cached_property
     def events(self) -> AsyncEventsResourceWithRawResponse:
@@ -1416,6 +1444,11 @@ class VaultResourceWithStreamingResponse:
         )
 
     @cached_property
+    def folders(self) -> FoldersResourceWithStreamingResponse:
+        """Secure document storage with semantic search"""
+        return FoldersResourceWithStreamingResponse(self._vault.folders)
+
+    @cached_property
     def events(self) -> EventsResourceWithStreamingResponse:
         return EventsResourceWithStreamingResponse(self._vault.events)
 
@@ -1471,6 +1504,11 @@ class AsyncVaultResourceWithStreamingResponse:
         self.upload = async_to_streamed_response_wrapper(
             vault.upload,
         )
+
+    @cached_property
+    def folders(self) -> AsyncFoldersResourceWithStreamingResponse:
+        """Secure document storage with semantic search"""
+        return AsyncFoldersResourceWithStreamingResponse(self._vault.folders)
 
     @cached_property
     def events(self) -> AsyncEventsResourceWithStreamingResponse:

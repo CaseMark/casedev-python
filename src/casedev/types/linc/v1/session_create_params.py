@@ -8,7 +8,7 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 
-__all__ = ["SessionCreateParams", "VaultScope"]
+__all__ = ["SessionCreateParams", "Extension", "VaultScope"]
 
 
 class SessionCreateParams(TypedDict, total=False):
@@ -31,6 +31,16 @@ class SessionCreateParams(TypedDict, total=False):
     skill.
     """
 
+    extensions: Optional[Iterable[Extension]]
+    """
+    Optional caller-supplied executable tool files to install into .linc/extensions/
+    before the agent starts. Only supported for standalone sessions without
+    capabilityPolicy: read_only. Rejected with a 400 on persistent
+    (workspaceKey/conversationKey) or read_only sessions. At most 10 files, 64KB
+    each, 256KB total. Extension destinations and content hashes are recorded in the
+    session-created audit event; raw code is not logged.
+    """
+
     idle_timeout_ms: Annotated[Optional[int], PropertyInfo(alias="idleTimeoutMs")]
 
     include_document_templates: Annotated[Optional[bool], PropertyInfo(alias="includeDocumentTemplates")]
@@ -44,6 +54,14 @@ class SessionCreateParams(TypedDict, total=False):
 
     model: Optional[str]
 
+    model_fallbacks: Annotated[SequenceNotStr[str], PropertyInfo(alias="modelFallbacks")]
+    """Optional ordered availability fallbacks for this session.
+
+    Requires an explicit model. An empty array disables fallbacks; omission
+    preserves existing runtime behavior. Linc switches within the same session,
+    preserving context.
+    """
+
     scoped_api_key: Annotated[Optional[str], PropertyInfo(alias="scopedApiKey")]
     """Optional caller-provided scoped Case.dev API key for the runtime."""
 
@@ -51,6 +69,14 @@ class SessionCreateParams(TypedDict, total=False):
     """Processing tier for eligible OpenAI GPT models.
 
     Priority provides lower latency at premium cost.
+    """
+
+    skills_delivery: Annotated[Literal["local", "mcp"], PropertyInfo(alias="skillsDelivery")]
+    """Defaults to local preinstallation.
+
+    MCP is an opt-in, org-allowlisted rollout on a separately pinned image; requires
+    a new standalone session and no skillSlugs preinstallation. Execution remains
+    content-approval gated.
     """
 
     skill_slugs: Annotated[Optional[SequenceNotStr[str]], PropertyInfo(alias="skillSlugs")]
@@ -81,6 +107,21 @@ class SessionCreateParams(TypedDict, total=False):
     ai_reporting_tags: Annotated[str, PropertyInfo(alias="ai-reporting-tags")]
 
     ai_reporting_user: Annotated[str, PropertyInfo(alias="ai-reporting-user")]
+
+
+class Extension(TypedDict, total=False):
+    content: Required[str]
+    """UTF-8 tool file content, at most 64KB."""
+
+    path: Required[str]
+    """Bare .ts/.js filename or one-level subdir (e.g.
+
+    create-automations.ts or automations/index.ts). Each directory must include
+    exactly one index.ts or index.js entrypoint; helper files may accompany it.
+    Platform names (casedev/subagent), root index.ts/index.js, node_modules, hidden
+    top-level names, absolute paths, "..", and other extensions or nesting are
+    rejected.
+    """
 
 
 class VaultScope(TypedDict, total=False):

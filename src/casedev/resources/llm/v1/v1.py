@@ -129,9 +129,9 @@ class V1Resource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1ListModelsResponse:
         """
-        Retrieve the curated list of available models: OpenAI and Google models plus
-        Case.dev's specialized CaseMark legal models. Returns OpenAI-compatible model
-        metadata with pricing information.
+        Retrieve the curated list of available models: OpenAI, Anthropic, and Google
+        models plus Case.dev's specialized CaseMark legal models. Returns
+        OpenAI-compatible model metadata with pricing information.
 
         This endpoint is compatible with OpenAI's models API format, making it easy to
         integrate with existing applications.
@@ -241,9 +241,9 @@ class AsyncV1Resource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> V1ListModelsResponse:
         """
-        Retrieve the curated list of available models: OpenAI and Google models plus
-        Case.dev's specialized CaseMark legal models. Returns OpenAI-compatible model
-        metadata with pricing information.
+        Retrieve the curated list of available models: OpenAI, Anthropic, and Google
+        models plus Case.dev's specialized CaseMark legal models. Returns
+        OpenAI-compatible model metadata with pricing information.
 
         This endpoint is compatible with OpenAI's models API format, making it easy to
         integrate with existing applications.
