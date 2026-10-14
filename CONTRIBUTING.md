@@ -1,5 +1,8 @@
 ## Setting up the environment
 
+Python 3.10 is the minimum supported runtime. `.python-version` pins the local
+development minor version; CI also tests Python 3.12 and 3.14.
+
 ### With `uv`
 
 We use [uv](https://docs.astral.sh/uv/) to manage dependencies because it will automatically provision a Python environment with the expected Python version. To set it up, run:

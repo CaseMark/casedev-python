@@ -643,6 +643,20 @@ Methods:
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/casedev/resources/vault/vault.py">search</a>(id, \*\*<a href="src/casedev/types/vault_search_params.py">params</a>) -> <a href="./src/casedev/types/vault_search_response.py">VaultSearchResponse</a></code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/casedev/resources/vault/vault.py">upload</a>(id, \*\*<a href="src/casedev/types/vault_upload_params.py">params</a>) -> <a href="./src/casedev/types/vault_upload_response.py">VaultUploadResponse</a></code>
 
+## Folders
+
+Types:
+
+```python
+from casedev.types.vault import FolderCreateResponse, FolderListResponse, FolderMoveResponse
+```
+
+Methods:
+
+- <code title="post /vault/{id}/folders">client.vault.folders.<a href="./src/casedev/resources/vault/folders.py">create</a>(id, \*\*<a href="src/casedev/types/vault/folder_create_params.py">params</a>) -> <a href="./src/casedev/types/vault/folder_create_response.py">FolderCreateResponse</a></code>
+- <code title="get /vault/{id}/folders">client.vault.folders.<a href="./src/casedev/resources/vault/folders.py">list</a>(id) -> <a href="./src/casedev/types/vault/folder_list_response.py">FolderListResponse</a></code>
+- <code title="patch /vault/{id}/folders">client.vault.folders.<a href="./src/casedev/resources/vault/folders.py">move</a>(id, \*\*<a href="src/casedev/types/vault/folder_move_params.py">params</a>) -> <a href="./src/casedev/types/vault/folder_move_response.py">FolderMoveResponse</a></code>
+
 ## Events
 
 ### Subscriptions
@@ -701,6 +715,7 @@ from casedev.types.vault import (
     ObjectGetTextResponse,
     ObjectMergeResponse,
     ObjectMoveResponse,
+    ObjectOrganizeResponse,
 )
 ```
 
@@ -719,6 +734,7 @@ Methods:
 - <code title="get /vault/{id}/objects/{objectId}/text">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">get_text</a>(object_id, \*, id) -> <a href="./src/casedev/types/vault/object_get_text_response.py">ObjectGetTextResponse</a></code>
 - <code title="post /vault/{id}/objects/merge">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">merge</a>(id, \*\*<a href="src/casedev/types/vault/object_merge_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_merge_response.py">ObjectMergeResponse</a></code>
 - <code title="post /vault/{id}/objects/move">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">move</a>(id, \*\*<a href="src/casedev/types/vault/object_move_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_move_response.py">ObjectMoveResponse</a></code>
+- <code title="post /vault/{id}/objects/organize">client.vault.objects.<a href="./src/casedev/resources/vault/objects.py">organize</a>(id, \*\*<a href="src/casedev/types/vault/object_organize_params.py">params</a>) -> <a href="./src/casedev/types/vault/object_organize_response.py">ObjectOrganizeResponse</a></code>
 
 ## Memory
 

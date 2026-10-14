@@ -26,6 +26,7 @@ from casedev.types.vault import (
     ObjectUpdateResponse,
     ObjectGetTextResponse,
     ObjectGetPagesResponse,
+    ObjectOrganizeResponse,
     ObjectRetrieveResponse,
     ObjectGetChunksResponse,
     ObjectGetOcrWordsResponse,
@@ -815,6 +816,128 @@ class TestObjects:
                 idempotency_key="Idempotency-Key",
             )
 
+    @parametrize
+    def test_method_organize_overload_1(self, client: Casedev) -> None:
+        object_ = client.vault.objects.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+        )
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_method_organize_with_all_params_overload_1(self, client: Casedev) -> None:
+        object_ = client.vault.objects.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+            expected_paths={"foo": "string"},
+        )
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_raw_response_organize_overload_1(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_streaming_response_organize_overload_1(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_organize_overload_1(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.organize(
+                id="",
+                object_ids=["string"],
+                path="path",
+            )
+
+    @parametrize
+    def test_method_organize_overload_2(self, client: Casedev) -> None:
+        object_ = client.vault.objects.organize(
+            id="id",
+            moves=[
+                {
+                    "id": "id",
+                    "expected_path": "expectedPath",
+                    "path": "path",
+                }
+            ],
+        )
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_raw_response_organize_overload_2(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.organize(
+            id="id",
+            moves=[
+                {
+                    "id": "id",
+                    "expected_path": "expectedPath",
+                    "path": "path",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    def test_streaming_response_organize_overload_2(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.organize(
+            id="id",
+            moves=[
+                {
+                    "id": "id",
+                    "expected_path": "expectedPath",
+                    "path": "path",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_organize_overload_2(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.organize(
+                id="",
+                moves=[
+                    {
+                        "id": "id",
+                        "expected_path": "expectedPath",
+                        "path": "path",
+                    }
+                ],
+            )
+
 
 class TestAsyncObjects:
     parametrize = pytest.mark.parametrize(
@@ -1596,4 +1719,126 @@ class TestAsyncObjects:
                 mode="move",
                 object_ids=["string"],
                 idempotency_key="Idempotency-Key",
+            )
+
+    @parametrize
+    async def test_method_organize_overload_1(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+        )
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_method_organize_with_all_params_overload_1(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+            expected_paths={"foo": "string"},
+        )
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_raw_response_organize_overload_1(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_organize_overload_1(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.organize(
+            id="id",
+            object_ids=["string"],
+            path="path",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_organize_overload_1(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.organize(
+                id="",
+                object_ids=["string"],
+                path="path",
+            )
+
+    @parametrize
+    async def test_method_organize_overload_2(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.organize(
+            id="id",
+            moves=[
+                {
+                    "id": "id",
+                    "expected_path": "expectedPath",
+                    "path": "path",
+                }
+            ],
+        )
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_raw_response_organize_overload_2(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.organize(
+            id="id",
+            moves=[
+                {
+                    "id": "id",
+                    "expected_path": "expectedPath",
+                    "path": "path",
+                }
+            ],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_organize_overload_2(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.organize(
+            id="id",
+            moves=[
+                {
+                    "id": "id",
+                    "expected_path": "expectedPath",
+                    "path": "path",
+                }
+            ],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert_matches_type(ObjectOrganizeResponse, object_, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_organize_overload_2(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.organize(
+                id="",
+                moves=[
+                    {
+                        "id": "id",
+                        "expected_path": "expectedPath",
+                        "path": "path",
+                    }
+                ],
             )

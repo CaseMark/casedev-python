@@ -32,6 +32,14 @@ from .memory import (
     MemoryResourceWithStreamingResponse,
     AsyncMemoryResourceWithStreamingResponse,
 )
+from .folders import (
+    FoldersResource,
+    AsyncFoldersResource,
+    FoldersResourceWithRawResponse,
+    AsyncFoldersResourceWithRawResponse,
+    FoldersResourceWithStreamingResponse,
+    AsyncFoldersResourceWithStreamingResponse,
+)
 from .objects import (
     ObjectsResource,
     AsyncObjectsResource,
@@ -50,6 +58,12 @@ from .multipart import (
 )
 
 __all__ = [
+    "FoldersResource",
+    "AsyncFoldersResource",
+    "FoldersResourceWithRawResponse",
+    "AsyncFoldersResourceWithRawResponse",
+    "FoldersResourceWithStreamingResponse",
+    "AsyncFoldersResourceWithStreamingResponse",
     "EventsResource",
     "AsyncEventsResource",
     "EventsResourceWithRawResponse",
