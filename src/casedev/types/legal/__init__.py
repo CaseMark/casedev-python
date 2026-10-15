@@ -10,11 +10,13 @@ from .v1_verify_params import V1VerifyParams as V1VerifyParams
 from .v1_similar_params import V1SimilarParams as V1SimilarParams
 from .v1_docket_response import V1DocketResponse as V1DocketResponse
 from .v1_research_params import V1ResearchParams as V1ResearchParams
+from .v1_sec_xbrl_params import V1SecXbrlParams as V1SecXbrlParams
 from .v1_verify_response import V1VerifyResponse as V1VerifyResponse
 from .v1_similar_response import V1SimilarResponse as V1SimilarResponse
 from .docket_search_result import DocketSearchResult as DocketSearchResult
 from .v1_research_response import V1ResearchResponse as V1ResearchResponse
 from .v1_sec_filing_params import V1SecFilingParams as V1SecFilingParams
+from .v1_sec_xbrl_response import V1SecXbrlResponse as V1SecXbrlResponse
 from .v1_list_courts_params import V1ListCourtsParams as V1ListCourtsParams
 from .v1_sec_filing_response import V1SecFilingResponse as V1SecFilingResponse
 from .v1_get_citations_params import V1GetCitationsParams as V1GetCitationsParams

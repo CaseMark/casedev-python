@@ -31,6 +31,13 @@ class SkillReadResponse(BaseModel):
     name: Optional[str] = None
     """Skill name"""
 
+    redirected_from: Optional[str] = None
+    """Present only when the requested slug is a permanent alias of a merged skill.
+
+    Holds the slug that was requested; every other field (including slug) describes
+    the target skill. Omitted for non-alias reads.
+    """
+
     slug: Optional[str] = None
     """Unique skill identifier"""
 

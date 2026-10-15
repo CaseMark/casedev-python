@@ -311,7 +311,10 @@ class SkillsResource(SyncAPIResource):
     ) -> SkillExportResponse:
         """
         Export a skill as an installable filesystem tree for sandbox runtimes.
-        Authenticated org-scoped custom skills are resolved before curated skills.
+        Authenticated org-scoped custom skills are resolved before curated skills. Slugs
+        of merged skills are permanent aliases: they export the surviving skill (slug,
+        root and files describe the target) with `redirected_from` set to the requested
+        slug.
 
         Args:
           target: Agent runtime skill directory convention to export for. Most callers should omit
@@ -353,7 +356,9 @@ class SkillsResource(SyncAPIResource):
         """Read the full content of a legal skill by its slug.
 
         Returns markdown content,
-        tags, and metadata.
+        tags, and metadata. Slugs of merged skills are permanent aliases: they return
+        the surviving skill with `redirected_from` set to the requested slug instead of
+        an error.
 
         Args:
           extra_headers: Send extra headers
@@ -689,7 +694,10 @@ class AsyncSkillsResource(AsyncAPIResource):
     ) -> SkillExportResponse:
         """
         Export a skill as an installable filesystem tree for sandbox runtimes.
-        Authenticated org-scoped custom skills are resolved before curated skills.
+        Authenticated org-scoped custom skills are resolved before curated skills. Slugs
+        of merged skills are permanent aliases: they export the surviving skill (slug,
+        root and files describe the target) with `redirected_from` set to the requested
+        slug.
 
         Args:
           target: Agent runtime skill directory convention to export for. Most callers should omit
@@ -731,7 +739,9 @@ class AsyncSkillsResource(AsyncAPIResource):
         """Read the full content of a legal skill by its slug.
 
         Returns markdown content,
-        tags, and metadata.
+        tags, and metadata. Slugs of merged skills are permanent aliases: they return
+        the surviving skill with `redirected_from` set to the requested slug instead of
+        an error.
 
         Args:
           extra_headers: Send extra headers

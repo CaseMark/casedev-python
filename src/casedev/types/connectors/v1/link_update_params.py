@@ -10,6 +10,18 @@ __all__ = ["LinkUpdateParams"]
 
 
 class LinkUpdateParams(TypedDict, total=False):
+    expected_policy: object
+    """Optional saved Clio import policy.
+
+    Rejects concurrent changes to its folder/file exclusions.
+    """
+
+    expected_remote: object
+    """
+    Required saved remote when expanding a Clio import root; detects concurrent
+    source changes.
+    """
+
     mode: Literal["once", "synced"]
 
     policy: object
@@ -17,6 +29,12 @@ class LinkUpdateParams(TypedDict, total=False):
 
     Repeat deletes, collisions and filters that should be retained. Folder/file
     exclusions require deletes: preserve (the default).
+    """
+
+    remote: object
+    """
+    For unpaired Clio document imports only: expand folder_id to its verified Clio
+    matter root. Connection, matter, vault and ledger remain unchanged.
     """
 
     state: Literal["paused", "ready"]
