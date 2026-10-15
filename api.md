@@ -99,6 +99,7 @@ Methods:
 - <code title="get /connectors/v1/links">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">list</a>(\*\*<a href="src/casedev/types/connectors/v1/link_list_params.py">params</a>) -> None</code>
 - <code title="delete /connectors/v1/links/{id}">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">delete</a>(id, \*\*<a href="src/casedev/types/connectors/v1/link_delete_params.py">params</a>) -> None</code>
 - <code title="get /connectors/v1/links/{id}/objects">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">list_objects</a>(id, \*\*<a href="src/casedev/types/connectors/v1/link_list_objects_params.py">params</a>) -> None</code>
+- <code title="get /connectors/v1/links/{id}/selection">client.connectors.v1.links.<a href="./src/casedev/resources/connectors/v1/links.py">retrieve_selection_root</a>(id) -> None</code>
 
 # System
 
@@ -223,6 +224,7 @@ from casedev.types.legal import (
     V1PatentSearchResponse,
     V1ResearchResponse,
     V1SecFilingResponse,
+    V1SecXbrlResponse,
     V1SimilarResponse,
     V1TrademarkSearchResponse,
     V1VerifyResponse,
@@ -241,6 +243,7 @@ Methods:
 - <code title="post /legal/v1/patent-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">patent_search</a>(\*\*<a href="src/casedev/types/legal/v1_patent_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_patent_search_response.py">V1PatentSearchResponse</a></code>
 - <code title="post /legal/v1/research">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">research</a>(\*\*<a href="src/casedev/types/legal/v1_research_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_research_response.py">V1ResearchResponse</a></code>
 - <code title="post /legal/v1/sec-filing">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">sec_filing</a>(\*\*<a href="src/casedev/types/legal/v1_sec_filing_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_sec_filing_response.py">V1SecFilingResponse</a></code>
+- <code title="post /legal/v1/sec-xbrl">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">sec_xbrl</a>(\*\*<a href="src/casedev/types/legal/v1_sec_xbrl_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_sec_xbrl_response.py">V1SecXbrlResponse</a></code>
 - <code title="post /legal/v1/similar">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">similar</a>(\*\*<a href="src/casedev/types/legal/v1_similar_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_similar_response.py">V1SimilarResponse</a></code>
 - <code title="post /legal/v1/trademark-search">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">trademark_search</a>(\*\*<a href="src/casedev/types/legal/v1_trademark_search_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_trademark_search_response.py">V1TrademarkSearchResponse</a></code>
 - <code title="post /legal/v1/verify">client.legal.v1.<a href="./src/casedev/resources/legal/v1.py">verify</a>(\*\*<a href="src/casedev/types/legal/v1_verify_params.py">params</a>) -> <a href="./src/casedev/types/legal/v1_verify_response.py">V1VerifyResponse</a></code>

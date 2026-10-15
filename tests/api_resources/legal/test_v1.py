@@ -14,6 +14,7 @@ from casedev.types.legal import (
     V1FindResponse,
     V1DocketResponse,
     V1VerifyResponse,
+    V1SecXbrlResponse,
     V1SimilarResponse,
     V1ResearchResponse,
     V1SecFilingResponse,
@@ -425,6 +426,61 @@ class TestV1:
 
             v1 = response.parse()
             assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_sec_xbrl(self, client: Casedev) -> None:
+        v1 = client.legal.v1.sec_xbrl(
+            type="concept",
+        )
+        assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
+
+    @parametrize
+    def test_method_sec_xbrl_with_all_params(self, client: Casedev) -> None:
+        v1 = client.legal.v1.sec_xbrl(
+            type="concept",
+            cik="cik",
+            ciks=["string"],
+            concepts=["string"],
+            date_after=parse_date("2019-12-27"),
+            date_before=parse_date("2019-12-27"),
+            dedupe=True,
+            fiscal_periods=["FY"],
+            form_types=["string"],
+            limit=1,
+            offset=0,
+            period="CY7321",
+            sort="value_desc",
+            tag="tag",
+            taxonomy="us-gaap",
+            ticker="ticker",
+            tickers=["string"],
+            unit="unit",
+        )
+        assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
+
+    @parametrize
+    def test_raw_response_sec_xbrl(self, client: Casedev) -> None:
+        response = client.legal.v1.with_raw_response.sec_xbrl(
+            type="concept",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
+
+    @parametrize
+    def test_streaming_response_sec_xbrl(self, client: Casedev) -> None:
+        with client.legal.v1.with_streaming_response.sec_xbrl(
+            type="concept",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -932,6 +988,61 @@ class TestAsyncV1:
 
             v1 = await response.parse()
             assert_matches_type(V1SecFilingResponse, v1, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_sec_xbrl(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.sec_xbrl(
+            type="concept",
+        )
+        assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_method_sec_xbrl_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.legal.v1.sec_xbrl(
+            type="concept",
+            cik="cik",
+            ciks=["string"],
+            concepts=["string"],
+            date_after=parse_date("2019-12-27"),
+            date_before=parse_date("2019-12-27"),
+            dedupe=True,
+            fiscal_periods=["FY"],
+            form_types=["string"],
+            limit=1,
+            offset=0,
+            period="CY7321",
+            sort="value_desc",
+            tag="tag",
+            taxonomy="us-gaap",
+            ticker="ticker",
+            tickers=["string"],
+            unit="unit",
+        )
+        assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_raw_response_sec_xbrl(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.legal.v1.with_raw_response.sec_xbrl(
+            type="concept",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_sec_xbrl(self, async_client: AsyncCasedev) -> None:
+        async with async_client.legal.v1.with_streaming_response.sec_xbrl(
+            type="concept",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert_matches_type(V1SecXbrlResponse, v1, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
