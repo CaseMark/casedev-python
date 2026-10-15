@@ -26,6 +26,12 @@ class File(BaseModel):
 class SkillExportResponse(BaseModel):
     files: Optional[List[File]] = None
 
+    redirected_from: Optional[str] = None
+    """Present only when the requested slug is a permanent alias of a merged skill.
+
+    Holds the requested slug; slug, root and files describe the target skill.
+    """
+
     root: Optional[str] = None
 
     slug: Optional[str] = None

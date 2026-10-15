@@ -72,8 +72,11 @@ class TestLinks:
     def test_method_update_with_all_params(self, client: Casedev) -> None:
         link = client.connectors.v1.links.update(
             id="id",
+            expected_policy={},
+            expected_remote={},
             mode="once",
             policy={},
+            remote={},
             state="paused",
             x_case_connector_subject="x-case-connector-subject",
         )
@@ -244,6 +247,52 @@ class TestLinks:
                 id="",
             )
 
+    @parametrize
+    def test_method_retrieve_selection_root(self, client: Casedev) -> None:
+        link = client.connectors.v1.links.retrieve_selection_root(
+            id="id",
+        )
+        assert link is None
+
+    @parametrize
+    def test_method_retrieve_selection_root_with_all_params(self, client: Casedev) -> None:
+        link = client.connectors.v1.links.retrieve_selection_root(
+            id="id",
+            x_case_connector_subject="x-case-connector-subject",
+        )
+        assert link is None
+
+    @parametrize
+    def test_raw_response_retrieve_selection_root(self, client: Casedev) -> None:
+        response = client.connectors.v1.links.with_raw_response.retrieve_selection_root(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        link = response.parse()
+        assert link is None
+
+    @parametrize
+    def test_streaming_response_retrieve_selection_root(self, client: Casedev) -> None:
+        with client.connectors.v1.links.with_streaming_response.retrieve_selection_root(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            link = response.parse()
+            assert link is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_retrieve_selection_root(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.connectors.v1.links.with_raw_response.retrieve_selection_root(
+                id="",
+            )
+
 
 class TestAsyncLinks:
     parametrize = pytest.mark.parametrize(
@@ -307,8 +356,11 @@ class TestAsyncLinks:
     async def test_method_update_with_all_params(self, async_client: AsyncCasedev) -> None:
         link = await async_client.connectors.v1.links.update(
             id="id",
+            expected_policy={},
+            expected_remote={},
             mode="once",
             policy={},
+            remote={},
             state="paused",
             x_case_connector_subject="x-case-connector-subject",
         )
@@ -476,5 +528,51 @@ class TestAsyncLinks:
     async def test_path_params_list_objects(self, async_client: AsyncCasedev) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.connectors.v1.links.with_raw_response.list_objects(
+                id="",
+            )
+
+    @parametrize
+    async def test_method_retrieve_selection_root(self, async_client: AsyncCasedev) -> None:
+        link = await async_client.connectors.v1.links.retrieve_selection_root(
+            id="id",
+        )
+        assert link is None
+
+    @parametrize
+    async def test_method_retrieve_selection_root_with_all_params(self, async_client: AsyncCasedev) -> None:
+        link = await async_client.connectors.v1.links.retrieve_selection_root(
+            id="id",
+            x_case_connector_subject="x-case-connector-subject",
+        )
+        assert link is None
+
+    @parametrize
+    async def test_raw_response_retrieve_selection_root(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.connectors.v1.links.with_raw_response.retrieve_selection_root(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        link = await response.parse()
+        assert link is None
+
+    @parametrize
+    async def test_streaming_response_retrieve_selection_root(self, async_client: AsyncCasedev) -> None:
+        async with async_client.connectors.v1.links.with_streaming_response.retrieve_selection_root(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            link = await response.parse()
+            assert link is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_retrieve_selection_root(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.connectors.v1.links.with_raw_response.retrieve_selection_root(
                 id="",
             )

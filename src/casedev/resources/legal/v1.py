@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import List, Union
 from datetime import date
 from typing_extensions import Literal
 
@@ -24,6 +24,7 @@ from ...types.legal import (
     v1_verify_params,
     v1_similar_params,
     v1_research_params,
+    v1_sec_xbrl_params,
     v1_sec_filing_params,
     v1_list_courts_params,
     v1_get_citations_params,
@@ -39,6 +40,7 @@ from ...types.legal.v1_docket_response import V1DocketResponse
 from ...types.legal.v1_verify_response import V1VerifyResponse
 from ...types.legal.v1_similar_response import V1SimilarResponse
 from ...types.legal.v1_research_response import V1ResearchResponse
+from ...types.legal.v1_sec_xbrl_response import V1SecXbrlResponse
 from ...types.legal.v1_sec_filing_response import V1SecFilingResponse
 from ...types.legal.v1_list_courts_response import V1ListCourtsResponse
 from ...types.legal.v1_get_citations_response import V1GetCitationsResponse
@@ -653,6 +655,133 @@ class V1Resource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=V1SecFilingResponse,
+        )
+
+    def sec_xbrl(
+        self,
+        *,
+        type: Literal["concept", "facts", "frames"],
+        cik: str | Omit = omit,
+        ciks: SequenceNotStr[str] | Omit = omit,
+        concepts: SequenceNotStr[str] | Omit = omit,
+        date_after: Union[str, date] | Omit = omit,
+        date_before: Union[str, date] | Omit = omit,
+        dedupe: bool | Omit = omit,
+        fiscal_periods: List[Literal["FY", "Q1", "Q2", "Q3"]] | Omit = omit,
+        form_types: SequenceNotStr[str] | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        period: str | Omit = omit,
+        sort: Literal["value_desc", "value_asc"] | Omit = omit,
+        tag: str | Omit = omit,
+        taxonomy: Literal["us-gaap", "ifrs-full", "dei", "srt"] | Omit = omit,
+        ticker: str | Omit = omit,
+        tickers: SequenceNotStr[str] | Omit = omit,
+        unit: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1SecXbrlResponse:
+        """
+        Retrieve structured financial values reported to the SEC in XBRL, via
+        data.sec.gov. Use this endpoint when you need numbers (net income, assets,
+        shares outstanding, and so on); use sec-filing to find filing documents. Three
+        types: "concept" returns one line item for one company over time; "facts"
+        returns a catalog of every concept a company reports (or normalized facts for
+        the concepts you name); "frames" returns one concept across all reporting
+        companies for one calendar period. Each fact links back to its EDGAR filing
+        index via secUrl. The same value is re-reported in later filings as a
+        prior-period comparative, so by default (dedupe: true) only facts the SEC
+        assigned a calendar frame are returned; set dedupe to false for every reported
+        fact. Free.
+
+        Args:
+          type: concept: one line item for one company over time. facts: all concepts for one
+              company (catalog, or values for the concepts you list). frames: one concept
+              across all companies for one period.
+
+          cik: Company CIK, padded or unpadded (concept and facts). Provide exactly one of cik
+              or ticker.
+
+          ciks: frames only. Restrict results to these CIKs (peer set).
+
+          concepts: facts only. "taxonomy:tag" strings or bare tags (default us-gaap). Omit to get
+              the concept catalog, which has no values.
+
+          date_after: concept and facts. Only facts whose period end date is on or after this date
+              (YYYY-MM-DD).
+
+          date_before: concept and facts. Only facts whose period end date is on or before this date
+              (YYYY-MM-DD).
+
+          dedupe: concept and facts. When true, keep only facts the SEC assigned a calendar frame
+              (its canonical fact per period), dropping prior-period comparatives re-reported
+              in later filings. When false, return every reported fact.
+
+          fiscal_periods: concept and facts. Filter by fiscal period.
+
+          form_types: concept and facts. Filter by SEC form type such as 10-K or 10-Q.
+
+          limit: Maximum rows to return
+
+          offset: Result offset for pagination
+
+          period: frames only, required. CY2024 = annual duration, CY2024Q1 = quarterly duration,
+              CY2024Q1I = instantaneous (balance sheet items).
+
+          sort: frames only. Sort order by value.
+
+          tag: XBRL element name such as NetIncomeLoss (required for concept and frames)
+
+          taxonomy: XBRL taxonomy. For facts it only filters the catalog and has no default.
+
+          ticker: Company ticker (concept and facts). Provide exactly one of cik or ticker.
+
+          tickers: frames only. Restrict results to these tickers (peer set).
+
+          unit: Unit such as USD, shares, or USD/shares. Optional filter for concept; defaults
+              to USD for frames (the SEC URL form USD-per-shares is also accepted).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/legal/v1/sec-xbrl",
+            body=maybe_transform(
+                {
+                    "type": type,
+                    "cik": cik,
+                    "ciks": ciks,
+                    "concepts": concepts,
+                    "date_after": date_after,
+                    "date_before": date_before,
+                    "dedupe": dedupe,
+                    "fiscal_periods": fiscal_periods,
+                    "form_types": form_types,
+                    "limit": limit,
+                    "offset": offset,
+                    "period": period,
+                    "sort": sort,
+                    "tag": tag,
+                    "taxonomy": taxonomy,
+                    "ticker": ticker,
+                    "tickers": tickers,
+                    "unit": unit,
+                },
+                v1_sec_xbrl_params.V1SecXbrlParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1SecXbrlResponse,
         )
 
     def similar(
@@ -1401,6 +1530,133 @@ class AsyncV1Resource(AsyncAPIResource):
             cast_to=V1SecFilingResponse,
         )
 
+    async def sec_xbrl(
+        self,
+        *,
+        type: Literal["concept", "facts", "frames"],
+        cik: str | Omit = omit,
+        ciks: SequenceNotStr[str] | Omit = omit,
+        concepts: SequenceNotStr[str] | Omit = omit,
+        date_after: Union[str, date] | Omit = omit,
+        date_before: Union[str, date] | Omit = omit,
+        dedupe: bool | Omit = omit,
+        fiscal_periods: List[Literal["FY", "Q1", "Q2", "Q3"]] | Omit = omit,
+        form_types: SequenceNotStr[str] | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        period: str | Omit = omit,
+        sort: Literal["value_desc", "value_asc"] | Omit = omit,
+        tag: str | Omit = omit,
+        taxonomy: Literal["us-gaap", "ifrs-full", "dei", "srt"] | Omit = omit,
+        ticker: str | Omit = omit,
+        tickers: SequenceNotStr[str] | Omit = omit,
+        unit: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> V1SecXbrlResponse:
+        """
+        Retrieve structured financial values reported to the SEC in XBRL, via
+        data.sec.gov. Use this endpoint when you need numbers (net income, assets,
+        shares outstanding, and so on); use sec-filing to find filing documents. Three
+        types: "concept" returns one line item for one company over time; "facts"
+        returns a catalog of every concept a company reports (or normalized facts for
+        the concepts you name); "frames" returns one concept across all reporting
+        companies for one calendar period. Each fact links back to its EDGAR filing
+        index via secUrl. The same value is re-reported in later filings as a
+        prior-period comparative, so by default (dedupe: true) only facts the SEC
+        assigned a calendar frame are returned; set dedupe to false for every reported
+        fact. Free.
+
+        Args:
+          type: concept: one line item for one company over time. facts: all concepts for one
+              company (catalog, or values for the concepts you list). frames: one concept
+              across all companies for one period.
+
+          cik: Company CIK, padded or unpadded (concept and facts). Provide exactly one of cik
+              or ticker.
+
+          ciks: frames only. Restrict results to these CIKs (peer set).
+
+          concepts: facts only. "taxonomy:tag" strings or bare tags (default us-gaap). Omit to get
+              the concept catalog, which has no values.
+
+          date_after: concept and facts. Only facts whose period end date is on or after this date
+              (YYYY-MM-DD).
+
+          date_before: concept and facts. Only facts whose period end date is on or before this date
+              (YYYY-MM-DD).
+
+          dedupe: concept and facts. When true, keep only facts the SEC assigned a calendar frame
+              (its canonical fact per period), dropping prior-period comparatives re-reported
+              in later filings. When false, return every reported fact.
+
+          fiscal_periods: concept and facts. Filter by fiscal period.
+
+          form_types: concept and facts. Filter by SEC form type such as 10-K or 10-Q.
+
+          limit: Maximum rows to return
+
+          offset: Result offset for pagination
+
+          period: frames only, required. CY2024 = annual duration, CY2024Q1 = quarterly duration,
+              CY2024Q1I = instantaneous (balance sheet items).
+
+          sort: frames only. Sort order by value.
+
+          tag: XBRL element name such as NetIncomeLoss (required for concept and frames)
+
+          taxonomy: XBRL taxonomy. For facts it only filters the catalog and has no default.
+
+          ticker: Company ticker (concept and facts). Provide exactly one of cik or ticker.
+
+          tickers: frames only. Restrict results to these tickers (peer set).
+
+          unit: Unit such as USD, shares, or USD/shares. Optional filter for concept; defaults
+              to USD for frames (the SEC URL form USD-per-shares is also accepted).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/legal/v1/sec-xbrl",
+            body=await async_maybe_transform(
+                {
+                    "type": type,
+                    "cik": cik,
+                    "ciks": ciks,
+                    "concepts": concepts,
+                    "date_after": date_after,
+                    "date_before": date_before,
+                    "dedupe": dedupe,
+                    "fiscal_periods": fiscal_periods,
+                    "form_types": form_types,
+                    "limit": limit,
+                    "offset": offset,
+                    "period": period,
+                    "sort": sort,
+                    "tag": tag,
+                    "taxonomy": taxonomy,
+                    "ticker": ticker,
+                    "tickers": tickers,
+                    "unit": unit,
+                },
+                v1_sec_xbrl_params.V1SecXbrlParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=V1SecXbrlResponse,
+        )
+
     async def similar(
         self,
         *,
@@ -1575,6 +1831,9 @@ class V1ResourceWithRawResponse:
         self.sec_filing = to_raw_response_wrapper(
             v1.sec_filing,
         )
+        self.sec_xbrl = to_raw_response_wrapper(
+            v1.sec_xbrl,
+        )
         self.similar = to_raw_response_wrapper(
             v1.similar,
         )
@@ -1619,6 +1878,9 @@ class AsyncV1ResourceWithRawResponse:
         )
         self.sec_filing = async_to_raw_response_wrapper(
             v1.sec_filing,
+        )
+        self.sec_xbrl = async_to_raw_response_wrapper(
+            v1.sec_xbrl,
         )
         self.similar = async_to_raw_response_wrapper(
             v1.similar,
@@ -1665,6 +1927,9 @@ class V1ResourceWithStreamingResponse:
         self.sec_filing = to_streamed_response_wrapper(
             v1.sec_filing,
         )
+        self.sec_xbrl = to_streamed_response_wrapper(
+            v1.sec_xbrl,
+        )
         self.similar = to_streamed_response_wrapper(
             v1.similar,
         )
@@ -1709,6 +1974,9 @@ class AsyncV1ResourceWithStreamingResponse:
         )
         self.sec_filing = async_to_streamed_response_wrapper(
             v1.sec_filing,
+        )
+        self.sec_xbrl = async_to_streamed_response_wrapper(
+            v1.sec_xbrl,
         )
         self.similar = async_to_streamed_response_wrapper(
             v1.similar,

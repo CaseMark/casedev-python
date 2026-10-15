@@ -89,8 +89,11 @@ class LinksResource(SyncAPIResource):
         self,
         id: str,
         *,
+        expected_policy: object | Omit = omit,
+        expected_remote: object | Omit = omit,
         mode: Literal["once", "synced"] | Omit = omit,
         policy: object | Omit = omit,
+        remote: object | Omit = omit,
         state: Literal["paused", "ready"] | Omit = omit,
         x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -105,9 +108,18 @@ class LinksResource(SyncAPIResource):
         is the sync downgrade), or edit its policy in place.
 
         Args:
+          expected_policy: Optional saved Clio import policy. Rejects concurrent changes to its folder/file
+              exclusions.
+
+          expected_remote: Required saved remote when expanding a Clio import root; detects concurrent
+              source changes.
+
           policy: Replaces the entire stored policy; omitted fields return to defaults. Repeat
               deletes, collisions and filters that should be retained. Folder/file exclusions
               require deletes: preserve (the default).
+
+          remote: For unpaired Clio document imports only: expand folder_id to its verified Clio
+              matter root. Connection, matter, vault and ledger remain unchanged.
 
           extra_headers: Send extra headers
 
@@ -128,8 +140,11 @@ class LinksResource(SyncAPIResource):
             path_template("/connectors/v1/links/{id}", id=id),
             body=maybe_transform(
                 {
+                    "expected_policy": expected_policy,
+                    "expected_remote": expected_remote,
                     "mode": mode,
                     "policy": policy,
+                    "remote": remote,
                     "state": state,
                 },
                 link_update_params.LinkUpdateParams,
@@ -300,6 +315,46 @@ class LinksResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def retrieve_selection_root(
+        self,
+        id: str,
+        *,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Resolve the linked Clio matter root and existing folder ancestry for managing
+        synced folders. Applies the provider account ACLs.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/connectors/v1/links/{id}/selection", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
 
 class AsyncLinksResource(AsyncAPIResource):
     """Import and export between provider folders and vaults"""
@@ -368,8 +423,11 @@ class AsyncLinksResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        expected_policy: object | Omit = omit,
+        expected_remote: object | Omit = omit,
         mode: Literal["once", "synced"] | Omit = omit,
         policy: object | Omit = omit,
+        remote: object | Omit = omit,
         state: Literal["paused", "ready"] | Omit = omit,
         x_case_connector_subject: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -384,9 +442,18 @@ class AsyncLinksResource(AsyncAPIResource):
         is the sync downgrade), or edit its policy in place.
 
         Args:
+          expected_policy: Optional saved Clio import policy. Rejects concurrent changes to its folder/file
+              exclusions.
+
+          expected_remote: Required saved remote when expanding a Clio import root; detects concurrent
+              source changes.
+
           policy: Replaces the entire stored policy; omitted fields return to defaults. Repeat
               deletes, collisions and filters that should be retained. Folder/file exclusions
               require deletes: preserve (the default).
+
+          remote: For unpaired Clio document imports only: expand folder_id to its verified Clio
+              matter root. Connection, matter, vault and ledger remain unchanged.
 
           extra_headers: Send extra headers
 
@@ -407,8 +474,11 @@ class AsyncLinksResource(AsyncAPIResource):
             path_template("/connectors/v1/links/{id}", id=id),
             body=await async_maybe_transform(
                 {
+                    "expected_policy": expected_policy,
+                    "expected_remote": expected_remote,
                     "mode": mode,
                     "policy": policy,
+                    "remote": remote,
                     "state": state,
                 },
                 link_update_params.LinkUpdateParams,
@@ -579,6 +649,46 @@ class AsyncLinksResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def retrieve_selection_root(
+        self,
+        id: str,
+        *,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Resolve the linked Clio matter root and existing folder ancestry for managing
+        synced folders. Applies the provider account ACLs.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            path_template("/connectors/v1/links/{id}/selection", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
 
 class LinksResourceWithRawResponse:
     def __init__(self, links: LinksResource) -> None:
@@ -598,6 +708,9 @@ class LinksResourceWithRawResponse:
         )
         self.list_objects = to_raw_response_wrapper(
             links.list_objects,
+        )
+        self.retrieve_selection_root = to_raw_response_wrapper(
+            links.retrieve_selection_root,
         )
 
 
@@ -620,6 +733,9 @@ class AsyncLinksResourceWithRawResponse:
         self.list_objects = async_to_raw_response_wrapper(
             links.list_objects,
         )
+        self.retrieve_selection_root = async_to_raw_response_wrapper(
+            links.retrieve_selection_root,
+        )
 
 
 class LinksResourceWithStreamingResponse:
@@ -641,6 +757,9 @@ class LinksResourceWithStreamingResponse:
         self.list_objects = to_streamed_response_wrapper(
             links.list_objects,
         )
+        self.retrieve_selection_root = to_streamed_response_wrapper(
+            links.retrieve_selection_root,
+        )
 
 
 class AsyncLinksResourceWithStreamingResponse:
@@ -661,4 +780,7 @@ class AsyncLinksResourceWithStreamingResponse:
         )
         self.list_objects = async_to_streamed_response_wrapper(
             links.list_objects,
+        )
+        self.retrieve_selection_root = async_to_streamed_response_wrapper(
+            links.retrieve_selection_root,
         )
