@@ -1,5 +1,59 @@
 # Changelog
 
+## [0.74.0](https://github.com/CaseMark/casedev-python/compare/v0.73.0...v0.74.0) (2026-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** Python 3.9 is no longer supported. Upgrade to Python 3.10 or newer. The dependency minimums require patched AnyIO, aiohttp, idna and multidict versions. Dante approved this support change; see https://linear.app/casemarkai/issue/CD-1814.
+
+### Features
+
+* **api:** CD-1814: require Python 3.10 and update SDK APIs ([70c630c](https://github.com/CaseMark/casedev-python/commit/70c630c1926a5f22c6f5402a3e3bfc9d91b6ac80))
+
+## [0.73.0](https://github.com/CaseMark/casedev-python/compare/v0.72.0...v0.73.0) (2026-10-06)
+
+
+### Compatibility and migration
+
+This pre-1.0 minor release includes breaking API signatures. Vault GraphRAG settings and graph/global/local/entity search modes are retired; use hybrid, fast, or vector search instead. Matter, party and work-item lists and multipart completion now expose typed response envelopes; consume pagination.next_cursor and pagination.has_more rather than assuming an array or empty response.
+
+Migration examples and operational guidance: https://github.com/CaseMark/casedotdev-mono/blob/preview/stainless/RELEASE_RECONCILIATION.md. Connector token creation and webhook endpoint creation return one-time credentials; protect them and exclude responses from logs.
+
+### Features
+
+* **api:** api update ([6e657fe](https://github.com/CaseMark/casedev-python/commit/6e657fe3b49a8440939bcdd521124534270c1c7a))
+
+## [0.72.0](https://github.com/CaseMark/casedev-python/compare/v0.71.0...v0.72.0) (2026-08-05)
+
+
+### Features
+
+* **api:** api update ([3ce46ca](https://github.com/CaseMark/casedev-python/commit/3ce46caa86ea5cb1eef430cb56157532dda1dbb4))
+* **api:** api update ([5a97b41](https://github.com/CaseMark/casedev-python/commit/5a97b41dec8395d25cb62571e7de0138384c4bd3))
+* **api:** api update ([#6](https://github.com/CaseMark/casedev-python/issues/6)) ([dae33c4](https://github.com/CaseMark/casedev-python/commit/dae33c41e85756a36de2a47a0cc1ddefea68ff89))
+
+## [0.71.0](https://github.com/CaseMark/casedev-python/compare/v0.70.0...v0.71.0) (2026-06-09)
+
+
+### Features
+
+* **api:** api update ([fbbb1ee](https://github.com/CaseMark/casedev-python/commit/fbbb1eea887c84257ed09feaf5b7314160975810))
+
+
+### Chores
+
+* use stable release metadata ([1b7baf4](https://github.com/CaseMark/casedev-python/commit/1b7baf43f28d9b1a0272432b231f46125a09151e))
+* use stable release metadata ([#128](https://github.com/CaseMark/casedev-python/issues/128)) ([785ef13](https://github.com/CaseMark/casedev-python/commit/785ef13227f6f59715596ea2fdb80a0cb8c3570a))
+
+## [0.70.0](https://github.com/CaseMark/casedev-python/compare/v0.69.0...v0.70.0) (2026-06-01)
+
+
+### Features
+
+* **api:** api update ([a6f8f24](https://github.com/CaseMark/casedev-python/commit/a6f8f24e2210cda019c30348f61025cce64bf99e))
+* **api:** api update ([dfed8e1](https://github.com/CaseMark/casedev-python/commit/dfed8e1d34a7895f17f774f5ac037ec1299cd6c5))
+
 ## 0.69.0 (2026-05-19)
 
 Full Changelog: [v0.68.0...v0.69.0](https://github.com/CaseMark/casedev-python/compare/v0.68.0...v0.69.0)
