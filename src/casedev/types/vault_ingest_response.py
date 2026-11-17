@@ -28,3 +28,9 @@ class VaultIngestResponse(BaseModel):
 
     Null for file types that skip processing.
     """
+
+    queued: Optional[bool] = None
+    """True when the document is waiting for ingestion capacity.
+
+    It starts automatically; workflowId is null until then.
+    """

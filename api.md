@@ -17,6 +17,7 @@ from casedev.types.connectors import (
 
 Methods:
 
+- <code title="post /connectors/v1/fetch">client.connectors.v1.<a href="./src/casedev/resources/connectors/v1/v1.py">fetch</a>(\*\*<a href="src/casedev/types/connectors/v1_fetch_params.py">params</a>) -> None</code>
 - <code title="post /connectors/v1/sync-link">client.connectors.v1.<a href="./src/casedev/resources/connectors/v1/v1.py">sync_link</a>(\*\*<a href="src/casedev/types/connectors/v1_sync_link_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1_sync_link_response.py">V1SyncLinkResponse</a></code>
 - <code title="post /connectors/v1/transfer">client.connectors.v1.<a href="./src/casedev/resources/connectors/v1/v1.py">transfer</a>(\*\*<a href="src/casedev/types/connectors/v1_transfer_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1_transfer_response.py">V1TransferResponse</a></code>
 
@@ -76,18 +77,28 @@ Types:
 ```python
 from casedev.types.connectors.v1 import (
     ConnectionCreateResponse,
+    ConnectionRetrieveResponse,
     ConnectionListResponse,
     ConnectionBrowseResponse,
+    ConnectionCreateMicrosoftAdminApprovalResponse,
+    ConnectionListContentsResponse,
+    ConnectionResolveLinkResponse,
+    ConnectionSearchResponse,
 )
 ```
 
 Methods:
 
 - <code title="post /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">create</a>(\*\*<a href="src/casedev/types/connectors/v1/connection_create_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_create_response.py">ConnectionCreateResponse</a></code>
-- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">retrieve</a>(id) -> None</code>
+- <code title="get /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">retrieve</a>(id) -> <a href="./src/casedev/types/connectors/v1/connection_retrieve_response.py">ConnectionRetrieveResponse</a></code>
 - <code title="get /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">list</a>(\*\*<a href="src/casedev/types/connectors/v1/connection_list_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_list_response.py">ConnectionListResponse</a></code>
 - <code title="delete /connectors/v1/connections/{id}">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">delete</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_delete_params.py">params</a>) -> None</code>
 - <code title="get /connectors/v1/connections/{id}/browse">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">browse</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_browse_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_browse_response.py">ConnectionBrowseResponse</a></code>
+- <code title="post /connectors/v1/connections/{id}/folders">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">create_folder</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_create_folder_params.py">params</a>) -> None</code>
+- <code title="post /connectors/v1/connections/{id}/microsoft-admin-approval">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">create_microsoft_admin_approval</a>(id) -> <a href="./src/casedev/types/connectors/v1/connection_create_microsoft_admin_approval_response.py">ConnectionCreateMicrosoftAdminApprovalResponse</a></code>
+- <code title="get /connectors/v1/connections/{id}/contents">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">list_contents</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_list_contents_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_list_contents_response.py">ConnectionListContentsResponse</a></code>
+- <code title="get /connectors/v1/connections/{id}/resolve">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">resolve_link</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_resolve_link_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_resolve_link_response.py">ConnectionResolveLinkResponse</a></code>
+- <code title="get /connectors/v1/connections/{id}/search">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">search</a>(id, \*\*<a href="src/casedev/types/connectors/v1/connection_search_params.py">params</a>) -> <a href="./src/casedev/types/connectors/v1/connection_search_response.py">ConnectionSearchResponse</a></code>
 - <code title="patch /connectors/v1/connections">client.connectors.v1.connections.<a href="./src/casedev/resources/connectors/v1/connections.py">update_all</a>(\*\*<a href="src/casedev/types/connectors/v1/connection_update_all_params.py">params</a>) -> None</code>
 
 ### Links
@@ -645,6 +656,19 @@ Methods:
 - <code title="post /vault/{id}/ingest/{objectId}">client.vault.<a href="./src/casedev/resources/vault/vault.py">ingest</a>(object_id, \*, id, \*\*<a href="src/casedev/types/vault_ingest_params.py">params</a>) -> <a href="./src/casedev/types/vault_ingest_response.py">VaultIngestResponse</a></code>
 - <code title="post /vault/{id}/search">client.vault.<a href="./src/casedev/resources/vault/vault.py">search</a>(id, \*\*<a href="src/casedev/types/vault_search_params.py">params</a>) -> <a href="./src/casedev/types/vault_search_response.py">VaultSearchResponse</a></code>
 - <code title="post /vault/{id}/upload">client.vault.<a href="./src/casedev/resources/vault/vault.py">upload</a>(id, \*\*<a href="src/casedev/types/vault_upload_params.py">params</a>) -> <a href="./src/casedev/types/vault_upload_response.py">VaultUploadResponse</a></code>
+
+## Assemblies
+
+Types:
+
+```python
+from casedev.types.vault import AssemblyCreateResponse, AssemblyRetrieveResponse
+```
+
+Methods:
+
+- <code title="post /vault/{id}/assemblies">client.vault.assemblies.<a href="./src/casedev/resources/vault/assemblies.py">create</a>(id, \*\*<a href="src/casedev/types/vault/assembly_create_params.py">params</a>) -> <a href="./src/casedev/types/vault/assembly_create_response.py">AssemblyCreateResponse</a></code>
+- <code title="get /vault/{id}/assemblies/{assemblyId}">client.vault.assemblies.<a href="./src/casedev/resources/vault/assemblies.py">retrieve</a>(assembly_id, \*, id) -> <a href="./src/casedev/types/vault/assembly_retrieve_response.py">AssemblyRetrieveResponse</a></code>
 
 ## Folders
 

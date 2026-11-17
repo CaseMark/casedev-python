@@ -49,9 +49,6 @@ class SessionCreateParams(TypedDict, total=False):
     using-document-templates skill.
     """
 
-    instructions: Optional[str]
-    """Privileged C3-only hidden app instructions to append to the sandbox AGENTS.md."""
-
     model: Optional[str]
 
     model_fallbacks: Annotated[SequenceNotStr[str], PropertyInfo(alias="modelFallbacks")]
@@ -60,6 +57,27 @@ class SessionCreateParams(TypedDict, total=False):
     Requires an explicit model. An empty array disables fallbacks; omission
     preserves existing runtime behavior. Linc switches within the same session,
     preserving context.
+    """
+
+    runtime_retention: Annotated[Literal["indefinite"], PropertyInfo(alias="runtimeRetention")]
+    """
+    indefinite keeps the runtime and its saved state until the session (or, in
+    workspace mode, its last conversation) is deleted, so a chat can resume after
+    any idle gap. The default in workspace mode; standalone chats opt in with it,
+    one-off runs leave it unset. Raises an existing workspace to indefinite.
+    Mutually exclusive with runtimeRetentionDays.
+    """
+
+    runtime_retention_days: Annotated[int, PropertyInfo(alias="runtimeRetentionDays")]
+    """Days the runtime and its saved state are kept after the last activity.
+
+    Defaults to 1 for standalone sessions; workspace-mode conversations
+    (workspaceKey) and the C3 system key default to indefinite (see
+    runtimeRetention). Once they are deleted, commands to the session answer 410
+    linc_runtime_expired; its events stay readable. A workspace keeps the value it
+    was created with; a larger value on a later conversation raises it. Applies to
+    Vercel Sandbox runtimes; accepted and stored on Daytona, where it has no effect.
+    Mutually exclusive with runtimeRetention.
     """
 
     scoped_api_key: Annotated[Optional[str], PropertyInfo(alias="scopedApiKey")]

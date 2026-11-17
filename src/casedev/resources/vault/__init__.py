@@ -56,8 +56,22 @@ from .multipart import (
     MultipartResourceWithStreamingResponse,
     AsyncMultipartResourceWithStreamingResponse,
 )
+from .assemblies import (
+    AssembliesResource,
+    AsyncAssembliesResource,
+    AssembliesResourceWithRawResponse,
+    AsyncAssembliesResourceWithRawResponse,
+    AssembliesResourceWithStreamingResponse,
+    AsyncAssembliesResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "AssembliesResource",
+    "AsyncAssembliesResource",
+    "AssembliesResourceWithRawResponse",
+    "AsyncAssembliesResourceWithRawResponse",
+    "AssembliesResourceWithStreamingResponse",
+    "AsyncAssembliesResourceWithStreamingResponse",
     "FoldersResource",
     "AsyncFoldersResource",
     "FoldersResourceWithRawResponse",

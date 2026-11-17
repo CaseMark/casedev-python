@@ -9,13 +9,57 @@ import pytest
 
 from casedev import Casedev, AsyncCasedev
 from tests.utils import assert_matches_type
-from casedev.types.connectors import V1SyncLinkResponse, V1TransferResponse
+from casedev.types.connectors import (
+    V1SyncLinkResponse,
+    V1TransferResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestV1:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_fetch(self, client: Casedev) -> None:
+        v1 = client.connectors.v1.fetch(
+            open_ref="open_ref",
+        )
+        assert v1 is None
+
+    @parametrize
+    def test_method_fetch_with_all_params(self, client: Casedev) -> None:
+        v1 = client.connectors.v1.fetch(
+            open_ref="open_ref",
+            upload_url="upload_url",
+            vault_id="vault_id",
+            x_case_connector_subject="x-case-connector-subject",
+        )
+        assert v1 is None
+
+    @parametrize
+    def test_raw_response_fetch(self, client: Casedev) -> None:
+        response = client.connectors.v1.with_raw_response.fetch(
+            open_ref="open_ref",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = response.parse()
+        assert v1 is None
+
+    @parametrize
+    def test_streaming_response_fetch(self, client: Casedev) -> None:
+        with client.connectors.v1.with_streaming_response.fetch(
+            open_ref="open_ref",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = response.parse()
+            assert v1 is None
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_sync_link(self, client: Casedev) -> None:
@@ -51,11 +95,16 @@ class TestV1:
                 "collisions": "version",
                 "deletes": "mirror",
                 "filters": {
+                    "allow_extensions": ["string"],
                     "exclude_file_ids": ["string"],
                     "exclude_folder_ids": ["string"],
                     "exclude_mime": ["string"],
                     "max_size_bytes": 0,
                 },
+            },
+            selection={
+                "folder": "folder",
+                "object_ids": ["string"],
             },
             x_case_connector_subject="x-case-connector-subject",
         )
@@ -125,6 +174,7 @@ class TestV1:
                 "collisions": "version",
                 "deletes": "mirror",
                 "filters": {
+                    "allow_extensions": ["string"],
                     "exclude_file_ids": ["string"],
                     "exclude_folder_ids": ["string"],
                     "exclude_mime": ["string"],
@@ -132,6 +182,10 @@ class TestV1:
                 },
             },
             run_mode="auto",
+            selection={
+                "folder": "folder",
+                "object_ids": ["string"],
+            },
             x_case_connector_subject="x-case-connector-subject",
         )
         assert_matches_type(V1TransferResponse, v1, path=["response"])
@@ -173,6 +227,47 @@ class TestAsyncV1:
     )
 
     @parametrize
+    async def test_method_fetch(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.connectors.v1.fetch(
+            open_ref="open_ref",
+        )
+        assert v1 is None
+
+    @parametrize
+    async def test_method_fetch_with_all_params(self, async_client: AsyncCasedev) -> None:
+        v1 = await async_client.connectors.v1.fetch(
+            open_ref="open_ref",
+            upload_url="upload_url",
+            vault_id="vault_id",
+            x_case_connector_subject="x-case-connector-subject",
+        )
+        assert v1 is None
+
+    @parametrize
+    async def test_raw_response_fetch(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.connectors.v1.with_raw_response.fetch(
+            open_ref="open_ref",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        v1 = await response.parse()
+        assert v1 is None
+
+    @parametrize
+    async def test_streaming_response_fetch(self, async_client: AsyncCasedev) -> None:
+        async with async_client.connectors.v1.with_streaming_response.fetch(
+            open_ref="open_ref",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            v1 = await response.parse()
+            assert v1 is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     async def test_method_sync_link(self, async_client: AsyncCasedev) -> None:
         v1 = await async_client.connectors.v1.sync_link(
             connection_id="connection_id",
@@ -206,11 +301,16 @@ class TestAsyncV1:
                 "collisions": "version",
                 "deletes": "mirror",
                 "filters": {
+                    "allow_extensions": ["string"],
                     "exclude_file_ids": ["string"],
                     "exclude_folder_ids": ["string"],
                     "exclude_mime": ["string"],
                     "max_size_bytes": 0,
                 },
+            },
+            selection={
+                "folder": "folder",
+                "object_ids": ["string"],
             },
             x_case_connector_subject="x-case-connector-subject",
         )
@@ -280,6 +380,7 @@ class TestAsyncV1:
                 "collisions": "version",
                 "deletes": "mirror",
                 "filters": {
+                    "allow_extensions": ["string"],
                     "exclude_file_ids": ["string"],
                     "exclude_folder_ids": ["string"],
                     "exclude_mime": ["string"],
@@ -287,6 +388,10 @@ class TestAsyncV1:
                 },
             },
             run_mode="auto",
+            selection={
+                "folder": "folder",
+                "object_ids": ["string"],
+            },
             x_case_connector_subject="x-case-connector-subject",
         )
         assert_matches_type(V1TransferResponse, v1, path=["response"])

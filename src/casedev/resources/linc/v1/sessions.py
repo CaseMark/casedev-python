@@ -63,9 +63,10 @@ class SessionsResource(SyncAPIResource):
         extensions: Optional[Iterable[session_create_params.Extension]] | Omit = omit,
         idle_timeout_ms: Optional[int] | Omit = omit,
         include_document_templates: Optional[bool] | Omit = omit,
-        instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         model_fallbacks: SequenceNotStr[str] | Omit = omit,
+        runtime_retention: Literal["indefinite"] | Omit = omit,
+        runtime_retention_days: int | Omit = omit,
         scoped_api_key: Optional[str] | Omit = omit,
         service_tier: Literal["default", "priority"] | Omit = omit,
         skills_delivery: Literal["local", "mcp"] | Omit = omit,
@@ -84,9 +85,9 @@ class SessionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Creates a Daytona-backed native Linc session with scoped Case.dev credentials.
-        This endpoint starts the sandbox actor only; messages and event replay use
-        separate endpoints.
+        Creates a native Linc session in a sandboxed runtime with scoped Case.dev
+        credentials. This endpoint starts the sandbox actor only; messages and event
+        replay use separate endpoints.
 
         Args:
           capability_policy: Optional server-enforced capability profile. read_only grants only
@@ -109,11 +110,24 @@ class SessionsResource(SyncAPIResource):
           include_document_templates: When true, inject all active org document templates into the
               using-document-templates skill.
 
-          instructions: Privileged C3-only hidden app instructions to append to the sandbox AGENTS.md.
-
           model_fallbacks: Optional ordered availability fallbacks for this session. Requires an explicit
               model. An empty array disables fallbacks; omission preserves existing runtime
               behavior. Linc switches within the same session, preserving context.
+
+          runtime_retention: indefinite keeps the runtime and its saved state until the session (or, in
+              workspace mode, its last conversation) is deleted, so a chat can resume after
+              any idle gap. The default in workspace mode; standalone chats opt in with it,
+              one-off runs leave it unset. Raises an existing workspace to indefinite.
+              Mutually exclusive with runtimeRetentionDays.
+
+          runtime_retention_days: Days the runtime and its saved state are kept after the last activity. Defaults
+              to 1 for standalone sessions; workspace-mode conversations (workspaceKey) and
+              the C3 system key default to indefinite (see runtimeRetention). Once they are
+              deleted, commands to the session answer 410 linc_runtime_expired; its events
+              stay readable. A workspace keeps the value it was created with; a larger value
+              on a later conversation raises it. Applies to Vercel Sandbox runtimes; accepted
+              and stored on Daytona, where it has no effect. Mutually exclusive with
+              runtimeRetention.
 
           scoped_api_key: Optional caller-provided scoped Case.dev API key for the runtime.
 
@@ -163,9 +177,10 @@ class SessionsResource(SyncAPIResource):
                     "extensions": extensions,
                     "idle_timeout_ms": idle_timeout_ms,
                     "include_document_templates": include_document_templates,
-                    "instructions": instructions,
                     "model": model,
                     "model_fallbacks": model_fallbacks,
+                    "runtime_retention": runtime_retention,
+                    "runtime_retention_days": runtime_retention_days,
                     "scoped_api_key": scoped_api_key,
                     "service_tier": service_tier,
                     "skills_delivery": skills_delivery,
@@ -596,9 +611,10 @@ class AsyncSessionsResource(AsyncAPIResource):
         extensions: Optional[Iterable[session_create_params.Extension]] | Omit = omit,
         idle_timeout_ms: Optional[int] | Omit = omit,
         include_document_templates: Optional[bool] | Omit = omit,
-        instructions: Optional[str] | Omit = omit,
         model: Optional[str] | Omit = omit,
         model_fallbacks: SequenceNotStr[str] | Omit = omit,
+        runtime_retention: Literal["indefinite"] | Omit = omit,
+        runtime_retention_days: int | Omit = omit,
         scoped_api_key: Optional[str] | Omit = omit,
         service_tier: Literal["default", "priority"] | Omit = omit,
         skills_delivery: Literal["local", "mcp"] | Omit = omit,
@@ -617,9 +633,9 @@ class AsyncSessionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Creates a Daytona-backed native Linc session with scoped Case.dev credentials.
-        This endpoint starts the sandbox actor only; messages and event replay use
-        separate endpoints.
+        Creates a native Linc session in a sandboxed runtime with scoped Case.dev
+        credentials. This endpoint starts the sandbox actor only; messages and event
+        replay use separate endpoints.
 
         Args:
           capability_policy: Optional server-enforced capability profile. read_only grants only
@@ -642,11 +658,24 @@ class AsyncSessionsResource(AsyncAPIResource):
           include_document_templates: When true, inject all active org document templates into the
               using-document-templates skill.
 
-          instructions: Privileged C3-only hidden app instructions to append to the sandbox AGENTS.md.
-
           model_fallbacks: Optional ordered availability fallbacks for this session. Requires an explicit
               model. An empty array disables fallbacks; omission preserves existing runtime
               behavior. Linc switches within the same session, preserving context.
+
+          runtime_retention: indefinite keeps the runtime and its saved state until the session (or, in
+              workspace mode, its last conversation) is deleted, so a chat can resume after
+              any idle gap. The default in workspace mode; standalone chats opt in with it,
+              one-off runs leave it unset. Raises an existing workspace to indefinite.
+              Mutually exclusive with runtimeRetentionDays.
+
+          runtime_retention_days: Days the runtime and its saved state are kept after the last activity. Defaults
+              to 1 for standalone sessions; workspace-mode conversations (workspaceKey) and
+              the C3 system key default to indefinite (see runtimeRetention). Once they are
+              deleted, commands to the session answer 410 linc_runtime_expired; its events
+              stay readable. A workspace keeps the value it was created with; a larger value
+              on a later conversation raises it. Applies to Vercel Sandbox runtimes; accepted
+              and stored on Daytona, where it has no effect. Mutually exclusive with
+              runtimeRetention.
 
           scoped_api_key: Optional caller-provided scoped Case.dev API key for the runtime.
 
@@ -696,9 +725,10 @@ class AsyncSessionsResource(AsyncAPIResource):
                     "extensions": extensions,
                     "idle_timeout_ms": idle_timeout_ms,
                     "include_document_templates": include_document_templates,
-                    "instructions": instructions,
                     "model": model,
                     "model_fallbacks": model_fallbacks,
+                    "runtime_retention": runtime_retention,
+                    "runtime_retention_days": runtime_retention_days,
                     "scoped_api_key": scoped_api_key,
                     "service_tier": service_tier,
                     "skills_delivery": skills_delivery,

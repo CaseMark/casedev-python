@@ -63,8 +63,9 @@ class BoostListResource(SyncAPIResource):
     ) -> BoostListExtractResponse:
         """
         Extracts a categorized word boost list from vault documents or raw text using
-        LLM entity extraction. The resulting list can be passed as `word_boost` to the
-        transcription endpoint for improved accuracy.
+        LLM entity extraction. The resulting words can be passed as `keyterms_prompt`
+        (or the legacy `word_boost` alias) to the transcription endpoint for improved
+        accuracy.
 
         Args:
           categories: Optional filter for entity categories to extract
@@ -114,8 +115,8 @@ class BoostListResource(SyncAPIResource):
     ) -> BoostListGenerateResponse:
         """
         Generates a categorized word boost list from a completed transcription job.
-        Extracts entities from the pass-1 transcript for use as `word_boost` in a second
-        transcription pass.
+        Extracts entities from the pass-1 transcript for use as `keyterms_prompt` (or
+        the legacy `word_boost` alias) in a second transcription pass.
 
         Args:
           transcription_job_id: Completed pass-1 transcription job ID (tr\\__...)
@@ -184,8 +185,9 @@ class AsyncBoostListResource(AsyncAPIResource):
     ) -> BoostListExtractResponse:
         """
         Extracts a categorized word boost list from vault documents or raw text using
-        LLM entity extraction. The resulting list can be passed as `word_boost` to the
-        transcription endpoint for improved accuracy.
+        LLM entity extraction. The resulting words can be passed as `keyterms_prompt`
+        (or the legacy `word_boost` alias) to the transcription endpoint for improved
+        accuracy.
 
         Args:
           categories: Optional filter for entity categories to extract
@@ -235,8 +237,8 @@ class AsyncBoostListResource(AsyncAPIResource):
     ) -> BoostListGenerateResponse:
         """
         Generates a categorized word boost list from a completed transcription job.
-        Extracts entities from the pass-1 transcript for use as `word_boost` in a second
-        transcription pass.
+        Extracts entities from the pass-1 transcript for use as `keyterms_prompt` (or
+        the legacy `word_boost` alias) in a second transcription pass.
 
         Args:
           transcription_job_id: Completed pass-1 transcription job ID (tr\\__...)

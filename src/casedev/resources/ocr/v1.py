@@ -157,7 +157,8 @@ class V1Resource(SyncAPIResource):
         that can be used to track processing status.
 
         Args:
-          document_url: URL or S3 path to the document to process
+          document_url: HTTP(S) URL of the document to process, or the s3:// path of a vault object in
+              your organization
 
           callback_url: URL to receive completion webhook
 
@@ -325,7 +326,8 @@ class AsyncV1Resource(AsyncAPIResource):
         that can be used to track processing status.
 
         Args:
-          document_url: URL or S3 path to the document to process
+          document_url: HTTP(S) URL of the document to process, or the s3:// path of a vault object in
+              your organization
 
           callback_url: URL to receive completion webhook
 

@@ -11,6 +11,10 @@ __all__ = ["V1SyncLinkResponse"]
 
 class V1SyncLinkResponse(BaseModel):
     links: Optional[List[object]] = None
+    """Links created or re-triggered.
+
+    Each echoes selection ({object_ids?, folder?}, null for the whole vault).
+    """
 
     run: Optional[SyncLinkRun] = None
     """Whether a provider scan started or was deferred."""
