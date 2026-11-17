@@ -28,6 +28,13 @@ class Item(BaseModel):
 
     name: Optional[str] = None
 
+    open_ref: Optional[str] = None
+    """Signed reference to this file for POST /connectors/v1/fetch.
+
+    Null for folders and providers without single-file fetch. Pass it back exactly
+    as received.
+    """
+
     parent_ids: Optional[List[str]] = None
 
     path: Optional[str] = None

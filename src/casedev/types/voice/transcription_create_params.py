@@ -17,7 +17,9 @@ class TranscriptionCreateParams(TypedDict, total=False):
     """Automatically extract key phrases and topics"""
 
     boost_param: Literal["low", "default", "high"]
-    """How much to boost custom vocabulary"""
+    """
+    Deprecated and ignored: current AssemblyAI models do not support boost strength.
+    """
 
     content_safety: bool
     """Enable content moderation and safety labeling"""
@@ -30,6 +32,12 @@ class TranscriptionCreateParams(TypedDict, total=False):
 
     format_text: bool
     """Format text with proper capitalization"""
+
+    keyterms_prompt: SequenceNotStr[str]
+    """
+    Domain-specific words or phrases (max 6 words each) to improve recognition
+    accuracy. Up to 1000 on universal-3-5-pro, 200 on universal-2.
+    """
 
     language_code: str
     """Language code (e.g., 'en_us', 'es', 'fr').
@@ -59,4 +67,7 @@ class TranscriptionCreateParams(TypedDict, total=False):
     """Vault ID containing the audio file (use with object_id)"""
 
     word_boost: SequenceNotStr[str]
-    """Custom vocabulary words to boost (e.g., legal terms)"""
+    """Legacy alias for `keyterms_prompt`.
+
+    Entries are merged into `keyterms_prompt` before submission.
+    """

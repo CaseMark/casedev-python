@@ -11,6 +11,10 @@ __all__ = ["V1TransferResponse"]
 
 class V1TransferResponse(BaseModel):
     links: Optional[List[object]] = None
+    """Links created or re-triggered.
+
+    Each echoes selection ({object_ids?, folder?}, null for the whole vault).
+    """
 
     run: Optional[TransferRun] = None
     """Whether a provider scan started or was deferred."""

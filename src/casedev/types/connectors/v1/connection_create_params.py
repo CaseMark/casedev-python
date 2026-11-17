@@ -10,7 +10,7 @@ __all__ = ["ConnectionCreateParams"]
 
 
 class ConnectionCreateParams(TypedDict, total=False):
-    provider: Required[Literal["box", "clio", "dropbox", "gdrive", "microsoft", "smokeball"]]
+    provider: Required[Literal["box", "clio", "dropbox", "gdrive", "microsoft", "sharefile", "smokeball"]]
 
     return_url: Required[str]
     """HTTPS URL the user is sent back to after consent."""
@@ -21,19 +21,24 @@ class ConnectionCreateParams(TypedDict, total=False):
         "clio.us",
         "dropbox.readwrite",
         "drive",
+        "microsoft.account.read",
         "microsoft.read",
         "microsoft.personal.read",
         "microsoft.write",
         "microsoft.personal.write",
+        "sharefile",
         "smokeball.us",
         "smokeball.us.staging",
+        "smokeball.us.staging.write",
+        "smokeball.us.write",
     ]
     """Provider-specific OAuth permission tier.
 
-    Omit to use the provider's default. Microsoft defaults to organizational
-    OneDrive/SharePoint; use microsoft.personal.read for a personal Microsoft
-    account's own OneDrive. Microsoft write tiers are a separately gated private
-    pilot; exports and paired sync are not yet available.
+    Omit to use the provider's default. Use microsoft.account.read to let Microsoft
+    choose a personal or work/school account. Existing explicit microsoft.read and
+    microsoft.personal.read tiers remain supported. Microsoft write tiers require
+    the separate write switch and explicit authorization for bounded exports and
+    paired sync.
     """
 
     x_case_connector_subject: Annotated[str, PropertyInfo(alias="x-case-connector-subject")]
