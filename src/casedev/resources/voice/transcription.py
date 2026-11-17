@@ -56,6 +56,7 @@ class TranscriptionResource(SyncAPIResource):
         disfluencies: bool | Omit = omit,
         format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
+        keyterms_prompt: SequenceNotStr[str] | Omit = omit,
         language_code: str | Omit = omit,
         language_detection: bool | Omit = omit,
         object_id: str | Omit = omit,
@@ -90,7 +91,7 @@ class TranscriptionResource(SyncAPIResource):
 
           auto_highlights: Automatically extract key phrases and topics
 
-          boost_param: How much to boost custom vocabulary
+          boost_param: Deprecated and ignored: current AssemblyAI models do not support boost strength.
 
           content_safety: Enable content moderation and safety labeling
 
@@ -99,6 +100,9 @@ class TranscriptionResource(SyncAPIResource):
           format: Output format for the transcript when using vault mode
 
           format_text: Format text with proper capitalization
+
+          keyterms_prompt: Domain-specific words or phrases (max 6 words each) to improve recognition
+              accuracy. Up to 1000 on universal-3-5-pro, 200 on universal-2.
 
           language_code: Language code (e.g., 'en_us', 'es', 'fr'). If not specified, language will be
               auto-detected
@@ -117,7 +121,8 @@ class TranscriptionResource(SyncAPIResource):
 
           vault_id: Vault ID containing the audio file (use with object_id)
 
-          word_boost: Custom vocabulary words to boost (e.g., legal terms)
+          word_boost: Legacy alias for `keyterms_prompt`. Entries are merged into `keyterms_prompt`
+              before submission.
 
           extra_headers: Send extra headers
 
@@ -138,6 +143,7 @@ class TranscriptionResource(SyncAPIResource):
                     "disfluencies": disfluencies,
                     "format": format,
                     "format_text": format_text,
+                    "keyterms_prompt": keyterms_prompt,
                     "language_code": language_code,
                     "language_detection": language_detection,
                     "object_id": object_id,
@@ -271,6 +277,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
         disfluencies: bool | Omit = omit,
         format: Literal["json", "text"] | Omit = omit,
         format_text: bool | Omit = omit,
+        keyterms_prompt: SequenceNotStr[str] | Omit = omit,
         language_code: str | Omit = omit,
         language_detection: bool | Omit = omit,
         object_id: str | Omit = omit,
@@ -305,7 +312,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           auto_highlights: Automatically extract key phrases and topics
 
-          boost_param: How much to boost custom vocabulary
+          boost_param: Deprecated and ignored: current AssemblyAI models do not support boost strength.
 
           content_safety: Enable content moderation and safety labeling
 
@@ -314,6 +321,9 @@ class AsyncTranscriptionResource(AsyncAPIResource):
           format: Output format for the transcript when using vault mode
 
           format_text: Format text with proper capitalization
+
+          keyterms_prompt: Domain-specific words or phrases (max 6 words each) to improve recognition
+              accuracy. Up to 1000 on universal-3-5-pro, 200 on universal-2.
 
           language_code: Language code (e.g., 'en_us', 'es', 'fr'). If not specified, language will be
               auto-detected
@@ -332,7 +342,8 @@ class AsyncTranscriptionResource(AsyncAPIResource):
 
           vault_id: Vault ID containing the audio file (use with object_id)
 
-          word_boost: Custom vocabulary words to boost (e.g., legal terms)
+          word_boost: Legacy alias for `keyterms_prompt`. Entries are merged into `keyterms_prompt`
+              before submission.
 
           extra_headers: Send extra headers
 
@@ -353,6 +364,7 @@ class AsyncTranscriptionResource(AsyncAPIResource):
                     "disfluencies": disfluencies,
                     "format": format,
                     "format_text": format_text,
+                    "keyterms_prompt": keyterms_prompt,
                     "language_code": language_code,
                     "language_detection": language_detection,
                     "object_id": object_id,

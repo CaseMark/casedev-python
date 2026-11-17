@@ -60,6 +60,14 @@ from .multipart import (
     MultipartResourceWithStreamingResponse,
     AsyncMultipartResourceWithStreamingResponse,
 )
+from .assemblies import (
+    AssembliesResource,
+    AsyncAssembliesResource,
+    AssembliesResourceWithRawResponse,
+    AsyncAssembliesResourceWithRawResponse,
+    AssembliesResourceWithStreamingResponse,
+    AsyncAssembliesResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -91,6 +99,11 @@ __all__ = ["VaultResource", "AsyncVaultResource"]
 
 class VaultResource(SyncAPIResource):
     """Secure document storage with semantic search"""
+
+    @cached_property
+    def assemblies(self) -> AssembliesResource:
+        """Vault object management, content access, and document operations"""
+        return AssembliesResource(self._client)
 
     @cached_property
     def folders(self) -> FoldersResource:
@@ -690,6 +703,11 @@ class VaultResource(SyncAPIResource):
 
 class AsyncVaultResource(AsyncAPIResource):
     """Secure document storage with semantic search"""
+
+    @cached_property
+    def assemblies(self) -> AsyncAssembliesResource:
+        """Vault object management, content access, and document operations"""
+        return AsyncAssembliesResource(self._client)
 
     @cached_property
     def folders(self) -> AsyncFoldersResource:
@@ -1320,6 +1338,11 @@ class VaultResourceWithRawResponse:
         )
 
     @cached_property
+    def assemblies(self) -> AssembliesResourceWithRawResponse:
+        """Vault object management, content access, and document operations"""
+        return AssembliesResourceWithRawResponse(self._vault.assemblies)
+
+    @cached_property
     def folders(self) -> FoldersResourceWithRawResponse:
         """Secure document storage with semantic search"""
         return FoldersResourceWithRawResponse(self._vault.folders)
@@ -1380,6 +1403,11 @@ class AsyncVaultResourceWithRawResponse:
         self.upload = async_to_raw_response_wrapper(
             vault.upload,
         )
+
+    @cached_property
+    def assemblies(self) -> AsyncAssembliesResourceWithRawResponse:
+        """Vault object management, content access, and document operations"""
+        return AsyncAssembliesResourceWithRawResponse(self._vault.assemblies)
 
     @cached_property
     def folders(self) -> AsyncFoldersResourceWithRawResponse:
@@ -1444,6 +1472,11 @@ class VaultResourceWithStreamingResponse:
         )
 
     @cached_property
+    def assemblies(self) -> AssembliesResourceWithStreamingResponse:
+        """Vault object management, content access, and document operations"""
+        return AssembliesResourceWithStreamingResponse(self._vault.assemblies)
+
+    @cached_property
     def folders(self) -> FoldersResourceWithStreamingResponse:
         """Secure document storage with semantic search"""
         return FoldersResourceWithStreamingResponse(self._vault.folders)
@@ -1504,6 +1537,11 @@ class AsyncVaultResourceWithStreamingResponse:
         self.upload = async_to_streamed_response_wrapper(
             vault.upload,
         )
+
+    @cached_property
+    def assemblies(self) -> AsyncAssembliesResourceWithStreamingResponse:
+        """Vault object management, content access, and document operations"""
+        return AsyncAssembliesResourceWithStreamingResponse(self._vault.assemblies)
 
     @cached_property
     def folders(self) -> AsyncFoldersResourceWithStreamingResponse:

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from .transfer_run import TransferRun as TransferRun
 from .sync_link_run import SyncLinkRun as SyncLinkRun
+from .v1_fetch_params import V1FetchParams as V1FetchParams
 from .transfer_link_run import TransferLinkRun as TransferLinkRun
 from .sync_link_link_run import SyncLinkLinkRun as SyncLinkLinkRun
 from .v1_transfer_params import V1TransferParams as V1TransferParams

@@ -22,6 +22,7 @@ from .object_move_response import ObjectMoveResponse as ObjectMoveResponse
 from .object_update_params import ObjectUpdateParams as ObjectUpdateParams
 from .multipart_init_params import MultipartInitParams as MultipartInitParams
 from .object_merge_response import ObjectMergeResponse as ObjectMergeResponse
+from .assembly_create_params import AssemblyCreateParams as AssemblyCreateParams
 from .folder_create_response import FolderCreateResponse as FolderCreateResponse
 from .memory_create_response import MemoryCreateResponse as MemoryCreateResponse
 from .memory_search_response import MemorySearchResponse as MemorySearchResponse
@@ -32,12 +33,14 @@ from .object_organize_params import ObjectOrganizeParams as ObjectOrganizeParams
 from .object_update_response import ObjectUpdateResponse as ObjectUpdateResponse
 from .multipart_init_response import MultipartInitResponse as MultipartInitResponse
 from .object_get_pages_params import ObjectGetPagesParams as ObjectGetPagesParams
+from .assembly_create_response import AssemblyCreateResponse as AssemblyCreateResponse
 from .object_get_chunks_params import ObjectGetChunksParams as ObjectGetChunksParams
 from .object_get_text_response import ObjectGetTextResponse as ObjectGetTextResponse
 from .object_organize_response import ObjectOrganizeResponse as ObjectOrganizeResponse
 from .object_retrieve_response import ObjectRetrieveResponse as ObjectRetrieveResponse
 from .multipart_complete_params import MultipartCompleteParams as MultipartCompleteParams
 from .object_get_pages_response import ObjectGetPagesResponse as ObjectGetPagesResponse
+from .assembly_retrieve_response import AssemblyRetrieveResponse as AssemblyRetrieveResponse
 from .object_get_chunks_response import ObjectGetChunksResponse as ObjectGetChunksResponse
 from .multipart_complete_response import MultipartCompleteResponse as MultipartCompleteResponse
 from .object_get_ocr_words_params import ObjectGetOcrWordsParams as ObjectGetOcrWordsParams

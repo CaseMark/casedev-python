@@ -22,11 +22,22 @@ from ....types.connectors.v1 import (
     connection_browse_params,
     connection_create_params,
     connection_delete_params,
+    connection_search_params,
     connection_update_all_params,
+    connection_resolve_link_params,
+    connection_create_folder_params,
+    connection_list_contents_params,
 )
 from ....types.connectors.v1.connection_list_response import ConnectionListResponse
 from ....types.connectors.v1.connection_browse_response import ConnectionBrowseResponse
 from ....types.connectors.v1.connection_create_response import ConnectionCreateResponse
+from ....types.connectors.v1.connection_search_response import ConnectionSearchResponse
+from ....types.connectors.v1.connection_retrieve_response import ConnectionRetrieveResponse
+from ....types.connectors.v1.connection_resolve_link_response import ConnectionResolveLinkResponse
+from ....types.connectors.v1.connection_list_contents_response import ConnectionListContentsResponse
+from ....types.connectors.v1.connection_create_microsoft_admin_approval_response import (
+    ConnectionCreateMicrosoftAdminApprovalResponse,
+)
 
 __all__ = ["ConnectionsResource", "AsyncConnectionsResource"]
 
@@ -56,7 +67,7 @@ class ConnectionsResource(SyncAPIResource):
     def create(
         self,
         *,
-        provider: Literal["box", "clio", "dropbox", "gdrive", "microsoft", "smokeball"],
+        provider: Literal["box", "clio", "dropbox", "gdrive", "microsoft", "sharefile", "smokeball"],
         return_url: str,
         scope_tier: Literal[
             "box.readwrite",
@@ -64,12 +75,16 @@ class ConnectionsResource(SyncAPIResource):
             "clio.us",
             "dropbox.readwrite",
             "drive",
+            "microsoft.account.read",
             "microsoft.read",
             "microsoft.personal.read",
             "microsoft.write",
             "microsoft.personal.write",
+            "sharefile",
             "smokeball.us",
             "smokeball.us.staging",
+            "smokeball.us.staging.write",
+            "smokeball.us.write",
         ]
         | Omit = omit,
         x_case_connector_subject: str | Omit = omit,
@@ -88,11 +103,11 @@ class ConnectionsResource(SyncAPIResource):
         Args:
           return_url: HTTPS URL the user is sent back to after consent.
 
-          scope_tier: Provider-specific OAuth permission tier. Omit to use the provider's default.
-              Microsoft defaults to organizational OneDrive/SharePoint; use
-              microsoft.personal.read for a personal Microsoft account's own OneDrive.
-              Microsoft write tiers are a separately gated private pilot; exports and paired
-              sync are not yet available.
+          scope_tier: Provider-specific OAuth permission tier. Omit to use the provider's default. Use
+              microsoft.account.read to let Microsoft choose a personal or work/school
+              account. Existing explicit microsoft.read and microsoft.personal.read tiers
+              remain supported. Microsoft write tiers require the separate write switch and
+              explicit authorization for bounded exports and paired sync.
 
           extra_headers: Send extra headers
 
@@ -133,7 +148,7 @@ class ConnectionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ConnectionRetrieveResponse:
         """
         Retrieve one provider connection, including account identity and health.
 
@@ -148,7 +163,6 @@ class ConnectionsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
             **(extra_headers or {}),
@@ -158,7 +172,7 @@ class ConnectionsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ConnectionRetrieveResponse,
         )
 
     def list(
@@ -339,6 +353,316 @@ class ConnectionsResource(SyncAPIResource):
             cast_to=ConnectionBrowseResponse,
         )
 
+    def create_folder(
+        self,
+        id: str,
+        *,
+        name: str,
+        container: str | Omit = omit,
+        parent: str | Omit = omit,
+        site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Create one folder at the provider directly under a browse location, then export
+        into it with POST /connectors/v1/transfer. Name the parent with the same site,
+        container, and parent fields browse accepts (for Clio and Smokeball, a matter
+        root is the browse_ref the matter returned). A folder of the same name already
+        under the parent is returned with 200 instead of a duplicate; a new folder
+        returns 201. Smokeball creates folders asynchronously: when the new folder is
+        not listed yet the response is 202 with code folder_creation_pending and no
+        folder. Repeat the request after a short wait to get it with 200; a repeat sent
+        while it is still not listed asks Smokeball again and can leave two folders with
+        that name, so space repeats out. Returns 403 provider_scope_insufficient when
+        the connection was granted read access only; reconnect with write access.
+
+        Args:
+          name: Folder name. Trimmed; 1-255 characters; no '/', '\', or control characters; not
+              '.' or '..'. Providers may refuse further characters.
+
+          container: Container id of the parent, from its browse_ref
+
+          parent: Folder id of the parent, from its browse_ref. Omit for a container root.
+
+          site: Site id of the parent, from its browse_ref
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            path_template("/connectors/v1/connections/{id}/folders", id=id),
+            body=maybe_transform(
+                {
+                    "name": name,
+                    "container": container,
+                    "parent": parent,
+                    "site": site,
+                },
+                connection_create_folder_params.ConnectionCreateFolderParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def create_microsoft_admin_approval(
+        self,
+        id: str,
+        *,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionCreateMicrosoftAdminApprovalResponse:
+        """
+        Create a seven-day, replaceable IT approval link for a pending Microsoft
+        connection. Approval does not connect an account. Only delegated document read
+        scopes are requested.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return self._post(
+            path_template("/connectors/v1/connections/{id}/microsoft-admin-approval", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ConnectionCreateMicrosoftAdminApprovalResponse,
+        )
+
+    def list_contents(
+        self,
+        id: str,
+        *,
+        container: str | Omit = omit,
+        cursor: str | Omit = omit,
+        page_size: int | Omit = omit,
+        parent: str | Omit = omit,
+        site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionListContentsResponse:
+        """
+        List every file under one folder, at any depth, as a flat paginated list, to
+        preview what importing that folder would bring in. Pass the browse_ref fields of
+        a folder or container. Each file carries its path relative to that folder. A
+        page returns as soon as it holds files, so it may be shorter than page_size
+        while cursor is still set; keep requesting until cursor is null. The listing
+        stops after 10,000 files and sets truncated. Returns 422 contents_not_supported
+        when the provider cannot list folder contents, and shares the provider request
+        budget with browsing and background runs.
+
+        Args:
+          container: Container to list, or the container holding parent
+
+          parent: Folder to list
+
+          site: Site of the folder
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/connectors/v1/connections/{id}/contents", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "container": container,
+                        "cursor": cursor,
+                        "page_size": page_size,
+                        "parent": parent,
+                        "site": site,
+                    },
+                    connection_list_contents_params.ConnectionListContentsParams,
+                ),
+            ),
+            cast_to=ConnectionListContentsResponse,
+        )
+
+    def resolve_link(
+        self,
+        id: str,
+        *,
+        url: str,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionResolveLinkResponse:
+        """
+        Resolve a pasted provider folder link to that folder's browse item, including
+        its browse_ref, name, and path when the provider reports it cheaply. Supports
+        Google Drive folder and open?id= links, Box folder and shared links, Dropbox
+        shared links, and OneDrive/SharePoint sharing links. Returns 400
+        link_not_recognized for links of another provider or form, 422 link_not_folder
+        for file links, 422 link_not_in_account when a Dropbox or Box shared folder is
+        not in the connected account, 404 link_not_accessible when the account cannot
+        see it, and 422 link_resolve_not_supported for providers without folder links.
+        Shares the provider request budget with browsing.
+
+        Args:
+          url: Folder link copied from the provider, including any query string
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/connectors/v1/connections/{id}/resolve", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"url": url}, connection_resolve_link_params.ConnectionResolveLinkParams),
+            ),
+            cast_to=ConnectionResolveLinkResponse,
+        )
+
+    def search(
+        self,
+        id: str,
+        *,
+        query: str,
+        container: str | Omit = omit,
+        cursor: str | Omit = omit,
+        kind: Literal["file", "folder"] | Omit = omit,
+        page_size: int | Omit = omit,
+        parent: str | Omit = omit,
+        site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionSearchResponse:
+        """
+        Search the provider's files by name, and by content where the provider supports
+        it; with kind=folder, search folders by name. Without a scope, searches
+        everything the connection can see; pass the browse_ref fields of a folder or
+        container to search inside it. Folder results carry a browse_ref to open them
+        with browse. Each response states whether its folder scope covers the whole
+        subtree. Returns 422 search_not_supported when the provider has no search and
+        search_kind_not_supported when it cannot search folders, and shares the provider
+        request budget with browsing and background runs.
+
+        Args:
+          query: Search text
+
+          container: Container to search in, or the container holding parent
+
+          kind: What to search for: files, or folders by name
+
+          parent: Folder to search in
+
+          site: Site to search in
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return self._get(
+            path_template("/connectors/v1/connections/{id}/search", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "query": query,
+                        "container": container,
+                        "cursor": cursor,
+                        "kind": kind,
+                        "page_size": page_size,
+                        "parent": parent,
+                        "site": site,
+                    },
+                    connection_search_params.ConnectionSearchParams,
+                ),
+            ),
+            cast_to=ConnectionSearchResponse,
+        )
+
     def update_all(
         self,
         *,
@@ -412,7 +736,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        provider: Literal["box", "clio", "dropbox", "gdrive", "microsoft", "smokeball"],
+        provider: Literal["box", "clio", "dropbox", "gdrive", "microsoft", "sharefile", "smokeball"],
         return_url: str,
         scope_tier: Literal[
             "box.readwrite",
@@ -420,12 +744,16 @@ class AsyncConnectionsResource(AsyncAPIResource):
             "clio.us",
             "dropbox.readwrite",
             "drive",
+            "microsoft.account.read",
             "microsoft.read",
             "microsoft.personal.read",
             "microsoft.write",
             "microsoft.personal.write",
+            "sharefile",
             "smokeball.us",
             "smokeball.us.staging",
+            "smokeball.us.staging.write",
+            "smokeball.us.write",
         ]
         | Omit = omit,
         x_case_connector_subject: str | Omit = omit,
@@ -444,11 +772,11 @@ class AsyncConnectionsResource(AsyncAPIResource):
         Args:
           return_url: HTTPS URL the user is sent back to after consent.
 
-          scope_tier: Provider-specific OAuth permission tier. Omit to use the provider's default.
-              Microsoft defaults to organizational OneDrive/SharePoint; use
-              microsoft.personal.read for a personal Microsoft account's own OneDrive.
-              Microsoft write tiers are a separately gated private pilot; exports and paired
-              sync are not yet available.
+          scope_tier: Provider-specific OAuth permission tier. Omit to use the provider's default. Use
+              microsoft.account.read to let Microsoft choose a personal or work/school
+              account. Existing explicit microsoft.read and microsoft.personal.read tiers
+              remain supported. Microsoft write tiers require the separate write switch and
+              explicit authorization for bounded exports and paired sync.
 
           extra_headers: Send extra headers
 
@@ -489,7 +817,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
+    ) -> ConnectionRetrieveResponse:
         """
         Retrieve one provider connection, including account identity and health.
 
@@ -504,7 +832,6 @@ class AsyncConnectionsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
             **(extra_headers or {}),
@@ -514,7 +841,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=ConnectionRetrieveResponse,
         )
 
     async def list(
@@ -695,6 +1022,318 @@ class AsyncConnectionsResource(AsyncAPIResource):
             cast_to=ConnectionBrowseResponse,
         )
 
+    async def create_folder(
+        self,
+        id: str,
+        *,
+        name: str,
+        container: str | Omit = omit,
+        parent: str | Omit = omit,
+        site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Create one folder at the provider directly under a browse location, then export
+        into it with POST /connectors/v1/transfer. Name the parent with the same site,
+        container, and parent fields browse accepts (for Clio and Smokeball, a matter
+        root is the browse_ref the matter returned). A folder of the same name already
+        under the parent is returned with 200 instead of a duplicate; a new folder
+        returns 201. Smokeball creates folders asynchronously: when the new folder is
+        not listed yet the response is 202 with code folder_creation_pending and no
+        folder. Repeat the request after a short wait to get it with 200; a repeat sent
+        while it is still not listed asks Smokeball again and can leave two folders with
+        that name, so space repeats out. Returns 403 provider_scope_insufficient when
+        the connection was granted read access only; reconnect with write access.
+
+        Args:
+          name: Folder name. Trimmed; 1-255 characters; no '/', '\', or control characters; not
+              '.' or '..'. Providers may refuse further characters.
+
+          container: Container id of the parent, from its browse_ref
+
+          parent: Folder id of the parent, from its browse_ref. Omit for a container root.
+
+          site: Site id of the parent, from its browse_ref
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            path_template("/connectors/v1/connections/{id}/folders", id=id),
+            body=await async_maybe_transform(
+                {
+                    "name": name,
+                    "container": container,
+                    "parent": parent,
+                    "site": site,
+                },
+                connection_create_folder_params.ConnectionCreateFolderParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    async def create_microsoft_admin_approval(
+        self,
+        id: str,
+        *,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionCreateMicrosoftAdminApprovalResponse:
+        """
+        Create a seven-day, replaceable IT approval link for a pending Microsoft
+        connection. Approval does not connect an account. Only delegated document read
+        scopes are requested.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return await self._post(
+            path_template("/connectors/v1/connections/{id}/microsoft-admin-approval", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ConnectionCreateMicrosoftAdminApprovalResponse,
+        )
+
+    async def list_contents(
+        self,
+        id: str,
+        *,
+        container: str | Omit = omit,
+        cursor: str | Omit = omit,
+        page_size: int | Omit = omit,
+        parent: str | Omit = omit,
+        site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionListContentsResponse:
+        """
+        List every file under one folder, at any depth, as a flat paginated list, to
+        preview what importing that folder would bring in. Pass the browse_ref fields of
+        a folder or container. Each file carries its path relative to that folder. A
+        page returns as soon as it holds files, so it may be shorter than page_size
+        while cursor is still set; keep requesting until cursor is null. The listing
+        stops after 10,000 files and sets truncated. Returns 422 contents_not_supported
+        when the provider cannot list folder contents, and shares the provider request
+        budget with browsing and background runs.
+
+        Args:
+          container: Container to list, or the container holding parent
+
+          parent: Folder to list
+
+          site: Site of the folder
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            path_template("/connectors/v1/connections/{id}/contents", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "container": container,
+                        "cursor": cursor,
+                        "page_size": page_size,
+                        "parent": parent,
+                        "site": site,
+                    },
+                    connection_list_contents_params.ConnectionListContentsParams,
+                ),
+            ),
+            cast_to=ConnectionListContentsResponse,
+        )
+
+    async def resolve_link(
+        self,
+        id: str,
+        *,
+        url: str,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionResolveLinkResponse:
+        """
+        Resolve a pasted provider folder link to that folder's browse item, including
+        its browse_ref, name, and path when the provider reports it cheaply. Supports
+        Google Drive folder and open?id= links, Box folder and shared links, Dropbox
+        shared links, and OneDrive/SharePoint sharing links. Returns 400
+        link_not_recognized for links of another provider or form, 422 link_not_folder
+        for file links, 422 link_not_in_account when a Dropbox or Box shared folder is
+        not in the connected account, 404 link_not_accessible when the account cannot
+        see it, and 422 link_resolve_not_supported for providers without folder links.
+        Shares the provider request budget with browsing.
+
+        Args:
+          url: Folder link copied from the provider, including any query string
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            path_template("/connectors/v1/connections/{id}/resolve", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"url": url}, connection_resolve_link_params.ConnectionResolveLinkParams
+                ),
+            ),
+            cast_to=ConnectionResolveLinkResponse,
+        )
+
+    async def search(
+        self,
+        id: str,
+        *,
+        query: str,
+        container: str | Omit = omit,
+        cursor: str | Omit = omit,
+        kind: Literal["file", "folder"] | Omit = omit,
+        page_size: int | Omit = omit,
+        parent: str | Omit = omit,
+        site: str | Omit = omit,
+        x_case_connector_subject: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConnectionSearchResponse:
+        """
+        Search the provider's files by name, and by content where the provider supports
+        it; with kind=folder, search folders by name. Without a scope, searches
+        everything the connection can see; pass the browse_ref fields of a folder or
+        container to search inside it. Folder results carry a browse_ref to open them
+        with browse. Each response states whether its folder scope covers the whole
+        subtree. Returns 422 search_not_supported when the provider has no search and
+        search_kind_not_supported when it cannot search folders, and shares the provider
+        request budget with browsing and background runs.
+
+        Args:
+          query: Search text
+
+          container: Container to search in, or the container holding parent
+
+          kind: What to search for: files, or folders by name
+
+          parent: Folder to search in
+
+          site: Site to search in
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {
+            **strip_not_given({"x-case-connector-subject": x_case_connector_subject}),
+            **(extra_headers or {}),
+        }
+        return await self._get(
+            path_template("/connectors/v1/connections/{id}/search", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "query": query,
+                        "container": container,
+                        "cursor": cursor,
+                        "kind": kind,
+                        "page_size": page_size,
+                        "parent": parent,
+                        "site": site,
+                    },
+                    connection_search_params.ConnectionSearchParams,
+                ),
+            ),
+            cast_to=ConnectionSearchResponse,
+        )
+
     async def update_all(
         self,
         *,
@@ -762,6 +1401,21 @@ class ConnectionsResourceWithRawResponse:
         self.browse = to_raw_response_wrapper(
             connections.browse,
         )
+        self.create_folder = to_raw_response_wrapper(
+            connections.create_folder,
+        )
+        self.create_microsoft_admin_approval = to_raw_response_wrapper(
+            connections.create_microsoft_admin_approval,
+        )
+        self.list_contents = to_raw_response_wrapper(
+            connections.list_contents,
+        )
+        self.resolve_link = to_raw_response_wrapper(
+            connections.resolve_link,
+        )
+        self.search = to_raw_response_wrapper(
+            connections.search,
+        )
         self.update_all = to_raw_response_wrapper(
             connections.update_all,
         )
@@ -785,6 +1439,21 @@ class AsyncConnectionsResourceWithRawResponse:
         )
         self.browse = async_to_raw_response_wrapper(
             connections.browse,
+        )
+        self.create_folder = async_to_raw_response_wrapper(
+            connections.create_folder,
+        )
+        self.create_microsoft_admin_approval = async_to_raw_response_wrapper(
+            connections.create_microsoft_admin_approval,
+        )
+        self.list_contents = async_to_raw_response_wrapper(
+            connections.list_contents,
+        )
+        self.resolve_link = async_to_raw_response_wrapper(
+            connections.resolve_link,
+        )
+        self.search = async_to_raw_response_wrapper(
+            connections.search,
         )
         self.update_all = async_to_raw_response_wrapper(
             connections.update_all,
@@ -810,6 +1479,21 @@ class ConnectionsResourceWithStreamingResponse:
         self.browse = to_streamed_response_wrapper(
             connections.browse,
         )
+        self.create_folder = to_streamed_response_wrapper(
+            connections.create_folder,
+        )
+        self.create_microsoft_admin_approval = to_streamed_response_wrapper(
+            connections.create_microsoft_admin_approval,
+        )
+        self.list_contents = to_streamed_response_wrapper(
+            connections.list_contents,
+        )
+        self.resolve_link = to_streamed_response_wrapper(
+            connections.resolve_link,
+        )
+        self.search = to_streamed_response_wrapper(
+            connections.search,
+        )
         self.update_all = to_streamed_response_wrapper(
             connections.update_all,
         )
@@ -833,6 +1517,21 @@ class AsyncConnectionsResourceWithStreamingResponse:
         )
         self.browse = async_to_streamed_response_wrapper(
             connections.browse,
+        )
+        self.create_folder = async_to_streamed_response_wrapper(
+            connections.create_folder,
+        )
+        self.create_microsoft_admin_approval = async_to_streamed_response_wrapper(
+            connections.create_microsoft_admin_approval,
+        )
+        self.list_contents = async_to_streamed_response_wrapper(
+            connections.list_contents,
+        )
+        self.resolve_link = async_to_streamed_response_wrapper(
+            connections.resolve_link,
+        )
+        self.search = async_to_streamed_response_wrapper(
+            connections.search,
         )
         self.update_all = async_to_streamed_response_wrapper(
             connections.update_all,

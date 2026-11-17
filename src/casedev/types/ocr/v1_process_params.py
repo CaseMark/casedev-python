@@ -10,7 +10,10 @@ __all__ = ["V1ProcessParams", "Features", "FeaturesTables"]
 
 class V1ProcessParams(TypedDict, total=False):
     document_url: Required[str]
-    """URL or S3 path to the document to process"""
+    """
+    HTTP(S) URL of the document to process, or the s3:// path of a vault object in
+    your organization
+    """
 
     callback_url: str
     """URL to receive completion webhook"""
