@@ -19,6 +19,7 @@ from .object_append_params import ObjectAppendParams as ObjectAppendParams
 from .object_delete_params import ObjectDeleteParams as ObjectDeleteParams
 from .object_list_response import ObjectListResponse as ObjectListResponse
 from .object_move_response import ObjectMoveResponse as ObjectMoveResponse
+from .object_to_pdf_params import ObjectToPdfParams as ObjectToPdfParams
 from .object_update_params import ObjectUpdateParams as ObjectUpdateParams
 from .multipart_init_params import MultipartInitParams as MultipartInitParams
 from .object_merge_response import ObjectMergeResponse as ObjectMergeResponse
@@ -29,6 +30,7 @@ from .memory_search_response import MemorySearchResponse as MemorySearchResponse
 from .multipart_abort_params import MultipartAbortParams as MultipartAbortParams
 from .object_append_response import ObjectAppendResponse as ObjectAppendResponse
 from .object_delete_response import ObjectDeleteResponse as ObjectDeleteResponse
+from .object_download_params import ObjectDownloadParams as ObjectDownloadParams
 from .object_organize_params import ObjectOrganizeParams as ObjectOrganizeParams
 from .object_update_response import ObjectUpdateResponse as ObjectUpdateResponse
 from .multipart_init_response import MultipartInitResponse as MultipartInitResponse

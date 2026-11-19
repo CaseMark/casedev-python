@@ -77,7 +77,9 @@ class AssembliesResource(SyncAPIResource):
         vault.assembly webhooks.
 
         Args:
-          sources: Source PDFs. Page ranges refer to a source by its index in this list.
+          sources: Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word), which are
+              assembled from the PDF version ingestion saved for them. Page ranges refer to a
+              source by its index in this list.
 
           bates: Bates numbering that continues across every volume without its own series. Text
               must be printable ASCII.
@@ -212,7 +214,9 @@ class AsyncAssembliesResource(AsyncAPIResource):
         vault.assembly webhooks.
 
         Args:
-          sources: Source PDFs. Page ranges refer to a source by its index in this list.
+          sources: Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word), which are
+              assembled from the PDF version ingestion saved for them. Page ranges refer to a
+              source by its index in this list.
 
           bates: Bates numbering that continues across every volume without its own series. Text
               must be printable ASCII.

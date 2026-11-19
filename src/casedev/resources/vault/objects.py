@@ -7,7 +7,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, required_args, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -31,7 +31,9 @@ from ...types.vault import (
     object_merge_params,
     object_append_params,
     object_delete_params,
+    object_to_pdf_params,
     object_update_params,
+    object_download_params,
     object_organize_params,
     object_get_pages_params,
     object_get_chunks_params,
@@ -57,8 +59,6 @@ __all__ = ["ObjectsResource", "AsyncObjectsResource"]
 
 
 class ObjectsResource(SyncAPIResource):
-    """Vault object management, content access, and document operations"""
-
     @cached_property
     def with_raw_response(self) -> ObjectsResourceWithRawResponse:
         """
@@ -384,6 +384,7 @@ class ObjectsResource(SyncAPIResource):
         expires_in: int | Omit = omit,
         operation: Literal["GET", "PUT", "DELETE", "HEAD"] | Omit = omit,
         size_bytes: int | Omit = omit,
+        variant: Literal["original", "view"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -407,6 +408,10 @@ class ObjectsResource(SyncAPIResource):
           size_bytes: File size in bytes (optional, max 5GB for single PUT uploads). When provided for
               PUT operations, enforces exact file size at S3 level.
 
+          variant: Which file to sign for GET and HEAD. 'view' returns the PDF's fast-opening
+              viewing copy when it has one, and the original otherwise. Use it only to display
+              a PDF; downloads and exports should use the original.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -427,6 +432,7 @@ class ObjectsResource(SyncAPIResource):
                     "expires_in": expires_in,
                     "operation": operation,
                     "size_bytes": size_bytes,
+                    "variant": variant,
                 },
                 object_create_presigned_url_params.ObjectCreatePresignedURLParams,
             ),
@@ -441,6 +447,7 @@ class ObjectsResource(SyncAPIResource):
         object_id: str,
         *,
         id: str,
+        format: Literal["original", "pdf"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -451,9 +458,14 @@ class ObjectsResource(SyncAPIResource):
         """
         Downloads a file from a vault by redirecting to a short-lived presigned S3 URL.
         Useful for retrieving contracts, depositions, case files, and other legal
-        documents stored in your vault.
+        documents stored in your vault. With format=pdf, a spreadsheet downloads as its
+        PDF version (see POST /vault/{id}/objects/{objectId}/pdf); a PDF downloads as
+        usual.
 
         Args:
+          format: original (default) returns the file as uploaded. pdf returns a spreadsheet's PDF
+              version, or a PDF as usual.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -470,7 +482,11 @@ class ObjectsResource(SyncAPIResource):
         return self._get(
             path_template("/vault/{id}/objects/{object_id}/download", id=id, object_id=object_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"format": format}, object_download_params.ObjectDownloadParams),
             ),
             cast_to=BinaryAPIResponse,
         )
@@ -915,10 +931,60 @@ class ObjectsResource(SyncAPIResource):
             cast_to=ObjectOrganizeResponse,
         )
 
+    def to_pdf(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        force: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Starts making the PDF version of a spreadsheet object (.xlsx, .xlsm, .xlsb,
+        .xls, .ods, .numbers, .csv, .tsv). Spreadsheets get one automatically when they
+        are ingested; call this for objects stored without ingestion, or with force=true
+        to make it again. Each visible sheet prints on landscape Letter at 100% scale,
+        down the rows and then across the columns, with no repeated header rows; hidden
+        sheets, rows and columns are left out and listed. The PDF is a copy: the object,
+        its text and its search index are unchanged. Completion is reported through
+        vault.object.pdf.completed or vault.object.pdf.failed; download it with GET
+        /vault/{id}/objects/{objectId}/download?format=pdf.
+
+        Args:
+          force: Make the PDF version again even when one is ready
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            path_template("/vault/{id}/objects/{object_id}/pdf", id=id, object_id=object_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"force": force}, object_to_pdf_params.ObjectToPdfParams),
+            ),
+            cast_to=NoneType,
+        )
+
 
 class AsyncObjectsResource(AsyncAPIResource):
-    """Vault object management, content access, and document operations"""
-
     @cached_property
     def with_raw_response(self) -> AsyncObjectsResourceWithRawResponse:
         """
@@ -1244,6 +1310,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         expires_in: int | Omit = omit,
         operation: Literal["GET", "PUT", "DELETE", "HEAD"] | Omit = omit,
         size_bytes: int | Omit = omit,
+        variant: Literal["original", "view"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1267,6 +1334,10 @@ class AsyncObjectsResource(AsyncAPIResource):
           size_bytes: File size in bytes (optional, max 5GB for single PUT uploads). When provided for
               PUT operations, enforces exact file size at S3 level.
 
+          variant: Which file to sign for GET and HEAD. 'view' returns the PDF's fast-opening
+              viewing copy when it has one, and the original otherwise. Use it only to display
+              a PDF; downloads and exports should use the original.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1287,6 +1358,7 @@ class AsyncObjectsResource(AsyncAPIResource):
                     "expires_in": expires_in,
                     "operation": operation,
                     "size_bytes": size_bytes,
+                    "variant": variant,
                 },
                 object_create_presigned_url_params.ObjectCreatePresignedURLParams,
             ),
@@ -1301,6 +1373,7 @@ class AsyncObjectsResource(AsyncAPIResource):
         object_id: str,
         *,
         id: str,
+        format: Literal["original", "pdf"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1311,9 +1384,14 @@ class AsyncObjectsResource(AsyncAPIResource):
         """
         Downloads a file from a vault by redirecting to a short-lived presigned S3 URL.
         Useful for retrieving contracts, depositions, case files, and other legal
-        documents stored in your vault.
+        documents stored in your vault. With format=pdf, a spreadsheet downloads as its
+        PDF version (see POST /vault/{id}/objects/{objectId}/pdf); a PDF downloads as
+        usual.
 
         Args:
+          format: original (default) returns the file as uploaded. pdf returns a spreadsheet's PDF
+              version, or a PDF as usual.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1330,7 +1408,11 @@ class AsyncObjectsResource(AsyncAPIResource):
         return await self._get(
             path_template("/vault/{id}/objects/{object_id}/download", id=id, object_id=object_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"format": format}, object_download_params.ObjectDownloadParams),
             ),
             cast_to=AsyncBinaryAPIResponse,
         )
@@ -1775,6 +1857,58 @@ class AsyncObjectsResource(AsyncAPIResource):
             cast_to=ObjectOrganizeResponse,
         )
 
+    async def to_pdf(
+        self,
+        object_id: str,
+        *,
+        id: str,
+        force: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Starts making the PDF version of a spreadsheet object (.xlsx, .xlsm, .xlsb,
+        .xls, .ods, .numbers, .csv, .tsv). Spreadsheets get one automatically when they
+        are ingested; call this for objects stored without ingestion, or with force=true
+        to make it again. Each visible sheet prints on landscape Letter at 100% scale,
+        down the rows and then across the columns, with no repeated header rows; hidden
+        sheets, rows and columns are left out and listed. The PDF is a copy: the object,
+        its text and its search index are unchanged. Completion is reported through
+        vault.object.pdf.completed or vault.object.pdf.failed; download it with GET
+        /vault/{id}/objects/{objectId}/download?format=pdf.
+
+        Args:
+          force: Make the PDF version again even when one is ready
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not object_id:
+            raise ValueError(f"Expected a non-empty value for `object_id` but received {object_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            path_template("/vault/{id}/objects/{object_id}/pdf", id=id, object_id=object_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"force": force}, object_to_pdf_params.ObjectToPdfParams),
+            ),
+            cast_to=NoneType,
+        )
+
 
 class ObjectsResourceWithRawResponse:
     def __init__(self, objects: ObjectsResource) -> None:
@@ -1822,6 +1956,9 @@ class ObjectsResourceWithRawResponse:
         )
         self.organize = to_raw_response_wrapper(
             objects.organize,
+        )
+        self.to_pdf = to_raw_response_wrapper(
+            objects.to_pdf,
         )
 
 
@@ -1872,6 +2009,9 @@ class AsyncObjectsResourceWithRawResponse:
         self.organize = async_to_raw_response_wrapper(
             objects.organize,
         )
+        self.to_pdf = async_to_raw_response_wrapper(
+            objects.to_pdf,
+        )
 
 
 class ObjectsResourceWithStreamingResponse:
@@ -1921,6 +2061,9 @@ class ObjectsResourceWithStreamingResponse:
         self.organize = to_streamed_response_wrapper(
             objects.organize,
         )
+        self.to_pdf = to_streamed_response_wrapper(
+            objects.to_pdf,
+        )
 
 
 class AsyncObjectsResourceWithStreamingResponse:
@@ -1969,4 +2112,7 @@ class AsyncObjectsResourceWithStreamingResponse:
         )
         self.organize = async_to_streamed_response_wrapper(
             objects.organize,
+        )
+        self.to_pdf = async_to_streamed_response_wrapper(
+            objects.to_pdf,
         )
