@@ -126,7 +126,6 @@ class VaultResource(SyncAPIResource):
 
     @cached_property
     def objects(self) -> ObjectsResource:
-        """Vault object management, content access, and document operations"""
         return ObjectsResource(self._client)
 
     @cached_property
@@ -730,7 +729,6 @@ class AsyncVaultResource(AsyncAPIResource):
 
     @cached_property
     def objects(self) -> AsyncObjectsResource:
-        """Vault object management, content access, and document operations"""
         return AsyncObjectsResource(self._client)
 
     @cached_property
@@ -1363,7 +1361,6 @@ class VaultResourceWithRawResponse:
 
     @cached_property
     def objects(self) -> ObjectsResourceWithRawResponse:
-        """Vault object management, content access, and document operations"""
         return ObjectsResourceWithRawResponse(self._vault.objects)
 
     @cached_property
@@ -1430,7 +1427,6 @@ class AsyncVaultResourceWithRawResponse:
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithRawResponse:
-        """Vault object management, content access, and document operations"""
         return AsyncObjectsResourceWithRawResponse(self._vault.objects)
 
     @cached_property
@@ -1497,7 +1493,6 @@ class VaultResourceWithStreamingResponse:
 
     @cached_property
     def objects(self) -> ObjectsResourceWithStreamingResponse:
-        """Vault object management, content access, and document operations"""
         return ObjectsResourceWithStreamingResponse(self._vault.objects)
 
     @cached_property
@@ -1564,7 +1559,6 @@ class AsyncVaultResourceWithStreamingResponse:
 
     @cached_property
     def objects(self) -> AsyncObjectsResourceWithStreamingResponse:
-        """Vault object management, content access, and document operations"""
         return AsyncObjectsResourceWithStreamingResponse(self._vault.objects)
 
     @cached_property

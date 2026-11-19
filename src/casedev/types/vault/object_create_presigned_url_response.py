@@ -2,6 +2,7 @@
 
 from typing import Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -18,6 +19,7 @@ class Metadata(BaseModel):
     region: Optional[str] = None
 
     size_bytes: Optional[int] = FieldInfo(alias="sizeBytes", default=None)
+    """Size of the file the URL points at"""
 
 
 class ObjectCreatePresignedURLResponse(BaseModel):
@@ -46,6 +48,9 @@ class ObjectCreatePresignedURLResponse(BaseModel):
 
     s3_key: Optional[str] = FieldInfo(alias="s3Key", default=None)
     """S3 object key"""
+
+    variant: Optional[Literal["original", "view"]] = None
+    """Which file the URL points at"""
 
     vault_id: Optional[str] = FieldInfo(alias="vaultId", default=None)
     """The vault identifier"""

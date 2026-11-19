@@ -26,3 +26,11 @@ class ObjectCreatePresignedURLParams(TypedDict, total=False):
 
     When provided for PUT operations, enforces exact file size at S3 level.
     """
+
+    variant: Literal["original", "view"]
+    """Which file to sign for GET and HEAD.
+
+    'view' returns the PDF's fast-opening viewing copy when it has one, and the
+    original otherwise. Use it only to display a PDF; downloads and exports should
+    use the original.
+    """

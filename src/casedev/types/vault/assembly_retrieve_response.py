@@ -8,7 +8,30 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["AssemblyRetrieveResponse", "Error", "Timings", "Volume"]
+__all__ = ["AssemblyRetrieveResponse", "Cogs", "Error", "Timings", "Volume"]
+
+
+class Cogs(BaseModel):
+    """What the assembly cost Case.dev, once it is completed or failed.
+
+    Internal COGS, not a price.
+    """
+
+    compute_micros: Optional[int] = FieldInfo(alias="computeMicros", default=None)
+
+    cpu: Optional[float] = None
+
+    memory_mib: Optional[int] = FieldInfo(alias="memoryMib", default=None)
+
+    output_bytes: Optional[int] = FieldInfo(alias="outputBytes", default=None)
+
+    rate_version: Optional[str] = FieldInfo(alias="rateVersion", default=None)
+
+    source_bytes: Optional[int] = FieldInfo(alias="sourceBytes", default=None)
+
+    transfer_micros: Optional[int] = FieldInfo(alias="transferMicros", default=None)
+
+    worker_seconds: Optional[float] = FieldInfo(alias="workerSeconds", default=None)
 
 
 class Error(BaseModel):
@@ -55,6 +78,12 @@ class AssemblyRetrieveResponse(BaseModel):
     id: Optional[str] = None
 
     client_reference: Optional[str] = FieldInfo(alias="clientReference", default=None)
+
+    cogs: Optional[Cogs] = None
+    """What the assembly cost Case.dev, once it is completed or failed.
+
+    Internal COGS, not a price.
+    """
 
     error: Optional[Error] = None
 
