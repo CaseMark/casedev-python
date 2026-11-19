@@ -301,6 +301,8 @@ class TestSessions:
             cursor=0,
             exclude_event_types=["string"],
             limit=1,
+            order="asc",
+            types=["string"],
         )
         assert session is None
 
@@ -764,6 +766,8 @@ class TestAsyncSessions:
             cursor=0,
             exclude_event_types=["string"],
             limit=1,
+            order="asc",
+            types=["string"],
         )
         assert session is None
 

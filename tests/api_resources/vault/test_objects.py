@@ -346,6 +346,7 @@ class TestObjects:
             expires_in=60,
             operation="GET",
             size_bytes=1,
+            variant="original",
         )
         assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
@@ -398,6 +399,22 @@ class TestObjects:
         object_ = client.vault.objects.download(
             object_id="objectId",
             id="id",
+        )
+        assert object_.is_closed
+        assert object_.json() == {"foo": "bar"}
+        assert cast(Any, object_.is_closed) is True
+        assert isinstance(object_, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_download_with_all_params(self, client: Casedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
+        object_ = client.vault.objects.download(
+            object_id="objectId",
+            id="id",
+            format="original",
         )
         assert object_.is_closed
         assert object_.json() == {"foo": "bar"}
@@ -938,6 +955,63 @@ class TestObjects:
                 ],
             )
 
+    @parametrize
+    def test_method_to_pdf(self, client: Casedev) -> None:
+        object_ = client.vault.objects.to_pdf(
+            object_id="objectId",
+            id="id",
+        )
+        assert object_ is None
+
+    @parametrize
+    def test_method_to_pdf_with_all_params(self, client: Casedev) -> None:
+        object_ = client.vault.objects.to_pdf(
+            object_id="objectId",
+            id="id",
+            force=True,
+        )
+        assert object_ is None
+
+    @parametrize
+    def test_raw_response_to_pdf(self, client: Casedev) -> None:
+        response = client.vault.objects.with_raw_response.to_pdf(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = response.parse()
+        assert object_ is None
+
+    @parametrize
+    def test_streaming_response_to_pdf(self, client: Casedev) -> None:
+        with client.vault.objects.with_streaming_response.to_pdf(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = response.parse()
+            assert object_ is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_to_pdf(self, client: Casedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.vault.objects.with_raw_response.to_pdf(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            client.vault.objects.with_raw_response.to_pdf(
+                object_id="",
+                id="id",
+            )
+
 
 class TestAsyncObjects:
     parametrize = pytest.mark.parametrize(
@@ -1251,6 +1325,7 @@ class TestAsyncObjects:
             expires_in=60,
             operation="GET",
             size_bytes=1,
+            variant="original",
         )
         assert_matches_type(ObjectCreatePresignedURLResponse, object_, path=["response"])
 
@@ -1303,6 +1378,22 @@ class TestAsyncObjects:
         object_ = await async_client.vault.objects.download(
             object_id="objectId",
             id="id",
+        )
+        assert object_.is_closed
+        assert await object_.json() == {"foo": "bar"}
+        assert cast(Any, object_.is_closed) is True
+        assert isinstance(object_, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_download_with_all_params(self, async_client: AsyncCasedev, respx_mock: MockRouter) -> None:
+        respx_mock.get("/vault/id/objects/objectId/download").mock(
+            return_value=httpx.Response(200, json={"foo": "bar"})
+        )
+        object_ = await async_client.vault.objects.download(
+            object_id="objectId",
+            id="id",
+            format="original",
         )
         assert object_.is_closed
         assert await object_.json() == {"foo": "bar"}
@@ -1841,4 +1932,61 @@ class TestAsyncObjects:
                         "path": "path",
                     }
                 ],
+            )
+
+    @parametrize
+    async def test_method_to_pdf(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.to_pdf(
+            object_id="objectId",
+            id="id",
+        )
+        assert object_ is None
+
+    @parametrize
+    async def test_method_to_pdf_with_all_params(self, async_client: AsyncCasedev) -> None:
+        object_ = await async_client.vault.objects.to_pdf(
+            object_id="objectId",
+            id="id",
+            force=True,
+        )
+        assert object_ is None
+
+    @parametrize
+    async def test_raw_response_to_pdf(self, async_client: AsyncCasedev) -> None:
+        response = await async_client.vault.objects.with_raw_response.to_pdf(
+            object_id="objectId",
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        object_ = await response.parse()
+        assert object_ is None
+
+    @parametrize
+    async def test_streaming_response_to_pdf(self, async_client: AsyncCasedev) -> None:
+        async with async_client.vault.objects.with_streaming_response.to_pdf(
+            object_id="objectId",
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            object_ = await response.parse()
+            assert object_ is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_to_pdf(self, async_client: AsyncCasedev) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.vault.objects.with_raw_response.to_pdf(
+                object_id="objectId",
+                id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `object_id` but received ''"):
+            await async_client.vault.objects.with_raw_response.to_pdf(
+                object_id="",
+                id="id",
             )

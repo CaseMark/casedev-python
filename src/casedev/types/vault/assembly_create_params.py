@@ -22,7 +22,11 @@ __all__ = [
 
 class AssemblyCreateParams(TypedDict, total=False):
     sources: Required[Iterable[Source]]
-    """Source PDFs. Page ranges refer to a source by its index in this list."""
+    """
+    Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word), which are
+    assembled from the PDF version ingestion saved for them. Page ranges refer to a
+    source by its index in this list.
+    """
 
     volumes: Required[Iterable[Volume]]
 

@@ -388,6 +388,8 @@ class SessionsResource(SyncAPIResource):
         cursor: int | Omit = omit,
         exclude_event_types: SequenceNotStr[str] | Omit = omit,
         limit: int | Omit = omit,
+        order: Literal["asc", "desc"] | Omit = omit,
+        types: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -407,6 +409,11 @@ class SessionsResource(SyncAPIResource):
           exclude_event_types: Comma-separated Linc event types to omit from replay.
 
           limit: Maximum number of events to return.
+
+          order: asc (default) replays oldest first. desc returns the newest events first, still
+              after the cursor, so a small limit reads only the latest events.
+
+          types: Comma-separated Linc event types to return; other types are omitted.
 
           extra_headers: Send extra headers
 
@@ -432,6 +439,8 @@ class SessionsResource(SyncAPIResource):
                         "cursor": cursor,
                         "exclude_event_types": exclude_event_types,
                         "limit": limit,
+                        "order": order,
+                        "types": types,
                     },
                     session_retrieve_events_params.SessionRetrieveEventsParams,
                 ),
@@ -938,6 +947,8 @@ class AsyncSessionsResource(AsyncAPIResource):
         cursor: int | Omit = omit,
         exclude_event_types: SequenceNotStr[str] | Omit = omit,
         limit: int | Omit = omit,
+        order: Literal["asc", "desc"] | Omit = omit,
+        types: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -957,6 +968,11 @@ class AsyncSessionsResource(AsyncAPIResource):
           exclude_event_types: Comma-separated Linc event types to omit from replay.
 
           limit: Maximum number of events to return.
+
+          order: asc (default) replays oldest first. desc returns the newest events first, still
+              after the cursor, so a small limit reads only the latest events.
+
+          types: Comma-separated Linc event types to return; other types are omitted.
 
           extra_headers: Send extra headers
 
@@ -982,6 +998,8 @@ class AsyncSessionsResource(AsyncAPIResource):
                         "cursor": cursor,
                         "exclude_event_types": exclude_event_types,
                         "limit": limit,
+                        "order": order,
+                        "types": types,
                     },
                     session_retrieve_events_params.SessionRetrieveEventsParams,
                 ),

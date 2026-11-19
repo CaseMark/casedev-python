@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict
 
 from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
@@ -22,3 +22,13 @@ class SessionRetrieveEventsParams(TypedDict, total=False):
 
     limit: int
     """Maximum number of events to return."""
+
+    order: Literal["asc", "desc"]
+    """asc (default) replays oldest first.
+
+    desc returns the newest events first, still after the cursor, so a small limit
+    reads only the latest events.
+    """
+
+    types: SequenceNotStr[str]
+    """Comma-separated Linc event types to return; other types are omitted."""
