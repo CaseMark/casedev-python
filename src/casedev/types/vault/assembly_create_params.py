@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import Union, Iterable
+from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from ..._types import Base64FileInput
 from ..._utils import PropertyInfo
+from ..._models import set_pydantic_config
 
 __all__ = [
     "AssemblyCreateParams",
     "Source",
+    "SourceUnionMember0",
+    "SourcePdf",
     "Volume",
     "VolumePage",
     "VolumeBates",
@@ -24,8 +28,9 @@ class AssemblyCreateParams(TypedDict, total=False):
     sources: Required[Iterable[Source]]
     """
     Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word), which are
-    assembled from the PDF version ingestion saved for them. Page ranges refer to a
-    source by its index in this list.
+    assembled from the PDF version ingestion saved for them. A source can also be a
+    PDF you made, such as a cover or notice letter, sent inline. Page ranges refer
+    to a source by its index in this list.
     """
 
     volumes: Required[Iterable[Volume]]
@@ -51,15 +56,28 @@ class AssemblyCreateParams(TypedDict, total=False):
 
     page_size: Annotated[Literal["letter"], PropertyInfo(alias="pageSize")]
     """
-    Put every page upright on a US Letter portrait sheet: landscape pages turn a
-    quarter turn, other sizes are scaled to fit
+    Put every page upright on a US Letter sheet: portrait pages on a portrait sheet,
+    landscape pages on a landscape sheet, other sizes scaled to fit
     """
 
 
-class Source(TypedDict, total=False):
+class SourceUnionMember0(TypedDict, total=False):
     object_id: Required[Annotated[str, PropertyInfo(alias="objectId")]]
 
     rendition: Literal["searchable_pdf", "original"]
+
+
+class SourcePdf(TypedDict, total=False):
+    pdf: Required[Annotated[Union[str, Base64FileInput], PropertyInfo(format="base64")]]
+    """A base64 PDF of up to 10 pages and 1 MB, assembled as given.
+
+    Up to 10 per request.
+    """
+
+
+set_pydantic_config(SourcePdf, {"arbitrary_types_allowed": True})
+
+Source: TypeAlias = Union[SourceUnionMember0, SourcePdf]
 
 
 class VolumePage(TypedDict, total=False):
