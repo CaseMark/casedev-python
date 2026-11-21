@@ -78,8 +78,9 @@ class AssembliesResource(SyncAPIResource):
 
         Args:
           sources: Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word), which are
-              assembled from the PDF version ingestion saved for them. Page ranges refer to a
-              source by its index in this list.
+              assembled from the PDF version ingestion saved for them. A source can also be a
+              PDF you made, such as a cover or notice letter, sent inline. Page ranges refer
+              to a source by its index in this list.
 
           bates: Bates numbering that continues across every volume without its own series. Text
               must be printable ASCII.
@@ -89,8 +90,8 @@ class AssembliesResource(SyncAPIResource):
 
           linearize: Optimize volumes for web viewing
 
-          page_size: Put every page upright on a US Letter portrait sheet: landscape pages turn a
-              quarter turn, other sizes are scaled to fit
+          page_size: Put every page upright on a US Letter sheet: portrait pages on a portrait sheet,
+              landscape pages on a landscape sheet, other sizes scaled to fit
 
           extra_headers: Send extra headers
 
@@ -215,8 +216,9 @@ class AsyncAssembliesResource(AsyncAPIResource):
 
         Args:
           sources: Source PDFs, or ingested office files (spreadsheets, CSV/TSV, Word), which are
-              assembled from the PDF version ingestion saved for them. Page ranges refer to a
-              source by its index in this list.
+              assembled from the PDF version ingestion saved for them. A source can also be a
+              PDF you made, such as a cover or notice letter, sent inline. Page ranges refer
+              to a source by its index in this list.
 
           bates: Bates numbering that continues across every volume without its own series. Text
               must be printable ASCII.
@@ -226,8 +228,8 @@ class AsyncAssembliesResource(AsyncAPIResource):
 
           linearize: Optimize volumes for web viewing
 
-          page_size: Put every page upright on a US Letter portrait sheet: landscape pages turn a
-              quarter turn, other sizes are scaled to fit
+          page_size: Put every page upright on a US Letter sheet: portrait pages on a portrait sheet,
+              landscape pages on a landscape sheet, other sizes scaled to fit
 
           extra_headers: Send extra headers
 
